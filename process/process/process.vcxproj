@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4EA695AB-4EBD-4955-89DF-C187EAA7D776}</ProjectGuid>
     <RootNamespace>process2</RootNamespace>
-    <ProjectName>process</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -94,11 +93,13 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;WIN64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;C:\build-OpenSSL-VC64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;wsock32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\build-OpenSSL-VC64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>echo copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"
@@ -135,13 +136,15 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Visual Leak Detector\include;C:\build-OpenSSL-VC64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>cudart.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;wsock32.lib;libeay32.lib;ssleay32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\build-OpenSSL-VC64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>echo copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"
@@ -155,41 +158,81 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="allocator.h" />
+    <ClInclude Include="buffer.h" />
     <ClInclude Include="component.h" />
+    <ClInclude Include="components.h" />
     <ClInclude Include="compute.h" />
+    <ClInclude Include="configuration.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="datetime.h" />
+    <ClInclude Include="element.h" />
+    <ClInclude Include="elements.h" />
+    <ClInclude Include="fifo.h" />
     <ClInclude Include="gpu.h" />
+    <ClInclude Include="grid.h" />
+    <ClInclude Include="http.h" />
     <ClInclude Include="item.h" />
+    <ClInclude Include="items.h" />
     <ClInclude Include="line.h" />
+    <ClInclude Include="lines.h" />
+    <ClInclude Include="list.h" />
     <ClInclude Include="message.h" />
     <ClInclude Include="odbc.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="mutex.h" />
+    <ClInclude Include="pair.h" />
     <ClInclude Include="process.h" />
+    <ClInclude Include="queue.h" />
+    <ClInclude Include="queues.h" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="response.h" />
+    <ClInclude Include="server.h" />
+    <ClInclude Include="ssl.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="thread.h" />
+    <ClInclude Include="web.h" />
+    <ClInclude Include="wsock.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="allocator.cpp" />
+    <ClCompile Include="buffer.cpp" />
     <ClCompile Include="component.cpp" />
+    <ClCompile Include="components.cpp" />
     <ClCompile Include="compute.cpp" />
+    <ClCompile Include="configuration.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="datetime.cpp" />
+    <ClCompile Include="element.cpp" />
+    <ClCompile Include="elements.cpp" />
+    <ClCompile Include="fifo.cpp" />
     <ClCompile Include="gpu.cpp" />
+    <ClCompile Include="grid.cpp" />
+    <ClCompile Include="http.cpp" />
     <ClCompile Include="item.cpp" />
+    <ClCompile Include="items.cpp" />
     <ClCompile Include="line.cpp" />
+    <ClCompile Include="lines.cpp" />
+    <ClCompile Include="list.cpp" />
     <ClCompile Include="message.cpp" />
     <ClCompile Include="odbc.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mutex.cpp" />
+    <ClCompile Include="pair.cpp" />
     <ClCompile Include="process.cpp" />
+    <ClCompile Include="queue.cpp" />
+    <ClCompile Include="queues.cpp" />
+    <ClCompile Include="json.cpp" />
     <ClCompile Include="response.cpp" />
+    <ClCompile Include="server.cpp" />
+    <ClCompile Include="ssl.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="thread.cpp" />
+    <ClCompile Include="web.cpp" />
+    <ClCompile Include="wsock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

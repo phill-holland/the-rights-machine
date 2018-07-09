@@ -53,6 +53,8 @@ public:
 
 	long split(char find, string *destination, long elements);
 	string subString(long index, long len) { return std::string::substr(index, len); }
+	
+	bool icompare(string &a);
 
 	float match(string &source);
 	float match(string &source, int *offsets, long len, long scope = SCOPE);

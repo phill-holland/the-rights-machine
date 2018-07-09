@@ -1,0 +1,9 @@
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\bin\Debug\database.dacpac
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\bin\Debug\database.dll
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\bin\Debug\database.pdb
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\Model.xml
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\refactor.xml
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\postdeploy.sql
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\predeploy.sql
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\database.dll
+C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\database.pdb

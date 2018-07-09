@@ -1,0 +1,47 @@
+[MESSAGE] [label=userID] value=[1]
+[MESSAGE] [label=APIKey] value=[1]
+[ITEM] [label=name] value=[myitem]
+[LINE] [label=start] value=[2018-01-01]
+[LINE] [label=end] value=[2019-01-01]
+[LINE] [label=exclusivity] value=[0]
+[LINE] [label=type] value=[0]
+[COMPONENT] [label=name] value=[country]
+[ELEMENT] [label=value] value=[england]
+PUMP
+[ELEMENTS] [label=] value=[]
+[ELEMENT] [label=value] value=[france]
+PUMP
+[COMPONENT] [label=] value=[]
+[COMPONENTS] [label=] value=[]
+[COMPONENT] [label=name] value=[language]
+[ELEMENT] [label=value] value=[english]
+PUMP
+[ELEMENTS] [label=] value=[]
+[ELEMENT] [label=value] value=[french]
+PUMP
+[COMPONENT] [label=] value=[]
+[LINE] [label=] value=[]
+[LINES] [label=] value=[]
+[LINE] [label=start] value=[2018-06-01]
+[LINE] [label=end] value=[2019-08-01]
+[LINE] [label=exclusivity] value=[non-exclusive]
+[LINE] [label=type] value=[granted]
+[COMPONENT] [label=name] value=[country]
+[ELEMENT] [label=value] value=[england]
+PUMP
+[ELEMENTS] [label=] value=[]
+[ELEMENT] [label=value] value=[france]
+PUMP
+[COMPONENT] [label=] value=[]
+[COMPONENTS] [label=] value=[]
+[COMPONENT] [label=name] value=[language]
+[ELEMENT] [label=value] value=[english]
+PUMP
+[ELEMENTS] [label=] value=[]
+[ELEMENT] [label=value] value=[french]
+PUMP
+[COMPONENT] [label=] value=[]
+[LINE] [label=] value=[]
+[ITEM] [label=] value=[]
+[MESSAGE] [label=] value=[]
+Server detected client [0] in error(1), shutting down

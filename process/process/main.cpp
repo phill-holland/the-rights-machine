@@ -1,10 +1,43 @@
-#include <Windows.h>
+#include "wsock.h"
+#include <windows.h>
+#include "configuration.h"
+#include "server.h"
+
+void test()
+{
+	server::configuration configuration;
+	server::server *server = new server::server(configuration);
+
+	if (server == NULL) return;
+	if (server->initalised())
+	{
+		if (server->open())
+		{
+			if (server->start())
+			{
+				MSG message;
+				while (GetMessage(&message, NULL, 0, 0) > 0)
+				{
+					TranslateMessage(&message);
+					DispatchMessage(&message);
+				};
+			}
+		}
+	}
+
+	delete server;
+}
 
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
 					 int       nCmdShow)
 {
+
+	test();
+	// build in-memory queue
+	// http client for test json post
+	// database queue
 
 	// pass in database connection stirng
 	// gpu ID
@@ -32,5 +65,14 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// split lines into multiple lines!!!!   in xxxxxxxx
 	//                                   out     xxxx
 	// results in three "has" positions
+
+
+	// need error console, that redirects to database
+	// or console, or both
+
+	// need json result/response system
+
+	//curl --header "Content-Type: application/json"  --request POST --data-binary @body.json http://127.0.0.1:5555
+
 	return 0;
 }

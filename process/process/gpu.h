@@ -8,7 +8,7 @@ namespace compute
 	class gpu : public compute
 	{
 	public:
-		bool calculate(data::message *source, int length)
+		bool calculate(data::message::message *source, int length)
 		{
 			return false;
 		}

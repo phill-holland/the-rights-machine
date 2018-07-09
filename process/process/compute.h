@@ -8,7 +8,7 @@ namespace compute
 	class compute
 	{
 	public:
-		virtual bool calculate(data::message *source, int length) = 0;
+		virtual bool calculate(data::message::message *source, int length) = 0;
 	};
 };
 

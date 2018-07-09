@@ -50,6 +50,7 @@ long string::hash()
 string string::ltrim(char character)
 {
 	if (character == 0) return *this;
+	if (count() == 0L) return *this;
 
 	bool begin = false;
 	long i = 0L, j = 0L;
@@ -70,6 +71,7 @@ string string::ltrim(char character)
 string string::rtrim(char character)
 {
 	if (character == 0) return *this;
+	if (count() == 0L) return *this;
 
 	char temp;
 	long reverse = 0L;
@@ -147,6 +149,28 @@ long string::split(char find, string *destination, long elements)
 	if (destination[element].count() > 0L) ++element;
 
 	return element;
+}
+
+bool string::icompare(string &a)
+{
+	auto upper = [](char source)
+	{
+		char result = source;
+		if ((source >= 'a') && (source <= 'z'))
+			result = source - 32;
+
+		return result;
+	};
+
+	if ((count() == 0L) || (a.count() == 0L)) return false;
+	if (count() != a.count()) return false;
+
+	for (long i = 0L; i < count(); ++i)
+	{
+		if (upper((*this)[i]) != upper(a[i])) return false;
+	}
+
+	return true;
 }
 
 float string::match(string &source)

@@ -8,11 +8,13 @@ namespace compute
 	class cpu : public compute
 	{
 	public:
-		bool calculate(data::message *source, int length) 
+		bool calculate(data::message::message *source, int length) 
 		{
 			return false;
 		}
 	};
+
+	// has many worker threads for grid subtraction
 };
 
 #endif
