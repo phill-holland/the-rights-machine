@@ -55,11 +55,13 @@ namespace data
 			{
 				std::size_t operator()(const string& k) const
 				{
-					return (std::size_t)((string&)k).hash();
+					return (std::size_t)(((string&)k).upper()).hash();
 				}
 			};
 
 			std::unordered_map<string, data::json *, hasher, equality> hash;
+
+			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 		public:
 			int messageID;
@@ -93,7 +95,9 @@ namespace data
 
 			void clear();// override;
 
-			data::json *find(string label);
+			queue::base *findQ(string FQDN);
+			data::json *find(string FQDN);
+			//data::json *find(string label);
 
 			void copy(message const &source);
 

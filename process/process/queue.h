@@ -3,7 +3,13 @@
 
 namespace queue
 {
-	template <class X> class queue
+	class base
+	{
+	public:
+		virtual bool flush() = 0;
+	};
+
+	template <class X> class queue : public base
 	{
 	public:
 		virtual bool get(X &destination) = 0;
@@ -12,7 +18,7 @@ namespace queue
 		//virtual bool put(X *source) = 0;
 		//virtual bool get(X *destination) = 0;
 
-		virtual bool flush() = 0;
+		//virtual bool flush() = 0;
 	};
 };
 

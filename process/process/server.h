@@ -173,7 +173,8 @@ namespace server
 
 	protected:
 		//data::json *find(string label);
-		string FQDN(string label);
+		string last();
+		string FQDN(string label = "");
 		void extract(string parent, string label, string value);		
 	};
 		

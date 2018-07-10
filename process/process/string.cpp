@@ -17,34 +17,37 @@ bool string::toChar(char *destination, long length)
 	return result;
 }
 
-void string::toUpper()
+string string::upper()
 {
+	string result;
+
 	for (long index = 0L; index < count(); ++index)
 	{
 		if (((*this)[index] >= 'a') && ((*this)[index] <= 'z'))
-			(*this)[index] -= 32;
+			result += (*this)[index] - 32;
+		else result += (*this)[index];
 	}
+
+	return result;
 }
 
-void string::toLower()
+string string::lower()
 {
+	string result;
+
 	for (long index = 0L; index < count(); ++index)
 	{
 		if (((*this)[index] >= 'A') && ((*this)[index] <= 'Z'))
-			(*this)[index] += 32;
+			result += (*this)[index] + 32;
+		else result += (*this)[index];
 	}
+
+	return result;
 }
 
 long string::hash()
 {
-	long result = 0L;
-
-	for (long i = 0L; i < count(); ++i)
-	{
-		result = result << 1L ^ (long)(*this)[i];
-	}
-
-	return result;
+	return (long)std::hash<std::string>()(*this);
 }
 
 string string::ltrim(char character)

@@ -82,6 +82,31 @@ DWORD WINAPI server::listener::background(thread *bt)
 							{
 								extract(string(&parents[depth - 1][0]), string(label), string(value));
 							}
+
+							// OK 
+							queue::base *b = message.findQ(FQDN());
+							if (b != NULL)
+							{
+								Log << "FLUSHING " << FQDN() << "\r\n";
+								b->flush();
+							}
+							
+							if (FQDN().icompare(message.items.FQDN()))
+							{
+								Log << "PUSH MESSAGE TO OUTPUT\r\n";
+								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
+							}
+
+							// SILLY - FLUSH MESSAGE to output QUEUE
+							// WHEN items ] reached
+
+							// CHECK FQDN() == message.identifier()
+							// if true, message.flush()
+							//  ALSO
+							// if content-length reached, or CRLF CRLF
+							// and not flushed message, flush message anyway
+							// WAIT, I don't need to flush the message!!!!
+
 							// ****
 							// SAVE VALUE
 							// ****
@@ -100,7 +125,8 @@ DWORD WINAPI server::listener::background(thread *bt)
 							memset(label, 0, LENGTH);
 							memset(value, 0, LENGTH);
 
-							memset(&parents[depth][0], 0, LENGTH);
+							// this is wrong, needs to be depth - 1
+							memset(&parents[depth - 1][0], 0, LENGTH);
 
 							--depth;
 							--brackets;
@@ -130,14 +156,14 @@ DWORD WINAPI server::listener::background(thread *bt)
 							}
 						}
 						else if (receiving[i] == ']')
-						{
+						{	
 							left = true;
 							idx_label = 0;
 							idx_value = 0;
 							memset(label, 0, LENGTH);
 							memset(value, 0, LENGTH);
 
-							memset(&parents[depth][0], 0, LENGTH);
+							memset(&parents[depth - 1][0], 0, LENGTH);
 
 							--squares;
 							--depth;
@@ -323,17 +349,35 @@ data::json *server::listener::find(string label)
 }
 */
 
+string server::listener::last()
+{
+	long i = depth - 1L;
+	while (i > 0L)
+	{
+
+		string temp(&parents[i][0]);
+		if (temp.count() > 0L) return temp;
+		--i;
+	}
+
+	return string("");
+}
+
 string server::listener::FQDN(string label)
 {
 	string result = label;
 
 	//json *current = _parent;
 	long i = depth - 1L;
-	while (depth >= 0L)
+	while (i > 0L)
 	{
 
 		string temp(&parents[i][0]);
-		if (temp.count() > 0L) result = temp + "\\" + result;
+		if (temp.count() > 0L)
+		{
+			if(result.count() > 0) result = temp + "\\" + result;
+			else result = temp;
+		}
 		//if (current->identifier().count() > 0L) result = current->identifier() + "\\" + result;
 		//current = _parent->_parent;
 		--i;
@@ -352,13 +396,20 @@ void server::listener::extract(string parent, string label, string value)
 	//{
 		//moo = 2;
 	//}
-	current = message.find(parent);
+	Log << "FIND " << last() <<  " [" << FQDN() << "]\r\n";
+
+	//string a = current->FQDN();
+	//string b = FQDN();
+
+	//Log << "A[" + a + "] B[" + b + "]\r\n";
+
+	current = message.find(FQDN());//last());
 	if (current != NULL)
 	{
-		string a = current->FQDN();
-		string b = FQDN(label);
+		//string a = current->FQDN();
+		//string b = FQDN();
 
-		Log << "A[" + a + "] B[" + b + "]\r\n";
+		//Log << "A[" + a + "] B[" + b + "]\r\n";
 		Log << "[" << current->identifier() << "] [label=" << label << "] value=[" << value << "]\r\n";
 		current->add(custom::pair(label, value));
 	}

@@ -1,14 +1,20 @@
 #include "json.h"
+#include "log.h"
 
 string data::json::FQDN()
 {
 	string result = identifier();
 
+	//Log << "I AM " << result << "\r\n";
+
 	json *current = _parent;
-	while (current != NULL)
+	while (current != NULL)	 // NEXT ESCAPE COUNT, CANNOT EXCEED MAX DEPTH ..????
 	{
+	//	Log << "CURRENT " << current->identifier() << "\r\n";
+	//	if (current->_parent != NULL) Log << "MY PARENT " << current->_parent->identifier() << "\r\n";
+
 		if(current->identifier().count() > 0L) result = current->identifier() + "\\" + result;
-		current = _parent->_parent;
+		current = current->_parent;
 	};
 	
 	return result;

@@ -26,8 +26,8 @@ public:
 
 	bool toChar(char *destination, long length);
 
-	void toUpper();
-	void toLower();
+	string upper();
+	string lower();
 
 	long hash();
 

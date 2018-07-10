@@ -1,4 +1,5 @@
 #include "message.h"
+#include "log.h"
 //#include <iostream>
 
 /*
@@ -35,11 +36,44 @@ void data::message::message::reset()
 
 	
 	items.parent(this);
-	lines.parent(&items.temp);
-	components.parent(&lines.temp);
-	elements.parent(&components.temp);
-
+	lines.parent(&items);// .temp);
+	components.parent(&lines);// .temp);
+	elements.parent(&components);// .temp);
 	
+	/*
+	components.parent(&(lines.temp));
+	components.temp.parent(&components);
+	elements.parent(&(components.temp));
+	elements.temp.parent(&elements);
+	*/
+	json *identifiers[] = { &elements.temp, &elements, &components.temp, &components, &lines.temp, &lines, &items.temp, &items, this };
+	for (long i = 0L; i < 9L; ++i)
+	{
+		Log << "ME " << identifiers[i]->identifier() << "\r\n";
+		Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
+
+		hash[identifiers[i]->FQDN()] = identifiers[i];
+	}
+
+	queue::base *queues[] = { &elements, &components, &lines, &items };
+	json *id[] = { &elements, &components, &lines, &items };
+
+	for (long i = 0L; i < 4L; ++i)
+	{
+		queue_hash[id[i]->FQDN()] = queues[i];
+	}
+	/*
+	hash[this->FQDN()] = this;
+	hash[items.FQDN()] = &items;
+	hash[items.temp.FQDN()] = &(items.temp);
+	hash[lines.FQDN()] = &lines;
+	hash[lines.temp.FQDN()] = &(lines.temp);
+	hash[components.FQDN()] = &components;
+	hash[components.temp.FQDN()] = &(components.temp);
+	hash[elements.identifier()] = &elements;
+	hash[elements.temp.identifier()] = &(elements.temp);
+	*/
+	/*
 	hash[this->identifier()] = this;
 	hash[items.identifier()] = &items;
 	hash[items.temp.identifier()] = &(items.temp);
@@ -49,7 +83,7 @@ void data::message::message::reset()
 	hash[components.temp.identifier()] = &(components.temp);
 	hash[elements.identifier()] = &elements;
 	hash[elements.temp.identifier()] = &(elements.temp);
-	
+	*/
 	//items = new data::items::items<MAX>();
 	//if (items == NULL) return;
 	//if (!items->initalised()) return;
@@ -74,8 +108,27 @@ void data::message::message::clear()
 	//items->empty();
 }
 
-data::json *data::message::message::find(string label)
+queue::base *data::message::message::findQ(string FQDN)
 {
+	std::unordered_map<string, queue::base*, hasher, equality>::iterator i = queue_hash.find(FQDN);
+	if (i != queue_hash.end()) return (queue::base*)i->second;
+
+	return NULL;
+}
+
+data::json *data::message::message::find(string FQDN)
+{
+	std::unordered_map<string, data::json*, hasher, equality>::iterator i = hash.find(FQDN);
+	if(i != hash.end()) return (data::json*)i->second;
+
+	return NULL;
+	//{
+	//	return (data::json*)i->second;
+	//}
+}
+
+//data::json *data::message::message::find(string label)
+//{
 	//data::json *result = NULL;
 	// after comma, closing bracket, or square bracket
 	// add type to temp message queue
@@ -129,8 +182,14 @@ data::json *data::message::message::find(string label)
 		hash[classes[i]->identifier().hash()] = classes[i];
 	}
 	*/
-	std::unordered_map<string, data::json*, equality>::iterator i = hash.find(label);
-	if (i != hash.end()) return (data::json*)i->second;
+	//string k = string("MESSAGE");
+	//string m = k.upper();
+	//long h = m.hash();
+
+	//std::size_t moo = (std::size_t)(((string&)k).upper()).hash();
+
+	//std::unordered_map<string, data::json*, equality>::iterator i = hash.find(label);
+	//if (i != hash.end()) return (data::json*)i->second;
 
 	/*
 	for (long i = 0L; i < 9L; ++i)
@@ -142,8 +201,8 @@ data::json *data::message::message::find(string label)
 		}
 	}
 	*/
-	return NULL;
-}
+	//return NULL;
+//}
 
 void data::message::message::copy(message const &source)
 {

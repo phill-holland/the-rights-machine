@@ -47,8 +47,8 @@ namespace queues
 			class queue : public ::queue::queue<data::response>
 			{
 			public:
-				bool get(data::message::message &destination) { return false; }
-				bool set(data::message::message &source) { return false; }
+				bool get(data::response &destination) { return false; }
+				bool set(data::response &source) { return false; }
 
 				bool flush() { return false; }
 
@@ -63,7 +63,7 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public ::queue::queue<data::item::item>
+			class queue : public ::queue::queue<data::message::message>
 			{
 			protected:
 				static const long LENGTH = 100L;
@@ -100,8 +100,8 @@ namespace queues
 			class queue : public ::queue::queue<data::response>
 			{
 			public:
-				bool get(data::message::message &destination) { return false; }
-				bool set(data::message::message &source) { return false; }
+				bool get(data::response &destination) { return false; }
+				bool set(data::response &source) { return false; }
 
 				bool flush() { return false; }
 
