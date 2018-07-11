@@ -2,11 +2,15 @@
 #include <windows.h>
 #include "configuration.h"
 #include "manager.h"
+#include "cpu.h"
 #include "server.h"
 
 void test()
 {
-	manager::manager manager(1L);
+	compute::cpu cpu;
+	manager::manager manager;
+	
+	if (!manager.add(&cpu)) return;
 
 	server::configuration configuration(&manager);
 	server::server *server = new server::server(&configuration);

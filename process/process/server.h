@@ -8,6 +8,8 @@
 //#include "line.h"
 //#include "components.h"
 //#include "component.h"
+#include "fifo.h"
+#include "manager.h"
 #include "configuration.h"
 //#include "allocator.h"
 
@@ -138,6 +140,7 @@ namespace server
 
 		data::message::message message;
 
+		custom::fifo<data::response, 10L> responses;
 		/*
 		data::message::base message;
 		data::items::base items;
@@ -246,6 +249,7 @@ namespace server
 		friend class listener;
 
 		::server::listener *listen;
+		manager::manager *manager;
 
 		mutex::token token;
 
@@ -258,11 +262,11 @@ namespace server
 		states statuses;
 
 	public:
-		client() { makeNull(); reset(); }
+		client(manager::manager *_manager) { makeNull(); reset(); }
 		~client() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset();
+		void reset(manager::manager *_manager);
 
 		void clear();
 
@@ -281,8 +285,8 @@ namespace server
 	public:
 		string identifier() { return string("server::client"); }
 
-	protected:
-		bool removeFromPending(long id);
+	//protected:
+	//	bool removeFromPending(long id);
 
 	protected:
 		void makeNull();

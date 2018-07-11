@@ -1,19 +1,50 @@
 #include "manager.h"
 
-void manager::manager::reset(long units)
+void manager::manager::reset()
 {
 	init = false; cleanup();
 
-	total = units;
 
-	read = 0L; write = 0L; out = 0L;
+	read = 0L;
 
-	nodes = new node[total];
-	if (nodes == NULL) return;
+	//nodes = new custom::list<compute::compute*>();
+	//if (nodes == NULL) return;
+	//if (!nodes->initalised()) return;
 
 	init = true;
 }
 
+void manager::manager::add(compute::compute *source)
+{
+	mutex lock(token);
+
+	nodes.push_back(source);
+	//return nodes->add(source);
+}
+
+// adds a compute task block
+//bool add(node &n);
+bool manager::manager::push(compute::task &task)
+{
+	//return false; 
+	long count = 0L;
+
+	mutex lock(token);
+
+	bool result = false;
+	do
+	{
+		if (read >= (long)nodes.size()) read = 0L;
+		result = nodes[read++]->push(task);
+		++count;
+	} while ((!result)&&(count < nodes.size()));
+
+	return result;
+
+
+	//return (*nodes)[read++]->push(task);
+}
+/*
 bool manager::manager::add(node &n)
 {
 	mutex lock(token);
@@ -47,7 +78,8 @@ manager::node *manager::manager::next()
 	return NULL; // no messages to process
 	// for COMPUTE to pull next processing task
 }
-
+*/
+/*
 queue::queue<data::response> *manager::manager::push(data::message::message *m)
 {
 	mutex lock(token);
@@ -61,13 +93,13 @@ queue::queue<data::response> *manager::manager::push(data::message::message *m)
 
 	return n.response;
 }
-
+*/
 void manager::manager::makeNull()
 {
-	nodes = NULL;
+	//nodes = NULL;
 }
 
 void manager::manager::cleanup()
 {
-	if (nodes != NULL) delete nodes;
+	//if (nodes != NULL) delete nodes;
 }

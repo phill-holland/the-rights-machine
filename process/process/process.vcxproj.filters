@@ -150,6 +150,9 @@
     <ClInclude Include="manager.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="task.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="manager.cpp">
       <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="task.cpp">
+      <Filter>Source Files\Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

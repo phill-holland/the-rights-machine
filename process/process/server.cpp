@@ -1,5 +1,6 @@
 #include "server.h"
-#include "parser.h"
+//#include "parser.h"
+#include "task.h"
 #include "log.h"
 
 DWORD WINAPI server::listener::background(thread *bt)
@@ -95,6 +96,12 @@ DWORD WINAPI server::listener::background(thread *bt)
 							{
 								Log << "PUSH MESSAGE TO OUTPUT\r\n";
 								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
+
+								//::compute::task t;
+								//t.message = &message;
+								//t.response = &responses;
+								//c->server->config->manager->push(t);
+								c->manager->push(compute::task(&message, &response));
 							}
 
 							// SILLY - FLUSH MESSAGE to output QUEUE
@@ -635,9 +642,11 @@ void server::client::states::output()
 	Log << result;
 }
 
-void server::client::reset()
+void server::client::reset(manager::manager *_manager)
 {
 	init = false; cleanup();
+
+	manager = _manager;
 
 	isInError = false;
 	lastErrorCode = ERRORS::None;
@@ -768,7 +777,7 @@ void server::server::reset(::server::configuration *settings)
 
 	for (long i = 0L; i < config->clients; ++i)
 	{
-		clients[i] = new client();
+		clients[i] = new client(config.get());
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}

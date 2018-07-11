@@ -29,10 +29,13 @@ namespace server
 
 		void reset(manager::manager *manager);
 
+		/*
 		queue::queue<data::response> *push(data::message::message *m)
 		{
 			return manager->push(m);
 		}
+		*/
+		manager::manager *get() { return manager; }
 
 		void copy(configuration const &source);
 
