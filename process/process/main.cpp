@@ -1,12 +1,15 @@
 #include "wsock.h"
 #include <windows.h>
 #include "configuration.h"
+#include "manager.h"
 #include "server.h"
 
 void test()
 {
-	server::configuration configuration;
-	server::server *server = new server::server(configuration);
+	manager::manager manager(1L);
+
+	server::configuration configuration(&manager);
+	server::server *server = new server::server(&configuration);
 
 	if (server == NULL) return;
 	if (server->initalised())

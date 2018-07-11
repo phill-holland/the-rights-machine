@@ -147,6 +147,9 @@
     <ClInclude Include="allocator.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="manager.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -258,6 +261,9 @@
       <Filter>Source Files\Data</Filter>
     </ClCompile>
     <ClCompile Include="allocator.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="manager.cpp">
       <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>

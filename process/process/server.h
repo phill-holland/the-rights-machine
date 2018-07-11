@@ -320,7 +320,7 @@ namespace server
 
 		client **clients;
 
-		::server::configuration config;
+		::server::configuration *config;
 
 		::server::wait *waiter;
 		::server::watchdog *watcher;
@@ -332,13 +332,13 @@ namespace server
 		bool init;
 
 	public:
-		server(::server::configuration &settings) { makeNull(); reset(settings); }
+		server(::server::configuration *settings) { makeNull(); reset(settings); }
 		~server() { cleanup(); }
 
-		void reset(::server::configuration &settings);
+		void reset(::server::configuration *settings);
 		bool initalised() { return init; }
 
-		bool open() { return ::wsock::server::open(config.port); }
+		bool open() { return ::wsock::server::open(config->port); }
 
 		bool start();
 		void stop();

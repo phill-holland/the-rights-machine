@@ -1,15 +1,16 @@
 #include "configuration.h"
 
-void server::configuration::reset()
+void server::configuration::reset(manager::manager *manager)
 {
+	this->manager = manager;
+
 	port = PORT;
 	clients = CLIENTS;
-	output = NULL;
 }
 
 void server::configuration::copy(configuration const &source)
 {
+	manager = source.manager;
 	port = source.port;
 	clients = source.clients;
-	output = source.output;
 }
