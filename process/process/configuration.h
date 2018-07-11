@@ -8,8 +8,12 @@
 
 namespace server
 {
+	class server;
+
 	class configuration
 	{
+		friend class server;
+
 		manager::manager *manager;
 
 	public:
@@ -22,6 +26,9 @@ namespace server
 	protected:
 		const static long PORT = 5555L;
 		const static long CLIENTS = 1L;
+
+	protected:
+		configuration() { reset(NULL); }
 
 	public:
 		configuration(manager::manager *manager) { reset(manager); }

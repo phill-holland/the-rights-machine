@@ -63,7 +63,7 @@ void web::page::reset()
 	init = false; cleanup();
 	status = 0L;
 
-	parameters = new list<parameter>();
+	parameters = new custom::list<parameter>();
 	if (parameters == NULL) return;
 
 	body = new string(length);

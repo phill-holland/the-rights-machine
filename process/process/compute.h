@@ -27,6 +27,17 @@ namespace compute
 		// message needs deep copy
 	};
 	*/
+	/*
+	class compute2 : public ::queue::queue<::data::message::message>
+	{
+	};
+
+	class compute3 : public ::queue::queue<::compute::task>
+	{
+	};
+	*/
+
+	// why cannot the message class include the response queue as a pointer??
 	class compute
 	{
 	public:

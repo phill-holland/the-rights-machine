@@ -153,6 +153,9 @@
     <ClInclude Include="task.h">
       <Filter>Header Files\Compute</Filter>
     </ClInclude>
+    <ClInclude Include="factory.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="task.cpp">
       <Filter>Source Files\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="factory.cpp">
+      <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

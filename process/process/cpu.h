@@ -4,6 +4,7 @@
 //#include "response.h"
 #include "fifo.h"
 #include "task.h"
+#include "factory.h"
 
 #if !defined(__CPU)
 #define __CPU
@@ -34,6 +35,9 @@ namespace compute
 		}
 
 	public:
+		cpu(queue::factory<data::message::message> *factory)
+		{
+		}
 		/*
 		bool calculate(data::message::message *source, int length) 
 		{
@@ -46,7 +50,7 @@ namespace compute
 			// make copy of task.message..????
 			// should happen by nature of adding to the queue? / rather avoid that on the way out though..??
 
-			return queue.push(task);
+			return queue.set(task);
 		}
 		/*
 		bool push(m *source)

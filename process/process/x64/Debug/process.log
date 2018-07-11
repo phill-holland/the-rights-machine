@@ -1,0 +1,18 @@
+﻿Build started 11/07/2018 22:22:16.
+     1>Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt compute.cpp configuration.cpp cpu.cpp gpu.cpp main.cpp manager.cpp process.cpp queues.cpp server.cpp
+         server.cpp
+     1>server.cpp(104): error C2065: 'response' : undeclared identifier
+         main.cpp
+         Generating Code...
+         Compiling...
+         queues.cpp
+         process.cpp
+         manager.cpp
+         gpu.cpp
+     1>Done Building Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:06.34

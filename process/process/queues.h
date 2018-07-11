@@ -3,6 +3,7 @@
 #include "message.h"
 #include "database.h"
 #include "response.h"
+#include "factory.h"
 
 #if !defined(__QUEUES)
 #define __QUEUES
@@ -40,6 +41,15 @@ namespace queues
 				void makeNull();
 				void cleanup();
 			};
+
+			class factory : public ::queue::factory<data::message::message>
+			{
+			public:
+				queue *get()
+				{
+					return NULL;
+				}
+			};
 		};
 
 		namespace outgoing
@@ -55,6 +65,15 @@ namespace queues
 				// pass this into server class too!!!
 
 				// then use HTTP header GET/POST to determine which queue the user wants!!
+			};
+
+			class factory : public ::queue::factory<data::response>
+			{
+			public:
+				queue *get()
+				{
+					return NULL;
+				}
 			};
 		};
 	};

@@ -2,15 +2,19 @@
 #include <windows.h>
 #include "configuration.h"
 #include "manager.h"
+#include "queues.h"
 #include "cpu.h"
 #include "server.h"
 
 void test()
 {
-	compute::cpu cpu;
+	queues::memory::incoming::factory messages;
+	queues::memory::outgoing::factory responses;
+
+	compute::cpu cpu(&messages);
 	manager::manager manager;
 	
-	if (!manager.add(&cpu)) return;
+	manager.add(&cpu);
 
 	server::configuration configuration(&manager);
 	server::server *server = new server::server(&configuration);

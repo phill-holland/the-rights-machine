@@ -748,7 +748,7 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 
 	mutex lock(s->token);
 
-	for (long i = 0; i < s->config->clients; ++i)
+	for (long i = 0; i < s->config.clients; ++i)
 	{
 		if (s->clients[i]->isError())
 		{
@@ -769,13 +769,13 @@ void server::server::reset(::server::configuration *settings)
 	init = false; cleanup();
 	iterations = 0L; counter = 0L;
 
-	config = settings;
+	config = *settings;
 	//config.copy(settings);
 
-	clients = new client*[config->clients];
+	clients = new client*[config.clients];
 	if (clients == NULL) return;
 
-	for (long i = 0L; i < config->clients; ++i)
+	for (long i = 0L; i < config.clients; ++i)
 	{
 		clients[i] = new client(config.get());
 		if (clients[i] == NULL) return;
@@ -811,7 +811,7 @@ void server::server::stop()
 
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i] != NULL) clients[i]->stopAndWait();
 		}
@@ -833,7 +833,7 @@ void server::server::shutdown()
 
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i]->isopen()) clients[i]->shutdown();
 		}
@@ -852,7 +852,7 @@ server::client *server::server::findUnconnectedClient()
 {
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (!clients[i]->isopen())
 			{
@@ -870,7 +870,7 @@ server::client *server::server::findConnectedIdleClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -892,7 +892,7 @@ server::client *server::server::findConnectedReadyClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -914,7 +914,7 @@ server::client *server::server::findCompletedClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -953,7 +953,7 @@ void server::server::cleanup()
 	if (waiter != NULL) delete waiter;
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config->clients; ++i)
+		for (long i = 0L; i < config.clients; ++i)
 		{
 			if (clients[i] != NULL) delete clients[i];
 		}

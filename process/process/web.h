@@ -56,7 +56,7 @@ namespace web
 	class page
 	{
 		const static long length = 32768L;
-		list<parameter> *parameters;
+		custom::list<parameter> *parameters;
 		bool init;
 
 	public:

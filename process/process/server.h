@@ -262,11 +262,11 @@ namespace server
 		states statuses;
 
 	public:
-		client(manager::manager *_manager) { makeNull(); reset(); }
+		client(manager::manager *manager) { makeNull(); reset(manager); }
 		~client() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(manager::manager *_manager);
+		void reset(manager::manager *manager);
 
 		void clear();
 
@@ -324,7 +324,7 @@ namespace server
 
 		client **clients;
 
-		::server::configuration *config;
+		::server::configuration config;
 
 		::server::wait *waiter;
 		::server::watchdog *watcher;
@@ -342,7 +342,7 @@ namespace server
 		void reset(::server::configuration *settings);
 		bool initalised() { return init; }
 
-		bool open() { return ::wsock::server::open(config->port); }
+		bool open() { return ::wsock::server::open(config.port); }
 
 		bool start();
 		void stop();
