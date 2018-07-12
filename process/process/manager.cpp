@@ -8,10 +8,6 @@ void manager::manager::reset(queue::factory <data::response> *factory)
 
 	this->factory = factory;
 
-	//nodes = new custom::list<compute::compute*>();
-	//if (nodes == NULL) return;
-	//if (!nodes->initalised()) return;
-
 	init = true;
 }
 
@@ -20,14 +16,10 @@ void manager::manager::add(compute::compute *source)
 	mutex lock(token);
 
 	nodes.push_back(source);
-	//return nodes->add(source);
 }
 
-// adds a compute task block
-//bool add(node &n);
 bool manager::manager::set(compute::task &source)
 {
-	//return false; 
 	long count = 0L;
 
 	mutex lock(token);
@@ -41,66 +33,21 @@ bool manager::manager::set(compute::task &source)
 	} while ((!result)&&(count < nodes.size()));
 
 	return result;
-
-
-	//return (*nodes)[read++]->push(task);
 }
-/*
-bool manager::manager::add(node &n)
+
+bool manager::manager::get(::queue::queue<data::response> &destination)
 {
-	mutex lock(token);
+	::queue::queue<data::response> *temp = factory->get();
+	if (temp == NULL) return false;
+	destination = *temp;
 
-	nodes[write++] = n;
-	if (write >= total) write = 0L;
+	return true;
 }
 
-manager::node *manager::manager::next()
-{
-	mutex lock(token);
-
-	long count = 0L;
-	long i = out;
-
-	while (count < total)
-	{
-		if (i >= total) i = 0L;
-		if (nodes[i].messages != NULL)
-		{
-			if (!nodes[i].messages->isempty())
-			{
-				out = i + 1L;
-				return &nodes[i];
-			}
-		}
-		++i;
-		++count;
-	};
-
-	return NULL; // no messages to process
-	// for COMPUTE to pull next processing task
-}
-*/
-/*
-queue::queue<data::response> *manager::manager::push(data::message::message *m)
-{
-	mutex lock(token);
-
-	node n = nodes[read++];
-	if (read >= total) read = 0L;
-	if (n.messages != NULL)
-	{
-		if (!n.messages->set(*m)) return NULL;
-	}
-
-	return n.response;
-}
-*/
 void manager::manager::makeNull()
 {
-	//nodes = NULL;
 }
 
 void manager::manager::cleanup()
 {
-	//if (nodes != NULL) delete nodes;
 }

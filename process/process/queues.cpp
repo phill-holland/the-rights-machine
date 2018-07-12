@@ -1,34 +1,57 @@
 #include "queues.h"
 
-void queues::memory::incoming::queue::reset()
+void queues::memory::incoming::factory::reset()
 {
 	init = false; cleanup();
-
-	buffer = new custom::fifo<data::message::message, LENGTH>();
-	if (buffer == NULL) return;
-	if (!buffer->initalised()) return;
 
 	init = true;
 }
 
-bool queues::memory::incoming::queue::get(data::message::message &destination)
+::queue::queue<compute::task> *queues::memory::incoming::factory::get()
 {
-	return buffer->get(destination);
+	queue *result = new queues::memory::incoming::queue();
+	if (result != NULL) queues.push_back(result);
+	return result;
 }
 
-bool queues::memory::incoming::queue::set(data::message::message &source)
+void queues::memory::incoming::factory::makeNull()
 {
-	return buffer->set(source);
+
 }
 
-void queues::memory::incoming::queue::makeNull()
+void queues::memory::incoming::factory::cleanup()
 {
-	buffer = NULL;
+	for (long i = 0L; i < queues.size(); ++i)
+	{
+		delete queues[i];
+	}
 }
 
-void queues::memory::incoming::queue::cleanup()
+void queues::memory::outgoing::factory::reset()
 {
-	if (buffer != NULL) delete buffer;
+	init = false; cleanup();
+
+	init = true;
+}
+
+::queue::queue<data::response> *queues::memory::outgoing::factory::get()
+{
+	queue *result = new queues::memory::outgoing::queue();
+	if (result != NULL) queues.push_back(result);
+	return result;
+}
+
+void queues::memory::outgoing::factory::makeNull()
+{
+
+}
+
+void queues::memory::outgoing::factory::cleanup()
+{
+	for (long i = 0L; i < queues.size(); ++i)
+	{
+		delete queues[i];
+	}
 }
 
 void queues::database::incoming::queue::reset(::database::connection *connection)
@@ -96,31 +119,4 @@ void queues::database::incoming::queue::cleanup()
 {
 	if (outgoing != NULL) delete outgoing;
 	if (incoming != NULL) delete incoming;
-}
-
-void queues::memory::outgoing::factory::reset()
-{
-	init = false; cleanup();
-
-	init = true;
-}
-
-::queue::queue<data::response> *queues::memory::outgoing::factory::get()
-{
-	queue *result = new queues::memory::outgoing::queue();
-	if (result != NULL) queues.push_back(result);
-	return result;
-}
-
-void queues::memory::outgoing::factory::makeNull()
-{
-
-}
-
-void queues::memory::outgoing::factory::cleanup()
-{
-	for (long i = 0L; i < queues.size(); ++i)
-	{
-		delete queues[i];
-	}
 }

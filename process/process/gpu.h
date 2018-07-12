@@ -1,20 +1,42 @@
 #include "compute.h"
+#include "queue.h"
+#include "message.h"
+#include "response.h"
+#include "fifo.h"
 #include "task.h"
 #include "factory.h"
+#include "thread.h"
 
 #if !defined(__GPU)
 #define __GPU
 
 namespace compute
 {
-	class gpu : public compute
+	class gpu : public compute, public thread
 	{
-	public:
-		gpu(queue::factory<data::message::message> *factory)
-		{
-		}
+		::queue::queue<::compute::task> *queue;
 
-		bool push(::compute::task &task) { return false; }
+		bool init;
+
+	public:
+		DWORD WINAPI background(thread *bt);
+
+	public:
+		gpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
+		~gpu() { cleanup(); }
+
+		bool initalised() { return init; }
+		void reset(::queue::factory<::compute::task> *factory);
+
+		bool set(::compute::task &source) { return queue->set(source); }
+		bool flush() { return queue->flush(); }
+
+	protected:
+		bool get(::compute::task &destination) { return queue->get(destination); }
+
+	protected:
+		void makeNull();
+		void cleanup();
 	};
 };
 

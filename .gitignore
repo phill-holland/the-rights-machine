@@ -6,4 +6,7 @@ log.txt
 *.ilk
 *.pdb
 *.idb
-
+*.sdf
+*.dbmdl
+*.jfm
+*.tlog

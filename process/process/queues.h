@@ -3,6 +3,7 @@
 #include "message.h"
 #include "database.h"
 #include "response.h"
+#include "task.h"
 #include "factory.h"
 
 #if !defined(__QUEUES)
@@ -14,47 +15,32 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public ::queue::queue<data::message::message>
-			{
-			protected:
-				static const long LENGTH = 100L;
+			class queue : public custom::fifo<compute::task, 10L> { };
 
-			private:
-				// this number needs to be variable??? configurable??
-				custom::fifo<data::message::message, LENGTH> *buffer; // fifo<data::line> is a member of data::item
+			class factory : public ::queue::factory<compute::task>
+			{
+				std::vector<::queue::queue<compute::task>*> queues;
+
 				bool init;
 
 			public:
-				queue() { makeNull(); reset(); }
-				~queue() { cleanup(); }
+				factory() { makeNull(); reset(); }
+				~factory() { cleanup(); }
 
 				bool initalised() { return init; }
-
 				void reset();
 
-				bool get(data::message::message &destination);
-				bool set(data::message::message &source);
-
-				bool flush() { return true; }
+				::queue::queue<compute::task> *get();
 
 			protected:
 				void makeNull();
 				void cleanup();
 			};
-
-			class factory : public ::queue::factory<data::message::message>
-			{
-			public:
-				queue *get()
-				{
-					return NULL;
-				}
-			};
 		};
 
 		namespace outgoing
 		{
-			class queue : public custom::fifo<data::response, 10L> { };//, public ::queue::queue<data::response>  { };
+			class queue : public custom::fifo<data::response, 10L> { };
 
 			class factory : public ::queue::factory<data::response>
 			{

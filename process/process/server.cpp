@@ -102,7 +102,10 @@ DWORD WINAPI server::listener::background(thread *bt)
 								//t.response = &responses;
 								//c->server->config->manager->push(t);
 								//c->manager->push(compute::task(&message, &response));
-								if (!c->manager->set(task));
+								if (!c->manager->set(task))
+								{
+									// ERROR
+								}
 							}
 
 							// SILLY - FLUSH MESSAGE to output QUEUE
