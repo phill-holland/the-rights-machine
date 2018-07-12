@@ -98,3 +98,29 @@ void queues::database::incoming::queue::cleanup()
 	if (incoming != NULL) delete incoming;
 }
 
+void queues::memory::outgoing::factory::reset()
+{
+	init = false; cleanup();
+
+	init = true;
+}
+
+::queue::queue<data::response> *queues::memory::outgoing::factory::get()
+{
+	queue *result = new queues::memory::outgoing::queue();
+	if (result != NULL) queues.push_back(result);
+	return result;
+}
+
+void queues::memory::outgoing::factory::makeNull()
+{
+
+}
+
+void queues::memory::outgoing::factory::cleanup()
+{
+	for (long i = 0L; i < queues.size(); ++i)
+	{
+		delete queues[i];
+	}
+}

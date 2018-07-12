@@ -5,6 +5,7 @@
 #include "thread.h"
 #include "task.h"
 #include "compute.h"
+#include "factory.h"
 
 #if !defined(__MANAGER)
 #define __MANAGER
@@ -32,7 +33,7 @@ namespace manager
 	};
 	*/
 
-	class manager
+	class manager : public ::queue::in<compute::task>, ::queue::out < ::queue::queue<data::response>>
 	{
 		//long total;
 		long read;// , write;
@@ -41,6 +42,7 @@ namespace manager
 
 		//custom::list<compute::compute*> *nodes;
 		std::vector<compute::compute*> nodes;
+		queue::factory<data::response> *factory;
 
 		//task *nodes;
 		bool init;
@@ -48,11 +50,11 @@ namespace manager
 		mutex::token token;
 
 	public:
-		manager() { makeNull(); reset(); }
+		manager(queue::factory<data::response> *factory) { makeNull(); reset(factory); }
 		~manager() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset();
+		void reset(queue::factory <data::response> *factory);
 
 		void add(compute::compute *source);
 		/*
@@ -62,7 +64,15 @@ namespace manager
 		*/
 		// adds a compute task block
 		//bool add(node &n);
-		bool push(compute::task &task);
+		//bool push(compute::task &task);
+		bool set(compute::task &source);
+
+		bool get(::queue::queue<data::response> &destination)
+		{
+			destination = *factory->get();
+		}
+
+		//bool get(compute::task &destination) { return false; }
 		/*
 		{ 
 			//return false; 
@@ -85,6 +95,8 @@ namespace manager
 		//node *next();
 
 		//queue::queue<data::response> *push(data::message::message *m);
+	//protected:
+		//bool get(compute::task &destination);
 
 	protected:
 		void makeNull();

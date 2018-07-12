@@ -138,9 +138,20 @@ namespace server
 		char value[LENGTH];
 		long idx_value;
 
-		data::message::message message;
+		//class moo
+		//{
+		//public:
+			//data::message::message message;
+			//::queue::queue<data::response> *responses;
+		//};
 
-		custom::fifo<data::response, 10L> responses;
+		//data::message::message message;
+
+		//custom::fifo<data::response, 10L> responses;
+		//::queue::queue<data::response> *responses;
+
+		compute::task task;
+
 		/*
 		data::message::base message;
 		data::items::base items;
@@ -163,6 +174,7 @@ namespace server
 		*/
 		client *c;
 
+		bool init;
 
 	public:
 		DWORD WINAPI background(thread *bt);
@@ -170,8 +182,10 @@ namespace server
 	public:
 		listener(client *source) { reset(source); }
 
+		bool initalised() { return init; }
 		void reset(client *source);
 
+	public:
 		void clear();
 
 	protected:

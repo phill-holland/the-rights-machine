@@ -54,26 +54,26 @@ namespace queues
 
 		namespace outgoing
 		{
-			class queue : public ::queue::queue<data::response>
-			{
-			public:
-				bool get(data::response &destination) { return false; }
-				bool set(data::response &source) { return false; }
-
-				bool flush() { return false; }
-
-				// pass this into server class too!!!
-
-				// then use HTTP header GET/POST to determine which queue the user wants!!
-			};
+			class queue : public custom::fifo<data::response, 10L> { };//, public ::queue::queue<data::response>  { };
 
 			class factory : public ::queue::factory<data::response>
 			{
+				std::vector<::queue::queue<data::response>*> queues;
+
+				bool init;
+
 			public:
-				queue *get()
-				{
-					return NULL;
-				}
+				factory() { makeNull(); reset(); }
+				~factory() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset();
+
+				::queue::queue<data::response> *get();
+
+			protected:
+				void makeNull();
+				void cleanup();
 			};
 		};
 	};

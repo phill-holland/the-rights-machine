@@ -1,4 +1,5 @@
 #include "message.h"
+#include "queue.h"
 #include "task.h"
 
 #if !defined(__COMPUTE)
@@ -38,11 +39,17 @@ namespace compute
 	*/
 
 	// why cannot the message class include the response queue as a pointer??
-	class compute
+	class compute : public ::queue::queue<::compute::task>
 	{
 	public:
+		virtual bool get(::compute::task &destination) = 0;
+		virtual bool set(::compute::task &source) = 0;
+
+		virtual bool flush() = 0;
+
+	//public:
 		//virtual bool calculate(data::message::message *source, int length) = 0;
-		virtual bool push(::compute::task &task) = 0;
+		//virtual bool push(::compute::task &task) = 0;
 
 		//virtual bool push(pair *source) = 0;
 	//	virtual queue::queue<data::message::message> *//queue::queue<data::response> 

@@ -9,11 +9,23 @@ namespace queue
 		virtual bool flush() = 0;
 	};
 
-	template <class X> class queue : public base
+	template <class X> class in
+	{
+	public:
+		virtual bool set(X &source) = 0;
+	};
+
+	template <class X> class out
 	{
 	public:
 		virtual bool get(X &destination) = 0;
-		virtual bool set(X &source) = 0;
+	};
+
+	template <class X> class queue : public base, public in, public out
+	{
+	//public:
+		//virtual bool get(X &destination) = 0;
+		//virtual bool set(X &source) = 0;
 
 		//virtual bool put(X *source) = 0;
 		//virtual bool get(X *destination) = 0;
