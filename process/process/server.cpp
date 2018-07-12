@@ -85,14 +85,14 @@ DWORD WINAPI server::listener::background(thread *bt)
 							}
 
 							// OK 
-							queue::base *b = message.findQ(FQDN());
+							queue::base *b = task.message.findQ(FQDN());
 							if (b != NULL)
 							{
 								Log << "FLUSHING " << FQDN() << "\r\n";
 								b->flush();
 							}
 							
-							if (FQDN().icompare(message.items.FQDN()))
+							if (FQDN().icompare(task.message.items.FQDN()))
 							{
 								Log << "PUSH MESSAGE TO OUTPUT\r\n";
 								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
@@ -101,7 +101,8 @@ DWORD WINAPI server::listener::background(thread *bt)
 								//t.message = &message;
 								//t.response = &responses;
 								//c->server->config->manager->push(t);
-								c->manager->push(compute::task(&message, &response));
+								//c->manager->push(compute::task(&message, &response));
+								if (!c->manager->set(task));
 							}
 
 							// SILLY - FLUSH MESSAGE to output QUEUE
@@ -274,17 +275,15 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 void server::listener::reset(client *source)
 {
+	init = false;
+
 	c = source; 
 
-	/*
-	items.parent(&message);
-	item.parent(&items);
-	lines.parent(&item);
-	line.parent(&lines);
-	components.parent(&line);
-	component.parent(&components);
-	*/
+	if (!c->manager->get(*(task.response))) return;
+
 	clear();
+
+	init = true;
 }
 
 void server::listener::clear()
@@ -410,7 +409,7 @@ void server::listener::extract(string parent, string label, string value)
 
 	//Log << "A[" + a + "] B[" + b + "]\r\n";
 
-	current = message.find(FQDN());//last());
+	current = task.message.find(FQDN());//last());
 	if (current != NULL)
 	{
 		//string a = current->FQDN();
@@ -642,12 +641,12 @@ void server::client::states::output()
 	Log << result;
 }
 
-void server::client::reset(manager::manager *_manager)
+void server::client::reset(manager::manager *manager)
 {
 	init = false; cleanup();
 
-	manager = _manager;
-
+	this->manager = manager;
+		
 	isInError = false;
 	lastErrorCode = ERRORS::None;
 

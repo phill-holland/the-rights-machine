@@ -35,7 +35,7 @@ namespace compute
 		}
 
 	public:
-		cpu(queue::factory<data::message::message> *factory)
+		cpu(::queue::factory<data::message::message> *factory)
 		{
 		}
 		/*
@@ -45,13 +45,25 @@ namespace compute
 		}
 		*/
 
-		bool push(::compute::task &task)
+		bool get(::compute::task &destination)
 		{
+			return false;
+		}
+
+		bool set(::compute::task &source)
+		{
+			return queue.set(source);
+		}
+
+		bool flush() { return false; }
+
+		//bool push(::compute::task &task)
+		//{
 			// make copy of task.message..????
 			// should happen by nature of adding to the queue? / rather avoid that on the way out though..??
 
-			return queue.set(task);
-		}
+			//return queue.set(task);
+		//}
 		/*
 		bool push(m *source)
 		{

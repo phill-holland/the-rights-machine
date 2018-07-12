@@ -1,11 +1,12 @@
 #include "manager.h"
 
-void manager::manager::reset()
+void manager::manager::reset(queue::factory <data::response> *factory)
 {
 	init = false; cleanup();
 
-
 	read = 0L;
+
+	this->factory = factory;
 
 	//nodes = new custom::list<compute::compute*>();
 	//if (nodes == NULL) return;
@@ -24,7 +25,7 @@ void manager::manager::add(compute::compute *source)
 
 // adds a compute task block
 //bool add(node &n);
-bool manager::manager::push(compute::task &task)
+bool manager::manager::set(compute::task &source)
 {
 	//return false; 
 	long count = 0L;
@@ -35,7 +36,7 @@ bool manager::manager::push(compute::task &task)
 	do
 	{
 		if (read >= (long)nodes.size()) read = 0L;
-		result = nodes[read++]->push(task);
+		result = nodes[read++]->set(source);
 		++count;
 	} while ((!result)&&(count < nodes.size()));
 
