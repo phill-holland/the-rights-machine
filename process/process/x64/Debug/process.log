@@ -1,13 +1,9 @@
-﻿Build started 12/07/2018 22:46:34.
+﻿Build started 13/07/2018 06:52:02.
      1>Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt configuration.cpp main.cpp manager.cpp server.cpp
-         manager.cpp
-         main.cpp
-         Generating Code...
-         Compiling...
-         server.cpp
-         configuration.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt console.cpp error.cpp
+         error.cpp
+         console.cpp
          Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\kernel.cu.obj
@@ -17,11 +13,13 @@
          x64\Debug\components.obj
          x64\Debug\compute.obj
          x64\Debug\configuration.obj
+         x64\Debug\console.obj
          x64\Debug\cpu.obj
          x64\Debug\database.obj
          x64\Debug\datetime.obj
          x64\Debug\element.obj
          x64\Debug\elements.obj
+         x64\Debug\error.obj
          x64\Debug\factory.obj
          x64\Debug\fifo.obj
          x64\Debug\gpu.obj
@@ -64,4 +62,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.63
+Time Elapsed 00:00:04.75

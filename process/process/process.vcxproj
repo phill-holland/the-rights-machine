@@ -164,11 +164,13 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="components.h" />
     <ClInclude Include="compute.h" />
     <ClInclude Include="configuration.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="cpu.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="datetime.h" />
     <ClInclude Include="element.h" />
     <ClInclude Include="elements.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="factory.h" />
     <ClInclude Include="fifo.h" />
     <ClInclude Include="gpu.h" />
@@ -205,11 +207,13 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="components.cpp" />
     <ClCompile Include="compute.cpp" />
     <ClCompile Include="configuration.cpp" />
+    <ClCompile Include="console.cpp" />
     <ClCompile Include="cpu.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="datetime.cpp" />
     <ClCompile Include="element.cpp" />
     <ClCompile Include="elements.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="factory.cpp" />
     <ClCompile Include="fifo.cpp" />
     <ClCompile Include="gpu.cpp" />
