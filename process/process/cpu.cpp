@@ -25,6 +25,8 @@ void compute::cpu::cleanup()
 {
 }
 
+// need to add query section in JSON source
+
 /*
 discount lines where
 line.dateend < selection.datestart

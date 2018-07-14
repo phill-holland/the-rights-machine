@@ -5,6 +5,7 @@
 #include "queues.h"
 #include "cpu.h"
 #include "server.h"
+#include "log.h"
 
 void test()
 {
@@ -39,13 +40,34 @@ void test()
 	delete server;
 }
 
+void test_dates()
+{
+	global::datetime a(2018, 10, 2);
+	global::datetime b(2017, 10, 2);
+	global::datetime c(2018, 9, 2);
+	global::datetime d(2018, 10, 1);
+	global::datetime e(2018, 10, 3);
+	global::datetime f(2018, 11, 2);
+	global::datetime g(2019, 9, 2);
+	/*
+	Log << (a < b) << " " << a.compare(b) << "\r\n";
+	Log << (b < a) << " " << b.compare(a) << "\r\n";
+	Log << (a < a) << " " << a.compare(a) << "\r\n";
+	Log << (c < a) << " " << c.compare(a) << "\r\n";
+	Log << (d < a) << " " << d.compare(a) << "\r\n";
+	Log << (e < a) << " " << e.compare(a) << "\r\n";
+	Log << (f < a) << " " << f.compare(a) << "\r\n";
+	Log << (g < a) << " " << g.compare(a) << "\r\n";
+	*/
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
 					 int       nCmdShow)
 {
 
-	test();
+	test_dates();
 	// build in-memory queue
 	// http client for test json post
 	// database queue

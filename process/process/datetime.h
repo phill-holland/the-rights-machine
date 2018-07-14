@@ -37,6 +37,56 @@ namespace global
 			this->copy((datetime&)source);
 			return *this;
 		}
+
+		bool operator==(const datetime& source)
+		{ 
+			return day == source.day &&
+				   month == source.month &&
+				   year == source.year;
+		}
+
+		bool operator!=(const datetime& source)
+		{ 
+			return day != source.day ||
+				   month != source.month ||
+				   year != source.year;
+		}
+
+		bool operator<(const datetime& source)
+		{ 			
+			if (year < source.year) return true;
+			if ((year == source.year) && (month < source.month)) return true;
+			if ((month == source.month) && (day < source.day)) return true;
+
+			return false;
+		}
+
+		bool operator>(const datetime& source)
+		{ 
+			if (year > source.year) return true;
+			if ((year == source.year) && (month > source.month)) return true;
+			if ((month == source.month) && (day > source.day)) return true;
+
+			return false;
+		}
+
+		bool operator<=(const datetime& source)
+		{ 
+			if (year < source.year) return true;
+			if ((year == source.year) && (month < source.month)) return true;
+			if ((month == source.month) && (day <= source.day)) return true;
+
+			return false;
+		}
+
+		bool operator>=(const datetime& source)
+		{ 
+			if (year > source.year) return true;
+			if ((year == source.year) && (month > source.month)) return true;
+			if ((month == source.month) && (day >= source.day)) return true;
+
+			return false;
+		}
 	};
 };
 
