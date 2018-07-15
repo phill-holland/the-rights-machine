@@ -188,6 +188,8 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="mutex.h" />
     <ClInclude Include="pair.h" />
     <ClInclude Include="process.h" />
+    <ClInclude Include="queries.h" />
+    <ClInclude Include="query.h" />
     <ClInclude Include="queue.h" />
     <ClInclude Include="queues.h" />
     <ClInclude Include="json.h" />
@@ -232,6 +234,8 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="mutex.cpp" />
     <ClCompile Include="pair.cpp" />
     <ClCompile Include="process.cpp" />
+    <ClCompile Include="queries.cpp" />
+    <ClCompile Include="query.cpp" />
     <ClCompile Include="queue.cpp" />
     <ClCompile Include="queues.cpp" />
     <ClCompile Include="json.cpp" />

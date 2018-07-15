@@ -14,7 +14,8 @@ namespace data
 		public:
 			int componentID;
 			int lineID;
-			string value;
+			//string value;
+			string name;
 
 		public:
 			component() { clear(); }

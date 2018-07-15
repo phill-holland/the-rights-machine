@@ -162,6 +162,12 @@
     <ClInclude Include="console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="query.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="queries.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -289,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="console.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="query.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="queries.cpp">
+      <Filter>Source Files\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

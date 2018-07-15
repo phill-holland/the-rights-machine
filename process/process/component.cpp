@@ -4,14 +4,16 @@ void data::component::component::clear()
 {
 	componentID = 0;
 	lineID = 0;
-	value = "";
+	//value = "";
+	name = "";
 }
 
 bool data::component::component::add(custom::pair &source)
 {
-	if (string("value").icompare(source.name))
+	if (string("name").icompare(source.name))
 	{
-		value = source.value;
+		//value = source.value;
+		name = source.value;
 		return true;
 	}
 
@@ -22,7 +24,8 @@ void data::component::component::copy(component const &source)
 {
 	componentID = source.componentID;
 	lineID = source.lineID;
-	value = source.value;
+	name = source.name;
+	//value = source.value;
 }
 
 /*

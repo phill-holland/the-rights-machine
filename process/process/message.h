@@ -1,6 +1,10 @@
 #include "string.h"
 #include "datetime.h"
+#include "queries.h"
 #include "items.h"
+#include "lines.h"
+#include "components.h"
+#include "elements.h"
 #include <unordered_map>
 
 #if !defined(__MESSAGE)
@@ -60,7 +64,6 @@ namespace data
 			};
 
 			std::unordered_map<string, data::json *, hasher, equality> hash;
-
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 		public:
@@ -77,6 +80,7 @@ namespace data
 		public:
 			//data::item::base item;
 
+			data::queries::queries<10L> queries;
 			data::items::items<10L> items;
 			data::lines::lines<10L> lines;
 			data::components::components<10L> components;

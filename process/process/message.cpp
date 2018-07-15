@@ -36,6 +36,7 @@ void data::message::message::reset()
 
 	
 	items.parent(this);
+	queries.parent(this);
 	lines.parent(&items);// .temp);
 	components.parent(&lines);// .temp);
 	elements.parent(&components);// .temp);
@@ -46,8 +47,8 @@ void data::message::message::reset()
 	elements.parent(&(components.temp));
 	elements.temp.parent(&elements);
 	*/
-	json *identifiers[] = { &elements.temp, &elements, &components.temp, &components, &lines.temp, &lines, &items.temp, &items, this };
-	for (long i = 0L; i < 9L; ++i)
+	json *identifiers[] = { &elements.temp, &elements, &components.temp, &components, &lines.temp, &lines, &items.temp, &items, &queries.temp, &queries, this };
+	for (long i = 0L; i < 11L; ++i)
 	{
 		Log << "ME " << identifiers[i]->identifier() << "\r\n";
 		Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
@@ -55,10 +56,10 @@ void data::message::message::reset()
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 	}
 
-	queue::base *queues[] = { &elements, &components, &lines, &items };
-	json *id[] = { &elements, &components, &lines, &items };
+	queue::base *queues[] = { &queries, &elements, &components, &lines, &items };
+	json *id[] = { &queries, &elements, &components, &lines, &items };
 
-	for (long i = 0L; i < 4L; ++i)
+	for (long i = 0L; i < 5L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
 	}
@@ -100,6 +101,7 @@ void data::message::message::clear()
 	created.clear();
 	finished.clear();
 
+	queries.clear();
 	items.clear();
 	lines.clear();
 	components.clear();

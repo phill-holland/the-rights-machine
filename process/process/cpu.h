@@ -12,31 +12,51 @@
 
 namespace compute
 {
-	class cpu : public compute, public thread
+	namespace cpu
 	{
-		::queue::queue<::compute::task> *queue;
+		class header
+		{
+		public:
+			int messageID;
+			int itemID;
+			int lineID;
+		};
 
-		bool init;
+		class block
+		{
+		public:
+			header headers[255];
+			int data[255][255];
 
-	public:
-		DWORD WINAPI background(thread *bt);
+		public:
+		};
 
-	public:
-		cpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
-		~cpu() { cleanup(); }
+		class cpu : public compute, public thread
+		{
+			::queue::queue<::compute::task> *queue;
 
-		bool initalised() { return init; }
-		void reset(::queue::factory<::compute::task> *factory);
-		
-		bool set(::compute::task &source) { return queue->set(source); }
-		bool flush() { return queue->flush(); }
+			bool init;
 
-	protected:
-		bool get(::compute::task &destination) { return queue->get(destination); }
-		
-	protected:
-		void makeNull();
-		void cleanup();
+		public:
+			DWORD WINAPI background(thread *bt);
+
+		public:
+			cpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
+			~cpu() { cleanup(); }
+
+			bool initalised() { return init; }
+			void reset(::queue::factory<::compute::task> *factory);
+
+			bool set(::compute::task &source) { return queue->set(source); }
+			bool flush() { return queue->flush(); }
+
+		protected:
+			bool get(::compute::task &destination) { return queue->get(destination); }
+
+		protected:
+			void makeNull();
+			void cleanup();
+		};
 	};
 };
 
