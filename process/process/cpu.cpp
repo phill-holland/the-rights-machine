@@ -2,6 +2,26 @@
 #include "string.h"
 #include <unordered_map>
 
+void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
+{
+	auto swap = [](datetime &a, datetime &b)
+	{
+		datetime temp = a;
+		a = b;
+		b = temp;
+	};
+
+	int swaps = 0;
+
+	do
+	{
+		swaps = 0;
+		if (b < a) { swap(a, b); ++swaps; }
+		if (c < b) { swap(b, c); ++swaps; }
+		if (d < c) { swap(c, d); ++swaps; }
+	} while (swaps > 0);
+}
+
 DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 {
 	::compute::task task;
@@ -19,6 +39,63 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		// ****
 
 		// Queue get loop no good for this
+
+		// ADD CURSOR TO ALLOCATOR
+
+		data::line::line lines[255];
+		int ln_out_ptr = 0;
+		data::line::line ln_in;
+		while (task.message.lines.get(ln_in))
+		{
+			if (ln_in.typeID == 0)
+			{
+				data::line::line ln_out;
+				bool overlap = false;
+				while (task.message.lines.get(ln_out))
+				{
+					if (ln_out.typeID >= 1)
+					{
+						if (!((ln_in.start > ln_out.end) || (ln_out.start > ln_in.end)))
+						{
+							if ((ln_in.start != ln_out.start) && (ln_in.end != ln_out.end))
+							{
+								datetime a = ln_in.start;
+								datetime b = ln_in.end;
+								datetime c = ln_out.start;
+								datetime d = ln_out.end;
+
+								sort(a, b, c, d);
+
+								lines[ln_out_ptr].start = a;
+								lines[ln_out_ptr].end = b;
+								lines[ln_out_ptr].lineID = ln_in.lineID;
+								++ln_out_ptr;
+
+								lines[ln_out_ptr].start = b;
+								lines[ln_out_ptr].end = c;
+								lines[ln_out_ptr].lineID = ln_in.lineID;
+								++ln_out_ptr;
+
+								lines[ln_out_ptr].start = c;
+								lines[ln_out_ptr].end = d;
+								lines[ln_out_ptr].lineID = ln_in.lineID;
+								++ln_out_ptr;
+
+								overlap = true;
+							}
+						}
+					}
+				};
+
+				if (!overlap)
+				{
+					lines[ln_out_ptr++] = ln_in;
+				}
+			}
+		};
+
+		// USE LINES ARRAY INSTEAD 
+		// still need to consider how to map components to new lines
 
 		std::unordered_map<int, int> lineToType;
 		std::unordered_map<int, int> componentToLine;
@@ -124,6 +201,15 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 
 			//int index = c.lineID
 		};
+		
+		// NEXT LOOP THROUGH OUTPUTS
+		// AND SUBTRACT FROM INPUTS
+
+		// THEN LOOP THROUGH QUERIES
+		// TO COMPARE
+		// THEN OUTPUT VALID ACQUIRED LINES
+		// THEN COMBINE IF CONTINIOUS DATE RANGE
+
 		// create hashes foreach item component
 
 		//};

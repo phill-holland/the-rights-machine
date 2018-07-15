@@ -31,11 +31,23 @@ namespace compute
 		public:
 		};
 
+		/*
+		class inlines
+		{
+		public:
+			int lineID; // have two lines after a split with same ID
+			datetime start, end;
+
+		};
+		*/
 		class cpu : public compute, public thread
 		{
 			::queue::queue<::compute::task> *queue;
 
 			bool init;
+
+		protected:
+			void sort(datetime &a, datetime &b, datetime &c, datetime &d);
 
 		public:
 			DWORD WINAPI background(thread *bt);
