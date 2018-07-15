@@ -56,7 +56,7 @@ namespace custom
 
 		unsigned long count() { return elements; }
 
-		bool isempty() { if (elements <= 0L) return true;  return false; }
+		bool isempty() { if (elements <= 0L) return true; return false; }
 
 		void empty() { reset(); }
 

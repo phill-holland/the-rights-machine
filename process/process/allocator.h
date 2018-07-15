@@ -94,6 +94,12 @@ namespace allocator
 				return *this;
 			}
 
+			X& operator[](int index)
+			{
+				if ((index < 0) || (index >= Y)) return X();
+				return *data[index];
+			}
+
 		protected:
 			void makeNull()
 			{
@@ -202,6 +208,26 @@ namespace allocator
 		{
 			this->copy((allocator&)source);
 			return *this;
+		}
+
+		X& operator[](int index)
+		{
+			if ((index >= 0) && (index < elements))
+			{
+				div_t t = div(Y, (long)index);
+
+				int counter = 0;
+				block<X, Y> *src = source.head;
+				while ((src != NULL) && (counter < t.quot))
+				{
+					src = src.next;
+					++counter;
+				};
+
+				if (src != NULL) return (*src)[t.rem];
+			}
+
+			return X();
 		}
 
 	protected:
