@@ -7,6 +7,8 @@
 #include "factory.h"
 #include "thread.h"
 
+#include "line.h"
+
 #if !defined(__CPU)
 #define __CPU
 
@@ -28,7 +30,17 @@ namespace compute
 			header headers[255];
 			int data[255][255];
 
+			data::line::line in[255], out[255];
+
 		public:
+			
+			void split(void *lines)
+			{
+				// loop through lines, add to in or out array
+
+
+			}
+
 		};
 
 		/*

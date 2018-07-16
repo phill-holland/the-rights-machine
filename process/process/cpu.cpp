@@ -44,44 +44,52 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 
 		data::line::line lines[255];
 		int ln_out_ptr = 0;
-		data::line::line ln_in;
-		while (task.message.lines.get(ln_in))
+		//data::line::line ln_in;
+		//while (task.message.lines.get(ln_in))
+		for (long i = 0L; i< task.message.lines.count(); ++i)
 		{
+			data::line::line ln_in = task.message.lines[i];
+
 			if (ln_in.typeID == 0)
 			{
 				data::line::line ln_out;
 				bool overlap = false;
-				while (task.message.lines.get(ln_out))
+				//while (task.message.lines.get(ln_out))
+				for (long j = 0L; j < task.message.lines.count(); ++j) // hmmmm, cursor will fuck up????
 				{
-					if (ln_out.typeID >= 1)
+					if (j != i)
 					{
-						if (!((ln_in.start > ln_out.end) || (ln_out.start > ln_in.end)))
+						data::line::line ln_out = task.message.lines[j];
+						if (ln_out.typeID >= 1)
 						{
-							if ((ln_in.start != ln_out.start) && (ln_in.end != ln_out.end))
+							if (!((ln_in.start > ln_out.end) || (ln_out.start > ln_in.end)))
 							{
-								datetime a = ln_in.start;
-								datetime b = ln_in.end;
-								datetime c = ln_out.start;
-								datetime d = ln_out.end;
+								if ((ln_in.start != ln_out.start) && (ln_in.end != ln_out.end))
+								{
+									datetime a = ln_in.start;
+									datetime b = ln_in.end;
+									datetime c = ln_out.start;
+									datetime d = ln_out.end;
 
-								sort(a, b, c, d);
+									sort(a, b, c, d);
 
-								lines[ln_out_ptr].start = a;
-								lines[ln_out_ptr].end = b;
-								lines[ln_out_ptr].lineID = ln_in.lineID;
-								++ln_out_ptr;
+									lines[ln_out_ptr].start = a;
+									lines[ln_out_ptr].end = b;
+									lines[ln_out_ptr].lineID = ln_in.lineID;
+									++ln_out_ptr;
 
-								lines[ln_out_ptr].start = b;
-								lines[ln_out_ptr].end = c;
-								lines[ln_out_ptr].lineID = ln_in.lineID;
-								++ln_out_ptr;
+									lines[ln_out_ptr].start = b;
+									lines[ln_out_ptr].end = c;
+									lines[ln_out_ptr].lineID = ln_in.lineID;
+									++ln_out_ptr;
 
-								lines[ln_out_ptr].start = c;
-								lines[ln_out_ptr].end = d;
-								lines[ln_out_ptr].lineID = ln_in.lineID;
-								++ln_out_ptr;
+									lines[ln_out_ptr].start = c;
+									lines[ln_out_ptr].end = d;
+									lines[ln_out_ptr].lineID = ln_in.lineID;
+									++ln_out_ptr;
 
-								overlap = true;
+									overlap = true;
+								}
 							}
 						}
 					}
@@ -106,16 +114,20 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		std::unordered_map<string, int> items;
 		std::unordered_map<int, int> lineToItem;
 
-		data::item::item item;
-		while (task.message.items.get(item))
+//		data::item::item item;
+		//while (task.message.items.get(item))
+		for(int i=0L;i<task.message.items.count();++i)
 		{
+			data::item::item item = task.message.items[i];
 			items[item.name] = item.itemID;
 		};
 
 		int in_count = 0, out_count = 0;
-		data::line::line line;
-		while (task.message.lines.get(line))
+		//data::line::line line;
+		//while (task.message.lines.get(line))
+		for(int i=0;i<task.message.lines.count();++i)
 		{
+			data::line::line line = task.message.lines[i];
 			lineToType[line.lineID] = line.typeID;
 			lineToItem[line.lineID] = line.itemID;
 
@@ -128,9 +140,12 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 
 		// componentID may be wrong here..??
 		// needs to reset to zero per new item
-		data::component::component component;
-		while (task.message.components.get(component))
+		//data::component::component component;
+		//while (task.message.components.get(component))
+		for(int i=0;i<task.message.components.count();++i)
 		{
+			data::component::component component = task.message.components[i];
+
 			if (components.find(component.name) == components.end())
 			{
 				components[component.name] = component_count;
@@ -144,10 +159,13 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		for (int i = 0; i < 255; ++i) indices[i] = 0;
 
 		std::unordered_map<string, int> elements[255];
-		data::element::element element;
+		//data::element::element element;
 
-		while (task.message.elements.get(element))
+		//while (task.message.elements.get(element))
+		for(int i=0;i<task.message.elements.count();++i)
 		{
+			data::element::element element = task.message.elements[i];
+
 			if(elements[element.componentID].find(element.value) == elements[element.componentID].end())
 				(elements[element.componentID])[element.value] = indices[element.componentID]++;
 		}
@@ -160,11 +178,14 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		block in, out[10];
 		int in_index = 0, out_index = 0;
 
-		data::element::element e;
+		//data::element::element e;
 		//data::component::component c;
 		//while (task.message.components.get(c))
-		while(task.message.elements.get(e))
+		//while(task.message.elements.get(e))
+		for(int i=0;i<task.message.elements.count();++i)
 		{
+			data::element::element e = task.message.elements[i];
+
 			int lineID = componentToLine[e.componentID];
 			int type = lineToType[lineID];
 			if (type == 0) // in
