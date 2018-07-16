@@ -16,31 +16,73 @@ namespace compute
 {
 	namespace cpu
 	{
-		class header
-		{
-		public:
-			int messageID;
-			int itemID;
-			int lineID;
-		};
-
 		class block
 		{
-		public:
-			header headers[255];
-			int data[255][255];
-
-			data::line::line in[255], out[255];
-
-		public:
-			
-			void split(void *lines)
+		protected:
+			class header
 			{
+			public:
+				int messageID;
+				int itemID;
+				int lineID;
+			};
+
+			const static unsigned long WIDTH = 255;
+			const static unsigned long HEIGHT = 255;
+
+		private:
+			unsigned long width, height;
+
+			bool init;
+
+
+			// add a function to lines in message?
+			//void populate(int lineID, block *output);
+		public:
+			//header *headers;// [255];
+			int *data;// [255][255];
+
+			//data::line::line in[255], out[255];
+
+		public:
+			block(unsigned long width = WIDTH, unsigned long height = HEIGHT) { makeNull(); reset(width, height); }
+			~block() { cleanup(); }
+
+			bool initalised() { return init; }
+			void reset(unsigned long width, unsigned long height);
+
+			void clear();
+
+			void set(unsigned long x, unsigned long y)
+			{
+				if ((x >= width) || (y >= height)) return;
+				data[(y * height) + x] = 1;
+			}
+			//bool add(const data::line::line &source, const data::c);
+		//protected:
+			//void split(void *lines)
+			//{
 				// loop through lines, add to in or out array
 
 
+			//}
+		public:
+			block& operator-(const block &source)
+			{
+				//this->copy((datetime&)source);
+				return *this;
 			}
 
+			/*
+			block &operator+(const data::line::line &source)
+			{
+				add(source);
+				return *this;
+			}
+			*/
+		protected:
+			void makeNull();
+			void cleanup();
 		};
 
 		/*
@@ -60,6 +102,7 @@ namespace compute
 
 		protected:
 			void sort(datetime &a, datetime &b, datetime &c, datetime &d);
+			void process();
 
 		public:
 			DWORD WINAPI background(thread *bt);
@@ -71,7 +114,11 @@ namespace compute
 			bool initalised() { return init; }
 			void reset(::queue::factory<::compute::task> *factory);
 
-			bool set(::compute::task &source) { return queue->set(source); }
+			bool set(::compute::task &source) 
+			{ 
+				return queue->set(source); 
+				process();
+			}
 			bool flush() { return queue->flush(); }
 
 		protected:

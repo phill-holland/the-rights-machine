@@ -160,6 +160,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="allocator.h" />
     <ClInclude Include="buffer.h" />
+    <ClInclude Include="comparison.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="components.h" />
     <ClInclude Include="compute.h" />
@@ -205,6 +206,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   <ItemGroup>
     <ClCompile Include="allocator.cpp" />
     <ClCompile Include="buffer.cpp" />
+    <ClCompile Include="comparison.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="components.cpp" />
     <ClCompile Include="compute.cpp" />

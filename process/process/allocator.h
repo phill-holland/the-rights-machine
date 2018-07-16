@@ -6,7 +6,7 @@
 namespace allocator
 {
 
-	template <class X, long Y> class allocator : public queue::in<X>//queue<X>
+	template <class X, long Y> class allocator : public queue::in<X>, public queue::base//queue<X>
 	{
 		template <class X, long Y> class block
 		{
@@ -77,7 +77,7 @@ namespace allocator
 				return *data[index];
 			}
 
-			//virtual bool flush() { return true; }
+			virtual bool flush() { return true; }
 		
 			void copy(block const &source)
 			{
@@ -142,7 +142,7 @@ namespace allocator
 
 		block<X, Y> *head, *tail;// , *read;
 
-		cursor accessor;
+		cursor<X, Y> accessor;
 
 		long elements;
 		long counter;
@@ -183,17 +183,17 @@ namespace allocator
 
 		X &get(long index)
 		{
-			if ((accessor.current == NULL) || (access.index + 1L != index))
+			if ((accessor.current == NULL) || (accessor.index + 1L != index))
 			{
 				if ((index >= 0) && (index < elements))
 				{
-					div_t t = div(Y, (long)index);
+					ldiv_t t = div(Y, (long)index);
 
 					int counter = 0;
-					block<X, Y> *src = source.head;
+					block<X, Y> *src = head;
 					while ((src != NULL) && (counter < t.quot))
 					{
-						src = src.next;
+						src = src->next;
 						++counter;
 					};
 
@@ -218,7 +218,12 @@ namespace allocator
 						accessor.current = accessor.current->next;
 					}
 
-					return accessor.(*current)[accessor.normalised];
+					if (accessor.current != NULL)
+					{
+						//block<X, Y> *c = accessor.current;
+						return (*accessor.current)[accessor.normalised];
+						//return accessor.((*current)[accessor.normalised]);
+					}
 				}
 			}
 

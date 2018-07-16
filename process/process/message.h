@@ -5,12 +5,14 @@
 #include "lines.h"
 #include "components.h"
 #include "elements.h"
+#include "comparison.h"
 #include <unordered_map>
 
 #if !defined(__MESSAGE)
 #define __MESSAGE
 
 using namespace global;
+using namespace comparison;
 
 namespace data
 {
@@ -47,22 +49,6 @@ namespace data
 		*/
 		class message : public json//base
 		{
-			struct equality
-			{
-				bool operator()(const string &str1, const string &str2) const
-				{
-					return ((string&)str1).icompare((string&)str2);
-				}
-			};
-
-			struct hasher
-			{
-				std::size_t operator()(const string& k) const
-				{
-					return (std::size_t)(((string&)k).upper()).hash();
-				}
-			};
-
 			std::unordered_map<string, data::json *, hasher, equality> hash;
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 

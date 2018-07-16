@@ -12,7 +12,7 @@ void test()
 	queues::memory::incoming::factory messages; // should be a task queue factory instead..??
 	queues::memory::outgoing::factory responses;
 
-	compute::cpu cpu(&messages);
+	compute::cpu::cpu cpu(&messages);
 	manager::manager manager(&responses);
 	
 	manager.add(&cpu);

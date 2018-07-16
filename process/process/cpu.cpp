@@ -2,6 +2,43 @@
 #include "string.h"
 #include <unordered_map>
 
+void compute::cpu::block::reset(unsigned long width, unsigned long height)
+{
+	init = false; cleanup();
+
+	this->width = width;
+	this->height = height;
+
+	data = new int[width * height];
+	if (data == NULL) return;
+
+	clear();
+
+	init = true;
+}
+
+void compute::cpu::block::clear()
+{
+	memset(data, 0, sizeof(int) * width * height);
+}
+
+bool add(const data::line::line &source)
+{
+	return false;
+}
+
+void compute::cpu::block::makeNull()
+{
+	data = NULL;
+}
+
+void compute::cpu::block::cleanup()
+{
+	if (data != NULL) delete data;
+}
+
+
+
 void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
 {
 	auto swap = [](datetime &a, datetime &b)
@@ -22,13 +59,13 @@ void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
 	} while (swaps > 0);
 }
 
-DWORD WINAPI compute::cpu::cpu::background(thread *bt)
+void compute::cpu::cpu::process()
 {
 	::compute::task task;
 	if (this->get(task))
 	{
 		// check overlaps
-		// with dates here
+		// with dates here (source queries)
 
 		// componentID on the input, needs to be incremental and not reset
 		// for each new line/item
@@ -108,10 +145,10 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		std::unordered_map<int, int> lineToType;
 		std::unordered_map<int, int> componentToLine;
 
-		std::unordered_map<string, int> components;
+		std::unordered_map<string, int, hasher, equality> components;
 		std::unordered_map<int, string> reverse_components;
 
-		std::unordered_map<string, int> items;
+		std::unordered_map<string, int, hasher, equality> items;
 		std::unordered_map<int, int> lineToItem;
 
 //		data::item::item item;
@@ -158,7 +195,7 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 		int indices[255];
 		for (int i = 0; i < 255; ++i) indices[i] = 0;
 
-		std::unordered_map<string, int> elements[255];
+		std::unordered_map<string, int, hasher, equality> elements[255];
 		//data::element::element element;
 
 		//while (task.message.elements.get(element))
@@ -194,11 +231,12 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 				int idx_x = (in_index * component_count) + components[e.componentID];
 				int idx_y = (elements[e.componentID])[e.value];
 				
-				in.headers[idx_x].messageID = task.message.messageID;
-				in.headers[idx_x].itemID = lineToItem[lineID];
-				in.headers[idx_x].lineID = lineID;
+				//in.headers[idx_x].messageID = task.message.messageID;
+				//in.headers[idx_x].itemID = lineToItem[lineID];
+				//in.headers[idx_x].lineID = lineID;
 
-				in.data[idx_x][idx_y] = 1;
+				//in.data[idx_x][idx_y] = 1;
+				in.data[(idx_y * 255) + idx_x] = 1;
 
 				++in_index;
 			}
@@ -209,12 +247,13 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 					int idx_x = (i * component_count) + components[e.componentID];
 					int idx_y = (elements[e.componentID])[e.value];
 
-					out[out_index].headers[idx_x].messageID = task.message.messageID;
-					out[out_index].headers[idx_x].itemID = lineToItem[lineID];
-					out[out_index].headers[idx_x].lineID = lineID;
+					//out[out_index].headers[idx_x].messageID = task.message.messageID;
+					//out[out_index].headers[idx_x].itemID = lineToItem[lineID];
+					//out[out_index].headers[idx_x].lineID = lineID;
 
 					// eachforach acuquired, put out in each acuiqred slot
-					out[out_index].data[idx_x][idx_y] = 1;
+					//out[out_index].data[idx_x][idx_y] = 1;
+					out[out_index].data[(idx_y * 255) + idx_x] = 1;
 				}
 
 				++out_index;
@@ -257,7 +296,10 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 			
 		//};
 	}
+}
 
+DWORD WINAPI compute::cpu::cpu::background(thread *bt)
+{
 	return (DWORD)0;
 }
 
