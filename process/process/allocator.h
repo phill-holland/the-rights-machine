@@ -6,7 +6,7 @@
 namespace allocator
 {
 
-	template <class X, long Y> class allocator : public queue::queue<X>
+	template <class X, long Y> class allocator : public queue::in<X>//queue<X>
 	{
 		template <class X, long Y> class block
 		{
@@ -15,7 +15,7 @@ namespace allocator
 			X **data;
 
 		private:					
-			long write, read;
+			long write;// , read;
 
 			bool init;
 
@@ -30,7 +30,7 @@ namespace allocator
 			{
 				init = false; cleanup();
 
-				write = 0L; read = 0L;
+				write = 0L; //read = 0L;
 				next = NULL; previous = NULL;
 
 				data = new X*[Y];
@@ -50,10 +50,10 @@ namespace allocator
 				return (write >= Y);
 			}
 
-			bool isempty()
-			{
-				return (read == write);
-			}
+			//bool isempty()
+			//{
+			//	return (read == write);
+			//}
 
 			bool set(X &source)
 			{
@@ -63,15 +63,21 @@ namespace allocator
 				return true;
 			}
 
-			bool get(X &destination)
-			{
+			//bool get(X &destination) { return false; }
+			/*{
 				if (read >= Y) return false;
 				destination = *data[read++];
 
 				return true;
+			}*/
+
+			X &get(long index)
+			{
+				if ((index < 0) || (index >= Y)) return X();
+				return *data[index];
 			}
 
-			virtual bool flush() { return true; }
+			//virtual bool flush() { return true; }
 		
 			void copy(block const &source)
 			{
@@ -82,7 +88,7 @@ namespace allocator
 						*data[i] = *(source.data[i]);
 					}
 
-					read = 0L;
+					//read = 0L;
 					write = source.write;
 				}
 			}
@@ -96,8 +102,7 @@ namespace allocator
 
 			X& operator[](int index)
 			{
-				if ((index < 0) || (index >= Y)) return X();
-				return *data[index];
+				return get((long)index);
 			}
 
 		protected:
@@ -120,7 +125,24 @@ namespace allocator
 			}
 		};
 
-		block<X, Y> *head, *tail, *read;
+		template <class X, long Y> class cursor
+		{
+		public:
+			block<X, Y> *current;
+			long index, normalised;
+
+		public:
+			cursor()
+			{
+				current = NULL;
+				index = 0;
+				normalised = 0;
+			}
+		};
+
+		block<X, Y> *head, *tail;// , *read;
+
+		cursor accessor;
 
 		long elements;
 		long counter;
@@ -138,15 +160,16 @@ namespace allocator
 		{
 			init = false; cleanup();
 
-			head = NULL; tail = NULL; read = NULL;
+			head = NULL; tail = NULL;// read = NULL;
 			elements = 0L;
 
 			init = true;
 		}
 
-		virtual void clear() { }
+		//virtual void clear() { }
 
-		bool get(X &destination)
+		//bool get(X &destination) { return false; }
+		/*
 		{
 			if (read == NULL) return false;
 
@@ -154,6 +177,52 @@ namespace allocator
 			if (read == NULL) return false;
 
 			return read->get(destination);
+		}
+		*/
+		long count() { return elements; }
+
+		X &get(long index)
+		{
+			if ((accessor.current == NULL) || (access.index + 1L != index))
+			{
+				if ((index >= 0) && (index < elements))
+				{
+					div_t t = div(Y, (long)index);
+
+					int counter = 0;
+					block<X, Y> *src = source.head;
+					while ((src != NULL) && (counter < t.quot))
+					{
+						src = src.next;
+						++counter;
+					};
+
+					if (src != NULL)
+					{
+						accessor.index = t.quot + t.rem;
+						accessor.normalised = t.rem;
+						accessor.current = src;
+						return (*src)[t.rem];
+					}
+				}
+			}
+			else
+			{
+				if (accessor.index + 1L == index)
+				{
+					++accessor.index;
+					++accessor.normalised;
+					if (accessor.normalised >= Y)
+					{
+						accessor.normalised = 0;
+						accessor.current = accessor.current->next;
+					}
+
+					return accessor.(*current)[accessor.normalised];
+				}
+			}
+
+			return X();
 		}
 
 		bool set(X &source)
@@ -164,7 +233,7 @@ namespace allocator
 				if (head == NULL) return false;
 				if (!head->initalised()) return false;
 
-				tail = head; read = head;
+				tail = head; //read = head;
 			}
 
 			if (tail->isfull())
@@ -184,7 +253,7 @@ namespace allocator
 			return true;
 		}
 
-		virtual bool flush() { return true; }
+		//virtual bool flush() { return true; }
 
 		bool copy(allocator const &source)
 		{
@@ -212,22 +281,7 @@ namespace allocator
 
 		X& operator[](int index)
 		{
-			if ((index >= 0) && (index < elements))
-			{
-				div_t t = div(Y, (long)index);
-
-				int counter = 0;
-				block<X, Y> *src = source.head;
-				while ((src != NULL) && (counter < t.quot))
-				{
-					src = src.next;
-					++counter;
-				};
-
-				if (src != NULL) return (*src)[t.rem];
-			}
-
-			return X();
+			return get((long)index);
 		}
 
 	protected:
