@@ -87,6 +87,19 @@ namespace compute
 			void cleanup();
 		};
 
+		class compute_unit
+		{
+			block in;
+			block out[255];
+
+		public:
+			void push(data::message::message &message) { }
+
+		// when compute_unit full, or time elapsed waiting for it to be full,
+		// hit the process button !!!!!
+
+
+		};
 		/*
 		class inlines
 		{
