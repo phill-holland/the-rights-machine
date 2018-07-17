@@ -24,7 +24,30 @@ void compute::cpu::block::clear()
 
 bool add(const data::line::line &source)
 {
+	// add positive line
+	// then add negative line
+
+	// then a function for comparing blocks
+
+
+	// really need to add by item
+
 	return false;
+}
+
+void compute::cpu::block::minus(block &right)
+{
+	unsigned long offset = 0UL;
+
+	for (unsigned long y = 0UL; y < height; ++y)
+	{		
+		for (unsigned long x = 0UL; x < width; ++x)
+		{
+			data[offset + x] -= right.data[offset + x];
+		}
+
+		offset += width;
+	}
 }
 
 void compute::cpu::block::makeNull()
@@ -87,54 +110,86 @@ void compute::cpu::cpu::process()
 		{
 			data::line::line ln_in = task.message.lines[i];
 
-			if (ln_in.typeID == 0)
+			// check query dates
+			// ***
+			bool invalid = false;
+
+			for (long k = 0; k < task.message.queries.count(); ++k)
 			{
-				data::line::line ln_out;
-				bool overlap = false;
-				//while (task.message.lines.get(ln_out))
-				for (long j = 0L; j < task.message.lines.count(); ++j) // hmmmm, cursor will fuck up????
+				data::query::query q = task.message.queries[k];
+
+				// note I removed the ! at the beginning
+				if ((q.start > ln_in.end) || (ln_in.start > q.end))
 				{
-					if (j != i)
+					invalid = true;
+				}
+			}
+			// ***
+
+			if (!invalid)
+			{
+				if (ln_in.typeID == 0)
+				{
+					data::line::line ln_out;
+					bool overlap = false;
+					//while (task.message.lines.get(ln_out))
+					for (long j = 0L; j < task.message.lines.count(); ++j) // hmmmm, cursor will fuck up????
 					{
-						data::line::line ln_out = task.message.lines[j];
-						if (ln_out.typeID >= 1)
+						if (j != i)
 						{
-							if (!((ln_in.start > ln_out.end) || (ln_out.start > ln_in.end)))
+							data::line::line ln_out = task.message.lines[j];
+							if (ln_out.typeID >= 1)
 							{
-								if ((ln_in.start != ln_out.start) && (ln_in.end != ln_out.end))
+								if (!((ln_in.start > ln_out.end) || (ln_out.start > ln_in.end)))
 								{
-									datetime a = ln_in.start;
-									datetime b = ln_in.end;
-									datetime c = ln_out.start;
-									datetime d = ln_out.end;
+									if ((ln_in.start != ln_out.start) && (ln_in.end != ln_out.end))
+									{
+										datetime a = ln_in.start;
+										datetime b = ln_in.end;
+										datetime c = ln_out.start;
+										datetime d = ln_out.end;
 
-									sort(a, b, c, d);
+										sort(a, b, c, d);
 
-									lines[ln_out_ptr].start = a;
-									lines[ln_out_ptr].end = b;
-									lines[ln_out_ptr].lineID = ln_in.lineID;
-									++ln_out_ptr;
+										lines[ln_out_ptr].start = a;
+										lines[ln_out_ptr].end = b;
+										lines[ln_out_ptr].lineID = ln_in.lineID;
+										++ln_out_ptr;
 
-									lines[ln_out_ptr].start = b;
-									lines[ln_out_ptr].end = c;
-									lines[ln_out_ptr].lineID = ln_in.lineID;
-									++ln_out_ptr;
+										lines[ln_out_ptr].start = b;
+										lines[ln_out_ptr].end = c;
+										lines[ln_out_ptr].lineID = ln_in.lineID;
+										++ln_out_ptr;
 
-									lines[ln_out_ptr].start = c;
-									lines[ln_out_ptr].end = d;
-									lines[ln_out_ptr].lineID = ln_in.lineID;
-									++ln_out_ptr;
+										lines[ln_out_ptr].start = c;
+										lines[ln_out_ptr].end = d;
+										lines[ln_out_ptr].lineID = ln_in.lineID;
+										++ln_out_ptr;
 
-									overlap = true;
+										overlap = true;
+									}
 								}
 							}
 						}
-					}
-				};
+					};
 
-				if (!overlap)
+					if (!overlap)
+					{
+						lines[ln_out_ptr++] = ln_in;
+					}
+				}
+				else if (ln_in.typeID == 1)
 				{
-					lines[ln_out_ptr++] = ln_in;
+					// add out lines to special array
+
+					// also need to populate query into block too
+					// for comparison
+
+					// if out block don't match query dates
+					// fuck it
+
+					// if out block doesn't overlap any in blocks
+					// fuck it too
 				}
 			}
 		};
@@ -236,7 +291,8 @@ void compute::cpu::cpu::process()
 				//in.headers[idx_x].lineID = lineID;
 
 				//in.data[idx_x][idx_y] = 1;
-				in.data[(idx_y * 255) + idx_x] = 1;
+				//in.data[(idx_y * 255) + idx_x] = 1;
+				in.set(idx_x, idx_y);
 
 				++in_index;
 			}
@@ -253,7 +309,8 @@ void compute::cpu::cpu::process()
 
 					// eachforach acuquired, put out in each acuiqred slot
 					//out[out_index].data[idx_x][idx_y] = 1;
-					out[out_index].data[(idx_y * 255) + idx_x] = 1;
+					//out[out_index].data[(idx_y * 255) + idx_x] = 1;
+					out->set(idx_x, idx_y);
 				}
 
 				++out_index;
@@ -262,6 +319,23 @@ void compute::cpu::cpu::process()
 			//int index = c.lineID
 		};
 		
+
+		for (int i = 0; i < out_index; ++i)
+		{
+			in.minus(out[i]);
+		}
+
+		for (int i = 0; i < task.message.queries.count(); ++i)
+		{
+			data::query::query query = task.message.queries[i];
+
+			block q;
+
+			// populate block with current query
+			// then compare with in block!!!!
+
+		}
+
 		// NEXT LOOP THROUGH OUTPUTS
 		// AND SUBTRACT FROM INPUTS
 

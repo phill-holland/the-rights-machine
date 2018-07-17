@@ -38,7 +38,7 @@ namespace compute
 
 			// add a function to lines in message?
 			//void populate(int lineID, block *output);
-		public:
+		//public:
 			//header *headers;// [255];
 			int *data;// [255][255];
 
@@ -58,6 +58,8 @@ namespace compute
 				if ((x >= width) || (y >= height)) return;
 				data[(y * height) + x] = 1;
 			}
+
+			void minus(block &right);
 			//bool add(const data::line::line &source, const data::c);
 		//protected:
 			//void split(void *lines)
