@@ -60,8 +60,90 @@ void compute::cpu::block::cleanup()
 	if (data != NULL) delete data;
 }
 
+void compute::cpu::processor::reset(unsigned long width, unsigned long height)
+{
+	init = false; cleanup();
 
+	this->width = width; this->height = height;
 
+	in = new block(width, height);
+	if (in == NULL) return;
+	if (!in->initalised()) return;
+
+	inputs = new data::line::line[width];
+	if (inputs == NULL) return;
+
+	outputs = new data::line::line[width];
+	if (outputs == NULL) return;
+
+	input_ptr = output_ptr = 0UL;
+
+	init = true;
+}
+
+void compute::cpu::processor::push(data::message::message &message)
+{
+	input_ptr = output_ptr = 0UL;
+
+	for (unsigned long i = 0L; i < width; ++i)
+	{
+		inputs[i].clear();
+		outputs[i].clear();
+	}
+}
+
+/*
+bool compute::cpu::processor::split(data::line::line &in, data::line::line &out)
+{
+	if (!((in.start > out.end) || (out.start > in.end)))
+	{
+		if ((in.start != out.start) && (in.end != out.end))
+		{
+			datetime a = in.start;
+			datetime b = in.end;
+			datetime c = out.start;
+			datetime d = out.end;
+
+			sort(a, b, c, d);
+
+			//inputs[input_ptr] = data::line::line() = { start = a; }
+			inputs[input_ptr].start = a;
+			inputs[input_ptr].end = b;
+			inputs[input_ptr].lineID = in.lineID;
+			++input_ptr;
+
+			lines[ln_out_ptr].start = b;
+			lines[ln_out_ptr].end = c;
+			lines[ln_out_ptr].lineID = in.lineID;
+			++ln_out_ptr;
+
+			lines[ln_out_ptr].start = c;
+			lines[ln_out_ptr].end = d;
+			lines[ln_out_ptr].lineID = in.lineID;
+			++ln_out_ptr;
+
+			return true;
+		}
+	}
+
+	return false;
+}
+*/
+void compute::cpu::processor::makeNull()
+{
+	in = NULL;
+	inputs = NULL;
+	outputs = NULL;
+}
+
+void compute::cpu::processor::cleanup()
+{
+	if (outputs != NULL) delete outputs;
+	if (inputs != NULL) delete inputs;
+	if (in != NULL) delete in;
+}
+
+/*
 void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
 {
 	auto swap = [](datetime &a, datetime &b)
@@ -81,7 +163,7 @@ void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
 		if (d < c) { swap(c, d); ++swaps; }
 	} while (swaps > 0);
 }
-
+*/
 void compute::cpu::cpu::process()
 {
 	::compute::task task;

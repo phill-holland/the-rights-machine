@@ -1,3 +1,4 @@
+#include <tuple>
 #include "fifo.h"
 #include "components.h"
 #include "string.h"
@@ -15,6 +16,9 @@ namespace data
 		class line : public json
 		{
 		public:
+			enum TYPE { in = 0, out = 1 };
+
+		public:
 			int lineID;
 			int itemID;
 			datetime start;
@@ -28,11 +32,22 @@ namespace data
 			line(line const &source) { clear(); copy(source); }
 
 			void clear();
-			void copy(line const &source);
 
+			bool overlapped(line &source);
+
+			std::tuple<line, line, line> split(line &source);
+
+			data::line::line spawn(datetime &start, datetime &end);
+
+		public:
+			void copy(line const &source);
+			
 		public:
 			string identifier() { return string("LINE"); }
 			bool add(custom::pair &source);
+
+		protected:
+			std::tuple<datetime, datetime, datetime, datetime> sort(datetime a, datetime b, datetime c, datetime d);
 
 		public:
 			line& operator=(const line& source)
@@ -41,41 +56,6 @@ namespace data
 				return *this;
 			}
 		};
-
-		/*
-		class line : public base
-		{
-		public:
-			static const long MAX = 5L;
-
-		private:
-			bool init;
-
-		public:
-			data::components::components<MAX> *components;
-
-		public:
-			line() { makeNull(); reset(); }
-			line(line const &source) { makeNull(); reset(); copy(source); }
-			~line() { cleanup(); }
-
-			void reset();
-
-			void clear() override;
-
-			void copy(line const &source);
-
-		public:
-			line& operator=(const line& source)
-			{
-				this->copy((line&)source);
-				return *this;
-			}
-
-		protected:
-			void makeNull();
-			void cleanup();
-		};*/
 	};
 };
 

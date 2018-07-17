@@ -87,18 +87,41 @@ namespace compute
 			void cleanup();
 		};
 
-		class compute_unit
+		class processor
 		{
-			block in;
-			block out[255];
+			const static unsigned long WIDTH = 255;
+			const static unsigned long HEIGHT = 255;
+
+		private:
+			unsigned long width, height;
+			
+			unsigned long input_ptr, output_ptr;
+
+			block *in;
+
+			data::line::line *inputs;
+			data::line::line *outputs;
+			
+			bool init;
 
 		public:
-			void push(data::message::message &message) { }
+			processor(unsigned long width, unsigned long height) { makeNull(); reset(width, height); }
+			~processor() { cleanup(); }
+			
+			bool initalised() { return init; }
+			void reset(unsigned long width, unsigned long height);
+
+			void push(data::message::message &message);
+
+		//protected:
+			//bool split(data::line::line &in, data::line::line &out);
 
 		// when compute_unit full, or time elapsed waiting for it to be full,
 		// hit the process button !!!!!
 
-
+		protected:
+			void makeNull();
+			void cleanup();
 		};
 		/*
 		class inlines
@@ -116,7 +139,7 @@ namespace compute
 			bool init;
 
 		protected:
-			void sort(datetime &a, datetime &b, datetime &c, datetime &d);
+			//void sort(datetime &a, datetime &b, datetime &c, datetime &d);
 			void process();
 
 		public:
