@@ -1,6 +1,7 @@
 #include "string.h"
 #include "datetime.h"
 #include "json.h"
+#include "zone.h"
 
 #if !defined(__QUERY)
 #define __QUERY
@@ -11,13 +12,13 @@ namespace data
 {
 	namespace query
 	{
-		class query : public json
+		class query : public json, public zone::zone
 		{
 		public:
 			int queryID;
 			int messageID;
-			datetime start;
-			datetime end;
+			//datetime start;
+			//datetime end;
 
 		public:
 			query() { clear(); }
@@ -25,6 +26,9 @@ namespace data
 			query(query const &source) { clear(); copy(source); }
 
 			void clear();
+
+			//query spawn(datetime &start, datetime &end);
+
 			void copy(query const &source);
 
 		public:

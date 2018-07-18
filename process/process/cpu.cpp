@@ -81,7 +81,7 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 	init = true;
 }
 
-void compute::cpu::processor::push(data::message::message &message)
+void compute::cpu::processor::clear()
 {
 	input_ptr = output_ptr = 0UL;
 
@@ -89,6 +89,27 @@ void compute::cpu::processor::push(data::message::message &message)
 	{
 		inputs[i].clear();
 		outputs[i].clear();
+	}
+
+}
+
+void compute::cpu::processor::push(data::message::message &message)
+{
+	clear();
+
+	for (long i = 0L; i < message.lines.count(); ++i)
+	{
+		data::line::line source = message.lines[i];
+
+		for (long j = 0L; j < message.queries.count(); ++j)
+		{
+			data::query::query query = message.queries[j];
+
+			if (source.overlapped(query))
+			{
+				// if in, or out??
+			}
+		}
 	}
 }
 
@@ -231,7 +252,9 @@ void compute::cpu::cpu::process()
 										datetime c = ln_out.start;
 										datetime d = ln_out.end;
 
-										sort(a, b, c, d);
+										// ****
+										//sort(a, b, c, d);
+										// ****
 
 										lines[ln_out_ptr].start = a;
 										lines[ln_out_ptr].end = b;

@@ -1,8 +1,8 @@
-#include <tuple>
 #include "fifo.h"
 #include "components.h"
 #include "string.h"
 #include "datetime.h"
+#include "zone.h"
 
 #if !defined(__LINE)
 #define __LINE
@@ -13,7 +13,7 @@ namespace data
 {
 	namespace line
 	{
-		class line : public json
+		class line : public json, public zone::zone
 		{
 		public:
 			enum TYPE { in = 0, out = 1 };
@@ -21,8 +21,8 @@ namespace data
 		public:
 			int lineID;
 			int itemID;
-			datetime start;
-			datetime end;
+			//datetime start;
+			//datetime end;
 			int exclusivityID;
 			int typeID;
 
@@ -33,9 +33,10 @@ namespace data
 
 			void clear();
 
-			bool overlapped(line &source);
+			//bool overlapped(line &source);
 
-			std::tuple<line, line, line> split(line &source);
+			//std::tuple<line, line, line> split(line &source);
+			//std::vector<line> split(line &source);
 
 			data::line::line spawn(datetime &start, datetime &end);
 
@@ -46,8 +47,8 @@ namespace data
 			string identifier() { return string("LINE"); }
 			bool add(custom::pair &source);
 
-		protected:
-			std::tuple<datetime, datetime, datetime, datetime> sort(datetime a, datetime b, datetime c, datetime d);
+		//protected:
+			//std::tuple<datetime, datetime, datetime, datetime> sort(datetime a, datetime b, datetime c, datetime d);
 
 		public:
 			line& operator=(const line& source)

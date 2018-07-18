@@ -8,6 +8,17 @@ void data::query::query::clear()
 	end.clear();
 }
 
+/*
+data::query::query data::query::query::spawn(datetime &start, datetime &end)
+{
+	data::query::query result(*this);
+
+	result.start = start;
+	result.end = end;
+
+	return result;
+}
+*/
 bool data::query::query::add(custom::pair &source)
 {
 	if (string("start").icompare(source.name))

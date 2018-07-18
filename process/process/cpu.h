@@ -111,6 +111,8 @@ namespace compute
 			bool initalised() { return init; }
 			void reset(unsigned long width, unsigned long height);
 
+			void clear();
+
 			void push(data::message::message &message);
 
 		//protected:

@@ -1,4 +1,5 @@
 #include "line.h"
+#include <tuple>
 
 void data::line::line::clear()
 {
@@ -10,16 +11,38 @@ void data::line::line::clear()
 	typeID = 0;
 }
 
+/*
 bool data::line::line::overlapped(line &source)
 {
 	return (!((start > source.end) || (source.start > end)));
 }
 
-std::tuple<data::line::line, data::line::line, data::line::line> data::line::line::split(line &source)
+//std::tuple<data::line::line, data::line::line, data::line::line> data::line::line::split(line &source)
+std::vector<data::line::line> data::line::line::split(line &source)
 {
-	std::tuple<datetime, datetime, datetime, datetime> result = sort(start, end, source.start, source.end);
-	return std::tuple<data::line::line, data::line::line, data::line::line>(spawn(std::get<0>(result), std::get<1>(result)), spawn(std::get<1>(result), std::get<2>(result)), spawn(std::get<2>(result), std::get<3>(result)));
+	std::vector<data::line::line> result;
+
+	if ((start == source.start) && (end == source.end))
+	{
+		result.push_back(*this);
+		return result;
+	}
+
+	std::tuple<datetime, datetime, datetime, datetime> dates = sort(start, end, source.start, source.end);
+
+	datetime start = std::get<0>(dates), end = std::get<1>(dates);
+	if (start != end) result.push_back(spawn(start, end));
+
+	datetime start = std::get<1>(dates), end = std::get<2>(dates);
+	if (start != end) result.push_back(spawn(start, end));
+
+	datetime start = std::get<2>(dates), end = std::get<3>(dates);
+	if (start != end) result.push_back(spawn(start, end));
+
+	return result;
+	//return std::tuple<data::line::line, data::line::line, data::line::line>(spawn(std::get<0>(result), std::get<1>(result)), spawn(std::get<1>(result), std::get<2>(result)), spawn(std::get<2>(result), std::get<3>(result)));
 }
+*/
 
 void data::line::line::copy(line const &source)
 {
@@ -70,6 +93,7 @@ bool data::line::line::add(custom::pair &source)
 	return false;
 }
 
+/*
 std::tuple<datetime, datetime, datetime, datetime> data::line::line::sort(datetime a, datetime b, datetime c, datetime d)
 {
 	auto swap = [](datetime &a, datetime &b)
@@ -91,3 +115,4 @@ std::tuple<datetime, datetime, datetime, datetime> data::line::line::sort(dateti
 
 	return std::tuple<datetime, datetime, datetime, datetime>(a, b, c, d);
 }
+*/
