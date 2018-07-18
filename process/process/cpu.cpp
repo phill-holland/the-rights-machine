@@ -1,6 +1,7 @@
 #include "cpu.h"
 #include "string.h"
 #include <unordered_map>
+#include <vector>
 
 void compute::cpu::block::reset(unsigned long width, unsigned long height)
 {
@@ -107,9 +108,43 @@ void compute::cpu::processor::push(data::message::message &message)
 
 			if (source.overlapped(query))
 			{
-				// if in, or out??
+				if (source.typeID == (int)data::line::line::TYPE::in)
+				{
+					for (long k = 0L; k < message.lines.count(); ++k)
+					{
+						data::line::line output = message.lines[k];
+						if (output.typeID == (int)data::line::line::TYPE::out)
+						{
+							std::vector<zone::zone> result = source.split(output);
+							for (long l = 0L; l < result.size; ++l)
+							{
+								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
+							}
+						}
+					}
+				}
+				else if (source.typeID == (int)data::line::line::TYPE::out)
+				{
+					outputs[output_ptr++].copy(source);
+				}
 			}
 		}
+	}
+
+	if (input_ptr > 0L)
+	{
+		// loop through all elements, add to hash map
+		// check element is in inputs[]
+
+		// in allocators, for flush function
+		// add name, index to hashmap
+
+		// public: int map(string name);
+		// protected: void map(string name, int key); ..??
+	}
+
+	if(output_ptr > 0L)
+	{
 	}
 }
 

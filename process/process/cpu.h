@@ -6,7 +6,6 @@
 #include "task.h"
 #include "factory.h"
 #include "thread.h"
-
 #include "line.h"
 
 #if !defined(__CPU)
