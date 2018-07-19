@@ -1,6 +1,6 @@
 #include "component.h"
-//#include "fifo.h"
 #include "allocator.h"
+#include "map.h"
 
 #if !defined(__COMPONENTS)
 #define __COMPONENTS
@@ -9,19 +9,7 @@ namespace data
 {
 	namespace components
 	{
-		/*
-		class base : public json
-		{
-		public:
-			base() { }
-			base(json *parent) { clear(); json::parent(parent); }
-
-			void clear() { }
-			string identifier() { return string("COMPONENTS"); }
-			bool add(custom::pair &source) { return false; }
-		};
-		*/
-		template <long Y> class components : public allocator::allocator<component::component, Y>, public json
+		template <long Y> class components : public allocator::allocator<component::component, Y>, public json, public mapping::mapper
 		{
 			long index;
 
@@ -42,13 +30,17 @@ namespace data
 			bool flush() override
 			{
 				bool result = ::allocator::allocator<component::component, Y>::set(temp);
+
+				push(temp.name);
 				temp.clear();
+				
 				return result;
 			}
 			
 			void clear() 
 			{ 
 				temp.clear();
+				mapper::empty();
 				reset();
 			} 
 
@@ -59,13 +51,6 @@ namespace data
 				return temp.add(source);
 			}
 		};
-		/*
-		template <long Y> class components : public custom::fifo<component::component, Y>, public base
-		{
-		public:
-			void clear() override { this->empty(); }
-		};
-		*/
 	};
 };
 

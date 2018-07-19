@@ -1,7 +1,7 @@
 #include "item.h"
-//#include "fifo.h"
 #include "json.h"
 #include "allocator.h"
+#include "map.h"
 
 #if !defined(__ITEMS)
 #define __ITEMS
@@ -10,19 +10,7 @@ namespace data
 {
 	namespace items
 	{
-		/*
-		class base : public json
-		{
-		public:
-			base() { }
-			base(json *parent) { clear(); json::parent(parent); }
-
-			virtual void clear() { }
-			string identifier() { return string("ITEMS"); }
-			bool add(custom::pair &source) { return false; }
-		};
-		*/
-		template <long Y> class items : public allocator::allocator<item::item, Y>, public json
+		template <long Y> class items : public allocator::allocator<item::item, Y>, public json, public mapping::mapper
 		{
 			long index;
 
@@ -43,13 +31,17 @@ namespace data
 			bool flush() override
 			{
 				bool result = ::allocator::allocator<item::item, Y>::set(temp);
+
+				push(temp.name);
 				temp.clear();
+				
 				return result;
 			}
 
 			void clear()
 			{
 				temp.clear();
+				mapper::empty();
 				reset();
 			}
 
@@ -60,18 +52,6 @@ namespace data
 				return temp.add(source);
 			}
 		};
-		//template <long Y> class items : public allocator::allocator<::data::item::item, Y>//, public base
-		//{
-		//public:
-			//void clear() override { this->reset(); }
-		//};
-		/*
-		template <long Y> class items : public custom::fifo<::data::item::item, Y>, public base
-		{
-		public:
-			void clear() override { this->empty(); }
-		};
-		*/
 	};
 };
 

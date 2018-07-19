@@ -1,5 +1,4 @@
 #include "line.h"
-//#include "fifo.h"
 #include "json.h"
 #include "allocator.h"
 
@@ -10,19 +9,6 @@ namespace data
 {
 	namespace lines
 	{
-		/*
-		class base : public json
-		{
-		public:
-			base() { }
-			base(json *parent) { clear(); json::parent(parent); }
-
-			virtual void clear() { }
-			string identifier() { return string("LINES"); }
-			bool add(custom::pair &source) { return false; }
-		};
-		*/
-
 		template <long Y> class lines : public allocator::allocator<line::line, Y>, public json
 		{
 			long index;
@@ -61,12 +47,6 @@ namespace data
 				return temp.add(source);
 			}
 		};
-		/*
-		template <long Y> class lines : public custom::fifo<::data::line::line, Y>, public base
-		{
-		public:
-			void clear() override { this->empty(); }
-		};*/
 	};
 };
 
