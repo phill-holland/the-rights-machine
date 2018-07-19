@@ -48,6 +48,8 @@ namespace mapping
 		{
 			return forward.at(name);
 		}
+
+		int max() { return forward.size; }
 	};
 };
 
