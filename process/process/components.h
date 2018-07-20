@@ -29,9 +29,10 @@ namespace data
 
 			bool flush() override
 			{
-				bool result = ::allocator::allocator<component::component, Y>::set(temp);
+				push(temp.name, temp.componentID, temp.lineID);
 
-				push(temp.name);
+				bool result = ::allocator::allocator<component::component, Y>::set(temp);
+				
 				temp.clear();
 				
 				return result;
@@ -39,6 +40,7 @@ namespace data
 			
 			void clear() 
 			{ 
+				index = 0L;
 				temp.clear();
 				mapper::empty();
 				reset();

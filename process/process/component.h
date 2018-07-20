@@ -14,7 +14,6 @@ namespace data
 		public:
 			int componentID;
 			int lineID;
-			//string value;
 			string name;
 
 		public:
@@ -36,42 +35,6 @@ namespace data
 				return *this;
 			}
 		};
-
-		/*
-		class component : public base
-		{
-		public:
-			static const long MAX = 5L;
-
-		private:
-			bool init;
-
-		public:
-			data::elements::elements<MAX> *elements;
-
-		public:
-			component() { makeNull();  reset(); }
-			component(component const &source) { clear(); copy(source); }
-			~component() { cleanup(); }
-
-			void reset();
-
-			void clear() override;
-
-			void copy(component const &source);
-
-		public:
-			component& operator=(const component& source)
-			{
-				this->copy((component&)source);
-				return *this;
-			}
-
-		protected:
-			void makeNull();
-			void cleanup();
-		};
-		*/
 	};
 };
 

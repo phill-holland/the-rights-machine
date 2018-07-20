@@ -36,6 +36,8 @@ namespace data
 
 			void clear()
 			{
+				index = 0L;
+
 				temp.clear();
 				reset();
 			}

@@ -12,7 +12,7 @@ namespace data
 	{
 		template <long Y> class elements : public allocator::allocator<element::element, Y>, public json, public mapping::mapper
 		{
-			long index;
+			long index = 0L;
 
 		public:
 			element::element temp;
@@ -29,10 +29,11 @@ namespace data
 			}
 
 			bool flush() override
-			{				
+			{	
+				push(temp.value, temp.elementID, temp.componentID);
+
 				bool result = ::allocator::allocator<element::element, Y>::set(temp);
-				
-				push(temp.value);
+								
 				temp.clear();
 
 				return result;
@@ -40,6 +41,7 @@ namespace data
 
 			void clear() 
 			{ 
+				index = 0L;
 				temp.clear();
 				mapper::empty();
 				reset();				

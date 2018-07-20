@@ -133,6 +133,38 @@ void compute::cpu::processor::push(data::message::message &message)
 
 	if (input_ptr > 0L)
 	{
+		block binputs[15];  //set component horizontally
+
+		// per element, also need to map by parent / component
+
+		// item, lineID
+		for (long i = 0L; i < message.elements.count(); ++i)
+		{
+			data::element::element temp = message.elements[i];
+			long y = 0L; // temp.lineID
+			//if(temp.lineID in inputs) then OK
+
+			// ****
+			// lookup lineID in inputs and get position!!
+			// hmmm, not quite
+			// ****
+			// need another mapping, from compoentID to name to index
+			// elementID needs to be normalised - each different component to start from zero
+			int a = message.components.map(message.components.identity(temp.componentID));
+			int b = message.elements.map(temp.value);
+			binputs[a].set(b, y);
+			// if lineID in inputs
+			//temp.componentID
+		}
+
+		//int x_idx = item_idx + 
+		// calculate in-lines per item
+		// calculate out-lines per item
+		//items->lines->components->elements
+		//for (long i = 0L; i < message.items.count(); ++i)
+		//{
+		//}
+
 		// loop through all elements, add to hash map
 		// check element is in inputs[]
 
