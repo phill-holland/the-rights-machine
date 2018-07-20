@@ -34,43 +34,6 @@ namespace data
 				return *this;
 			}
 		};
-
-		/*
-		class item : public base
-		{
-		public:
-			static const long MAX = 10L;
-
-		private:
-			bool init;
-
-		public:
-			data::lines::lines<MAX> *lines;
-
-		public:
-			item() { makeNull(); reset(); }
-			item(item const &source) { makeNull(); reset(); copy(source); }
-			~item() { cleanup(); }
-
-			bool initalised() { return init; }
-			void reset();
-
-			void clear() override;
-
-			void copy(item const &source);
-
-		public:
-			item& operator=(const item& source)
-			{
-				this->copy((item&)source);
-				return *this;
-			}
-
-		protected:
-			void makeNull();
-			void cleanup();
-		};
-		*/
 	};
 };
 

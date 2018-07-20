@@ -1,10 +1,48 @@
 #include "item.h"
+#include "row.h"
 
 #if !defined(__GRID)
 #define __GRID
 
-namespace grid
+namespace compute
 {
+	class grid
+	{
+	protected:
+		const static unsigned long WIDTH = 255;
+		const static unsigned long HEIGHT = 255;
+
+	private:
+		unsigned long width, height;
+
+		bool init;
+
+		int *data;
+
+	public:
+		grid(unsigned long width = WIDTH, unsigned long height = HEIGHT) { makeNull(); reset(width, height); }
+		~grid() { cleanup(); }
+
+		bool initalised() { return init; }
+		void reset(unsigned long width, unsigned long height);
+
+		void clear();
+
+		void set(unsigned long x, unsigned long y)
+		{
+			if ((x >= width) || (y >= height)) return;
+			data[(y * height) + x] = 1;
+		}
+
+		void minus(grid &right);
+	
+		void push(row &source);
+
+	protected:
+		void makeNull();
+		void cleanup();
+	};
+
 	// need two of these, the have, and have not's for subtraction
 
 	// grid of components
@@ -17,6 +55,7 @@ namespace grid
 	// in gpu land, memory is GPU memory
 	// gpu -- may not need to copy data into system
 	// just call "set" function to populate -- on/off
+	/*
 	enum type { CPU = 0, GPU = 1 };
 
 	template <type X> class grid
@@ -25,8 +64,7 @@ namespace grid
 		virtual bool insert(long index, data::item::item &item) = 0;
 		virtual bool fetch(long index, data::item::item &item) = 0;
 
-		virtual bool subtract(grid<X> &right) = 0;
-	};
+	};*/
 };
 
 #endif

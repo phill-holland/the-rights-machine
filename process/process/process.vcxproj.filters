@@ -177,6 +177,12 @@
     <ClInclude Include="map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="row.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="header.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -319,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="row.cpp">
+      <Filter>Source Files\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="header.cpp">
+      <Filter>Source Files\Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

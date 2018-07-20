@@ -3,71 +3,13 @@
 #include <unordered_map>
 #include <vector>
 
-void compute::cpu::block::reset(unsigned long width, unsigned long height)
-{
-	init = false; cleanup();
-
-	this->width = width;
-	this->height = height;
-
-	data = new int[width * height];
-	if (data == NULL) return;
-
-	clear();
-
-	init = true;
-}
-
-void compute::cpu::block::clear()
-{
-	memset(data, 0, sizeof(int) * width * height);
-}
-
-bool add(const data::line::line &source)
-{
-	// add positive line
-	// then add negative line
-
-	// then a function for comparing blocks
-
-
-	// really need to add by item
-
-	return false;
-}
-
-void compute::cpu::block::minus(block &right)
-{
-	unsigned long offset = 0UL;
-
-	for (unsigned long y = 0UL; y < height; ++y)
-	{		
-		for (unsigned long x = 0UL; x < width; ++x)
-		{
-			data[offset + x] -= right.data[offset + x];
-		}
-
-		offset += width;
-	}
-}
-
-void compute::cpu::block::makeNull()
-{
-	data = NULL;
-}
-
-void compute::cpu::block::cleanup()
-{
-	if (data != NULL) delete data;
-}
-
 void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 {
 	init = false; cleanup();
 
 	this->width = width; this->height = height;
 
-	in = new block(width, height);
+	in = new grid(width, height);
 	if (in == NULL) return;
 	if (!in->initalised()) return;
 
@@ -133,7 +75,7 @@ void compute::cpu::processor::push(data::message::message &message)
 
 	if (input_ptr > 0L)
 	{
-		block binputs[15];  //set component horizontally
+		grid binputs[15];  //set component horizontally
 
 		// per element, also need to map by parent / component
 
@@ -180,43 +122,6 @@ void compute::cpu::processor::push(data::message::message &message)
 	}
 }
 
-/*
-bool compute::cpu::processor::split(data::line::line &in, data::line::line &out)
-{
-	if (!((in.start > out.end) || (out.start > in.end)))
-	{
-		if ((in.start != out.start) && (in.end != out.end))
-		{
-			datetime a = in.start;
-			datetime b = in.end;
-			datetime c = out.start;
-			datetime d = out.end;
-
-			sort(a, b, c, d);
-
-			//inputs[input_ptr] = data::line::line() = { start = a; }
-			inputs[input_ptr].start = a;
-			inputs[input_ptr].end = b;
-			inputs[input_ptr].lineID = in.lineID;
-			++input_ptr;
-
-			lines[ln_out_ptr].start = b;
-			lines[ln_out_ptr].end = c;
-			lines[ln_out_ptr].lineID = in.lineID;
-			++ln_out_ptr;
-
-			lines[ln_out_ptr].start = c;
-			lines[ln_out_ptr].end = d;
-			lines[ln_out_ptr].lineID = in.lineID;
-			++ln_out_ptr;
-
-			return true;
-		}
-	}
-
-	return false;
-}
-*/
 void compute::cpu::processor::makeNull()
 {
 	in = NULL;
@@ -231,27 +136,6 @@ void compute::cpu::processor::cleanup()
 	if (in != NULL) delete in;
 }
 
-/*
-void compute::cpu::cpu::sort(datetime &a, datetime &b, datetime &c, datetime &d)
-{
-	auto swap = [](datetime &a, datetime &b)
-	{
-		datetime temp = a;
-		a = b;
-		b = temp;
-	};
-
-	int swaps = 0;
-
-	do
-	{
-		swaps = 0;
-		if (b < a) { swap(a, b); ++swaps; }
-		if (c < b) { swap(b, c); ++swaps; }
-		if (d < c) { swap(c, d); ++swaps; }
-	} while (swaps > 0);
-}
-*/
 void compute::cpu::cpu::process()
 {
 	::compute::task task;
@@ -439,7 +323,7 @@ void compute::cpu::cpu::process()
 
 		// per item, total calculations
 		// in.lines.count * out.lines.count * 
-		block in, out[10];
+		grid in, out[10];
 		int in_index = 0, out_index = 0;
 
 		//data::element::element e;
@@ -501,7 +385,7 @@ void compute::cpu::cpu::process()
 		{
 			data::query::query query = task.message.queries[i];
 
-			block q;
+			//block q;
 
 			// populate block with current query
 			// then compare with in block!!!!
