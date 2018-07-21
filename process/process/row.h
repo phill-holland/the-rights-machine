@@ -5,8 +5,12 @@
 
 namespace compute
 {
+	class grid;
+
 	class row
 	{
+		friend class grid;
+
 	protected:
 		static const unsigned long LENGTH = 255L;
 

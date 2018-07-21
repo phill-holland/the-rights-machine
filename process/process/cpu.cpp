@@ -1,6 +1,7 @@
 #include "cpu.h"
 #include "string.h"
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 void compute::cpu::processor::reset(unsigned long width, unsigned long height)
@@ -40,6 +41,9 @@ void compute::cpu::processor::push(data::message::message &message)
 {
 	clear();
 
+	std::unordered_map<int, int> map;
+	int ptr = 0;
+
 	for (long i = 0L; i < message.lines.count(); ++i)
 	{
 		data::line::line source = message.lines[i];
@@ -52,6 +56,7 @@ void compute::cpu::processor::push(data::message::message &message)
 			{
 				if (source.typeID == (int)data::line::line::TYPE::in)
 				{
+					map[source.lineID] = ptr++;
 					for (long k = 0L; k < message.lines.count(); ++k)
 					{
 						data::line::line output = message.lines[k];
@@ -59,7 +64,7 @@ void compute::cpu::processor::push(data::message::message &message)
 						{
 							std::vector<zone::zone> result = source.split(output);
 							for (long l = 0L; l < result.size; ++l)
-							{
+							{								
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
 							}
 						}
@@ -73,13 +78,104 @@ void compute::cpu::processor::push(data::message::message &message)
 		}
 	}
 
-	if (input_ptr > 0L)
+	grid binputs[15];  //set component horizontally, this is a temp grid, that gets pushed into
+	// the master compute grids
+	row rows[255];
+
+	row output;
+	// max components
+	// max lines
+	int max_components = message.components.maximum();
+	int max_lines = map.size();
+
+	if (input_ptr > 0UL)
 	{
-		grid binputs[15];  //set component horizontally
+		for (long h = 0L; h < message.elements.count(); ++h)
+		{
+			data::element::element element = message.elements[h];
+			string component = message.components.map(element.componentID);
+			//int itemID = message.components.parent(element.componentID);			
+			int lineID = message.components.mapper::parent(element.componentID);// message.items.parent(itemID);
+			int itemID = message.lines.mapper::parent(lineID);
+			if (map.find(lineID) != map.end())
+			{
+				//unsigned long x = message.elements.map(element.value);
+				//unsigned long y = map[lineID];				
+				//binputs[message.components.map(component)].set(x, y);
+
+				unsigned long offset = (map[lineID] * max_components) + message.components.map(component);
+				if (offset < 255)
+				{
+					rows[offset].set(message.elements.map(element.value));
+					rows[offset].set(header(message.messageID, itemID, lineID));
+				}
+			}
+
+			for (unsigned long i = 0UL; i < (input_ptr * max_components); ++i)
+			{
+				in->push(rows[i]);
+			}
+		}
+
+		/*
+		for (std::unordered_set<int>::iterator itr = map.begin(); itr != map.end(); ++itr) 
+		{
+			int lineID = (*itr);
+			//int itemID = message.lines.origin(lineID);
+			header t;
+
+			t.lineID = lineID;
+		}
+		*/
+		//std::unordered_map<int> input_lookups;
+
+		//grid binputs[15];  //set component horizontally
+		//row output;
+
+		// map componentID to lineID
+		// map lineID to itemID
+		// map itemID to messageID
+
+		// map element.name to index, by component
+
+		for (long i = 0L; i < message.items.count(); ++i)
+		{
+			data::item::item item = message.items[i];
+
+			for (long j = 0L; j < message.lines.count(); ++j)
+			{
+				data::line::line line = message.lines[j];
+				if (line.itemID == item.itemID)
+				{
+					for (long k = 0L; k < message.components.count(); ++k)
+					{
+						data::component::component component = message.components[k];
+						if (component.lineID == line.lineID)
+						{
+							// check grid isn't full..?
+							output.clear();
+							output.set(header(message.messageID, item.itemID, line.lineID));
+
+							for (long h = 0L; h < message.elements.count(); ++h)
+							{
+								data::element::element element = message.elements[h];
+								output.set(message.elements.map(element.value));
+							}
+
+							// check grid isn't full
+							// if any one of them is, all the calcualtions must be done
+							binputs[message.components.map(component.name)].push(output);
+						}
+
+					}
+				}
+			}
+		}
 
 		// per element, also need to map by parent / component
 
 		// item, lineID
+		/*
 		for (long i = 0L; i < message.elements.count(); ++i)
 		{
 			data::element::element temp = message.elements[i];
@@ -98,7 +194,7 @@ void compute::cpu::processor::push(data::message::message &message)
 			// if lineID in inputs
 			//temp.componentID
 		}
-
+		*/
 		//int x_idx = item_idx + 
 		// calculate in-lines per item
 		// calculate out-lines per item

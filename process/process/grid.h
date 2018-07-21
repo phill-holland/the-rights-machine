@@ -1,4 +1,5 @@
 #include "item.h"
+#include "header.h"
 #include "row.h"
 
 #if !defined(__GRID)
@@ -14,10 +15,12 @@ namespace compute
 
 	private:
 		unsigned long width, height;
+		unsigned long write_ptr;
+		
+		header *headers;
+		int *data;
 
 		bool init;
-
-		int *data;
 
 	public:
 		grid(unsigned long width = WIDTH, unsigned long height = HEIGHT) { makeNull(); reset(width, height); }
@@ -36,7 +39,7 @@ namespace compute
 
 		void minus(grid &right);
 	
-		void push(row &source);
+		bool push(row &source);
 
 	protected:
 		void makeNull();

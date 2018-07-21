@@ -1,6 +1,7 @@
 #include "line.h"
 #include "json.h"
 #include "allocator.h"
+#include "map.h"
 
 #if !defined(__LINES)
 #define __LINES
@@ -9,7 +10,7 @@ namespace data
 {
 	namespace lines
 	{
-		template <long Y> class lines : public allocator::allocator<line::line, Y>, public json
+		template <long Y> class lines : public allocator::allocator<line::line, Y>, public json, public mapping::mapper
 		{
 			long index;
 
@@ -29,6 +30,8 @@ namespace data
 
 			bool flush() override
 			{
+				push(temp.name, temp.componentID, temp.lineID);
+
 				bool result = ::allocator::allocator<line::line, Y>::set(temp);
 				temp.clear();
 				return result;

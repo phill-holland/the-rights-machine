@@ -12,7 +12,13 @@ namespace compute
 		int lineID;
 
 	public:
-		header() { clear(); }
+		header(int messageID = 0, int itemID = 0, int lineID = 0) 
+		{ 
+			this->messageID = messageID;
+			this->itemID = itemID;
+			this->lineID = lineID;
+		}
+
 		header(header const &source) { clear(); copy(source); }
 		~header() { }
 
