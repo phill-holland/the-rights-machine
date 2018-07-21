@@ -1,0 +1,43 @@
+.contact
+{
+	width:600px;
+	min-height:550px;
+	margin:0 auto;
+	font-family: 'Barlow', sans-serif;
+	text-align: left;
+}
+
+.contact label
+{
+	font-weight: bold;
+}
+
+.contact input[type=text], textarea 
+{
+	width: 100%;
+	padding: 12px;
+	margin: 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 6px;
+	margin-bottom: 16px;
+	resize: vertical;
+}
+
+.contact input[type=submit] 
+{
+	background-color: #4CAF50;
+	color: white;
+	padding: 12px 20px;
+	margin: 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	
+}
+
+.contact input[type=submit]:hover 
+{
+	background-color: #45a049;
+}
