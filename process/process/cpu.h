@@ -22,11 +22,11 @@ namespace compute
 			const static unsigned long HEIGHT = 255;
 
 		private:
-			unsigned long width, height;
-			
+			unsigned long width, height;			
 			unsigned long input_ptr, output_ptr;
-
-			grid *in;
+			
+			grid *in, *out;
+			row **rows;
 
 			data::line::line *inputs;
 			data::line::line *outputs;
@@ -41,8 +41,11 @@ namespace compute
 			void reset(unsigned long width, unsigned long height);
 
 			void clear();
-
+			
 			void push(data::message::message &message);
+
+		protected:
+			void filter(data::message::message &message, row **rows, std::unordered_map<int, int> map);
 
 		protected:
 			void makeNull();
