@@ -17,8 +17,6 @@ namespace data
 		public:
 			int queryID;
 			int messageID;
-			//datetime start;
-			//datetime end;
 
 		public:
 			query() { clear(); }
@@ -26,8 +24,6 @@ namespace data
 			query(query const &source) { clear(); copy(source); }
 
 			void clear();
-
-			//query spawn(datetime &start, datetime &end);
 
 			void copy(query const &source);
 

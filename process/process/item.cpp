@@ -24,39 +24,3 @@ bool data::item::item::add(custom::pair &source)
 
 	return false;
 }
-/*
-void data::item::item::reset()
-{
-	init = false; cleanup();
-
-	lines = new data::lines::lines<MAX>();
-	if (lines == NULL) return;
-	if (!lines->initalised()) return;
-
-	clear();
-
-	init = true;
-}
-
-void data::item::item::clear()
-{
-	base::clear();
-	lines->empty();
-}
-
-void data::item::item::copy(item const &source)
-{
-	base::copy(source);
-	lines->copy(*source.lines);
-}
-
-void data::item::item::makeNull()
-{
-	lines = NULL;
-}
-
-void data::item::item::cleanup()
-{
-	if (lines != NULL) delete lines;
-}
-*/

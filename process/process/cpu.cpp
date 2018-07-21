@@ -103,48 +103,31 @@ void compute::cpu::processor::push(data::message::message &message)
 	
 	if (input_ptr > 0UL)
 	{
-		int max_components = message.components.maximum();
+		filter(message, rows, in_map);
 
-		for (unsigned long i = 0UL; i < height; ++i)
-		{
-			rows[i]->clear();
-		}
-
-		for (long h = 0L; h < message.elements.count(); ++h)
-		{
-			data::element::element element = message.elements[h];
-			int lineID = message.components.mapper::parent(element.componentID);
-
-			if (in_map.find(lineID) != in_map.end())
-			{
-				string component = message.components.map(element.componentID);
-				int itemID = message.lines.mapper::parent(lineID);
-
-				unsigned long offset = (in_map[lineID] * max_components) + message.components.map(component);
-				if (offset < height)
-				{
-					(*rows)[offset].set(message.elements.map(element.value));
-					(*rows)[offset].set(header(message.messageID, itemID, lineID));
-				}
-			}
-		}
-
-		for (unsigned long i = 0UL; i < (in_map.size() * max_components); ++i)
+		for (unsigned long i = 0UL; i < (in_map.size() * message.components.maximum()); ++i)
 		{
 			in->push(*rows[i]);
 		}
 
 		if (output_ptr > 0L)
 		{
-			for (unsigned long i = 0UL; i < height; ++i)
+			filter(message, rows, out_map);
+
+			/*
+			for (unsigned long j = 0UL; j < in_map.size(); ++j)
 			{
-				rows[i]->clear();
+				for (unsigned long i = 0UL; i < (out_map.size() * message.components.maximum()); ++i)
+				{
+					out->push(*rows[i]);
+				}
 			}
+			*/
 		}
 	}
 }
 
-void compute::cpu::processor::filter(data::message::message &message, row **rows, std::unordered_map<int, int> map)
+void compute::cpu::processor::filter(data::message::message &message, row **rows, std::unordered_map<int, int> &map)
 {
 	int max_components = message.components.maximum();
 

@@ -21,8 +21,6 @@ namespace data
 		public:
 			int lineID;
 			int itemID;
-			//datetime start;
-			//datetime end;
 			int exclusivityID;
 			int typeID;
 
@@ -33,11 +31,6 @@ namespace data
 
 			void clear();
 
-			//bool overlapped(line &source);
-
-			//std::tuple<line, line, line> split(line &source);
-			//std::vector<line> split(line &source);
-
 			data::line::line spawn(datetime &start, datetime &end);
 
 		public:
@@ -46,9 +39,6 @@ namespace data
 		public:
 			string identifier() { return string("LINE"); }
 			bool add(custom::pair &source);
-
-		//protected:
-			//std::tuple<datetime, datetime, datetime, datetime> sort(datetime a, datetime b, datetime c, datetime d);
 
 		public:
 			line& operator=(const line& source)

@@ -45,7 +45,7 @@ namespace compute
 			void push(data::message::message &message);
 
 		protected:
-			void filter(data::message::message &message, row **rows, std::unordered_map<int, int> map);
+			void filter(data::message::message &message, row **rows, std::unordered_map<int, int> &map);
 
 		protected:
 			void makeNull();
