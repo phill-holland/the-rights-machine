@@ -11,43 +11,14 @@
 #if !defined(__MESSAGE)
 #define __MESSAGE
 
-using namespace global;
-using namespace comparison;
-
 namespace data
 {
 	namespace message
 	{
-		/*
-		class base : public json
-		{
-		public:
-			int messageID;
-			int userID;
-			datetime created;
-			datetime finished;
+		using namespace global;
+		using namespace comparison;
 
-		public:
-			base() { clear(); }
-			base(json *parent) { clear(); json::parent(parent); }
-			base(base const &source) { clear(); copy(source); }
-
-			void clear();
-			void copy(base const &source);
-
-		public:
-			string identifier() { return string("MESSAGE"); }
-			bool add(custom::pair &source);
-
-		public:
-			base& operator=(const base& source)
-			{
-				this->copy((base&)source);
-				return *this;
-			}
-		};
-		*/
-		class message : public json//base
+		class message : public json
 		{
 			std::unordered_map<string, data::json *, hasher, equality> hash;
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
@@ -61,19 +32,12 @@ namespace data
 		private:
 			bool init;
 
-		//public:
-			//data::items::items<MAX> *items;
 		public:
-			//data::item::base item;
-
 			data::queries::queries<10L> queries;
 			data::items::items<10L> items;
 			data::lines::lines<10L> lines;
 			data::components::components<10L> components;
 			data::elements::elements<10L> elements;
-			//allocator::allocator<10L> lines;
-			//allocator::allocator<10L> components;
-			//allocator::allocator<data::element::element, 10L> elements;
 
 		public:
 			message() { makeNull(); reset(); }
@@ -83,11 +47,10 @@ namespace data
 			bool initalised() { return init; }
 			void reset();
 
-			void clear();// override;
+			void clear();
 
 			queue::base *findQ(string FQDN);
 			data::json *find(string FQDN);
-			//data::json *find(string label);
 
 			void copy(message const &source);
 

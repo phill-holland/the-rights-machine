@@ -42,21 +42,19 @@ void compute::cpu::processor::clear()
 {
 	input_ptr = output_ptr = 0UL;
 
-	//in->clear();
-	//out->clear();
+	in->clear();
+	out->clear();
 
 	for (unsigned long i = 0UL; i < width; ++i)
 	{
 		inputs[i].clear();
 		outputs[i].clear();
 	}
-
-	/*
+	
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		rows[i]->clear();
-	}
-	*/
+	}	
 }
 
 void compute::cpu::processor::push(data::message::message &message)
@@ -85,7 +83,7 @@ void compute::cpu::processor::push(data::message::message &message)
 						if (output.typeID == (int)data::line::line::TYPE::out)
 						{
 							std::vector<zone::zone> result = source.split(output);
-							for (long l = 0L; l < result.size; ++l)
+							for (long l = 0L; l < result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
 							}
@@ -101,6 +99,8 @@ void compute::cpu::processor::push(data::message::message &message)
 		}
 	}
 	
+	// check outputs overlap input dates
+
 	if (input_ptr > 0UL)
 	{
 		filter(message, rows, in_map);
@@ -113,16 +113,27 @@ void compute::cpu::processor::push(data::message::message &message)
 		if (output_ptr > 0L)
 		{
 			filter(message, rows, out_map);
+			
+			unsigned long offset = 0UL;
 
-			/*
-			for (unsigned long j = 0UL; j < in_map.size(); ++j)
+			for (unsigned long k = 0UL; k < out_map.size(); ++k)
 			{
-				for (unsigned long i = 0UL; i < (out_map.size() * message.components.maximum()); ++i)
-				{
-					out->push(*rows[i]);
+				out->clear();
+				for (unsigned long j = 0UL; j < in_map.size(); ++j)
+				{					
+					for (unsigned long i = 0UL; i < (unsigned long)message.components.maximum(); ++i)
+					{
+						out->push(*rows[offset + i]);
+					}
 				}
+
+				// add datetime start/end to header
+				// and check overlaps during minus
+				// or push?
+
+				in->minus(*out);
+				offset += message.components.maximum();
 			}
-			*/
 		}
 	}
 }

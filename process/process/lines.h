@@ -30,7 +30,7 @@ namespace data
 
 			bool flush() override
 			{
-				push(temp.name, temp.componentID, temp.lineID);
+				push(temp.lineID, temp.itemID);
 
 				bool result = ::allocator::allocator<line::line, Y>::set(temp);
 				temp.clear();
@@ -42,7 +42,8 @@ namespace data
 				index = 0L;
 
 				temp.clear();
-				reset();
+				mapper::empty();
+				::allocator::allocator<line::line, Y>::reset();
 			}
 
 			string identifier() { return string("LINES"); }

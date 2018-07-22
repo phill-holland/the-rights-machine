@@ -44,7 +44,7 @@ namespace data
 				index = 0L;
 				temp.clear();
 				mapper::empty();
-				reset();
+				::allocator::allocator<item::item, Y>::reset();
 			}
 
 			string identifier() { return string("ITEMS"); }

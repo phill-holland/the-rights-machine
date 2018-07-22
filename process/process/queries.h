@@ -8,7 +8,7 @@ namespace data
 {
 	namespace queries
 	{
-		template <long Y> class queries : public allocator::allocator<query::query, Y>, public json
+		template <long Y> class queries : public allocator::allocator<query::query, Y>, public json, public mapping::mapper
 		{
 			long index;
 
@@ -28,15 +28,20 @@ namespace data
 
 			bool flush() override
 			{
+				push(temp.queryID, temp.messageID);
+
 				bool result = ::allocator::allocator<query::query, Y>::set(temp);
+
 				temp.clear();
+				
 				return result;
 			}
 
 			void clear()
 			{
 				temp.clear();
-				reset();
+				mapper::empty();
+				::allocator::allocator<query::query, Y>::reset();
 			}
 
 			string identifier() { return string("QUERIES"); }

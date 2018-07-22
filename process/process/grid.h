@@ -38,8 +38,22 @@ namespace compute
 		}
 
 		void minus(grid &right);
-	
+		void and(grid &right);
+
 		bool push(row &source);
+
+	public:
+		grid& operator-(const grid& source)
+		{
+			this->minus((grid&)source);
+			return *this;
+		}
+
+		grid& operator&(const grid& source)
+		{
+			this->and((grid&)source);
+			return *this;
+		}
 
 	protected:
 		void makeNull();

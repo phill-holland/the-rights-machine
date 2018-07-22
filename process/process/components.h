@@ -43,7 +43,7 @@ namespace data
 				index = 0L;
 				temp.clear();
 				mapper::empty();
-				reset();
+				::allocator::allocator<component::component, Y>::reset();
 			} 
 
 			string identifier() { return string("COMPONENTS"); }

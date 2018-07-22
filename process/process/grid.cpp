@@ -43,6 +43,21 @@ void compute::grid::minus(grid &right)
 	}
 }
 
+void compute::grid::and(grid &right)
+{
+	unsigned long offset = 0UL;
+
+	for (unsigned long y = 0UL; y < height; ++y)
+	{
+		for (unsigned long x = 0UL; x < width; ++x)
+		{
+			data[offset + x] = data[offset + x] & right.data[offset + x];
+		}
+
+		offset += width;
+	}
+}
+
 bool compute::grid::push(row &source)
 {
 	if (source.length > width) return false;

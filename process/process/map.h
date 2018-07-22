@@ -63,10 +63,10 @@ namespace mapping
 
 		int parent(int id)
 		{
-			return parents.at[id];
+			return parents.at(id);
 		}
 		
-		int maximum() { return forward.size; }
+		int maximum() { return (int)forward.size(); }
 	};
 };
 

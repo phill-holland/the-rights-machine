@@ -29,9 +29,9 @@ namespace zone
 
 		std::vector<zone> split(zone &source)
 		{
-			auto swap = [](datetime &a, datetime &b)
+			auto swap = [](global::datetime &a, global::datetime &b)
 			{
-				datetime temp = a;
+				global::datetime temp = a;
 				a = b;
 				b = temp;
 			};
@@ -51,10 +51,12 @@ namespace zone
 			global::datetime start = std::get<0>(dates), end = std::get<1>(dates);
 			if (start != end) result.push_back(zone(start, end));
 
-			global::datetime start = std::get<1>(dates), end = std::get<2>(dates);
+			start = std::get<1>(dates);
+			end = std::get<2>(dates);
 			if (start != end) result.push_back(zone(start, end));
 
-			global::datetime start = std::get<2>(dates), end = std::get<3>(dates);
+			start = std::get<2>(dates); 
+			end = std::get<3>(dates);
 			if (start != end) result.push_back(zone(start, end));
 
 			return result;
@@ -74,11 +76,11 @@ namespace zone
 		}
 
 	protected:
-		std::tuple<datetime, datetime, datetime, datetime> sort(datetime a, datetime b, datetime c, datetime d)
+		std::tuple<global::datetime, global::datetime, global::datetime, global::datetime> sort(global::datetime a, global::datetime b, global::datetime c, global::datetime d)
 		{
-			auto swap = [](datetime &a, datetime &b)
+			auto swap = [](global::datetime &a, global::datetime &b)
 			{
-				datetime temp = a;
+				global::datetime temp = a;
 				a = b;
 				b = temp;
 			};
@@ -93,7 +95,7 @@ namespace zone
 				if (d < c) { swap(c, d); ++swaps; }
 			} while (swaps > 0);
 
-			return std::tuple<datetime, datetime, datetime, datetime>(a, b, c, d);
+			return std::tuple<global::datetime, global::datetime, global::datetime, global::datetime>(a, b, c, d);
 		}
 	};
 };

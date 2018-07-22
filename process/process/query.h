@@ -2,6 +2,8 @@
 #include "datetime.h"
 #include "json.h"
 #include "zone.h"
+#include "components.h"
+#include "elements.h"
 
 #if !defined(__QUERY)
 #define __QUERY
@@ -14,14 +16,24 @@ namespace data
 	{
 		class query : public json, public zone::zone
 		{
+			bool init;
+
 		public:
 			int queryID;
 			int messageID;
 
 		public:
-			query() { clear(); }
-			query(json *parent) { clear(); json::parent(parent); }
-			query(query const &source) { clear(); copy(source); }
+			data::components::components<10L> components;
+			data::elements::elements<10L> elements;
+
+		public:
+			query() { makeNull(); reset(); }
+			query(json *parent) { makeNull(); json::parent(parent); reset(); }
+			query(query const &source) { makeNull(); clear(); copy(source); }
+			~query() { cleanup(); }
+
+			bool initalised() { return init; }
+			void reset();
 
 			void clear();
 
@@ -37,6 +49,10 @@ namespace data
 				this->copy((query&)source);
 				return *this;
 			}
+
+		protected:
+			void makeNull();
+			void cleanup();
 		};
 	};
 };
