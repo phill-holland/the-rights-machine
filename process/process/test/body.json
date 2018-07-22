@@ -3,14 +3,39 @@
 	{
 		"userID" : 1,		
 		"APIKey" : 1,
+		"queries" :
+		[
+			{
+				"start" : "2018-01-01",
+				"end" : "2019-01-01",
+				"components" :
+				[
+					{
+						"name" : "country",
+						"elements" :
+						[
+							{ "value" : "england" },
+							{ "value" : "france" }
+						]
+					}
+					,							
+					{
+						"name" : "language",
+						"elements" :
+						[
+							{ "value" : "english" },
+							{ "value" : "french" }
+						]
+					}
+				]
+			}
+		],
 		"items":
 		[
-			"item":
 			{
 				"name" : "myitem",
 				"lines" :
 				[
-					"line":
 					{			
 						"start" : "2018-01-01",
 						"end" : "2019-01-01",
@@ -18,53 +43,48 @@
 						"type" : 0,
 						"components" :
 						[
-							"component" :
 							{
 								"name" : "country",
 								"elements" :
 								[
-									"element" : { "value" : "england" },
-									"element" : { "value" : "france" }
+									{ "value" : "england" },
+									{ "value" : "france" }
 								]
 							}
-							,
-							"component" : 
+							,							
 							{
 								"name" : "language",
 								"elements" :
 								[
-									"element" : { "value" : "english" },
-									"element" : { "value" : "french" }
+									{ "value" : "english" },
+									{ "value" : "french" }
 								]
 							}
 						]
 					}
 					,
-					"line":
 					{			
 						"start" : "2018-06-01",
 						"end" : "2019-08-01",
 						"exclusivity" : "non-exclusive",
-						"type" : "granted",
+						"type" : 1,
 						"components" :
 						[
-							"component" :
 							{
 								"name" : "country",
 								"elements" :
 								[
-									"element" : { "value" : "england" },
-									"element" : { "value" : "france" }
+									{ "value" : "england" },
+									{ "value" : "france" }
 								]
 							}
 							,
-							"component" : 
 							{
 								"name" : "language",
 								"elements" :
 								[
-									"element" : { "value" : "english" },
-									"element" : { "value" : "french" }
+									{ "value" : "english" },
+									{ "value" : "french" }
 								]
 							}
 						]
