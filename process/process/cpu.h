@@ -25,7 +25,7 @@ namespace compute
 			unsigned long width, height;			
 			unsigned long input_ptr, output_ptr;
 			
-			grid *in, *out;
+			grid *in, *out, *query;
 			row **rows;
 
 			data::line::line *inputs;
@@ -43,9 +43,6 @@ namespace compute
 			void clear();
 			
 			void push(data::message::message &message);
-
-		protected:
-			void filter(data::message::message &message, row **rows, std::unordered_map<int, int> &map);
 
 		protected:
 			void makeNull();

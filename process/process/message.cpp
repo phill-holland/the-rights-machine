@@ -1,4 +1,5 @@
 #include "message.h"
+#include "header.h"
 #include "log.h"
 
 void data::message::message::reset()
@@ -68,6 +69,35 @@ data::json *data::message::message::find(string FQDN)
 	if(i != hash.end()) return (data::json*)i->second;
 
 	return NULL;
+}
+
+void data::message::message::filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map)
+{
+	int max_components = components.maximum();
+
+	for (unsigned long i = 0UL; i < total; ++i)
+	{
+		rows[i]->clear();
+	}
+
+	for (long h = 0L; h < elements.count(); ++h)
+	{
+		data::element::element element = elements[h];
+		int lineID = components.mapper::parent(element.componentID);
+
+		if (map.find(lineID) != map.end())
+		{
+			string component = components.map(element.componentID);
+			int itemID = lines.mapper::parent(lineID);
+
+			unsigned long offset = (map[lineID] * max_components) + components.map(component);
+			if (offset < total)
+			{
+				(*rows)[offset].set(elements.map(element.value));
+				(*rows)[offset].set(compute::header(messageID, itemID, lineID));
+			}
+		}
+	}
 }
 
 void data::message::message::copy(message const &source)

@@ -41,6 +41,36 @@ bool data::query::query::add(custom::pair &source)
 	return false;
 }
 
+void data::query::query::filter(compute::row **rows, unsigned long total, unsigned long lines)
+{
+	int max_components = components.maximum();
+
+	for (unsigned long i = 0UL; i < total; ++i)
+	{
+		rows[i]->clear();
+	}
+
+	for (long h = 0L; h < elements.count(); ++h)
+	{
+		data::element::element element = elements[h];
+		int queryID = components.mapper::parent(element.componentID);
+
+		if(queryID == this->queryID)
+		{
+			string component = components.map(element.componentID);
+
+			for (unsigned long i = 0UL; i < lines; ++i)
+			{
+				unsigned long offset = (i * max_components) + components.map(component);
+				if (offset < total)
+				{
+					(*rows)[offset].set(elements.map(element.value));
+				}
+			}
+		}
+	}
+}
+
 void data::query::query::copy(query const &source)
 {
 	queryID = source.queryID;

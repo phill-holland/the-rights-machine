@@ -18,6 +18,10 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 	if (out == NULL) return;
 	if (!out->initalised()) return;
 
+	query = new grid(width, height);
+	if (query == NULL) return;
+	if (!query->initalised()) return;
+
 	rows = new row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i)
@@ -44,6 +48,7 @@ void compute::cpu::processor::clear()
 
 	in->clear();
 	out->clear();
+	query->clear();
 
 	for (unsigned long i = 0UL; i < width; ++i)
 	{
@@ -103,7 +108,7 @@ void compute::cpu::processor::push(data::message::message &message)
 
 	if (input_ptr > 0UL)
 	{
-		filter(message, rows, in_map);
+		message.filter(rows, height, in_map);
 
 		for (unsigned long i = 0UL; i < (in_map.size() * message.components.maximum()); ++i)
 		{
@@ -112,7 +117,7 @@ void compute::cpu::processor::push(data::message::message &message)
 
 		if (output_ptr > 0L)
 		{
-			filter(message, rows, out_map);
+			message.filter(rows, height, out_map);
 			
 			unsigned long offset = 0UL;
 
@@ -135,34 +140,26 @@ void compute::cpu::processor::push(data::message::message &message)
 				offset += message.components.maximum();
 			}
 		}
-	}
-}
 
-void compute::cpu::processor::filter(data::message::message &message, row **rows, std::unordered_map<int, int> &map)
-{
-	int max_components = message.components.maximum();
-
-	for (unsigned long i = 0UL; i < height; ++i)
-	{
-		rows[i]->clear();
-	}
-
-	for (long h = 0L; h < message.elements.count(); ++h)
-	{
-		data::element::element element = message.elements[h];
-		int lineID = message.components.mapper::parent(element.componentID);
-
-		if (map.find(lineID) != map.end())
+		unsigned long offset = 0UL;
+		for (unsigned long i = 0UL; i < message.queries.count(); ++i)
 		{
-			string component = message.components.map(element.componentID);
-			int itemID = message.lines.mapper::parent(lineID);
+			data::query::query q = message.queries[i];
 
-			unsigned long offset = (map[lineID] * max_components) + message.components.map(component);
-			if (offset < height)
+			q.filter(rows, height, in_map.size());
+
+			query->clear();
+			for (unsigned long j = 0UL; j < in_map.size(); ++j)
 			{
-				(*rows)[offset].set(message.elements.map(element.value));
-				(*rows)[offset].set(header(message.messageID, itemID, lineID));
+				for (unsigned long k = 0UL; k < (unsigned long)message.components.maximum(); ++k)
+				{
+					query->push(*rows[offset + k]);
+				}
 			}
+
+			in->and(*query);
+			// need to validate query components is same as message.components.maximum()
+			offset += message.components.maximum();
 		}
 	}
 }
@@ -171,6 +168,7 @@ void compute::cpu::processor::makeNull()
 {
 	in = NULL;
 	out = NULL;
+	query = NULL;
 	rows = NULL;
 	inputs = NULL;
 	outputs = NULL;
@@ -188,6 +186,7 @@ void compute::cpu::processor::cleanup()
 		}
 		delete rows;
 	}
+	if (query != NULL) delete query;
 	if (out != NULL) delete out;
 	if (in != NULL) delete in;
 }

@@ -4,6 +4,7 @@
 #include "zone.h"
 #include "components.h"
 #include "elements.h"
+#include "row.h"
 
 #if !defined(__QUERY)
 #define __QUERY
@@ -37,6 +38,8 @@ namespace data
 
 			void clear();
 
+			void filter(compute::row **rows, unsigned long total, unsigned long lines);
+			
 			void copy(query const &source);
 
 		public:
