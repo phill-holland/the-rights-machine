@@ -15,6 +15,9 @@ const errorCode XML_ERR = 4L;
 const unsigned long errorStrLen = 512UL;
 const unsigned long resultStrLen = errorStrLen * 2UL;
 
+// have error as a threaded class, with a queue
+// each time the timer ticks, pull out the data abd write to database
+
 class errorLog
 {
 public:

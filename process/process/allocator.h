@@ -187,7 +187,7 @@ namespace allocator
 			{
 				if ((index >= 0) && (index < elements))
 				{
-					ldiv_t t = div(Y, (long)index);
+					ldiv_t t = div((long)index, Y);
 
 					int counter = 0;
 					block<X, Y> *src = head;
@@ -247,11 +247,11 @@ namespace allocator
 				if (tail->next == NULL) return false;
 				if (!tail->next->initalised()) return false;
 
-				tail->next->previous = tail;				
+				tail->next->previous = tail;
 				tail = tail->next;
-
-				if (!tail->set(source)) return false;
 			}
+			
+			if (!tail->set(source)) return false;
 			
 			++elements;
 

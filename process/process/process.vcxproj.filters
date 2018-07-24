@@ -183,6 +183,12 @@
     <ClInclude Include="header.h">
       <Filter>Header Files\Compute</Filter>
     </ClInclude>
+    <ClInclude Include="results.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -330,6 +336,12 @@
       <Filter>Source Files\Compute</Filter>
     </ClCompile>
     <ClCompile Include="header.cpp">
+      <Filter>Source Files\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>Source Files\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="results.cpp">
       <Filter>Source Files\Compute</Filter>
     </ClCompile>
   </ItemGroup>

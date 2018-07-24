@@ -77,6 +77,10 @@ bool compute::grid::push(row &source)
 	return true;
 }
 
+void compute::grid::extract(queue::in<result> *destination)
+{
+}
+
 void compute::grid::makeNull()
 {
 	headers = NULL;

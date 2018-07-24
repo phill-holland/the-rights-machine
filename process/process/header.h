@@ -10,13 +10,15 @@ namespace compute
 		int messageID;
 		int itemID;
 		int lineID;
+		int componentID;
 
 	public:
-		header(int messageID = 0, int itemID = 0, int lineID = 0) 
+		header(int messageID = 0, int itemID = 0, int lineID = 0, int componentID = 0) 
 		{ 
 			this->messageID = messageID;
 			this->itemID = itemID;
 			this->lineID = lineID;
+			this->componentID = componentID;
 		}
 
 		header(header const &source) { clear(); copy(source); }
@@ -27,6 +29,7 @@ namespace compute
 			messageID = 0;
 			itemID = 0;
 			lineID = 0;
+			componentID = 0;
 		}
 
 		void copy(header const &source)
@@ -34,6 +37,7 @@ namespace compute
 			messageID = source.messageID;
 			itemID = source.itemID;
 			lineID = source.lineID;
+			componentID = source.componentID;
 		}
 
 	public:

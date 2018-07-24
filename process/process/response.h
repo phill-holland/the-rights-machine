@@ -12,10 +12,11 @@ namespace data
 	{
 	public:
 		int responseID;
+		int messageID;
 		int itemID;
-		int code;
-		string description;
-		datetime created;
+		//int code;
+		//string description;
+		//datetime created;
 	};
 };
 

@@ -7,12 +7,17 @@
 #include "server.h"
 #include "log.h"
 
+#include "element.h"
+#include "elements.h"
+
 void test()
 {
 	queues::memory::incoming::factory messages; // should be a task queue factory instead..??
 	queues::memory::outgoing::factory responses;
 
 	compute::cpu::cpu cpu(&messages);
+	if (!cpu.start()) return;
+
 	manager::manager manager(&responses);
 	
 	manager.add(&cpu);
@@ -61,13 +66,40 @@ void test_dates()
 	*/
 }
 
+int test_elements()
+{
+	data::elements::elements<2L> elements;
+
+	string names[] = {"english", "french", "german", "french", "urdu", "flemish", "polish" };
+	for (int i = 0; i < 7; ++i)
+	{
+		data::element::element temp;
+		
+		temp.value = names[i];
+		temp.componentID = i + 1;
+		
+		elements.temp = temp;
+		elements.flush();
+	}
+
+	for (int i = 0; i < elements.count(); ++i)
+	{
+		data::element::element temp = elements[i];
+		Log << temp.value << "\r\n";
+	}
+
+	return 0;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
 					 int       nCmdShow)
 {
 
-	test_dates();
+	//test();
+	test_elements();
+	//test_dates();
 	// build in-memory queue
 	// http client for test json post
 	// database queue

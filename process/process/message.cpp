@@ -88,13 +88,14 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 		if (map.find(lineID) != map.end())
 		{
 			string component = components.map(element.componentID);
+			int componentID = components.map(component);
 			int itemID = lines.mapper::parent(lineID);
 
-			unsigned long offset = (map[lineID] * max_components) + components.map(component);
+			unsigned long offset = (map[lineID] * max_components) + componentID;
 			if (offset < total)
 			{
 				(*rows)[offset].set(elements.map(element.value));
-				(*rows)[offset].set(compute::header(messageID, itemID, lineID));
+				(*rows)[offset].set(compute::header(messageID, itemID, lineID, componentID));
 			}
 		}
 	}

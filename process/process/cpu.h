@@ -52,11 +52,9 @@ namespace compute
 		class cpu : public compute, public thread
 		{
 			::queue::queue<::compute::task> *queue;
+			processor *process;
 
 			bool init;
-
-		protected:
-			void process();
 
 		public:
 			DWORD WINAPI background(thread *bt);
@@ -71,8 +69,8 @@ namespace compute
 			bool set(::compute::task &source) 
 			{ 
 				return queue->set(source); 
-				process();
 			}
+
 			bool flush() { return queue->flush(); }
 
 		protected:

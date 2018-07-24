@@ -106,6 +106,11 @@ void compute::cpu::processor::push(data::message::message &message)
 	
 	// check outputs overlap input dates
 
+	// push one acquired line, one excluded line and one query line
+	// at one time
+
+	// need to decode grid
+
 	if (input_ptr > 0UL)
 	{
 		message.filter(rows, height, in_map);
@@ -142,7 +147,7 @@ void compute::cpu::processor::push(data::message::message &message)
 		}
 
 		unsigned long offset = 0UL;
-		for (unsigned long i = 0UL; i < message.queries.count(); ++i)
+		for (unsigned long i = 0UL; i < (unsigned long)message.queries.count(); ++i)
 		{
 			data::query::query q = message.queries[i];
 
@@ -191,13 +196,20 @@ void compute::cpu::processor::cleanup()
 	if (in != NULL) delete in;
 }
 
-void compute::cpu::cpu::process()
-{
-
-}
-
 DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 {
+	Sleep(100);
+
+	::compute::task task;
+	if (get(task))
+	{
+		process->push(task.message);
+	}
+	else
+	{
+		Sleep(5000);
+	}
+
 	return (DWORD)0;
 }
 
@@ -208,15 +220,21 @@ void compute::cpu::cpu::reset(::queue::factory<::compute::task> *factory)
 	queue = factory->get();
 	if (queue == NULL) return;
 
+	process = new processor(255, 255);
+	if (process == NULL) return;
+	if (!process->initalised()) return;
+
 	init = true;
 }
 
 void compute::cpu::cpu::makeNull()
 {
+	process = NULL;
 }
 
 void compute::cpu::cpu::cleanup()
 {
+	if (process != NULL) delete process;
 }
 
 // has many worker threads for grid subtraction

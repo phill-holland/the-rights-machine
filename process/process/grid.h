@@ -1,6 +1,7 @@
 #include "item.h"
 #include "header.h"
 #include "row.h"
+#include "result.h"
 
 #if !defined(__GRID)
 #define __GRID
@@ -39,8 +40,9 @@ namespace compute
 
 		void minus(grid &right);
 		void and(grid &right);
-
 		bool push(row &source);
+
+		void extract(queue::in<result> *destination);
 
 	public:
 		grid& operator-(const grid& source)
