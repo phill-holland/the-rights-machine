@@ -97,6 +97,8 @@ DWORD WINAPI server::listener::background(thread *bt)
 								Log << "PUSH MESSAGE TO OUTPUT\r\n";
 								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
 
+								task.message.output();
+
 								//::compute::task t;
 								//t.message = &message;
 								//t.response = &responses;
@@ -405,7 +407,7 @@ void server::listener::extract(string parent, string label, string value)
 	//{
 		//moo = 2;
 	//}
-	Log << "FIND " << last() <<  " [" << FQDN() << "]\r\n";
+	//Log << "FIND " << last() <<  " [" << FQDN() << "]\r\n";
 
 	//string a = current->FQDN();
 	//string b = FQDN();
@@ -419,7 +421,7 @@ void server::listener::extract(string parent, string label, string value)
 		//string b = FQDN();
 
 		//Log << "A[" + a + "] B[" + b + "]\r\n";
-		Log << "[" << current->identifier() << "] [label=" << label << "] value=[" << value << "]\r\n";
+		//Log << "[" << current->identifier() << "] [label=" << label << "] value=[" << value << "]\r\n";
 		current->add(custom::pair(label, value));
 	}
 	// parents lines, and components, signify line and component need

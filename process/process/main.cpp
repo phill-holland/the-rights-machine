@@ -97,8 +97,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 					 int       nCmdShow)
 {
 
-	//test();
-	test_elements();
+	test();
+	//test_elements();
 	//test_dates();
 	// build in-memory queue
 	// http client for test json post

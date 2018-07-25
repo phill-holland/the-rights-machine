@@ -12,34 +12,35 @@ namespace data
 	{
 		template <long Y> class lines : public allocator::allocator<line::line, Y>, public json, public mapping::mapper
 		{
-			long index;
+			int index;
 
 		public:
 			line::line temp;
 
 		public:
-			lines() { index = 0L; temp.parent(this); }
-			lines(json *parent) { index = 0L; json::parent(parent); }
+			lines() { index = 0; temp.parent(this); }
+			lines(json *parent) { index = 0; json::parent(parent); }
 
 		public:
-			bool set(int parent)
-			{
-				temp.lineID = index++;
-				temp.itemID = parent;
-			}
+			int identity() { return index; }
 
 			bool flush() override
 			{
+				temp.lineID = index++;
+				temp.itemID = progenitor();
+
 				push(temp.lineID, temp.itemID);
 
 				bool result = ::allocator::allocator<line::line, Y>::set(temp);
+				
 				temp.clear();
+
 				return result;
 			}
 
 			void clear()
 			{
-				index = 0L;
+				index = 0;
 
 				temp.clear();
 				mapper::empty();

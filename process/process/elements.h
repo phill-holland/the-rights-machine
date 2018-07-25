@@ -12,24 +12,23 @@ namespace data
 	{
 		template <long Y> class elements : public allocator::allocator<element::element, Y>, public json, public mapping::mapper
 		{
-			long index = 0L;
+			int index;
 
 		public:
 			element::element temp;
 
 		public:
-			elements() { index = 0L; temp.parent(this); }
-			elements(json *parent) { index = 0L; json::parent(parent); }
+			elements() { index = 0; temp.parent(this); }
+			elements(json *parent) { index = 0; json::parent(parent); }
 
 		public:
-			bool set(int parent)
-			{
-				temp.elementID = index++;
-				temp.componentID = parent;
-			}
+			int identity() { return index; }
 
 			bool flush() override
 			{	
+				temp.elementID = index++;
+				temp.componentID = progenitor();
+
 				push(temp.value, temp.elementID, temp.componentID);
 
 				bool result = ::allocator::allocator<element::element, Y>::set(temp);
@@ -41,7 +40,7 @@ namespace data
 
 			void clear() 
 			{ 
-				index = 0L;
+				index = 0;
 				temp.clear();
 				mapper::empty();
 				::allocator::allocator<element::element, Y>::reset();

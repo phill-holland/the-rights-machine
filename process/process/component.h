@@ -21,8 +21,13 @@ namespace data
 			component(json *parent) { clear(); json::parent(parent); }
 			component(component const &source) { clear(); copy(source); }
 
+			int identity() { return componentID; }
+
 			void clear();
 			void copy(component const &source);
+
+		public:
+			void output();
 
 		public:
 			string identifier() { return string("COMPONENT"); }

@@ -1,6 +1,7 @@
 #include "component.h"
 #include "allocator.h"
 #include "map.h"
+#include "log.h"
 
 #if !defined(__COMPONENTS)
 #define __COMPONENTS
@@ -11,24 +12,23 @@ namespace data
 	{
 		template <long Y> class components : public allocator::allocator<component::component, Y>, public json, public mapping::mapper
 		{
-			long index;
+			int index;
 
 		public:
 			component::component temp;
 
 		public:
-			components() { index = 0L; temp.parent(this); }
-			components(json *parent) { index = 0L; json::parent(parent); }
+			components() { index = 0; temp.parent(this); }
+			components(json *parent) { index = 0; json::parent(parent); }
 
 		public:
-			bool set(int parent)
-			{
-				temp.componentID = index++;
-				temp.lineID = parent;				
-			}
+			int identity() { return index; }
 
 			bool flush() override
 			{
+				temp.componentID = index++;
+				temp.lineID = progenitor();
+
 				push(temp.name, temp.componentID, temp.lineID);
 
 				bool result = ::allocator::allocator<component::component, Y>::set(temp);
@@ -40,7 +40,7 @@ namespace data
 			
 			void clear() 
 			{ 
-				index = 0L;
+				index = 0;
 				temp.clear();
 				mapper::empty();
 				::allocator::allocator<component::component, Y>::reset();

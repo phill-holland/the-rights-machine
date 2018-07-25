@@ -126,10 +126,10 @@ void compute::cpu::processor::push(data::message::message &message)
 			
 			unsigned long offset = 0UL;
 
-			for (unsigned long k = 0UL; k < out_map.size(); ++k)
+			for (unsigned long k = 0UL; k < (unsigned long)out_map.size(); ++k)
 			{
 				out->clear();
-				for (unsigned long j = 0UL; j < in_map.size(); ++j)
+				for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
 				{					
 					for (unsigned long i = 0UL; i < (unsigned long)message.components.maximum(); ++i)
 					{
@@ -151,10 +151,10 @@ void compute::cpu::processor::push(data::message::message &message)
 		{
 			data::query::query q = message.queries[i];
 
-			q.filter(rows, height, in_map.size());
+			q.filter(rows, height, (unsigned long)in_map.size());
 
 			query->clear();
-			for (unsigned long j = 0UL; j < in_map.size(); ++j)
+			for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
 			{
 				for (unsigned long k = 0UL; k < (unsigned long)message.components.maximum(); ++k)
 				{

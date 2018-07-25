@@ -29,6 +29,8 @@ namespace data
 			line(json *parent) { clear(); json::parent(parent); }
 			line(line const &source) { clear(); copy(source); }
 
+			int identity() { return lineID; }
+
 			void clear();
 
 			data::line::line spawn(datetime &start, datetime &end);
@@ -36,6 +38,9 @@ namespace data
 		public:
 			void copy(line const &source);
 			
+		public:
+			void output();
+
 		public:
 			string identifier() { return string("LINE"); }
 			bool add(custom::pair &source);

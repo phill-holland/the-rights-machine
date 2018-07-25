@@ -1,4 +1,5 @@
 #include "component.h"
+#include "log.h"
 
 void data::component::component::clear()
 {
@@ -23,4 +24,17 @@ void data::component::component::copy(component const &source)
 	componentID = source.componentID;
 	lineID = source.lineID;
 	name = source.name;
+}
+
+void data::component::component::output()
+{
+	string result = "\"component\" : {\"componentID\" : ";
+	result += string::fromInt(componentID);
+	result += ", \"lineID\" : ";
+	result += string::fromInt(lineID);
+	result += ", \"name\" : \"";
+	result += name;
+	result += "\"}\r\n";
+
+	Log << result;
 }

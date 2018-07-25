@@ -20,8 +20,13 @@ namespace data
 			item(json *parent) { clear(); json::parent(parent); }
 			item(item const &source) { clear(); copy(source); }
 
+			int identity() { return itemID; }
+
 			void clear();
 			void copy(item const &source);
+
+		public:
+			void output();
 
 		public:
 			string identifier() { return string("ITEM"); }

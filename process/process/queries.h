@@ -10,24 +10,23 @@ namespace data
 	{
 		template <long Y> class queries : public allocator::allocator<query::query, Y>, public json, public mapping::mapper
 		{
-			long index;
+			int index;
 
 		public:
 			query::query temp;
 
 		public:
-			queries() { index = 0L; temp.parent(this); }
-			queries(json *parent) { index = 0L; json::parent(parent); }
+			queries() { index = 0; temp.parent(this); }
+			queries(json *parent) { index = 0; json::parent(parent); }
 
 		public:
-			bool set(int parent)
-			{
-				temp.queryID = index++;
-				temp.messageID = parent;
-			}
+			int identity() { return index; }
 
 			bool flush() override
 			{
+				temp.queryID = index++;
+				temp.messageID = progenitor();
+
 				push(temp.queryID, temp.messageID);
 
 				bool result = ::allocator::allocator<query::query, Y>::set(temp);
@@ -39,6 +38,8 @@ namespace data
 
 			void clear()
 			{
+				index = 0;
+
 				temp.clear();
 				mapper::empty();
 				::allocator::allocator<query::query, Y>::reset();

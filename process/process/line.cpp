@@ -1,4 +1,5 @@
 #include "line.h"
+#include "log.h"
 #include <tuple>
 
 void data::line::line::clear()
@@ -19,6 +20,19 @@ void data::line::line::copy(line const &source)
 	end = source.end;
 	exclusivityID = source.exclusivityID;
 	typeID = source.typeID;
+}
+
+void data::line::line::output()
+{
+	string result = "\"line\" : {\"lineID\" : ";
+	result += string::fromInt(lineID);
+	result += ", \"itemID\" : ";
+	result += string::fromInt(itemID);
+	result += ", \"typeID\" : ";
+	result += string::fromInt(typeID);
+	result += "}\r\n";
+
+	Log << result;
 }
 
 data::line::line data::line::line::spawn(datetime &start, datetime &end)

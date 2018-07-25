@@ -36,6 +36,8 @@ namespace data
 			bool initalised() { return init; }
 			void reset();
 
+			int identity() { return queryID; }
+
 			void clear();
 
 			void filter(compute::row **rows, unsigned long total, unsigned long lines);

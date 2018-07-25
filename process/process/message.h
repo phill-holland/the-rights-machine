@@ -48,6 +48,8 @@ namespace data
 			bool initalised() { return init; }
 			void reset();
 
+			int identity() { return messageID; }
+
 			void clear();
 
 			queue::base *findQ(string FQDN);
@@ -56,6 +58,9 @@ namespace data
 			void filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map);
 
 			void copy(message const &source);
+
+		public:
+			void output();
 
 		public:
 			string identifier() { return string("MESSAGE"); }

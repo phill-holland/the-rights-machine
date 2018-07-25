@@ -20,10 +20,10 @@ void data::message::message::reset()
 							&queries.temp.components.temp, &queries.temp.components,
 							&queries.temp, &queries, this };
 
-	for (long i = 0L; i < 11L; ++i)
+	for (long i = 0L; i < 15L; ++i)
 	{
-		Log << "ME " << identifiers[i]->identifier() << "\r\n";
-		Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
+	//	Log << "ME " << identifiers[i]->identifier() << "\r\n";
+	//	Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
 
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 	}
@@ -31,7 +31,7 @@ void data::message::message::reset()
 	queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
 	json *id[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
 
-	for (long i = 0L; i < 5L; ++i)
+	for (long i = 0L; i < 7L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
 	}
@@ -112,6 +112,14 @@ void data::message::message::copy(message const &source)
 	lines = source.lines;
 	components = source.components;
 	elements = source.elements;	
+}
+
+void data::message::message::output()
+{
+	for (long i = 0L; i < items.count(); ++i) items[i].output();
+	for (long i = 0L; i < lines.count(); ++i) lines[i].output();
+	for (long i = 0L; i < components.count(); ++i) components[i].output();
+	for (long i = 0L; i < elements.count(); ++i) elements[i].output();
 }
 
 bool data::message::message::add(custom::pair &source)

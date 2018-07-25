@@ -183,10 +183,12 @@ namespace allocator
 
 		X &get(long index)
 		{
+			if ((index < 0L) || (index >= elements)) return X();
+
 			if ((accessor.current == NULL) || (accessor.index + 1L != index))
 			{
-				if ((index >= 0) && (index < elements))
-				{
+				//if ((index >= 0) && (index < elements))
+				//{
 					ldiv_t t = div((long)index, Y);
 
 					int counter = 0;
@@ -204,7 +206,7 @@ namespace allocator
 						accessor.current = src;
 						return (*src)[t.rem];
 					}
-				}
+				//}
 			}
 			else
 			{
