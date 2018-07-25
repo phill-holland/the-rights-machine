@@ -88,7 +88,7 @@ DWORD WINAPI server::listener::background(thread *bt)
 							queue::base *b = task.message.findQ(FQDN());
 							if (b != NULL)
 							{
-								Log << "FLUSHING " << FQDN() << "\r\n";
+								//Log << "FLUSHING " << FQDN() << "\r\n";
 								b->flush();
 							}
 							
@@ -413,10 +413,12 @@ void server::listener::extract(string parent, string label, string value)
 	//string b = FQDN();
 
 	//Log << "A[" + a + "] B[" + b + "]\r\n";
+	//Log << "FIND " << FQDN() << "\r\n";
 
 	current = task.message.find(FQDN());//last());
 	if (current != NULL)
 	{
+		//Log << "FOUND\r\n";
 		//string a = current->FQDN();
 		//string b = FQDN();
 

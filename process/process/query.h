@@ -45,6 +45,9 @@ namespace data
 			void copy(query const &source);
 
 		public:
+			void output();
+
+		public:
 			string identifier() { return string("QUERY"); }
 			bool add(custom::pair &source);
 

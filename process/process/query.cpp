@@ -6,8 +6,15 @@ void data::query::query::reset()
 
 	clear();
 
-	components.json::parent(this);
-	elements.json::parent(&components);
+
+	//components.json::parent(&queries);
+	//elements.json::parent(&queries.temp.components);
+
+	//queries.temp.components.json::parent(&lines);
+	//queries.elements.json::parent(&components);
+
+	//components.json::parent(this);
+	//elements.json::parent(&components);
 
 	init = true;
 }
@@ -82,6 +89,15 @@ void data::query::query::copy(query const &source)
 	elements = source.elements;
 }
 
+void data::query::query::output()
+{
+	Log << "\"query\" : {\r\n";	
+	Log << "\"start\" : \"" << (string)start << "\",\r\n";
+	Log << "\"end\" : \"" << (string)end << "\",\r\n";
+	for (long i = 0L; i < components.count(); ++i) components[i].output();
+	for (long i = 0L; i < elements.count(); ++i) elements[i].output();
+	Log << "}\r\n";
+}
 
 void data::query::query::makeNull()
 {

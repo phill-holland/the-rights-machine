@@ -27,21 +27,23 @@ bool global::datetime::from(string &source)
 	for (long i = source.count() - 1L; i >=0L; i--)
 	{
 		if (ptr < 0L) return false;
+
+		if (source[i] == '-')
+		{
+			--ptr;
+			if (ptr >= 0L) idx = length[ptr];
+		}
+		
+		if (idx < 0L)
+		{
+			--ptr;
+			if (ptr >= 0L) idx = length[ptr];
+		}
+
 		if (source[i] != '-')
 		{
 			if (!((source[i] >= '0') && (source[i] <= '9'))) return false;
 			dest[ptr][idx--] = source[i];
-		}
-		else
-		{
-			--ptr;
-			if (ptr > 0L) idx = length[ptr];
-		}
-
-		if (idx < 0L)
-		{
-			--ptr;
-			if (ptr > 0) idx = length[ptr];
 		}
 	}
 
@@ -54,7 +56,13 @@ bool global::datetime::from(string &source)
 
 string global::datetime::to()
 {
-	return string("");
+	string result = string::fromInt(year);
+	result += "-";
+	result += string::fromInt(month);
+	result += "-";
+	result += string::fromInt(day);
+
+	return result;
 }
 
 global::datetime global::datetime::now()

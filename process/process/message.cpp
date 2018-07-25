@@ -8,6 +8,11 @@ void data::message::message::reset()
 	
 	items.json::parent(this);
 	queries.json::parent(this);
+
+	// need to move this into query class???
+	queries.temp.components.json::parent(&queries);
+	queries.temp.elements.json::parent(&queries.temp.components);
+
 	lines.json::parent(&items);
 	components.json::parent(&lines);
 	elements.json::parent(&components);
@@ -22,8 +27,8 @@ void data::message::message::reset()
 
 	for (long i = 0L; i < 15L; ++i)
 	{
-	//	Log << "ME " << identifiers[i]->identifier() << "\r\n";
-	//	Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
+		//Log << "ME " << identifiers[i]->identifier() << "\r\n";
+		//Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
 
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 	}
@@ -116,10 +121,13 @@ void data::message::message::copy(message const &source)
 
 void data::message::message::output()
 {
+	Log << "\"message\" : {\r\n";
+	for (long i = 0L; i < queries.count(); ++i) queries[i].output();
 	for (long i = 0L; i < items.count(); ++i) items[i].output();
 	for (long i = 0L; i < lines.count(); ++i) lines[i].output();
 	for (long i = 0L; i < components.count(); ++i) components[i].output();
 	for (long i = 0L; i < elements.count(); ++i) elements[i].output();
+	Log << "}\r\n";
 }
 
 bool data::message::message::add(custom::pair &source)

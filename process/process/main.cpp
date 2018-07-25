@@ -68,7 +68,7 @@ void test_dates()
 
 int test_elements()
 {
-	data::elements::elements<2L> elements;
+	data::elements::elements<10L> elements, copy;
 
 	string names[] = {"english", "french", "german", "french", "urdu", "flemish", "polish" };
 	for (int i = 0; i < 7; ++i)
@@ -88,6 +88,14 @@ int test_elements()
 		Log << temp.value << "\r\n";
 	}
 
+	copy = elements;
+	Log << "copy count " << copy.count() << "\r\n";
+	for (int i = 0; i < copy.count(); ++i)
+	{
+		data::element::element temp = elements[i];
+		Log << "copy " << temp.value << "\r\n";
+	}
+
 	return 0;
 }
 
@@ -98,6 +106,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 {
 
 	test();
+	//datetime tm(string("2018-06-02"));
 	//test_elements();
 	//test_dates();
 	// build in-memory queue

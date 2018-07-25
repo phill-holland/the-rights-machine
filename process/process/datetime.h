@@ -12,6 +12,7 @@ namespace global
 
 	public:
 		datetime() { clear(); }
+		datetime(string const &source) { clear(); from((string)source); }
 		datetime(datetime const &source) { clear(); copy(source); }
 		datetime(int y, int m, int d)
 		{
@@ -32,6 +33,8 @@ namespace global
 		void copy(datetime const &source);
 
 	public:
+		operator string() { return to(); }
+
 		datetime& operator=(const datetime& source)
 		{
 			this->copy((datetime&)source);

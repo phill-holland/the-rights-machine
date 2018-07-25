@@ -24,7 +24,12 @@ void data::line::line::copy(line const &source)
 
 void data::line::line::output()
 {
-	string result = "\"line\" : {\"lineID\" : ";
+	string result = "\"line\" : {";
+	result += "\"start\" : \"";
+	result += (string)start;
+	result += "\", \"end\" : \"";
+	result += (string)end;
+	result += "\", \"lineID\" : ";
 	result += string::fromInt(lineID);
 	result += ", \"itemID\" : ";
 	result += string::fromInt(itemID);

@@ -45,6 +45,8 @@ namespace allocator
 				init = true;
 			}
 
+			long count() { return write; }
+
 			bool isfull()
 			{
 				return (write >= Y);
@@ -269,9 +271,9 @@ namespace allocator
 			block<X, Y> *src = source.head;
 			while (src != NULL)
 			{
-				for (long i = 0L; i < Y; ++i)
+				for (long i = 0L; i < src->count(); ++i)
 				{
-					set(*src->data[i]);
+					if (!set(*src->data[i])) return false;
 				}
 				src = src->next;
 			}
