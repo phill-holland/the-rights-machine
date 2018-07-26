@@ -158,9 +158,14 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="address.h" />
     <ClInclude Include="allocator.h" />
+    <ClInclude Include="authentication.h" />
+    <ClInclude Include="errors.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="parameter.h" />
+    <ClInclude Include="parameters.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="results.h" />
     <ClInclude Include="row.h" />
@@ -206,13 +211,18 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="string.h" />
     <ClInclude Include="task.h" />
     <ClInclude Include="thread.h" />
-    <ClInclude Include="web.h" />
+    <ClInclude Include="page.h" />
     <ClInclude Include="wsock.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="address.cpp" />
     <ClCompile Include="allocator.cpp" />
+    <ClCompile Include="authentication.cpp" />
+    <ClCompile Include="errors.cpp" />
     <ClCompile Include="header.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="parameter.cpp" />
+    <ClCompile Include="parameters.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="results.cpp" />
     <ClCompile Include="row.cpp" />
@@ -259,7 +269,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="string.cpp" />
     <ClCompile Include="task.cpp" />
     <ClCompile Include="thread.cpp" />
-    <ClCompile Include="web.cpp" />
+    <ClCompile Include="page.cpp" />
     <ClCompile Include="wsock.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

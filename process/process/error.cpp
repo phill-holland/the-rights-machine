@@ -1,6 +1,7 @@
 #include "error.h"
 #include <stdlib.h>
 
+/*
 char errorLog::errorString[errorStrLen] = { "" };
 char errorLog::classString[errorStrLen] = { "" };
 
@@ -42,3 +43,4 @@ char *errorLog::getLastErrorString()
 errorCode getLastError() { return errorLog::lastError; }
 
 char *getLastErrorString() { return errorLog::getLastErrorString(); }
+*/

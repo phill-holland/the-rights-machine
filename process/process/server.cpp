@@ -5,29 +5,6 @@
 
 DWORD WINAPI server::listener::background(thread *bt)
 {
-	// find HTTP headers, and validate
-	// need SSL here
-
-
-	//char **parents;
-
-	//depth = 0L;
-	//int DEPTH = 15;
-
-	//bool quotes = false;
-	//bool left = true;
-
-	//int brackets = 0;
-	//int squares = 0;
-
-	//char label[255];
-	//int index = 0;
-	//memset(label, 0, 255);
-
-	//char value[255];
-	//int val_index = 0;
-	//memset(value, 0, 255);
-
 	Sleep(10);
 
 	if ((c->isopen()) && (!c->isError()))
@@ -39,6 +16,45 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 			if (header)
 			{
+				if (receiving[i] == ':')
+				{
+					left = false;
+				}
+				else if ((receiving[i] != 13) && (receiving[i] != 10))
+				{
+					if (left)
+					{
+						label[idx_label++] = receiving[i];
+						if (idx_label >= LENGTH)
+						{
+							// error
+						}
+					}
+					else
+					{
+						value[idx_value++] = receiving[i];
+						if (idx_value >= LENGTH)
+						{
+							// error
+						}
+					}
+				}
+
+				// *****
+				if ((receiving[i] == 13) || (receiving[i] == 10))
+				{
+					if ((idx_label > 0) || (idx_value > 0))
+					{
+						parameters.add(web::parameter(string(label), string(value)));
+					}
+
+					left = true;
+					idx_label = 0;
+					idx_value = 0;
+					memset(label, 0, LENGTH);
+					memset(value, 0, LENGTH);
+				}
+
 				if (receiving[i] == 13) ++h_index;
 				else if ((receiving[i] == 10) && (h_index == 1)) ++h_index;
 				else if ((receiving[i] == 13) && (h_index == 2)) ++h_index;
@@ -96,6 +112,9 @@ DWORD WINAPI server::listener::background(thread *bt)
 							{
 								Log << "PUSH MESSAGE TO OUTPUT\r\n";
 								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
+
+								// query, component needs correct parentID
+								// query, needs item name
 
 								task.message.output();
 
@@ -293,6 +312,8 @@ void server::listener::reset(client *source)
 
 void server::listener::clear()
 {
+	parameters.clear();
+
 	header = true;
 	h_index = 0;
 
@@ -754,7 +775,7 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 
 	mutex lock(s->token);
 
-	for (long i = 0; i < s->config.clients; ++i)
+	for (long i = 0; i < s->configuration.clients; ++i)
 	{
 		if (s->clients[i]->isError())
 		{
@@ -770,20 +791,20 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 	return (DWORD)0;
 }
 
-void server::server::reset(::server::configuration *settings)
+void server::server::reset(::server::configuration::configuration *settings)
 {
 	init = false; cleanup();
 	iterations = 0L; counter = 0L;
 
-	config = *settings;
+	configuration = *settings;
 	//config.copy(settings);
 
-	clients = new client*[config.clients];
+	clients = new client*[configuration.clients];
 	if (clients == NULL) return;
 
-	for (long i = 0L; i < config.clients; ++i)
+	for (long i = 0L; i < configuration.clients; ++i)
 	{
-		clients[i] = new client(config.get());
+		clients[i] = new client(configuration.manager);// get());
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}
@@ -817,7 +838,7 @@ void server::server::stop()
 
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i] != NULL) clients[i]->stopAndWait();
 		}
@@ -839,7 +860,7 @@ void server::server::shutdown()
 
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i]->isopen()) clients[i]->shutdown();
 		}
@@ -858,7 +879,7 @@ server::client *server::server::findUnconnectedClient()
 {
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (!clients[i]->isopen())
 			{
@@ -876,7 +897,7 @@ server::client *server::server::findConnectedIdleClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -898,7 +919,7 @@ server::client *server::server::findConnectedReadyClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -920,7 +941,7 @@ server::client *server::server::findCompletedClient(long &index)
 	{
 		index = 0L;
 
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i]->isopen())
 			{
@@ -959,7 +980,7 @@ void server::server::cleanup()
 	if (waiter != NULL) delete waiter;
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < config.clients; ++i)
+		for (long i = 0L; i < configuration.clients; ++i)
 		{
 			if (clients[i] != NULL) delete clients[i];
 		}

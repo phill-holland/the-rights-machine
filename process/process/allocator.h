@@ -5,6 +5,7 @@
 
 namespace allocator
 {
+	// THIS NEEDS MUTEX LOCKS
 
 	template <class X, long Y> class allocator : public queue::in<X>, public queue::base//queue<X>
 	{

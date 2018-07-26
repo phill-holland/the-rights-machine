@@ -1,31 +1,97 @@
-﻿Build started 25/07/2018 18:39:59.
-     1>Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt datetime.cpp main.cpp
+﻿Build started 26/07/2018 19:49:22.
+     1>Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" on node 2 (Rebuild target(s)).
+     1>CudaClean:
+         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmpd107b1492c17462da1ddf21d86a9bb22.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" -clean
+         
+         C:\Git\rights\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" -clean 
+         kernel.cu
+       AddCudaCompileDeps:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files (x86)\Visual Leak Detector\include" /IC:\build-OpenSSL-VC64\include /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Git\rights\the-rights-machine\process\process\kernel.cu 
+       CudaBuild:
+         Compiling CUDA source file kernel.cu...
+         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmpbced29571d734881a95f0d94495caada.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu"
+         
+         C:\Git\rights\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" 
+         kernel.cu
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt address.cpp allocator.cpp authentication.cpp errors.cpp header.cpp map.cpp parameter.cpp parameters.cpp result.cpp results.cpp row.cpp zone.cpp buffer.cpp comparison.cpp component.cpp components.cpp compute.cpp configuration.cpp console.cpp cpu.cpp database.cpp datetime.cpp element.cpp elements.cpp error.cpp factory.cpp fifo.cpp gpu.cpp grid.cpp http.cpp item.cpp items.cpp line.cpp lines.cpp list.cpp manager.cpp message.cpp odbc.cpp log.cpp main.cpp mutex.cpp pair.cpp process.cpp queries.cpp query.cpp queue.cpp queues.cpp json.cpp response.cpp server.cpp ssl.cpp string.cpp task.cpp thread.cpp page.cpp wsock.cpp
+         wsock.cpp
+         page.cpp
+     1>c:\git\rights\the-rights-machine\process\process\parameters.h(46): warning C4172: returning address of local variable or temporary
+         thread.cpp
+         task.cpp
+         string.cpp
+         ssl.cpp
+         server.cpp
+     1>c:\git\rights\the-rights-machine\process\process\parameters.h(46): warning C4172: returning address of local variable or temporary
+         response.cpp
+         json.cpp
+         queues.cpp
+         queue.cpp
+         query.cpp
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(189): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(188) : while compiling class template member function 'data::component::component &allocator::allocator<data::component::component,10>::get(long)'
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(294) : see reference to function template instantiation 'data::component::component &allocator::allocator<data::component::component,10>::get(long)' being compiled
+                 c:\git\rights\the-rights-machine\process\process\components.h(13) : see reference to class template instantiation 'allocator::allocator<data::component::component,10>' being compiled
+                 c:\git\rights\the-rights-machine\process\process\query.h(27) : see reference to class template instantiation 'data::components::components<10>' being compiled
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(235): warning C4172: returning address of local variable or temporary
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(79): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(78) : while compiling class template member function 'data::component::component &allocator::allocator<data::component::component,10>::block<X,10>::get(long)'
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(108) : see reference to function template instantiation 'data::component::component &allocator::allocator<data::component::component,10>::block<X,10>::get(long)' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(242) : see reference to class template instantiation 'allocator::allocator<data::component::component,10>::block<X,10>' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(239) : while compiling class template member function 'bool allocator::allocator<data::component::component,10>::set(X &)'
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\components.h(34) : see reference to function template instantiation 'bool allocator::allocator<data::component::component,10>::set(X &)' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+         queries.cpp
+         process.cpp
+         pair.cpp
+         mutex.cpp
          main.cpp
-     1>c:\git\rights\the-rights-machine\process\process\allocator.h(188): warning C4172: returning address of local variable or temporary
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(187) : while compiling class template member function 'data::element::element &allocator::allocator<data::element::element,10>::get(long)'
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(293) : see reference to function template instantiation 'data::element::element &allocator::allocator<data::element::element,10>::get(long)' being compiled
+     1>c:\git\rights\the-rights-machine\process\process\parameters.h(46): warning C4172: returning address of local variable or temporary
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(189): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(188) : while compiling class template member function 'data::element::element &allocator::allocator<data::element::element,10>::get(long)'
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(294) : see reference to function template instantiation 'data::element::element &allocator::allocator<data::element::element,10>::get(long)' being compiled
                  c:\git\rights\the-rights-machine\process\process\elements.h(13) : see reference to class template instantiation 'allocator::allocator<data::element::element,10>' being compiled
                  c:\git\rights\the-rights-machine\process\process\query.h(28) : see reference to class template instantiation 'data::elements::elements<10>' being compiled
-     1>c:\git\rights\the-rights-machine\process\process\allocator.h(234): warning C4172: returning address of local variable or temporary
-     1>c:\git\rights\the-rights-machine\process\process\allocator.h(78): warning C4172: returning address of local variable or temporary
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(77) : while compiling class template member function 'data::element::element &allocator::allocator<data::element::element,10>::block<X,10>::get(long)'
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(235): warning C4172: returning address of local variable or temporary
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(79): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(78) : while compiling class template member function 'data::element::element &allocator::allocator<data::element::element,10>::block<X,10>::get(long)'
                  with
                  [
                      X=data::element::element
                  ]
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(107) : see reference to function template instantiation 'data::element::element &allocator::allocator<data::element::element,10>::block<X,10>::get(long)' being compiled
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(108) : see reference to function template instantiation 'data::element::element &allocator::allocator<data::element::element,10>::block<X,10>::get(long)' being compiled
                  with
                  [
                      X=data::element::element
                  ]
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(241) : see reference to class template instantiation 'allocator::allocator<data::element::element,10>::block<X,10>' being compiled
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(242) : see reference to class template instantiation 'allocator::allocator<data::element::element,10>::block<X,10>' being compiled
                  with
                  [
                      X=data::element::element
                  ]
-                 c:\git\rights\the-rights-machine\process\process\allocator.h(238) : while compiling class template member function 'bool allocator::allocator<data::element::element,10>::set(X &)'
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(239) : while compiling class template member function 'bool allocator::allocator<data::element::element,10>::set(X &)'
                  with
                  [
                      X=data::element::element
@@ -35,13 +101,126 @@
                  [
                      X=data::element::element
                  ]
+         log.cpp
+         odbc.cpp
+         message.cpp
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(189): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(188) : while compiling class template member function 'data::component::component &allocator::allocator<data::component::component,10>::get(long)'
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(294) : see reference to function template instantiation 'data::component::component &allocator::allocator<data::component::component,10>::get(long)' being compiled
+                 c:\git\rights\the-rights-machine\process\process\components.h(13) : see reference to class template instantiation 'allocator::allocator<data::component::component,10>' being compiled
+                 c:\git\rights\the-rights-machine\process\process\query.h(27) : see reference to class template instantiation 'data::components::components<10>' being compiled
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(235): warning C4172: returning address of local variable or temporary
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(79): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(78) : while compiling class template member function 'data::component::component &allocator::allocator<data::component::component,10>::block<X,10>::get(long)'
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(108) : see reference to function template instantiation 'data::component::component &allocator::allocator<data::component::component,10>::block<X,10>::get(long)' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(242) : see reference to class template instantiation 'allocator::allocator<data::component::component,10>::block<X,10>' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(239) : while compiling class template member function 'bool allocator::allocator<data::component::component,10>::set(X &)'
+                 with
+                 [
+                     X=data::component::component
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\components.h(34) : see reference to function template instantiation 'bool allocator::allocator<data::component::component,10>::set(X &)' being compiled
+                 with
+                 [
+                     X=data::component::component
+                 ]
+         Generating Code...
+         Compiling...
+         manager.cpp
+         list.cpp
+         lines.cpp
+         line.cpp
+         items.cpp
+         item.cpp
+         http.cpp
+     1>c:\git\rights\the-rights-machine\process\process\parameters.h(46): warning C4172: returning address of local variable or temporary
+         grid.cpp
+         gpu.cpp
+         fifo.cpp
+         factory.cpp
+         error.cpp
+         elements.cpp
+         element.cpp
          datetime.cpp
+         database.cpp
+         cpu.cpp
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(189): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(188) : while compiling class template member function 'data::query::query &allocator::allocator<data::query::query,10>::get(long)'
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(294) : see reference to function template instantiation 'data::query::query &allocator::allocator<data::query::query,10>::get(long)' being compiled
+                 c:\git\rights\the-rights-machine\process\process\queries.h(11) : see reference to class template instantiation 'allocator::allocator<data::query::query,10>' being compiled
+                 c:\git\rights\the-rights-machine\process\process\message.h(37) : see reference to class template instantiation 'data::queries::queries<10>' being compiled
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(235): warning C4172: returning address of local variable or temporary
+     1>c:\git\rights\the-rights-machine\process\process\allocator.h(79): warning C4172: returning address of local variable or temporary
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(78) : while compiling class template member function 'data::query::query &allocator::allocator<data::query::query,10>::block<X,10>::get(long)'
+                 with
+                 [
+                     X=data::query::query
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(108) : see reference to function template instantiation 'data::query::query &allocator::allocator<data::query::query,10>::block<X,10>::get(long)' being compiled
+                 with
+                 [
+                     X=data::query::query
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(242) : see reference to class template instantiation 'allocator::allocator<data::query::query,10>::block<X,10>' being compiled
+                 with
+                 [
+                     X=data::query::query
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\allocator.h(239) : while compiling class template member function 'bool allocator::allocator<data::query::query,10>::set(X &)'
+                 with
+                 [
+                     X=data::query::query
+                 ]
+                 c:\git\rights\the-rights-machine\process\process\queries.h(32) : see reference to function template instantiation 'bool allocator::allocator<data::query::query,10>::set(X &)' being compiled
+                 with
+                 [
+                     X=data::query::query
+                 ]
+         console.cpp
+         configuration.cpp
+         compute.cpp
+         Generating Code...
+         Compiling...
+         components.cpp
+         component.cpp
+         comparison.cpp
+         buffer.cpp
+         zone.cpp
+         row.cpp
+         results.cpp
+         result.cpp
+         parameters.cpp
+     1>c:\git\rights\the-rights-machine\process\process\parameters.h(46): warning C4172: returning address of local variable or temporary
+         parameter.cpp
+         map.cpp
+         header.cpp
+         errors.cpp
+         authentication.cpp
+         allocator.cpp
+         address.cpp
          Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files (x86)\Visual Leak Detector\lib\Win64" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\rights\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\kernel.cu.obj
+         x64\Debug\address.obj
          x64\Debug\allocator.obj
+         x64\Debug\authentication.obj
+         x64\Debug\errors.obj
          x64\Debug\header.obj
          x64\Debug\map.obj
+         x64\Debug\parameter.obj
+         x64\Debug\parameters.obj
          x64\Debug\result.obj
          x64\Debug\results.obj
          x64\Debug\row.obj
@@ -88,7 +267,7 @@
          x64\Debug\string.obj
          x64\Debug\task.obj
          x64\Debug\thread.obj
-         x64\Debug\web.obj
+         x64\Debug\page.obj
          x64\Debug\wsock.obj
          process.vcxproj -> C:\Git\rights\the-rights-machine\process\x64\Debug\process.exe
        PostBuildEvent:
@@ -99,8 +278,8 @@
          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart32_75.dll
          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart64_75.dll
                  2 file(s) copied.
-     1>Done Building Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" (Build target(s)).
+     1>Done Building Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.25
+Time Elapsed 00:00:54.75

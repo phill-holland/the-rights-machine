@@ -2,16 +2,10 @@
 #include <windows.h>
 #include "thread.h"
 #include "message.h"
-//#include "items.h"
-//#include "item.h"
-//#include "lines.h"
-//#include "line.h"
-//#include "components.h"
-//#include "component.h"
 #include "fifo.h"
 #include "manager.h"
 #include "configuration.h"
-//#include "allocator.h"
+#include "parameters.h"
 
 // need error class, to create response error json/or message
 
@@ -44,68 +38,6 @@
 
 namespace server
 {
-	/*
-	class queue_item
-	{
-		// this is a new message!!!
-		// move find function into message class
-
-		int component_counter;
-		int element_counter;
-		int line_counter;
-		int item_counter;
-		int message_counter;
-		//int item_counter;
-
-	public:
-		data::message::base message;
-		data::item::base item;
-
-		allocator::allocator<data::line::base, 10L> lines;
-		allocator::allocator<data::component::base, 10L> components;
-		allocator::allocator<data::element::element, 10L> elements;
-
-	public:
-		void add(data::message::base &source)
-		{
-			source.messageID = message_counter;
-			message.copy(source);
-			++message_counter;
-			line_counter = 1;
-			item_counter = 1;
-			element_counter = 1;
-		}
-
-		void add(data::item::item &source)
-		{
-			source.messageID = message_counter;
-			source.itemID = item_counter++;
-			item.copy(source);
-		}
-
-		void add(data::line::line &source)
-		{
-			source.lineID = line_counter++;
-			source.itemID = item_counter;
-			lines.set(source);
-		}
-
-		void add(data::component::base &source)
-		{
-			source.componentID = component_counter++;
-			source.lineID = line_counter;
-			components.set(source);
-		}
-
-		void add(data::element::element &source)
-		{
-			source.elementID = element_counter++;
-			source.componentID = component_counter;
-			elements.set(source);
-		}
-	};
-	*/
-	// ****
 	class client;
 
 	class listener : public thread
@@ -114,6 +46,8 @@ namespace server
 		static const long ERRORS = 5L;
 		static const long DEPTH = 15L;
 		static const long LENGTH = 255L;
+
+		web::parameters parameters;
 
 		char receiving[RECEIVING];	
 
@@ -138,40 +72,10 @@ namespace server
 		char value[LENGTH];
 		long idx_value;
 
-		//class moo
-		//{
-		//public:
-			//data::message::message message;
-			//::queue::queue<data::response> *responses;
-		//};
-
-		//data::message::message message;
-
-		//custom::fifo<data::response, 10L> responses;
-		//::queue::queue<data::response> *responses;
-
 		compute::task task;
-
-		/*
-		data::message::base message;
-		data::items::base items;
-		data::item::base item;
-		data::lines::base lines;
-		data::line::base line;
-		data::components::base components;
-		data::component::base component;
-		data::elements::base elements;
-		data::element::element element;
-		*/
+		
 		data::json *current;
 
-		/*
-		data::items::items<10L> temp_items;
-		data::item::item temp_item;
-		data::lines::lines<10L> temp_lines;
-		data::line::line temp_line;
-		data::components::components<10L> temp_comps;
-		*/
 		client *c;
 
 		bool init;
@@ -189,7 +93,6 @@ namespace server
 		void clear();
 
 	protected:
-		//data::json *find(string label);
 		string last();
 		string FQDN(string label = "");
 		void extract(string parent, string label, string value);		
@@ -338,7 +241,7 @@ namespace server
 
 		client **clients;
 
-		::server::configuration config;
+		::server::configuration::configuration configuration;
 
 		::server::wait *waiter;
 		::server::watchdog *watcher;
@@ -350,13 +253,13 @@ namespace server
 		bool init;
 
 	public:
-		server(::server::configuration *settings) { makeNull(); reset(settings); }
+		server(::server::configuration::configuration *settings) { makeNull(); reset(settings); }
 		~server() { cleanup(); }
 
-		void reset(::server::configuration *settings);
+		void reset(::server::configuration::configuration *settings);
 		bool initalised() { return init; }
 
-		bool open() { return ::wsock::server::open(config.port); }
+		bool open() { return ::wsock::server::open(configuration.port); }
 
 		bool start();
 		void stop();

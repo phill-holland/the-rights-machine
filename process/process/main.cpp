@@ -5,6 +5,7 @@
 #include "queues.h"
 #include "cpu.h"
 #include "server.h"
+#include "errors.h"
 #include "log.h"
 
 #include "element.h"
@@ -18,11 +19,14 @@ void test()
 	compute::cpu::cpu cpu(&messages);
 	if (!cpu.start()) return;
 
-	manager::manager manager(&responses);
-	
+	manager::manager manager(&responses);	
 	manager.add(&cpu);
 
-	server::configuration configuration(&manager);
+	error::console::errors console;
+	error::errors errors(&console);
+	if (!errors.start()) return;
+
+	server::configuration::configuration configuration(&manager, &errors);
 	server::server *server = new server::server(&configuration);
 
 	if (server == NULL) return;

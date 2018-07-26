@@ -2,13 +2,14 @@
 //#include "data.h"
 #include "string.h"
 #include "thread.h"
+#include "queue.h"
 
 #if !defined(__CONSOLE)
 #define __CONSOLE
 
 namespace console
 {
-	class console //: public data::fifo::destination<string>
+	class console : public queue::in<string>//: public data::fifo::destination<string>
 	{
 		CONSOLE_SCREEN_BUFFER_INFO info;
 
