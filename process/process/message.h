@@ -37,7 +37,7 @@ namespace data
 			data::queries::queries<10L> queries;
 			data::items::items<10L> items;
 			data::lines::lines<10L> lines;
-			data::components::components<10L> components;
+			data::components::line::components<10L> components;
 			data::elements::elements<10L> elements;
 
 		public:

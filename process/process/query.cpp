@@ -6,16 +6,6 @@ void data::query::query::reset()
 
 	clear();
 
-
-	//components.json::parent(&queries);
-	//elements.json::parent(&queries.temp.components);
-
-	//queries.temp.components.json::parent(&lines);
-	//queries.elements.json::parent(&components);
-
-	//components.json::parent(this);
-	//elements.json::parent(&components);
-
 	init = true;
 }
 

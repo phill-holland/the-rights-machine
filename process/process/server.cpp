@@ -20,7 +20,7 @@ DWORD WINAPI server::listener::background(thread *bt)
 				{
 					left = false;
 				}
-				else if ((receiving[i] != 13) && (receiving[i] != 10))
+				else if ((receiving[i] != 13) && (receiving[i] != 10) && (receiving[i] != ' '))
 				{
 					if (left)
 					{

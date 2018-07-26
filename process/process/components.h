@@ -10,48 +10,98 @@ namespace data
 {
 	namespace components
 	{
-		template <long Y> class components : public allocator::allocator<component::component, Y>, public json, public mapping::mapper
+		namespace line
 		{
-			int index;
-
-		public:
-			component::component temp;
-
-		public:
-			components() { index = 0; temp.parent(this); }
-			components(json *parent) { index = 0; json::parent(parent); }
-
-		public:
-			int identity() { return index; }
-
-			bool flush() override
+			template <long Y> class components : public allocator::allocator<component::line::component, Y>, public json, public mapping::mapper
 			{
-				temp.componentID = index++;
-				temp.lineID = progenitor();
+				int index;
 
-				push(temp.name, temp.componentID, temp.lineID);
+			public:
+				component::line::component temp;
 
-				bool result = ::allocator::allocator<component::component, Y>::set(temp);
-				
-				temp.clear();
-				
-				return result;
-			}
-			
-			void clear() 
-			{ 
-				index = 0;
-				temp.clear();
-				mapper::empty();
-				::allocator::allocator<component::component, Y>::reset();
-			} 
+			public:
+				components() { index = 0; temp.parent(this); }
+				components(json *parent) { index = 0; json::parent(parent); }
 
-			string identifier() { return string("COMPONENTS"); }
+			public:
+				int identity() { return index; }
 
-			bool add(custom::pair &source)
+				bool flush() override
+				{
+					temp.componentID = index++;
+					temp.lineID = progenitor();
+
+					push(temp.name, temp.componentID, temp.lineID);
+
+					bool result = ::allocator::allocator<component::line::component, Y>::set(temp);
+
+					temp.clear();
+
+					return result;
+				}
+
+				void clear()
+				{
+					index = 0;
+					temp.clear();
+					mapper::empty();
+					::allocator::allocator<component::line::component, Y>::reset();
+				}
+
+				string identifier() { return string("COMPONENTS"); }
+
+				bool add(custom::pair &source)
+				{
+					return temp.add(source);
+				}
+			};
+		};
+
+		namespace query
+		{
+			template <long Y> class components : public allocator::allocator<component::query::component, Y>, public json, public mapping::mapper
 			{
-				return temp.add(source);
-			}
+				int index;
+
+			public:
+				component::query::component temp;
+
+			public:
+				components() { index = 0; temp.parent(this); }
+				components(json *parent) { index = 0; json::parent(parent); }
+
+			public:
+				int identity() { return index; }
+
+				bool flush() override
+				{
+					temp.componentID = index++;
+					temp.queryID = progenitor();
+
+					push(temp.name, temp.componentID, temp.queryID);
+
+					bool result = ::allocator::allocator<component::query::component, Y>::set(temp);
+
+					temp.clear();
+
+					return result;
+				}
+
+				void clear()
+				{
+					index = 0;
+					temp.clear();
+					mapper::empty();
+					::allocator::allocator<component::query::component, Y>::reset();
+				}
+
+				string identifier() { return string("COMPONENTS"); }
+
+				bool add(custom::pair &source)
+				{
+					return temp.add(source);
+				}
+			};
 		};
 	};
 };

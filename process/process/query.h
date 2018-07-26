@@ -24,7 +24,7 @@ namespace data
 			int messageID;
 
 		public:
-			data::components::components<10L> components;
+			data::components::query::components<10L> components;
 			data::elements::elements<10L> elements;
 
 		public:
