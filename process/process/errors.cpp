@@ -15,7 +15,7 @@ DWORD WINAPI error::errors::background(thread *bt)
 	return (DWORD)0;
 }
 
-void error::errors::reset(::queue::in<::error::error> *destination)
+void error::errors::reset(::queue::in<::error::type::type> *destination)//::queue::in<::error::error> *destination)
 {
 	init = false; cleanup();
 
@@ -30,9 +30,7 @@ void error::errors::clear()
 {
 	mutex lock(token);
 
-	queue.clear();
-
-	counter = 0L;
+	reset();
 }
 
 bool error::errors::set(::error::error &source)
@@ -52,13 +50,20 @@ bool error::errors::flush()
 
 		for (long i = 0L; i < (long)queue.size(); ++i)
 		{
-			if (!destination->set(queue[i])) return false;
+			//if (!destination->set(queue[i])) return false;
+			if (!destination->set(lookup(queue[i]))) return false;
 		}
 
-		clear();
+		reset();
 	}
 
 	return true;
+}
+
+void error::errors::reset()
+{
+	queue.clear();
+	counter = 0L;
 }
 
 void error::errors::makeNull()

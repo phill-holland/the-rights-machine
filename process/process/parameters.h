@@ -39,7 +39,7 @@ namespace web
 			return true;
 		}
 
-		parameter get(unsigned long index)
+		parameter& get(unsigned long index)
 		{
 			return headers[index];
 		}

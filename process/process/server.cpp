@@ -1,5 +1,4 @@
 #include "server.h"
-//#include "parser.h"
 #include "task.h"
 #include "log.h"
 
@@ -14,7 +13,23 @@ DWORD WINAPI server::listener::background(thread *bt)
 		{
 			errors = 0L;
 
-			if (header)
+			if (request)
+			{
+				if(!command.push(receiving[i]))
+				{
+					error(string("STRING_TOO_LONG"));
+				}
+
+				if (receiving[i] == 13) ++h_index;
+				else if ((receiving[i] == 10) && (h_index == 1))
+				{
+					h_index = 0;
+
+					request = false;
+					header = true;
+				}
+			}
+			else if (header)
 			{
 				if (receiving[i] == ':')
 				{
@@ -24,42 +39,49 @@ DWORD WINAPI server::listener::background(thread *bt)
 				{
 					if (left)
 					{
-						label[idx_label++] = receiving[i];
-						if (idx_label >= LENGTH)
+						if(!label.push(receiving[i]))
 						{
-							// error
+							error(string("STRING_TOO_LONG"));
 						}
 					}
 					else
 					{
-						value[idx_value++] = receiving[i];
-						if (idx_value >= LENGTH)
+						if(!value.push(receiving[i]))
 						{
-							// error
+							error(string("STRING_TOO_LONG"));
 						}
 					}
 				}
 
-				// *****
 				if ((receiving[i] == 13) || (receiving[i] == 10))
 				{
-					if ((idx_label > 0) || (idx_value > 0))
+					if(!label.isempty() || !value.isempty())
 					{
-						parameters.add(web::parameter(string(label), string(value)));
+						parameters.add(web::parameter((string)label, (string)value));
 					}
 
 					left = true;
-					idx_label = 0;
-					idx_value = 0;
-					memset(label, 0, LENGTH);
-					memset(value, 0, LENGTH);
+
+					label.clear();
+					value.clear();
 				}
 
 				if (receiving[i] == 13) ++h_index;
 				else if ((receiving[i] == 10) && (h_index == 1)) ++h_index;
 				else if ((receiving[i] == 13) && (h_index == 2)) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 3)) header = false;
+				else if ((receiving[i] == 10) && (h_index == 3)) { validate = true; header = false; }
 				else h_index = 0;
+			}
+			else if (validate)
+			{
+				//get first line of HTTP GET function - to determine which function was called
+					//determine if get or post!!!
+
+					//get host - ip address, log
+					//get content - type check application / json
+					//get content - length
+					//check http1.1
+				validate = false;
 			}
 			else
 			{
@@ -67,194 +89,122 @@ DWORD WINAPI server::listener::background(thread *bt)
 				{
 					quotes = !quotes;
 				}
-				else // HMMMMM
+				else
 				{
-					// if LABEL == MESSAGE - GENERATE GUID for MESSAGE
 					if (!quotes)
 					{
 						if (receiving[i] == '{')
 						{
-							// just pull the last non-empty parent
-							//if (idx_label > 0)
-							//{
-								strncpy_s(&parents[depth++][0], LENGTH, label, LENGTH);
-								idx_label = 0;
-								memset(label, 0, LENGTH);
-							//}
+							if (!parents.push((string)label))
+							{
+								error(string("NESTING_TOO_DEEP"));
+							}
+
+							label.clear();
+							value.clear();
+
 							left = true;
 
 							++brackets;
-
-							idx_value = 0;
-							memset(value, 0, LENGTH);
-
-							if (depth >= DEPTH)
-							{
-								// error
-							}
 						}
 						else if (receiving[i] == '}')
 						{
-							if (depth > 0)
+							if(!parents.isempty())
 							{
-								extract(string(&parents[depth - 1][0]), string(label), string(value));
+								current = task.message.find(parents.FQDN());
+								if (current != NULL) current->add(custom::pair(label, value));
 							}
 
-							// OK 
-							queue::base *b = task.message.findQ(FQDN());
-							if (b != NULL)
-							{
-								//Log << "FLUSHING " << FQDN() << "\r\n";
-								b->flush();
-							}
+							queue::base *b = task.message.findQ(parents.FQDN());
+							if (b != NULL) b->flush();
 							
-							if (FQDN().icompare(task.message.items.FQDN()))
+							if (parents.FQDN().icompare(task.message.items.FQDN()))
 							{
 								Log << "PUSH MESSAGE TO OUTPUT\r\n";
 								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
 
-								// query, component needs correct parentID
-								// query, needs item name
-
 								task.message.output();
 
-								//::compute::task t;
-								//t.message = &message;
-								//t.response = &responses;
-								//c->server->config->manager->push(t);
-								//c->manager->push(compute::task(&message, &response));
 								if (!c->manager->set(task))
 								{
-									// ERROR
+									error(string("MESSAGE_PUSH"));
 								}
 							}
 
-							// SILLY - FLUSH MESSAGE to output QUEUE
-							// WHEN items ] reached
-
-							// CHECK FQDN() == message.identifier()
-							// if true, message.flush()
-							//  ALSO
-							// if content-length reached, or CRLF CRLF
-							// and not flushed message, flush message anyway
-							// WAIT, I don't need to flush the message!!!!
-
-							// ****
-							// SAVE VALUE
-							// ****
-							//component.value.copy(value);
-							//if (string(&parents[depth - 1][0]).icompare(element.identifier()))
-							//{
-								//Log << "PUMP\r\n";
-								// push to components
-								//Log << "Component [value=" << component.value << "]\r\n";
-								//temp_comps.set(component);
-							//}
-
 							left = true;
-							idx_label = 0;
-							idx_value = 0;
-							memset(label, 0, LENGTH);
-							memset(value, 0, LENGTH);
 
-							// this is wrong, needs to be depth - 1
-							memset(&parents[depth - 1][0], 0, LENGTH);
+							label.clear();
+							value.clear();
 
-							--depth;
+							if (!parents.pop())
+							{
+								error(string("BRACKET_MISMATCH"));
+							}
+
 							--brackets;
 							if (brackets < 0)
 							{
-								// error!
-							}
-							if (depth < 0)
-							{
-								// error
+								error(string("BRACKET_MISMATCH"));
 							}
 						}
 						else if (receiving[i] == '[')
 						{
-							strncpy_s(&parents[depth++][0], LENGTH, label, LENGTH);
-							idx_label = 0;
-							memset(label, 0, LENGTH);
+							if (!parents.push(label))
+							{
+								error(string("NESTING_TOO_DEEP"));
+							}
+
+							label.clear();
+							value.clear();
+
 							left = true;
 							++squares;
-
-							idx_value = 0;
-							memset(value, 0, LENGTH);
-
-							if (depth >= DEPTH)
-							{
-								// error
-							}
 						}
 						else if (receiving[i] == ']')
 						{	
 							left = true;
-							idx_label = 0;
-							idx_value = 0;
-							memset(label, 0, LENGTH);
-							memset(value, 0, LENGTH);
 
-							memset(&parents[depth - 1][0], 0, LENGTH);
+							label.clear();
+							value.clear();
 
-							--squares;
-							--depth;
-							if (squares < 0)
+							if (!parents.pop())
 							{
-								// error!
+								error(string("BRACKET_MISMATCH"));
 							}
 
-							if (depth < 0)
+							--squares;
+							if (squares < 0)
 							{
-								// error
-								// return json result
+								error(string("BRACKET_MISMATCH"));
 							}
 						}
 						else if (receiving[i] == ':')
 						{
 							left = false;
-							//idx_label = 0;
-							//memset(label, 0, LENGTH);
-							// label should be in buffer
 						}
 						else if (receiving[i] == ',')
 						{
-							if (depth > 0)
+							if(!parents.isempty())
 							{
-								extract(string(&parents[depth - 1][0]), string(label), string(value));
+								current = task.message.find(parents.FQDN());
+								if (current != NULL) current->add(custom::pair(label, value));
 							}
-							// ****
-							// SAVE VALUE
-							// ****
-							// save value somewhere
-							// what's my parent??
 
-							//component.value.copy(value);
-
-							// need depth array
-							// and depth limit
 							left = true;
-							idx_label = 0;
-							idx_value = 0;
-							memset(label, 0, LENGTH);
-							memset(value, 0, LENGTH);
+
+							label.clear();
+							value.clear();
 						}
-						else if ((receiving[i] >= '0')&&(receiving[i] <= '9'))//(receiving[i] != ' ') 
+						else if ((receiving[i] >= '0') && (receiving[i] <= '9'))
 						{
 							if (!left)
 							{
-								value[idx_value++] = receiving[i];
-								if (idx_value >= LENGTH)
+								if (!value.push(receiving[i]))
 								{
-									// error
+									error(string("STRING_TOO_LONG"));
 								}
 							}
 						}
-						// if !quotes and !left, could be an integer
-						// or some other value
-
-						// if value > 0 and bracket is odd
-						// inside a section
 					}
 					else
 					{
@@ -262,19 +212,16 @@ DWORD WINAPI server::listener::background(thread *bt)
 						{
 							if ((quotes && left))
 							{
-								label[idx_label++] = receiving[i];
-								if (idx_label >= LENGTH)
+								if(!label.push(receiving[i]))
 								{
-									// error
-
+									error(string("STRING_TOO_LONG"));
 								}
 							}
 							else if ((quotes && !left))
 							{
-								value[idx_value++] = receiving[i];
-								if (idx_value >= LENGTH)
+								if(!value.push(receiving[i]))
 								{
-									// error
+									error(string("STRING_TOO_LONG"));
 								}
 							}
 						}
@@ -288,8 +235,9 @@ DWORD WINAPI server::listener::background(thread *bt)
 			++errors;
 			if (errors >= ERRORS)
 			{
-				c->makeError(client::ERRORS::Read);
-				clear();
+				error(string("READ"));
+				//c->makeError(client::ERRORS::Read);
+				//clear();
 			}
 		}
 	}
@@ -314,12 +262,12 @@ void server::listener::clear()
 {
 	parameters.clear();
 
-	header = true;
+	header = false;
+	request = true;
+
 	h_index = 0;
 
 	errors = 0L;
-
-	depth = 0L;
 
 	quotes = false;
 	left = true;
@@ -327,167 +275,33 @@ void server::listener::clear()
 	brackets = 0L;
 	squares = 0L;
 
-	idx_label = 0L;
-	idx_value = 0L;
+	label.clear(); 
+	value.clear();
+	command.clear();
 
 	memset(receiving, 0, RECEIVING);
-	memset(label, 0, LENGTH);
-	memset(value, 0, LENGTH);
 
-	// CLEAR DATA CLASSES
 	current = NULL;
 
-	for (long i = 0L; i < DEPTH; ++i)
-	{
-		memset(&parents[i][0], 0, LENGTH);
-	}
+	parents.clear();
+
+	// clear data classes - lines/items/components/elements/queries etc..
 }
 
-/*
-data::json *server::listener::find(string label)
-{
-	//data::json *result = NULL;
-	// after comma, closing bracket, or square bracket
-	// add type to temp message queue
-	// until we run out of } brackets
-	// then pump the whole lot out
+server::listener::MODE server::listener::get() 
+{ 
+	if(command.compare(string("POST"))) return MODE::POST; 
+	else if (command.compare(string("GET"))) return MODE::GET;
 
-	// COMMA IS DIFFERENT -- may represent just a value
-	if (current != NULL)
-	{
-		if (current->identifier().icompare(label)) return current;
-	}
-
-	data::json *classes[] = { &message, 
-							  &items, 
-							  &item, 
-							  &lines, 
-							  &line, 
-							  &components, 
-							  &component,
-							  &elements,
-							  &element };
-
-	for (long i = 0L; i < 9L; ++i)
-	{
-		if (classes[i]->identifier().icompare(label))
-		{
-			classes[i]->clear();
-			return classes[i];
-		}
-	}
-
-	return NULL;
-}
-*/
-
-string server::listener::last()
-{
-	long i = depth - 1L;
-	while (i > 0L)
-	{
-
-		string temp(&parents[i][0]);
-		if (temp.count() > 0L) return temp;
-		--i;
-	}
-
-	return string("");
+	return MODE::NONE;
 }
 
-string server::listener::FQDN(string label)
+void server::listener::error(string &error)
 {
-	string result = label;
-
-	//json *current = _parent;
-	long i = depth - 1L;
-	while (i > 0L)
-	{
-
-		string temp(&parents[i][0]);
-		if (temp.count() > 0L)
-		{
-			if(result.count() > 0) result = temp + "\\" + result;
-			else result = temp;
-		}
-		//if (current->identifier().count() > 0L) result = current->identifier() + "\\" + result;
-		//current = _parent->_parent;
-		--i;
-	};
-
-	return result;
-}
-
-// get record, that conforms to template
-void server::listener::extract(string parent, string label, string value)
-{
-	// VALIDATE WE'RE NESTED CORRECTLY
-	//if(current->parent.identifier().icompare(find(parent->parent))
-	//int moo = 0;
-	//if (value.icompare(string("england")))
-	//{
-		//moo = 2;
-	//}
-	//Log << "FIND " << last() <<  " [" << FQDN() << "]\r\n";
-
-	//string a = current->FQDN();
-	//string b = FQDN();
-
-	//Log << "A[" + a + "] B[" + b + "]\r\n";
-	//Log << "FIND " << FQDN() << "\r\n";
-
-	current = task.message.find(FQDN());//last());
-	if (current != NULL)
-	{
-		//Log << "FOUND\r\n";
-		//string a = current->FQDN();
-		//string b = FQDN();
-
-		//Log << "A[" + a + "] B[" + b + "]\r\n";
-		//Log << "[" << current->identifier() << "] [label=" << label << "] value=[" << value << "]\r\n";
-		current->add(custom::pair(label, value));
-	}
-	// parents lines, and components, signify line and component need
-	// to be reset
-	//components = new data::components::base(line);
-
-//data::components::base moo(line);
-	// I should probably validate my labels/characters
-	/*
-	parent = parent.trim('"');
-	parent.toUpper();
-	if (parent.compare("MESSAGE") == 0)
-	{
-		label = label.trim('"');
-		label.toUpper();
-		if (label.compare("USERID") == 0)
-		{
-			int userID = value.toInteger();
-		}
-		else if (label.compare("APIKEY") == 0)
-		{
-			int apiKey = value.toInteger();
-		}
-
-	}
-	else if (parent.compare("LINE") == 0)
-	{
-		label.toUpper();
-		if (label.compare("EXCLUSIVITY") == 0)
-		{
-			//line.exclusivityID = value.toInteger();
-		}
-	}
-	else if (parent.compare("VALUES") == 0)
-	{
-		// components->component->values
-		label.toUpper();
-		if (label.compare("VALUE") == 0)
-		{
-			//component.value = value;
-		}
-	}
-	*/
+	// output error via JSON/response
+	c->errors->set(::error::error(error));
+	c->makeError(client::ERRORS::Read);
+	clear();
 }
 
 void server::client::states::reset()
@@ -669,12 +483,13 @@ void server::client::states::output()
 	Log << result;
 }
 
-void server::client::reset(manager::manager *manager)
+void server::client::reset(manager::manager *manager, error::errors *errors)
 {
 	init = false; cleanup();
 
 	this->manager = manager;
-		
+	this->errors = errors;
+
 	isInError = false;
 	lastErrorCode = ERRORS::None;
 
@@ -797,14 +612,13 @@ void server::server::reset(::server::configuration::configuration *settings)
 	iterations = 0L; counter = 0L;
 
 	configuration = *settings;
-	//config.copy(settings);
 
 	clients = new client*[configuration.clients];
 	if (clients == NULL) return;
 
 	for (long i = 0L; i < configuration.clients; ++i)
 	{
-		clients[i] = new client(configuration.manager);// get());
+		clients[i] = new client(configuration.manager, configuration.errors);
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}

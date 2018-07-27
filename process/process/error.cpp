@@ -1,46 +1,48 @@
 #include "error.h"
 #include <stdlib.h>
 
-/*
-char errorLog::errorString[errorStrLen] = { "" };
-char errorLog::classString[errorStrLen] = { "" };
-
-char errorLog::resultString[resultStrLen] = { "" };
-
-errorCode errorLog::lastError = NO_ERR;
-
-char *errorLog::getLastErrorString()
+void error::type::types::reset()
 {
-	memset(resultString, 0, resultStrLen);
+	init = false; cleanup();
 
-	if (lastError != NO_ERR)
-	{
-		char tempString[15];
-		memset(tempString, 0, 15);
-		_ltoa_s(lastError, tempString, 15, 10);
+	length = 0UL;
 
-		strcpy_s(resultString, resultStrLen, "ERR(");
-		strcat_s(resultString, resultStrLen, tempString);
-		strcat_s(resultString, resultStrLen, ",");
+	errors = new type[LENGTH];
+	if (errors == NULL) return;
 
-		char character = 0;
-		unsigned long i = 0UL;
-
-		strcat_s(resultString, resultStrLen, classString);
-
-		if (strlen(errorString)>0)
-		{
-			strcat_s(resultString, resultStrLen, ",");
-			strcat_s(resultString, resultStrLen, errorString);
-		}
-		strcat_s(resultString, resultStrLen, ")");
-	}
-	else strcpy_s(resultString, resultStrLen, "ERR(0)");
-
-	return resultString;
+	init = true;
 }
 
-errorCode getLastError() { return errorLog::lastError; }
+bool error::type::types::push(type &t)
+{
+	if (length >= LENGTH) return false;
+	if (reverse.find(t.name) != reverse.end()) return false;
 
-char *getLastErrorString() { return errorLog::getLastErrorString(); }
-*/
+	t.code = length + 1L;
+	errors[length++] = t;
+
+	reverse[t.name] = t.code;
+
+	return true;
+}
+
+error::type::type error::type::types::lookup(::error::error &error)
+{
+	::error::type::type result;
+	if (reverse.find(error.name) == reverse.end())  return result;
+
+	long code = reverse[error.name] - 1L;
+	if ((code >= 0L) && (code < length)) result = errors[code];
+
+	return result;
+}
+
+void error::type::types::makeNull()
+{
+	errors = NULL;
+}
+
+void error::type::types::cleanup()
+{
+	if (errors != NULL) delete errors;
+}

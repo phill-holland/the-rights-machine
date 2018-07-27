@@ -12,7 +12,7 @@
 
 namespace manager
 {
-	class manager : public ::queue::in<compute::task>, ::queue::out < ::queue::queue<data::response>>
+	class manager : public ::queue::in<compute::task>, ::queue::out<::queue::queue<data::response>>
 	{
 		long read;
 

@@ -210,6 +210,18 @@
     <ClInclude Include="buffer.h">
       <Filter>Header Files\Http</Filter>
     </ClInclude>
+    <ClInclude Include="request.h">
+      <Filter>Header Files\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="charbuf.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="crumbs.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="guid.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -379,6 +391,18 @@
     </ClCompile>
     <ClCompile Include="buffer.cpp">
       <Filter>Source Files\Http</Filter>
+    </ClCompile>
+    <ClCompile Include="request.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="charbuf.cpp">
+      <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="crumbs.cpp">
+      <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="guid.cpp">
+      <Filter>Source Files\Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

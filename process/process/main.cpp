@@ -10,6 +10,7 @@
 
 #include "element.h"
 #include "elements.h"
+#include "guid.h"
 
 void test()
 {
@@ -108,6 +109,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 					 LPSTR     lpCmdLine,
 					 int       nCmdShow)
 {
+
+	//guid::guid g;
+	//Log << (string)g;
 
 	test();
 	//datetime tm(string("2018-06-02"));

@@ -5,6 +5,28 @@
 
 namespace custom
 {
+	namespace base
+	{
+		template <class X> class pair
+		{
+		public:
+			X name;
+			X value;
+
+		public:
+			//pair() { name = ""; value = ""; }
+			pair() { }
+			pair(X name, X value) { this->name = name; this->value = value; }
+		};
+	};
+
+	class pair : public base::pair<string> 
+	{ 
+	public:
+		pair() { name = ""; value = ""; }
+		pair(string name, string value) : base::pair<string>(name, value) { }
+	};
+	/*
 	class pair
 	{
 	public:
@@ -15,6 +37,7 @@ namespace custom
 		pair() { name = ""; value = ""; }
 		pair(string n, string v) { name = n; value = v; }
 	};
+	*/
 };
 
 #endif

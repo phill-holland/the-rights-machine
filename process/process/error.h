@@ -1,78 +1,118 @@
-//#include <typeinfo.h>
 #include "string.h"
+#include "comparison.h"
+#include <unordered_map>
 
 #if !defined(__ERROR)
 #define __ERROR
 
 namespace error
 {
+	namespace type
+	{
+		class type;
+	};
+
 	class error
 	{
-		enum CODE { NONE = 0, ALLOCATION = 1, OTHER = 2, UNKNOWN = 3 };
+		//enum CODE { NONE = 0, ALLOCATION = 1, OTHER = 2, UNKNOWN = 3 };
 
 	public:
-		CODE code;
-		string description;
+		string name;
+		//CODE code;
+		//string description;
 
 	public:
-		error() { reset(); }
+		error(string name = "") { reset(name); }
 
-		void reset()
+		void reset(string name = "")
 		{
-			code = CODE::NONE;
-			description = "";
+			this->name = name;
+			//code = CODE::NONE;
+			//description = "";
 		}
 
-		string to()
-		{
-			const string map[] = { string("NONE"), string("ALLOCATION"), string("OTHER"), string("UNKNOWN") };
+		//string to()
+		//{
+			//const string map[] = { string("NONE"), string("ALLOCATION"), string("OTHER"), string("UNKNOWN") };
 
-			string result = map[(int)code];
-			result += ":";
-			result += description;
+			//string result = map[(int)code];
+			//result += ":";
+			//result += description;
+			
+			//return result;
 
-			return result;
-		}
+			//return name;
+		//}
 
-	public:
-		operator string() { return to(); }
+		//string to(::error::type::type &t)
+		//{
+		//}
+
+	//public:
+	//	operator string() { return to(); }
 	};
 
-
-	// have error as a threaded class, with a queue
-	// each time the timer ticks, pull out the data abd write to database
-	/*
-	typedef long errorCode;
-
-	const errorCode NO_ERR = 0L;
-	const errorCode UNKNOWN_ERR = 1L;
-	const errorCode ALLOCATION_ERR = 2L;
-	const errorCode GENERAL_ERR = 3L;
-	const errorCode XML_ERR = 4L;
-
-	const unsigned long errorStrLen = 512UL;
-	const unsigned long resultStrLen = errorStrLen * 2UL;
-
-	class errorLog
+	namespace type
 	{
-	public:
-		static char tempString[15];
-		static char classString[errorStrLen];
-		static char errorString[errorStrLen];
+		class types;
 
-		static char resultString[resultStrLen];
+		class type
+		{
+			friend class types;
 
-		static errorCode lastError;
+		protected:
+			long code;
 
-		static char *getLastErrorString();
-	};
+		public:			
+			string name;
+			string description;
 
-	template <class X> void setLastError(X *theClass, errorCode theError, char *errorStr) { setLastError(theClass, theError); strcpy_s(errorLog::errorString, 512UL, errorStr); }
-	template <class X> void setLastError(X *theClass, errorCode theError) { strcpy_s(errorLog::classString, 512UL, typeid(X).name()); errorLog::lastError = theError; }
-	template <class X> void setLastError(X *theClass) { setLastError(theClass, UNKNOWN_ERR); }
+		public:
+			type(string name = "", string description = "")
+			{
+				code = 0L;
+				this->name = name;
+				this->description = description;
+			}
 
-	extern errorCode getLastError();
-	extern char *getLastErrorString();*/
+			string get()
+			{
+				return name + " : " + description;
+			}
+
+		public:
+			operator string() { return get(); }
+		};
+
+		using namespace comparison;
+
+		class types
+		{
+			static const unsigned long LENGTH = 255UL;
+
+			unsigned long length;
+			type *errors;
+
+			std::unordered_map<string, long, hasher, equality> reverse;
+
+			bool init;
+
+		public:
+			types() { makeNull(); reset(); }
+			~types() { cleanup(); }
+
+			bool initalised() { return init; }
+			void reset();
+
+			bool push(type &t);
+			
+			type lookup(::error::error &error);
+
+		protected:
+			void makeNull();
+			void cleanup();
+		};
+	};	
 };
 
 #endif

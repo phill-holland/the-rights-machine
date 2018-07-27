@@ -6,6 +6,10 @@
 #include "manager.h"
 #include "configuration.h"
 #include "parameters.h"
+#include "charbuf.h"
+#include "pair.h"
+#include "crumbs.h"
+#include "error.h"
 
 // need error class, to create response error json/or message
 
@@ -40,37 +44,48 @@ namespace server
 {
 	class client;
 
+	class pair : public custom::base::pair<global::charbuf>
+	{
+	public:
+		pair() { }
+		pair(global::charbuf name, global::charbuf value) : custom::base::pair<global::charbuf>(name, value) { }
+
+		void clear()
+		{
+			name.clear();
+			value.clear();
+		}
+
+	public:
+		operator custom::base::pair<string>()
+		{
+			return custom::base::pair<string>((string)name, (string)value);
+		}
+	};
+
 	class listener : public thread
 	{
+		enum MODE { NONE = 0, POST = 1, GET = 2 };
+
 		static const long RECEIVING = 16384L;
 		static const long ERRORS = 5L;
-		static const long DEPTH = 15L;
-		static const long LENGTH = 255L;
-
-		web::parameters parameters;
 
 		char receiving[RECEIVING];	
 
 		long errors;
 
-		char parents[DEPTH][LENGTH];
-
-		long depth;
+		web::parameters parameters;
+		crumbs::crumbs parents;
 
 		bool quotes;
 		bool left;
 
 		long brackets, squares;
-
 	
-		bool header;
+		bool header, request, validate; // turn into state int
 		int h_index;
 
-		char label[LENGTH];
-		long idx_label;
-
-		char value[LENGTH];
-		long idx_value;
+		charbuf command, label, value;
 
 		compute::task task;
 		
@@ -93,9 +108,10 @@ namespace server
 		void clear();
 
 	protected:
-		string last();
-		string FQDN(string label = "");
-		void extract(string parent, string label, string value);		
+		MODE get();
+
+	protected:
+		void error(string &error);
 	};
 		
 	class client : public ::wsock::client
@@ -167,6 +183,7 @@ namespace server
 
 		::server::listener *listen;
 		manager::manager *manager;
+		error::errors *errors;
 
 		mutex::token token;
 
@@ -179,11 +196,11 @@ namespace server
 		states statuses;
 
 	public:
-		client(manager::manager *manager) { makeNull(); reset(manager); }
+		client(manager::manager *manager, error::errors *errors) { makeNull(); reset(manager, errors); }
 		~client() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(manager::manager *manager);
+		void reset(manager::manager *manager, error::errors *errors);
 
 		void clear();
 
