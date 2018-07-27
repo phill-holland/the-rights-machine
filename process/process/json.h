@@ -6,28 +6,51 @@
 
 namespace data
 {
-	class json
+	namespace json
 	{
-		json *_parent;
+		namespace request
+		{
+			class json
+			{
+				json *_parent;
 
-	public:		
-		json() { _parent = NULL; }
+			public:
+				json() { _parent = NULL; }
 
-		void parent(json *source) { _parent = source; }
-		//json *parent() { return _parent; }
+				virtual int identity() = 0;
+				virtual void clear() = 0;
+				virtual string identifier() = 0;
+				virtual bool add(custom::pair &source) = 0;
 
-		string FQDN();
+			public:
+				string FQDN();
 
-		virtual int identity() = 0;
-		int progenitor() { if (_parent != NULL) return _parent->identity(); return 0; }
+				void parent(json *source) { _parent = source; }
+				int progenitor() { if (_parent != NULL) return _parent->identity(); return 0; }
+			};
+		};
 
-		//virtual void identity(int id) = 0;
+		namespace response
+		{
+			class json
+			{
+				json *_child;
 
-		//bool walk(string *parents, long depth);
-		// some sort of FQDN compare here
-		virtual void clear() = 0;
-		virtual string identifier() = 0;
-		virtual bool add(custom::pair &source) = 0;
+			public:
+				json() { _child = NULL; }
+
+				string get_output()
+				{
+					return string("result");
+				}
+
+				void child(json *source) { _child = source; }
+
+				virtual unsigned long count() = 0;
+				virtual custom::pair& get() = 0;
+
+			};
+		};
 	};
 };
 

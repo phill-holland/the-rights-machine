@@ -11,7 +11,7 @@ namespace data
 	{
 		namespace line
 		{
-			class component : public json
+			class component : public json::request::json
 			{
 			public:
 				int componentID;
@@ -46,7 +46,7 @@ namespace data
 
 		namespace query
 		{
-			class component : public json
+			class component : public json::request::json
 			{
 			public:
 				int componentID;

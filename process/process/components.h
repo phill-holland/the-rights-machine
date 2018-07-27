@@ -12,7 +12,7 @@ namespace data
 	{
 		namespace line
 		{
-			template <long Y> class components : public allocator::allocator<component::line::component, Y>, public json, public mapping::mapper
+			template <long Y> class components : public allocator::allocator<component::line::component, Y>, public json::request::json, public mapping::mapper
 			{
 				int index;
 
@@ -59,7 +59,7 @@ namespace data
 
 		namespace query
 		{
-			template <long Y> class components : public allocator::allocator<component::query::component, Y>, public json, public mapping::mapper
+			template <long Y> class components : public allocator::allocator<component::query::component, Y>, public json::request::json, public mapping::mapper
 			{
 				int index;
 

@@ -1,22 +1,30 @@
 #include "string.h"
-#include "datetime.h"
+//#include "datetime.h"
 
 #if !defined(__RESPONSE)
 #define __RESPONSE
 
-using namespace global;
+//using namespace global;
 
 namespace data
 {
-	class response
+	namespace response
 	{
-	public:
-		int responseID;
-		int messageID;
-		int itemID;
-		//int code;
-		//string description;
-		//datetime created;
+		// could just be a template class
+		// with a pure virtual function to convert to JSON
+
+		class response
+		{
+		public:
+			string GUID;
+			//int userID;
+			//int responseID;
+			//int messageID;
+			//int itemID;
+			//int code;
+			//string description;
+			//datetime created;
+		};
 	};
 };
 

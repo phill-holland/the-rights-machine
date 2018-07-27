@@ -8,7 +8,7 @@ namespace data
 {
 	namespace item
 	{
-		class item : public json
+		class item : public json::request::json
 		{
 		public:
 			int itemID;

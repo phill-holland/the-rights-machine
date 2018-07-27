@@ -50,6 +50,8 @@ void data::message::message::clear()
 {
 	messageID = 0;
 	userID = 0;
+	GUID = string("");
+
 	created.clear();
 	finished.clear();
 
@@ -68,10 +70,10 @@ queue::base *data::message::message::findQ(string FQDN)
 	return NULL;
 }
 
-data::json *data::message::message::find(string FQDN)
+data::json::request::json *data::message::message::find(string FQDN)
 {
-	std::unordered_map<string, data::json*, hasher, equality>::iterator i = hash.find(FQDN);
-	if(i != hash.end()) return (data::json*)i->second;
+	std::unordered_map<string, data::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
+	if(i != hash.end()) return (data::json::request::json*)i->second;
 
 	return NULL;
 }
@@ -110,6 +112,7 @@ void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;
 	userID = source.userID;
+	GUID = source.GUID;
 	created = source.created;
 	finished = source.finished;
 

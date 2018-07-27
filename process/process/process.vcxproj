@@ -170,6 +170,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="parameter.h" />
     <ClInclude Include="parameters.h" />
     <ClInclude Include="request.h" />
+    <ClInclude Include="responses.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="results.h" />
     <ClInclude Include="row.h" />
@@ -231,6 +232,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="parameter.cpp" />
     <ClCompile Include="parameters.cpp" />
     <ClCompile Include="request.cpp" />
+    <ClCompile Include="responses.cpp" />
     <ClCompile Include="result.cpp" />
     <ClCompile Include="results.cpp" />
     <ClCompile Include="row.cpp" />

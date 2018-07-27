@@ -12,28 +12,28 @@
 
 namespace manager
 {
-	class manager : public ::queue::in<compute::task>, ::queue::out<::queue::queue<data::response>>
+	class manager : public ::queue::in<compute::task>, ::queue::out<::queue::queue<data::response::response>>
 	{
 		long read;
 
 		std::vector<compute::compute*> nodes;
-		queue::factory<data::response> *factory;
+		queue::factory<data::response::response> *factory;
 
 		bool init;
 
 		mutex::token token;
 
 	public:
-		manager(queue::factory<data::response> *factory) { makeNull(); reset(factory); }
+		manager(queue::factory<data::response::response> *factory) { makeNull(); reset(factory); }
 		~manager() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(queue::factory <data::response> *factory);
+		void reset(queue::factory <data::response::response> *factory);
 
 		void add(compute::compute *source);
 
 		bool set(compute::task &source);
-		bool get(::queue::queue<data::response> &destination);
+		bool get(::queue::queue<data::response::response> &destination);
 
 	protected:
 		void makeNull();

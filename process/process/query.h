@@ -15,7 +15,7 @@ namespace data
 {
 	namespace query
 	{
-		class query : public json, public zone::zone
+		class query : public json::request::json , public zone::zone
 		{
 			bool init;
 

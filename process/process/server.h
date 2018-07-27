@@ -9,6 +9,7 @@
 #include "charbuf.h"
 #include "pair.h"
 #include "crumbs.h"
+#include "responses.h"
 #include "error.h"
 
 // need error class, to create response error json/or message
@@ -42,8 +43,9 @@
 
 namespace server
 {
+	
 	class client;
-
+	/*
 	class pair : public custom::base::pair<global::charbuf>
 	{
 	public:
@@ -62,7 +64,7 @@ namespace server
 			return custom::base::pair<string>((string)name, (string)value);
 		}
 	};
-
+	*/
 	class listener : public thread
 	{
 		enum MODE { NONE = 0, POST = 1, GET = 2 };
@@ -76,6 +78,7 @@ namespace server
 
 		web::parameters parameters;
 		crumbs::crumbs parents;
+		data::response::responses responses;
 
 		bool quotes;
 		bool left;
@@ -89,7 +92,7 @@ namespace server
 
 		compute::task task;
 		
-		data::json *current;
+		::data::json::request::json *current;
 
 		client *c;
 

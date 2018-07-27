@@ -19,14 +19,15 @@ namespace data
 		using namespace global;
 		using namespace comparison;
 
-		class message : public json
+		class message : public json::request::json
 		{
-			std::unordered_map<string, data::json *, hasher, equality> hash;
+			std::unordered_map<string, data::json::request::json *, hasher, equality> hash;
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 		public:
 			int messageID;
 			int userID;
+			string GUID;
 			datetime created;
 			datetime finished;
 
@@ -53,7 +54,7 @@ namespace data
 			void clear();
 
 			queue::base *findQ(string FQDN);
-			data::json *find(string FQDN);
+			data::json::request::json *find(string FQDN);
 
 			void filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map);
 

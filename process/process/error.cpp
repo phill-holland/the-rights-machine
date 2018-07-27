@@ -32,7 +32,7 @@ error::type::type error::type::types::lookup(::error::error &error)
 	if (reverse.find(error.name) == reverse.end())  return result;
 
 	long code = reverse[error.name] - 1L;
-	if ((code >= 0L) && (code < length)) result = errors[code];
+	if ((code >= 0L) && (code < (long)length)) result = errors[code];
 
 	return result;
 }

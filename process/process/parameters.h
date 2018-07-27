@@ -39,6 +39,11 @@ namespace web
 			return true;
 		}
 
+		bool exists(string &name)
+		{
+			return (map.find(name) != map.end());
+		}
+
 		parameter& get(unsigned long index)
 		{
 			return headers[index];

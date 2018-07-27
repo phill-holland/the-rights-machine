@@ -13,7 +13,7 @@ namespace data
 {
 	namespace line
 	{
-		class line : public json, public zone::zone
+		class line : public json::request::json, public zone::zone
 		{
 		public:
 			enum TYPE { in = 0, out = 1 };

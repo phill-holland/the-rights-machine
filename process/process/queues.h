@@ -40,11 +40,11 @@ namespace queues
 
 		namespace outgoing
 		{
-			class queue : public custom::fifo<data::response, 10L> { };
+			class queue : public custom::fifo<data::response::response, 10L> { };
 
-			class factory : public ::queue::factory<data::response>
+			class factory : public ::queue::factory<data::response::response>
 			{
-				std::vector<::queue::queue<data::response>*> queues;
+				std::vector<::queue::queue<data::response::response>*> queues;
 
 				bool init;
 
@@ -55,7 +55,7 @@ namespace queues
 				bool initalised() { return init; }
 				void reset();
 
-				::queue::queue<data::response> *get();
+				::queue::queue<data::response::response> *get();
 
 			protected:
 				void makeNull();
@@ -102,11 +102,11 @@ namespace queues
 
 		namespace outgoing
 		{
-			class queue : public ::queue::queue<data::response>
+			class queue : public ::queue::queue<data::response::response>
 			{
 			public:
-				bool get(data::response &destination) { return false; }
-				bool set(data::response &source) { return false; }
+				bool get(data::response::response &destination) { return false; }
+				bool set(data::response::response &source) { return false; }
 
 				bool flush() { return false; }
 

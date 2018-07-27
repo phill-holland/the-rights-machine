@@ -81,6 +81,10 @@ DWORD WINAPI server::listener::background(thread *bt)
 					//get content - type check application / json
 					//get content - length
 					//check http1.1
+				string length = parameters.get(string("Content-Length"));
+				long content_length = length.toLong();
+				long read_counter = 0L;
+
 				validate = false;
 			}
 			else
@@ -128,6 +132,11 @@ DWORD WINAPI server::listener::background(thread *bt)
 								if (!c->manager->set(task))
 								{
 									error(string("MESSAGE_PUSH"));
+								}
+								else
+								{
+									// build response list - json classes
+									// when content-length is read, write response
 								}
 							}
 

@@ -34,7 +34,7 @@ void queues::memory::outgoing::factory::reset()
 	init = true;
 }
 
-::queue::queue<data::response> *queues::memory::outgoing::factory::get()
+::queue::queue<data::response::response> *queues::memory::outgoing::factory::get()
 {
 	queue *result = new queues::memory::outgoing::queue();
 	if (result != NULL) queues.push_back(result);

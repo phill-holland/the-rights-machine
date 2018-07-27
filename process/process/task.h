@@ -11,7 +11,7 @@ namespace compute
 	{
 	public:
 		data::message::message message;
-		queue::queue<data::response> *response;
+		queue::queue<data::response::response> *response;
 
 		// need copyt functions here, respoonse remains a ptr copy
 		// message needs deep copy

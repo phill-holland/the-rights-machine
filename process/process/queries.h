@@ -8,7 +8,7 @@ namespace data
 {
 	namespace queries
 	{
-		template <long Y> class queries : public allocator::allocator<query::query, Y>, public json, public mapping::mapper
+		template <long Y> class queries : public allocator::allocator<query::query, Y>, public json::request::json, public mapping::mapper
 		{
 			int index;
 

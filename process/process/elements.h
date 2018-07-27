@@ -10,7 +10,7 @@ namespace data
 {
 	namespace elements
 	{
-		template <long Y> class elements : public allocator::allocator<element::element, Y>, public json, public mapping::mapper
+		template <long Y> class elements : public allocator::allocator<element::element, Y>, public json::request::json, public mapping::mapper
 		{
 			int index;
 
