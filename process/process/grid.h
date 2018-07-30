@@ -40,6 +40,8 @@ namespace compute
 
 		void minus(grid &right);
 		void and(grid &right);
+		bool compare(grid &right);
+		
 		bool push(row &source);
 
 		void extract(queue::in<result> *destination);

@@ -113,30 +113,73 @@ DWORD WINAPI server::listener::background(thread *bt)
 						}
 						else if (receiving[i] == '}')
 						{
-							if(!parents.isempty())
+							if (get() == MODE::POST)
 							{
-								current = task.message.find(parents.FQDN());
-								if (current != NULL) current->add(custom::pair(label, value));
-							}
-
-							queue::base *b = task.message.findQ(parents.FQDN());
-							if (b != NULL) b->flush();
-							
-							if (parents.FQDN().icompare(task.message.items.FQDN()))
-							{
-								Log << "PUSH MESSAGE TO OUTPUT\r\n";
-								Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
-
-								task.message.output();
-
-								if (!c->manager->set(task))
+								if (!parents.isempty())
 								{
-									error(string("MESSAGE_PUSH"));
+									::data::json::request::json *current = task.message.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
 								}
-								else
+
+								queue::base *b = task.message.findQ(parents.FQDN());
+								if (b != NULL) b->flush();
+
+								if (parents.FQDN().icompare(task.message.items.FQDN()))
 								{
-									// build response list - json classes
-									// when content-length is read, write response
+									Log << "PUSH MESSAGE TO OUTPUT\r\n";
+									Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
+
+									task.message.output();
+
+									if (!c->manager->set(task))
+									{
+										error(string("MESSAGE_PUSH"));
+									}
+									else
+									{
+										// build response list - json classes
+										// when content-length is read, write response
+									}
+								}
+							}
+							else if (get() == MODE::GET)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = requested.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+
+									if (parents.FQDN().icompare(requested.FQDN()))
+									{
+										Log << "REQUEST\r\n";
+
+										
+										requested.output();
+
+										data::response::response result = task.response->find(requested.GUID);
+										if ((result.GUID == requested.GUID) && (result.userID))
+										{
+											// push response back to user
+										}
+										else
+										{
+											// push not found back to user (create hash lookup for valid GUI'IDs)
+											// check hash that GUI was pushed through to be processed
+
+											// create output queue for pointers for json::response *
+											// hmmm, but need to store the actual objects somewhere??
+										}
+
+										// need a special type of task queue
+										// push things onto queue, with key
+										// have find function to retreive item
+										// have queue item with datetime
+										// so that responses expire if not picked up
+
+										// validate request
+										// check task queue
+										// task.response
+									}
 								}
 							}
 
@@ -193,10 +236,21 @@ DWORD WINAPI server::listener::background(thread *bt)
 						}
 						else if (receiving[i] == ',')
 						{
-							if(!parents.isempty())
+							if (get() == MODE::POST)
 							{
-								current = task.message.find(parents.FQDN());
-								if (current != NULL) current->add(custom::pair(label, value));
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = task.message.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+								}
+							}
+							else if (get() == MODE::GET)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = requested.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+								}
 							}
 
 							left = true;
@@ -290,7 +344,7 @@ void server::listener::clear()
 
 	memset(receiving, 0, RECEIVING);
 
-	current = NULL;
+	//current = NULL;
 
 	parents.clear();
 

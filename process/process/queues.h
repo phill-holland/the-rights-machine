@@ -6,6 +6,9 @@
 #include "task.h"
 #include "factory.h"
 
+#include "chain.h"
+#include "responses.h"
+
 #if !defined(__QUEUES)
 #define __QUEUES
 
@@ -40,6 +43,29 @@ namespace queues
 
 		namespace outgoing
 		{
+			class factory : public ::queue::chain_factory<data::response::response>//::queue::factory<data::response::response>
+			{
+				//std::vector<::queue::queue<data::response::response>*> queues;
+				std::vector<::custom::chain<data::response::response>*> queues;
+
+				bool init;
+
+			public:
+				factory() { makeNull(); reset(); }
+				~factory() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset();
+
+				::custom::chain<data::response::response> *get();
+				//::queue::queue<data::response::response> *get();
+
+			protected:
+				void makeNull();
+				void cleanup();
+			};
+
+			/*
 			class queue : public custom::fifo<data::response::response, 10L> { };
 
 			class factory : public ::queue::factory<data::response::response>
@@ -61,6 +87,7 @@ namespace queues
 				void makeNull();
 				void cleanup();
 			};
+			*/
 		};
 	};
 

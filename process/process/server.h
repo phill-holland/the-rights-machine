@@ -10,6 +10,7 @@
 #include "pair.h"
 #include "crumbs.h"
 #include "responses.h"
+#include "request.h"
 #include "error.h"
 
 // need error class, to create response error json/or message
@@ -78,7 +79,7 @@ namespace server
 
 		web::parameters parameters;
 		crumbs::crumbs parents;
-		data::response::responses responses;
+		//data::response::responses responses;
 
 		bool quotes;
 		bool left;
@@ -90,9 +91,10 @@ namespace server
 
 		charbuf command, label, value;
 
-		compute::task task;
-		
-		::data::json::request::json *current;
+		compute::task task;		
+		::data::request::request requested;
+
+		//::data::json::request::json *current;
 
 		client *c;
 

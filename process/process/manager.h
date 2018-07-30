@@ -7,33 +7,35 @@
 #include "compute.h"
 #include "factory.h"
 
+#include "chain.h"
+
 #if !defined(__MANAGER)
 #define __MANAGER
 
 namespace manager
 {
-	class manager : public ::queue::in<compute::task>, ::queue::out<::queue::queue<data::response::response>>
+	class manager : public ::queue::in<compute::task>, ::queue::out<custom::chain<data::response::response>>//::queue::queue<data::response::response>>
 	{
 		long read;
 
 		std::vector<compute::compute*> nodes;
-		queue::factory<data::response::response> *factory;
+		queue::chain_factory<data::response::response> *factory;
 
 		bool init;
 
 		mutex::token token;
 
 	public:
-		manager(queue::factory<data::response::response> *factory) { makeNull(); reset(factory); }
+		manager(queue::chain_factory<data::response::response> *factory) { makeNull(); reset(factory); }
 		~manager() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(queue::factory <data::response::response> *factory);
+		void reset(queue::chain_factory <data::response::response> *factory);
 
 		void add(compute::compute *source);
 
 		bool set(compute::task &source);
-		bool get(::queue::queue<data::response::response> &destination);
+		bool get(custom::chain<data::response::response> &destination);//::queue::queue<data::response::response> &destination);
 
 	protected:
 		void makeNull();

@@ -23,6 +23,9 @@ namespace data
 			int identity() { return requestID; }
 
 			void clear();
+
+			data::json::request::json *find(string FQDN);
+
 			void copy(request const &source);
 
 		public:

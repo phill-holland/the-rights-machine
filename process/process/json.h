@@ -34,21 +34,18 @@ namespace data
 		{
 			class json
 			{
-				json *_child;
+				json *_child; // this may have many children, needs to be modified
 
 			public:
 				json() { _child = NULL; }
 
-				string get_output()
-				{
-					return string("result");
-				}
+				string extract();
 
 				void child(json *source) { _child = source; }
 
-				virtual unsigned long count() = 0;
-				virtual custom::pair& get() = 0;
-
+				virtual string identifier() = 0;
+				virtual unsigned long pairs() = 0;
+				virtual custom::pair& pull(unsigned long index) = 0;
 			};
 		};
 	};

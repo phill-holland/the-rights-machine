@@ -14,18 +14,22 @@ namespace global
 		datetime() { clear(); }
 		datetime(string const &source) { clear(); from((string)source); }
 		datetime(datetime const &source) { clear(); copy(source); }
-		datetime(int y, int m, int d)
+		datetime(int y, int m, int d, int hh = 0, int mm = 0, int ss = 0)
 		{
 			clear();
 
 			year = y;
 			month = m;
 			day = d;
+
+			hour = hh;
+			minute = mm;
+			second = ss;
 		}
 
 		void clear();
 
-		datetime now();
+		static datetime now();
 
 		bool from(string &source);
 		string to();
@@ -45,14 +49,20 @@ namespace global
 		{ 
 			return day == source.day &&
 				   month == source.month &&
-				   year == source.year;
+				   year == source.year &&
+				   hour == source.hour &&
+				   minute == source.minute &&
+				   second == source.second;
 		}
 
 		bool operator!=(const datetime& source)
 		{ 
 			return day != source.day ||
 				   month != source.month ||
-				   year != source.year;
+				   year != source.year || 
+				   hour != source.hour ||
+				   minute != source.minute ||
+				   second != source.second;
 		}
 
 		bool operator<(const datetime& source)
@@ -60,6 +70,9 @@ namespace global
 			if (year < source.year) return true;
 			if ((year == source.year) && (month < source.month)) return true;
 			if ((month == source.month) && (day < source.day)) return true;
+			if ((day == source.day) && (hour < source.hour)) return true;
+			if ((hour == source.hour) && (minute < source.minute)) return true;
+			if ((minute == source.minute) && (second < source.second)) return true;
 
 			return false;
 		}
@@ -69,6 +82,9 @@ namespace global
 			if (year > source.year) return true;
 			if ((year == source.year) && (month > source.month)) return true;
 			if ((month == source.month) && (day > source.day)) return true;
+			if ((day == source.day) && (hour > source.hour)) return true;
+			if ((hour == source.hour) && (minute > source.minute)) return true;
+			if ((minute == source.minute) && (second > source.second)) return true;
 
 			return false;
 		}
@@ -78,6 +94,9 @@ namespace global
 			if (year < source.year) return true;
 			if ((year == source.year) && (month < source.month)) return true;
 			if ((month == source.month) && (day <= source.day)) return true;
+			if ((day == source.day) && (hour <= source.hour)) return true;
+			if ((hour == source.hour) && (minute <= source.minute)) return true;
+			if ((minute == source.minute) && (second <= source.second)) return true;
 
 			return false;
 		}
@@ -87,8 +106,16 @@ namespace global
 			if (year > source.year) return true;
 			if ((year == source.year) && (month > source.month)) return true;
 			if ((month == source.month) && (day >= source.day)) return true;
+			if ((day == source.day) && (hour >= source.hour)) return true;
+			if ((hour == source.hour) && (minute >= source.minute)) return true;
+			if ((minute == source.minute) && (second >= source.second)) return true;
 
 			return false;
+		}
+
+		datetime& operator+(const datetime& source)
+		{
+			return *this;
 		}
 	};
 };

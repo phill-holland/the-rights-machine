@@ -8,6 +8,13 @@ void data::request::request::clear()
 	GUID = "";
 }
 
+data::json::request::json *data::request::request::find(string FQDN)
+{
+	if (FQDN == this->FQDN()) return this;
+	
+	return NULL;
+}
+
 void data::request::request::copy(request const &source)
 {
 	requestID = source.requestID;

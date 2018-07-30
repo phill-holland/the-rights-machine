@@ -7,11 +7,12 @@
 
 namespace error
 {
+	/*
 	namespace type
 	{
 		class type;
 	};
-
+	*/
 	class error
 	{
 		//enum CODE { NONE = 0, ALLOCATION = 1, OTHER = 2, UNKNOWN = 3 };

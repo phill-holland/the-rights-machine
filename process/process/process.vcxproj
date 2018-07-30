@@ -161,6 +161,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="address.h" />
     <ClInclude Include="allocator.h" />
     <ClInclude Include="authentication.h" />
+    <ClInclude Include="chain.h" />
     <ClInclude Include="charbuf.h" />
     <ClInclude Include="crumbs.h" />
     <ClInclude Include="errors.h" />
@@ -223,6 +224,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="address.cpp" />
     <ClCompile Include="allocator.cpp" />
     <ClCompile Include="authentication.cpp" />
+    <ClCompile Include="chain.cpp" />
     <ClCompile Include="charbuf.cpp" />
     <ClCompile Include="crumbs.cpp" />
     <ClCompile Include="errors.cpp" />

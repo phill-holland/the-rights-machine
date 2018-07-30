@@ -62,29 +62,30 @@ void compute::cpu::processor::clear()
 	}	
 }
 
-void compute::cpu::processor::push(data::message::message &message)
+//void compute::cpu::processor::push(data::message::message &message)
+void compute::cpu::processor::push(::compute::task &task)
 {
 	clear();
 
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
 
-	for (long i = 0L; i < message.lines.count(); ++i)
+	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
-		data::line::line source = message.lines[i];
+		data::line::line source = task.message.lines[i];
 
-		for (long j = 0L; j < message.queries.count(); ++j)
+		for (long j = 0L; j < task.message.queries.count(); ++j)
 		{
-			data::query::query query = message.queries[j];
+			data::query::query query = task.message.queries[j];
 
 			if (source.overlapped(query))
 			{
 				if (source.typeID == (int)data::line::line::TYPE::in)
 				{
 					in_map[source.lineID] = in_ptr++;
-					for (long k = 0L; k < message.lines.count(); ++k)
+					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
-						data::line::line output = message.lines[k];
+						data::line::line output = task.message.lines[k];
 						if (output.typeID == (int)data::line::line::TYPE::out)
 						{
 							std::vector<zone::zone> result = source.split(output);
@@ -113,16 +114,16 @@ void compute::cpu::processor::push(data::message::message &message)
 
 	if (input_ptr > 0UL)
 	{
-		message.filter(rows, height, in_map);
+		task.message.filter(rows, height, in_map);
 
-		for (unsigned long i = 0UL; i < (in_map.size() * message.components.maximum()); ++i)
+		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
 		{
 			in->push(*rows[i]);
 		}
 
 		if (output_ptr > 0L)
 		{
-			message.filter(rows, height, out_map);
+			task.message.filter(rows, height, out_map);
 			
 			unsigned long offset = 0UL;
 
@@ -131,7 +132,7 @@ void compute::cpu::processor::push(data::message::message &message)
 				out->clear();
 				for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
 				{					
-					for (unsigned long i = 0UL; i < (unsigned long)message.components.maximum(); ++i)
+					for (unsigned long i = 0UL; i < (unsigned long)task.message.components.maximum(); ++i)
 					{
 						out->push(*rows[offset + i]);
 					}
@@ -142,29 +143,42 @@ void compute::cpu::processor::push(data::message::message &message)
 				// or push?
 
 				in->minus(*out);
-				offset += message.components.maximum();
+				offset += task.message.components.maximum();
 			}
 		}
 
 		unsigned long offset = 0UL;
-		for (unsigned long i = 0UL; i < (unsigned long)message.queries.count(); ++i)
+		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
 		{
-			data::query::query q = message.queries[i];
+			data::query::query q = task.message.queries[i];
 
 			q.filter(rows, height, (unsigned long)in_map.size());
 
 			query->clear();
 			for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
 			{
-				for (unsigned long k = 0UL; k < (unsigned long)message.components.maximum(); ++k)
+				for (unsigned long k = 0UL; k < (unsigned long)task.message.components.maximum(); ++k)
 				{
 					query->push(*rows[offset + k]);
 				}
 			}
 
 			in->and(*query);
+
+			bool result = in->compare(*query);
+
+			data::response::response response;
+			response.queryID = q.queryID;
+			response.GUID = task.message.GUID;
+			response.userID = task.message.userID;
+			response.available = result;
+			response.created = datetime::now();
+			response.status = string("OK");
+
+			task.response->set(response);
+
 			// need to validate query components is same as message.components.maximum()
-			offset += message.components.maximum();
+			offset += task.message.components.maximum();
 		}
 	}
 }
@@ -203,7 +217,7 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 	::compute::task task;
 	if (get(task))
 	{
-		process->push(task.message);
+		process->push(task);
 	}
 	else
 	{
