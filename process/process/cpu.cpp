@@ -173,7 +173,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			response.userID = task.message.userID;
 			response.available = result;
 			response.created = datetime::now();
-			response.status = string("OK");
+			//response.status = string("OK");
 
 			task.response->set(response);
 

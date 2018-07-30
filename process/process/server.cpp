@@ -1,5 +1,6 @@
 #include "server.h"
 #include "task.h"
+#include "guid.h"
 #include "log.h"
 
 DWORD WINAPI server::listener::background(thread *bt)
@@ -82,13 +83,24 @@ DWORD WINAPI server::listener::background(thread *bt)
 					//get content - length
 					//check http1.1
 				string length = parameters.get(string("Content-Length"));
-				long content_length = length.toLong();
-				long read_counter = 0L;
+				content_length = length.toLong();
+				read_counter = 0L;
+
+				outputter.clear();
 
 				validate = false;
 			}
 			else
 			{
+				if (read_counter++ >= content_length)
+				{
+					Log << "read done\r\n";
+					c->write(outputter.get(), 0);
+					
+					// send response
+					// kill connection
+				}
+
 				if (receiving[i] == '"')
 				{
 					quotes = !quotes;
@@ -129,6 +141,11 @@ DWORD WINAPI server::listener::background(thread *bt)
 									Log << "PUSH MESSAGE TO OUTPUT\r\n";
 									Log << "NEED TO WRITE OUTPUT FUNCTION FOR MESSAGE\r\n";
 
+									guid::guid g;
+									task.message.GUID = g.get();
+									task.message.created = global::datetime::now();
+									// PUSH GUID TO UNORDERED_MAP
+
 									task.message.output();
 
 									if (!c->manager->set(task))
@@ -137,6 +154,9 @@ DWORD WINAPI server::listener::background(thread *bt)
 									}
 									else
 									{
+										::data::response::response response;
+										response.GUID = task.message.GUID;
+										outputter.set(&response);
 										// build response list - json classes
 										// when content-length is read, write response
 									}
@@ -159,7 +179,11 @@ DWORD WINAPI server::listener::background(thread *bt)
 										data::response::response result = task.response->find(requested.GUID);
 										if ((result.GUID == requested.GUID) && (result.userID))
 										{
+											outputter.set(&result);
 											// push response back to user
+
+											// response factory
+											// error factory
 										}
 										else
 										{

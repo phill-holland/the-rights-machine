@@ -12,7 +12,6 @@ c:\git\rights\the-rights-machine\process\process\x64\debug\query.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\queue.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\queues.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\json.obj
-c:\git\rights\the-rights-machine\process\process\x64\debug\response.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\server.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\ssl.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\string.obj
@@ -23,7 +22,6 @@ c:\git\rights\the-rights-machine\process\process\x64\debug\wsock.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\compute.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\configuration.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\console.obj
-c:\git\rights\the-rights-machine\process\process\x64\debug\cpu.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\database.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\datetime.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\element.obj
@@ -40,7 +38,6 @@ c:\git\rights\the-rights-machine\process\process\x64\debug\line.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\lines.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\list.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\manager.obj
-c:\git\rights\the-rights-machine\process\process\x64\debug\authentication.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\chain.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\charbuf.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\crumbs.obj
@@ -48,6 +45,7 @@ c:\git\rights\the-rights-machine\process\process\x64\debug\errors.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\guid.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\header.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\map.obj
+c:\git\rights\the-rights-machine\process\process\x64\debug\output.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\parameter.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\parameters.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\request.obj
@@ -62,14 +60,9 @@ c:\git\rights\the-rights-machine\process\process\x64\debug\component.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\components.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\address.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\allocator.obj
-c:\git\rights\the-rights-machine\process\x64\debug\process.ilk
-c:\git\rights\the-rights-machine\process\x64\debug\process.exe
-c:\git\rights\the-rights-machine\process\x64\debug\process.pdb
+c:\git\rights\the-rights-machine\process\process\x64\debug\authentication.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\kernel.cu.cache
 c:\git\rights\the-rights-machine\process\process\x64\debug\kernel.cu.obj
 c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\cl.command.1.tlog
 c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\cl.read.1.tlog
 c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\cl.write.1.tlog
-c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\link.command.1.tlog
-c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\link.read.1.tlog
-c:\git\rights\the-rights-machine\process\process\x64\debug\process.tlog\link.write.1.tlog

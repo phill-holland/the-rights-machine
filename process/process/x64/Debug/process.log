@@ -1,7 +1,7 @@
-﻿Build started 30/07/2018 16:11:05.
+﻿Build started 30/07/2018 20:10:16.
      1>Project "C:\Git\rights\the-rights-machine\process\process\process.vcxproj" on node 2 (Rebuild target(s)).
      1>CudaClean:
-         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmpfb02e77d7a594fa19f45faf3df6b6d6c.cmd"
+         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmpeec9ff16bf53402f86d001d6f59c0b8c.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" -clean
          
          C:\Git\rights\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" -clean 
@@ -10,13 +10,13 @@
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files (x86)\Visual Leak Detector\include" /IC:\build-OpenSSL-VC64\include /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Git\rights\the-rights-machine\process\process\kernel.cu 
        CudaBuild:
          Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmp1e8592b7ff224646987e264e6e18b554.cmd"
+         cmd.exe /C "C:\Users\Phill\AppData\Local\Temp\tmp985e74f3dd1c463ea2257b1dec0a7399.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu"
          
          C:\Git\rights\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\rights\the-rights-machine\process\process\kernel.cu" 
          kernel.cu
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt address.cpp allocator.cpp authentication.cpp chain.cpp charbuf.cpp crumbs.cpp errors.cpp guid.cpp header.cpp map.cpp parameter.cpp parameters.cpp request.cpp responses.cpp result.cpp results.cpp row.cpp zone.cpp buffer.cpp comparison.cpp component.cpp components.cpp compute.cpp configuration.cpp console.cpp cpu.cpp database.cpp datetime.cpp element.cpp elements.cpp error.cpp factory.cpp fifo.cpp gpu.cpp grid.cpp http.cpp item.cpp items.cpp line.cpp lines.cpp list.cpp manager.cpp message.cpp odbc.cpp log.cpp main.cpp mutex.cpp pair.cpp process.cpp queries.cpp query.cpp queue.cpp queues.cpp json.cpp response.cpp server.cpp ssl.cpp string.cpp task.cpp thread.cpp page.cpp wsock.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt address.cpp allocator.cpp authentication.cpp chain.cpp charbuf.cpp crumbs.cpp errors.cpp guid.cpp header.cpp map.cpp output.cpp parameter.cpp parameters.cpp request.cpp responses.cpp result.cpp results.cpp row.cpp zone.cpp buffer.cpp comparison.cpp component.cpp components.cpp compute.cpp configuration.cpp console.cpp cpu.cpp database.cpp datetime.cpp element.cpp elements.cpp error.cpp factory.cpp fifo.cpp gpu.cpp grid.cpp http.cpp item.cpp items.cpp line.cpp lines.cpp list.cpp manager.cpp message.cpp odbc.cpp log.cpp main.cpp mutex.cpp pair.cpp process.cpp queries.cpp query.cpp queue.cpp queues.cpp json.cpp response.cpp server.cpp ssl.cpp string.cpp task.cpp thread.cpp page.cpp wsock.cpp
          wsock.cpp
          page.cpp
          thread.cpp
@@ -206,6 +206,7 @@
          request.cpp
          parameters.cpp
          parameter.cpp
+         output.cpp
          map.cpp
          header.cpp
          guid.cpp
@@ -213,9 +214,9 @@
          crumbs.cpp
          charbuf.cpp
          chain.cpp
-         authentication.cpp
          Generating Code...
          Compiling...
+         authentication.cpp
          allocator.cpp
          address.cpp
          Generating Code...
@@ -231,6 +232,7 @@
          x64\Debug\guid.obj
          x64\Debug\header.obj
          x64\Debug\map.obj
+         x64\Debug\output.obj
          x64\Debug\parameter.obj
          x64\Debug\parameters.obj
          x64\Debug\request.obj
@@ -296,4 +298,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:51.55
+Time Elapsed 00:00:56.18

@@ -115,6 +115,8 @@ namespace global
 
 		datetime& operator+(const datetime& source)
 		{
+			const unsigned char a[] = { 31, 28, 31, 30, 31, 30, 31,    31, 30,    31, 30, 31 };
+			const unsigned char b[] = { 31, 59, 90, 120, 151, 181, 112, 143, 173, 204, 230, 261 };
 			return *this;
 		}
 	};

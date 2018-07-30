@@ -21,7 +21,7 @@ namespace data
 		public:
 			string GUID;
 			int userID;
-			string status;
+			//string status;
 			datetime created;
 
 			int queryID;

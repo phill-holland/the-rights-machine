@@ -228,6 +228,9 @@
     <ClInclude Include="chain.h">
       <Filter>Header Files\Types</Filter>
     </ClInclude>
+    <ClInclude Include="output.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="chain.cpp">
       <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="output.cpp">
+      <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

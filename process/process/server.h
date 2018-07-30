@@ -12,6 +12,7 @@
 #include "responses.h"
 #include "request.h"
 #include "error.h"
+#include "output.h"
 
 // need error class, to create response error json/or message
 
@@ -94,7 +95,11 @@ namespace server
 		compute::task task;		
 		::data::request::request requested;
 
+		long content_length;// = length.toLong();
+		long read_counter;
 		//::data::json::request::json *current;
+
+		output::output outputter;
 
 		client *c;
 
