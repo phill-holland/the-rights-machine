@@ -4,7 +4,7 @@
 #define __PAIR
 
 namespace custom
-{
+{/*
 	namespace base
 	{
 		template <class X> class pair
@@ -25,8 +25,8 @@ namespace custom
 	public:
 		pair() { name = ""; value = ""; }
 		pair(string name, string value) : base::pair<string>(name, value) { }
-	};
-	/*
+	};*/
+	
 	class pair
 	{
 	public:
@@ -36,8 +36,22 @@ namespace custom
 	public:
 		pair() { name = ""; value = ""; }
 		pair(string n, string v) { name = n; value = v; }
+		pair(pair const &source) { copy(source); }
+
+		void copy(pair const &source)
+		{
+			name = source.name;
+			value = source.value;
+		}
+
+	public:
+		pair& operator=(const pair& source)
+		{
+			this->copy((pair&)source);
+			return *this;
+		}
 	};
-	*/
+	
 };
 
 #endif

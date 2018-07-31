@@ -70,29 +70,20 @@ DWORD WINAPI server::listener::background(thread *bt)
 				if (receiving[i] == 13) ++h_index;
 				else if ((receiving[i] == 10) && (h_index == 1)) ++h_index;
 				else if ((receiving[i] == 13) && (h_index == 2)) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 3)) { validate = true; header = false; }
+				else if ((receiving[i] == 10) && (h_index == 3)) 
+				{ 
+					// ****
+					validate();
+					// ****
+
+					header = false; 
+				}
 				else h_index = 0;
-			}
-			else if (validate)
-			{
-				//get first line of HTTP GET function - to determine which function was called
-					//determine if get or post!!!
-
-					//get host - ip address, log
-					//get content - type check application / json
-					//get content - length
-					//check http1.1
-				string length = parameters.get(string("Content-Length"));
-				content_length = length.toLong();
-				read_counter = 0L;
-
-				outputter.clear();
-
-				validate = false;
 			}
 			else
 			{
-				if (read_counter++ >= content_length)
+				// need to check for double \r\n
+				if (read_counter++ >= content_length - 2)
 				{
 					Log << "read done\r\n";
 					c->write(outputter.get(), 0);
@@ -111,6 +102,9 @@ DWORD WINAPI server::listener::background(thread *bt)
 					{
 						if (receiving[i] == '{')
 						{
+							//string t = (string)label;
+							//Log << "label :" << t << "\r\n";
+
 							if (!parents.push((string)label))
 							{
 								error(string("NESTING_TOO_DEEP"));
@@ -136,6 +130,9 @@ DWORD WINAPI server::listener::background(thread *bt)
 								queue::base *b = task.message.findQ(parents.FQDN());
 								if (b != NULL) b->flush();
 
+								//Log << parents.FQDN() << "\r\n";
+								//Log << task.message.items.FQDN() << "\r\n\r\n";
+
 								if (parents.FQDN().icompare(task.message.items.FQDN()))
 								{
 									Log << "PUSH MESSAGE TO OUTPUT\r\n";
@@ -155,7 +152,13 @@ DWORD WINAPI server::listener::background(thread *bt)
 									else
 									{
 										::data::response::response response;
+										// need different type of structure!!!
 										response.GUID = task.message.GUID;
+										response.userID = 1;
+										response.created = datetime::now();
+										response.queryID = 1;
+										response.available = false;
+
 										outputter.set(&response);
 										// build response list - json classes
 										// when content-length is read, write response
@@ -381,6 +384,33 @@ server::listener::MODE server::listener::get()
 	else if (command.compare(string("GET"))) return MODE::GET;
 
 	return MODE::NONE;
+}
+
+void server::listener::validate()
+{
+	//get first line of HTTP GET function - to determine which function was called
+	//determine if get or post!!!
+
+	//get host - ip address, log
+	//get content - type check application / json
+	//get content - length
+	//check http1.1
+	string length = parameters.get(string("Content-Length"));
+	content_length = length.toLong();
+	read_counter = 0L;
+
+	// check content_length isn't zero, isn't too big, isn't mismatch with the data
+	// check command is either POST or GET
+
+	brackets = 0;
+	squares = 0;
+
+	quotes = false;
+	left = true;
+
+	outputter.clear();
+
+	//validate = false;
 }
 
 void server::listener::error(string &error)

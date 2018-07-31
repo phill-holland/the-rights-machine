@@ -36,7 +36,7 @@ namespace data
 			string identifier() { return string("response"); }
 
 			unsigned long pairs();
-			custom::pair& pull(unsigned long index);
+			custom::pair pull(unsigned long index);
 
 			//int userID;
 			//int responseID;

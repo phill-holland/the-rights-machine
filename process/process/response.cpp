@@ -2,10 +2,10 @@
 
 unsigned long data::response::response::pairs()
 {
-	return 2UL;
+	return 1UL;
 }
 
-custom::pair& data::response::response::pull(unsigned long index)
+custom::pair data::response::response::pull(unsigned long index)
 {
 	custom::pair result;
 

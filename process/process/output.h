@@ -50,10 +50,13 @@ namespace output
 
 		string get()
 		{
+			long size = (long)data.size();
+
 			string result = "HTTP/1.1 200 OK\r\n";
-			result += "Content-Length: " + string((long)data.size()) + "\r\n";
+			result += "Content-Length: " + string(size) + "\r\n";
 			result += "Content-Type: application/json\r\n\r\n";
 			result += data;
+			result += "\r\n\r\n";
 
 			return result;
 			//web::parameters parameters;

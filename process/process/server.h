@@ -87,7 +87,7 @@ namespace server
 
 		long brackets, squares;
 	
-		bool header, request, validate; // turn into state int
+		bool header, request;// , validate; // turn into state int
 		int h_index;
 
 		charbuf command, label, value;
@@ -119,6 +119,7 @@ namespace server
 
 	protected:
 		MODE get();
+		void validate();
 
 	protected:
 		void error(string &error);

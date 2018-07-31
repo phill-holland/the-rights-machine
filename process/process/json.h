@@ -45,7 +45,7 @@ namespace data
 
 				virtual string identifier() = 0;
 				virtual unsigned long pairs() = 0;
-				virtual custom::pair& pull(unsigned long index) = 0;
+				virtual custom::pair pull(unsigned long index) = 0;
 			};
 		};
 	};
