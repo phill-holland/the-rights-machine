@@ -1,0 +1,20 @@
+#include "stdafx.h"
+#include "CppUnitTest.h"
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace tests
+{		
+	TEST_CLASS(UnitTest1)
+	{
+	public:
+		
+		TEST_METHOD(TestMethod1)
+		{
+			//std::string name = "Bill";
+			//MyClass mc(name);
+			Assert::AreEqual(1, 1);// name, mc.GetName());
+		}
+
+	};
+}
