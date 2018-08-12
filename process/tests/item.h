@@ -5,15 +5,28 @@
 #if !defined(__ITEM)
 #define __ITEM
 
-class item
+namespace data
 {
-public:
-	string name;
+	class item
+	{
+	public:
+		string name;
 
-	std::vector<line> lines;
+		std::vector<line> lines;
 
-public:
-	string json();
+	public:
+		item()
+		{
+			name = "name";
+		}
+
+		item(string name)
+		{
+			this->name = name;
+		}
+
+		string json();
+	};
 };
 
 #endif

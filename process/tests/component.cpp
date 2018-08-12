@@ -1,6 +1,6 @@
 #include "component.h"
 
-string component::json()
+string data::component::json()
 {
 	string result = "{\r\n\"name\":\"" + name + "\"";
 	if ((long)elements.size() > 0L)

@@ -1,6 +1,6 @@
 #include "line.h"
 
-string line::json()
+string data::line::json()
 {
 	string result = "{\r\n\"start\":\"" + (string)start + "\",\r\n";
 	result += "\"end\":\"" + (string)end + "\",\r\n";

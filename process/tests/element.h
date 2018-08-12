@@ -3,13 +3,26 @@
 #if !defined(__ELEMENT)
 #define __ELEMENT
 
-class element
+namespace data
 {
-public:
-	string value;
+	class element
+	{
+	public:
+		string value;
 
-public:
-	string json();
+	public:
+		element()
+		{
+			value = "value";
+		}
+
+		element(string value)
+		{
+			this->value = value;
+		}
+
+		string json();
+	};
 };
 
 #endif

@@ -1,6 +1,6 @@
 #include "item.h"
 
-string item::json()
+string data::item::json()
 {
 	string result = "{\r\n\"name\":\"" + name + "\"";
 	if ((long)lines.size() > 0L)

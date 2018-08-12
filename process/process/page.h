@@ -33,6 +33,7 @@ namespace web
 
 	public:
 		long status;
+		long port;
 
 	public:
 		string url;

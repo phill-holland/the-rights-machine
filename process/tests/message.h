@@ -6,17 +6,32 @@
 #if !defined(__MESSAGE)
 #define __MESSAGE
 
-class message
+namespace data
 {
-public:
-	string userID;
-	string APIKey;
+	class message
+	{
+	public:
+		string userID;
+		string APIKey;
 
-	std::vector<line> queries;
-	std::vector<item> items;
+		std::vector<line> queries;
+		std::vector<item> items;
 
-public:
-	string json();
+	public:
+		message()
+		{
+			userID = "1";
+			APIKey = "1";
+		}
+
+		message(string userID, string APIKey)
+		{
+			this->userID = userID;
+			this->APIKey = APIKey;
+		}
+
+		string json();
+	};
 };
 
 #endif

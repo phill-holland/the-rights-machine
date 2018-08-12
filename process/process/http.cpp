@@ -11,6 +11,7 @@ bool http::client::client::get(web::page *destination, web::page *source, web::p
 	if (destination == NULL) return false;
 
 	web::address addr(destination->url);
+	addr.port = destination->port;
 
 	return issue(string("GET"), addr, destination, source, parameters, count);
 }
@@ -20,6 +21,7 @@ bool http::client::client::post(web::page *destination, web::page *source, web::
 	if (destination == NULL) return false;
 
 	web::address addr(destination->url);
+	addr.port = destination->port;
 
 	return issue(string("POST"), addr, destination, source, parameters, count);
 }
@@ -29,6 +31,7 @@ bool http::client::client::head(web::page *destination)
 	if (destination == NULL) return false;
 
 	web::address addr(destination->url);
+	addr.port = destination->port;
 
 	return issue(string("HEAD"), addr, destination, NULL, NULL, 0L);
 }

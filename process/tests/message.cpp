@@ -1,6 +1,6 @@
 #include "message.h"
 
-string message::json()
+string data::message::json()
 {
 	string result = "{\r\n\"userID\":\"" + userID + "\",\r\n";
 	result += "\"APIKey\":\"" + APIKey + "\"";

@@ -5,15 +5,28 @@
 #if !defined(__COMPONENT)
 #define __COMPONENT
 
-class component
+namespace data
 {
-public:
-	string name;
+	class component
+	{
+	public:
+		string name;
 
-	std::vector<element> elements;
+		std::vector<element> elements;
 
-public:
-	string json();
+	public:
+		component()
+		{
+			name = "name";
+		}
+
+		component(string name)
+		{
+			this->name = name;
+		}
+
+		string json();
+	};
 };
 
 #endif

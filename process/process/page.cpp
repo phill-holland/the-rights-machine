@@ -3,6 +3,8 @@
 void web::page::reset()
 {
 	init = false; cleanup();
+
+	port = 80L;
 	status = 0L;
 
 	body = new string(length);
