@@ -14,7 +14,7 @@
 
 void test()
 {
-	queues::memory::incoming::factory messages; // should be a task queue factory instead..??
+	queues::memory::incoming::factory messages;
 	queues::memory::outgoing::factory responses;
 
 	compute::cpu::cpu cpu(&messages);

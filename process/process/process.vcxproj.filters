@@ -207,9 +207,6 @@
     <ClInclude Include="parameters.h">
       <Filter>Header Files\Http</Filter>
     </ClInclude>
-    <ClInclude Include="buffer.h">
-      <Filter>Header Files\Http</Filter>
-    </ClInclude>
     <ClInclude Include="request.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
@@ -229,6 +226,9 @@
       <Filter>Header Files\Types</Filter>
     </ClInclude>
     <ClInclude Include="output.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="starter.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
   </ItemGroup>
@@ -398,9 +398,6 @@
     <ClCompile Include="parameters.cpp">
       <Filter>Source Files\Http</Filter>
     </ClCompile>
-    <ClCompile Include="buffer.cpp">
-      <Filter>Source Files\Http</Filter>
-    </ClCompile>
     <ClCompile Include="request.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
@@ -420,6 +417,9 @@
       <Filter>Source Files\Types</Filter>
     </ClCompile>
     <ClCompile Include="output.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="starter.cpp">
       <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>

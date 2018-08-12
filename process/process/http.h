@@ -26,30 +26,15 @@ namespace http
 				status = 0L;
 			}
 
-			bool get(web::page &destination);
-			bool get(web::page &destination, web::parameter *parameters, long count);
-			bool head(web::page &destination);
-			// put post here!!
+			bool get(web::page *destination, web::page *source = NULL, web::parameter *parameters = NULL, long count = 0L);
+			bool post(web::page *destination, web::page *source = NULL, web::parameter *parameters = NULL, long count = 0L);
+			
+			bool head(web::page *destination);			
 
 		protected:
-			bool issue(string &command, web::address &addr, web::page &destination, web::parameter *parameters, long count);
+			bool issue(string &command, web::address &addr, web::page *destination, web::page *source, web::parameter *parameters, long count);
 		};
 	};
-	/*
-	namespace server
-	{
-		class client : public ::wsock::client
-		{
-		};
-		
-		class server : public ::wsock::server
-		{
-			client **clients;
-
-		public:
-
-		};
-	};*/
 };
 
 #endif

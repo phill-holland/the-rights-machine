@@ -6,34 +6,39 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-char http::client::client::CRLF[3] = { 13, 10, 0 };
-
-bool http::client::client::get(web::page &destination)
+bool http::client::client::get(web::page *destination, web::page *source, web::parameter *parameters, long count)
 {
-	web::address addr(destination.url);
+	if (destination == NULL) return false;
 
-	return issue(string("GET"), addr, destination, NULL, 0L);
+	web::address addr(destination->url);
+
+	return issue(string("GET"), addr, destination, source, parameters, count);
 }
 
-bool http::client::client::get(web::page &destination, web::parameter *parameters, long count)
+bool http::client::client::post(web::page *destination, web::page *source, web::parameter *parameters, long count)
 {
-	web::address addr(destination.url);
+	if (destination == NULL) return false;
 
-	return issue(string("GET"), addr, destination, parameters, count);
+	web::address addr(destination->url);
+
+	return issue(string("POST"), addr, destination, source, parameters, count);
 }
 
-bool http::client::client::head(web::page &destination)
+bool http::client::client::head(web::page *destination)
 {
-	web::address addr(destination.url);
+	if (destination == NULL) return false;
 
-	return issue(string("HEAD"), addr, destination, NULL, 0L);
+	web::address addr(destination->url);
+
+	return issue(string("HEAD"), addr, destination, NULL, NULL, 0L);
 }
 
 bool http::client::client::issue(string &command,
-	web::address &addr,
-	web::page &destination,
-	web::parameter *parameters,
-	long count)
+								 web::address &addr,
+								 web::page *destination,
+								 web::page *source,
+								 web::parameter *parameters,
+								 long count)
 {
 	if (!::wsock::client::open(addr.server, addr.port)) return false;
 
@@ -61,18 +66,38 @@ bool http::client::client::issue(string &command,
 		}
 	}
 
-	if (destination.authorization.required)
+	if (destination->authorization.required)
 	{
-		string auth = string(destination.authorization.username);
+		string auth = string(destination->authorization.username);
 		auth.concat(string(":"));
-		auth.concat(destination.authorization.password);
+		auth.concat(destination->authorization.password);
 
 		request.concat("Authorization: Basic ");
 		request.concat(auth.toBase64());
 		request.concat("\r\n");
 	}
 
-	request.concat(string("Cache-Control: no-cache\r\n\r\n"));
+	request.concat(string("Cache-Control: no-cache\r\n"));
+
+	if (source != NULL)
+	{
+		for (long i = 0L; i < source->parameters.count(); ++i)
+		{
+			request.concat(source->parameters[i].name);
+			request.concat(": ");
+			request.concat(source->parameters[i].value);
+			request.concat("\r\n");
+		}
+
+		if (source->body->size() > 0L)
+		{
+			request.concat(string("Content-Length: " + string::fromLong((long)source->body->size()) + string("\r\n")));
+		}
+	}
+
+	request.concat(string("\r\n"));
+
+	if (source != NULL) request.concat(*(source->body));
 
 	bool ok = true;
 	if (addr.secure)
@@ -122,7 +147,7 @@ bool http::client::client::issue(string &command,
 				if ((character == 13) && (state == 0)) ++state;
 				else if ((character == 10) && (state == 1))
 				{
-					if ((name.count() > 0) && (value.count() > 0)) destination.set(name, value);
+					if ((name.count() > 0) && (value.count() > 0)) destination->set(name, value);
 					name.reset(); value.reset();
 					isValue = false;
 					space = 0L;
@@ -142,11 +167,11 @@ bool http::client::client::issue(string &command,
 
 		} while ((t > 0) && (error < 10) && (!finished));
 
-		destination.status = status.toLong();
+		destination->status = status.toLong();
 
 		if ((error < 10) && (finished))
 		{
-			long length = destination.get(string("Content-Length")).toLong();
+			long length = destination->get(string("Content-Length")).toLong();
 			if (length > 0L)
 			{
 				running_total = length;
@@ -156,21 +181,21 @@ bool http::client::client::issue(string &command,
 					long bufsize = receive_length;
 					if (remaining < receive_length) bufsize = remaining;
 
-					if (!addr.secure)t = ::wsock::client::read(receive, bufsize, 0);
+					if (!addr.secure) t = ::wsock::client::read(receive, bufsize, 0);
 					else t = ssl::read(receive, bufsize);
 
 					if (t > 0)
 					{
 						actual_total += (long)t;
 						remaining -= (long)t;
-						destination.body->concat(receive, t);
+						destination->body->concat(receive, t);
 					}
 					else ++error;
-				} while ((t > 0) && (error < 10) && (remaining>0L));
+				} while ((t > 0) && (error < 10) && (remaining > 0L));
 			}
 			else
 			{
-				string encoding = destination.get(string("Transfer-Encoding"));
+				string encoding = destination->get(string("Transfer-Encoding"));
 				if (encoding.isIn(string("chunked")))
 				{
 					bool data = false, finished = false;
@@ -224,7 +249,7 @@ bool http::client::client::issue(string &command,
 								{
 									actual_total += (long)t;
 									remaining -= (long)t;
-									destination.body->concat(receive, t);
+									destination->body->concat(receive, t);
 								}
 								else ++error;
 							} while ((t > 0) && (remaining > 0) && (error < 10));
@@ -234,10 +259,10 @@ bool http::client::client::issue(string &command,
 			}
 		}
 
-		if ((destination.status == 301L) || (destination.status == 302L) || (destination.status == 307L) || (destination.status == 308L))
-			destination.redirect = destination.get(string("Location"));
+		if ((destination->status == 301L) || (destination->status == 302L) || (destination->status == 307L) || (destination->status == 308L))
+			destination->redirect = destination->get(string("Location"));
 
-		result = ((destination.status == 200) && (running_total == actual_total));
+		result = ((destination->status == 200) && (running_total == actual_total));
 	}
 
 	::wsock::client::close();
