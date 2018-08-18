@@ -70,19 +70,23 @@ namespace data
 			DWORD WINAPI background(thread *bt);
 
 		private:
-			std::vector<data::response::response> data;
+			//std::vector<data::response::response> data;
+			data::response::response **data;
 			std::unordered_map<string, unsigned long, hasher, equality> map;
 
 			mutex::token token;
 
+			unsigned long total;
+			unsigned long length;
+
 			bool init;
 
 		public:
-			responses() { makeNull(); reset(); }
+			responses(unsigned long total = MAX) { makeNull(); reset(total); }
 			~responses() { cleanup(); }
 
 			bool initalised() { return init; }
-			void reset();
+			void reset(unsigned long total);
 
 			void clear();// { return data.clear(); }
 
@@ -123,8 +127,8 @@ namespace data
 			}
 
 		protected:
-			void makeNull() { }
-			void cleanup() { }
+			void makeNull();
+			void cleanup();
 		};
 	};
 };

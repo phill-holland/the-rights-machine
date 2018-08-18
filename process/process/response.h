@@ -38,6 +38,13 @@ namespace data
 			unsigned long pairs();
 			custom::pair pull(unsigned long index);
 
+			void clear()
+			{
+				GUID = "";
+				userID = 0;
+				queryID = 0;
+				available = false;
+			}
 			//int userID;
 			//int responseID;
 			//int messageID;

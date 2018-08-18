@@ -22,16 +22,23 @@ namespace queues
 
 			class factory : public ::queue::factory<compute::task>
 			{
-				std::vector<::queue::queue<compute::task>*> queues;
+				const static unsigned long MAX = 10UL;
+
+			private:
+				//std::vector<::queue::queue<compute::task>*> queues;
+				::queue::queue<compute::task> **queues;
+
+				unsigned long total;
+				unsigned long length;
 
 				bool init;
 
 			public:
-				factory() { makeNull(); reset(); }
+				factory(unsigned long total = MAX) { makeNull(); reset(total); }
 				~factory() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset();
+				void reset(unsigned long total);
 
 				::queue::queue<compute::task> *get();
 
@@ -45,17 +52,23 @@ namespace queues
 		{
 			class factory : public ::queue::chain_factory<data::response::response>//::queue::factory<data::response::response>
 			{
-				//std::vector<::queue::queue<data::response::response>*> queues;
-				std::vector<::custom::chain<data::response::response>*> queues;
+				const static unsigned long MAX = 10UL;
+
+			private:
+				//std::vector<::custom::chain<data::response::response>*> queues;
+				::custom::chain<data::response::response> **queues;
+
+				unsigned long total;
+				unsigned long length;
 
 				bool init;
 
 			public:
-				factory() { makeNull(); reset(); }
+				factory(unsigned long total = MAX) { makeNull(); reset(total); }
 				~factory() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset();
+				void reset(unsigned long total);
 
 				::custom::chain<data::response::response> *get();
 				//::queue::queue<data::response::response> *get();

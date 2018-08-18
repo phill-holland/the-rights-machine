@@ -1,46 +1,85 @@
 #include "queues.h"
 
-void queues::memory::incoming::factory::reset()
+void queues::memory::incoming::factory::reset(unsigned long total)
 {
 	init = false; cleanup();
+
+	this->total = total;
+	length = 0UL;
+
+	queues = new ::queue::queue<compute::task>*[total];
+	if (queues == NULL) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
 
 	init = true;
 }
 
 ::queue::queue<compute::task> *queues::memory::incoming::factory::get()
 {
+	if (length >= MAX) return NULL;
+
 	queue *result = new queues::memory::incoming::queue();
-	if (result != NULL) queues.push_back(result);
+	if (result != NULL) //queues.push_back(result);
+	{
+		queues[length++] = result;
+	}
+
 	return result;
 }
 
 void queues::memory::incoming::factory::makeNull()
 {
-
+	queues = NULL;
 }
 
 void queues::memory::incoming::factory::cleanup()
 {
-	for (long i = 0L; i < queues.size(); ++i)
+	if (queues != NULL)
 	{
-		delete queues[i];
+		for (long i = (total - 1L); i >= 0L; i--)//queues.size(); ++i)
+		{
+			if (queues[i] != NULL) delete queues[i];
+		}
+
+		delete queues;
 	}
 }
 
-void queues::memory::outgoing::factory::reset()
+void queues::memory::outgoing::factory::reset(unsigned long total)
 {
 	init = false; cleanup();
+
+	this->total = total;
+	length = 0UL;
+
+	//::custom::chain<data::response::response> **queues;
+
+	queues = new ::custom::chain<data::response::response>*[total];
+	if (queues == NULL) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
 
 	init = true;
 }
 
 ::custom::chain<data::response::response> *queues::memory::outgoing::factory::get()
 {
+	if (length >= MAX) return NULL;
+
 	data::response::responses *result = new data::response::responses();
-	if (result != NULL) queues.push_back(result);
+	if (result != NULL) //queues.push_back(result);
+	{
+		queues[length++] = result;
+	}
+
+	return result;
+
+	//data::response::responses *result = new data::response::responses();
+	//if (result != NULL) queues.push_back(result)
+
+
 //	queue *result = new queues::memory::outgoing::queue();
 	//if (result != NULL) queues.push_back(result);
-	return result;
+	//return result;
 }
 /*
 ::queue::queue<data::response::response> *queues::memory::outgoing::factory::get()
@@ -52,14 +91,25 @@ void queues::memory::outgoing::factory::reset()
 */
 void queues::memory::outgoing::factory::makeNull()
 {
-
+	queues = NULL;
 }
 
 void queues::memory::outgoing::factory::cleanup()
 {
+	/*
 	for (long i = 0L; i < queues.size(); ++i)
 	{
 		delete queues[i];
+	}*/
+
+	if (queues != NULL)
+	{
+		for (long i = (total - 1L); i >= 0L; i--)//queues.size(); ++i)
+		{
+			if (queues[i] != NULL) delete queues[i];
+		}
+
+		delete queues;
 	}
 }
 
