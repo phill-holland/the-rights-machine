@@ -1,6 +1,7 @@
+#include "stdafx.h"
 #include "line.h"
 
-string data::line::json()
+string tests::data::line::json()
 {
 	string result = "{\r\n\"start\":\"" + (string)start + "\",\r\n";
 	result += "\"end\":\"" + (string)end + "\",\r\n";
@@ -18,4 +19,6 @@ string data::line::json()
 		result += "]\r\n";
 	}
 	result += "}\r\n";
+
+	return result;
 }

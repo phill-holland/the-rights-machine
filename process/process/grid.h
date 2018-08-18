@@ -18,7 +18,7 @@ namespace compute
 		unsigned long width, height;
 		unsigned long write_ptr;
 		
-		header *headers;
+		header **headers;
 		int *data;
 
 		bool init;

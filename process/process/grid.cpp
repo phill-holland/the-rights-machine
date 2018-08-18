@@ -10,9 +10,16 @@ void compute::grid::reset(unsigned long width, unsigned long height)
 
 	write_ptr = 0UL;
 
-	headers = new header[height];
+	headers = new header*[height];
 	if (headers == NULL) return;
+	for (unsigned long i = 0UL; i < height; ++i) headers[i] = NULL;
 
+	for (unsigned long i = 0UL; i < height; ++i)
+	{
+		headers[i] = new header();
+		if (headers[i] == NULL) return;			
+	}
+	
 	data = new int[width * height];
 	if (data == NULL) return;
 
@@ -25,7 +32,7 @@ void compute::grid::clear()
 {
 	write_ptr = 0UL;
 	memset(data, 0, sizeof(int) * width * height);
-	for (unsigned long i = 0UL; i < height; ++i) headers[i].clear();
+	for (unsigned long i = 0UL; i < height; ++i) headers[i]->clear();
 }
 
 void compute::grid::minus(grid &right)
@@ -82,7 +89,7 @@ bool compute::grid::push(row &source)
 
 	unsigned long offset = (write_ptr * width);
 
-	headers[write_ptr] = source.top;
+	*headers[write_ptr] = source.top;
 
 	for (unsigned long i = 0UL; i < source.length; ++i)
 	{
@@ -106,6 +113,15 @@ void compute::grid::makeNull()
 
 void compute::grid::cleanup()
 {
-	if (headers != NULL) delete headers;
+	if (headers != NULL)
+	{
+		for (long i = (height - 1L); i >= 0L; i--)
+		{
+			if (headers[i] != NULL) delete headers[i];
+		}
+
+		delete headers;
+	}
+
 	if (data != NULL) delete data;
 }

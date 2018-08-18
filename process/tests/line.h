@@ -3,36 +3,39 @@
 #include "../process/string.h"
 #include "../process/datetime.h"
 
-#if !defined(__LINE)
-#define __LINE
+#if !defined(__TEST_LINE)
+#define __TEST_LINE
 
-namespace data
+namespace tests
 {
-	class line
+	namespace data
 	{
-	public:
-		global::datetime start, end;
-		string exclusivity;
-		string type;
-
-		std::vector<component> components;
-
-	public:
-		line()
+		class line
 		{
-			start = global::datetime(2018, 01, 01);
-			end = global::datetime(2019, 01, 01);
-			exclusivity = "0";
-			type = "0";
-		}
+		public:
+			global::datetime start, end;
+			string exclusivity;
+			string type;
 
-		line(global::datetime start, global::datetime end)
-		{
-			this->start = start;
-			this->end = end;
-		}
+			std::vector<component> components;
 
-		string json();
+		public:
+			line()
+			{
+				start = global::datetime(2018, 01, 01);
+				end = global::datetime(2019, 01, 01);
+				exclusivity = "0";
+				type = "0";
+			}
+
+			line(global::datetime start, global::datetime end)
+			{
+				this->start = start;
+				this->end = end;
+			}
+
+			string json();
+		};
 	};
 };
 

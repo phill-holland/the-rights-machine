@@ -1,27 +1,30 @@
 #include "../process/string.h"
 
-#if !defined(__ELEMENT)
-#define __ELEMENT
+#if !defined(__TEST_ELEMENT)
+#define __TEST_ELEMENT
 
-namespace data
+namespace tests
 {
-	class element
+	namespace data
 	{
-	public:
-		string value;
-
-	public:
-		element()
+		class element
 		{
-			value = "value";
-		}
+		public:
+			string value;
 
-		element(string value)
-		{
-			this->value = value;
-		}
+		public:
+			element()
+			{
+				value = "value";
+			}
 
-		string json();
+			element(string value)
+			{
+				this->value = value;
+			}
+
+			string json();
+		};
 	};
 };
 

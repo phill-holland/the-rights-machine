@@ -16,12 +16,16 @@ namespace error
 	{
 		static const long EXPIRATION = 20L;
 		static const long THRESHOLD = 10L;
+		static const long MAX = 20L;
 
 	private:
 		//queue::in<::error::error> *destination;
 		queue::in<::error::type::type> *destination;
-		std::vector<::error::error> queue;
-		
+		//std::vector<::error::error> queue;
+
+		::error::error **data;
+		long length;
+
 		mutex::token token;
 
 		long counter;

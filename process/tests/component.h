@@ -2,30 +2,33 @@
 #include <vector>
 #include "../process/string.h"
 
-#if !defined(__COMPONENT)
-#define __COMPONENT
+#if !defined(__TEST_COMPONENT)
+#define __TEST_COMPONENT
 
-namespace data
+namespace tests
 {
-	class component
+	namespace data
 	{
-	public:
-		string name;
-
-		std::vector<element> elements;
-
-	public:
-		component()
+		class component
 		{
-			name = "name";
-		}
+		public:
+			string name;
 
-		component(string name)
-		{
-			this->name = name;
-		}
+			std::vector<element> elements;
 
-		string json();
+		public:
+			component()
+			{
+				name = "name";
+			}
+
+			component(string name)
+			{
+				this->name = name;
+			}
+
+			string json();
+		};
 	};
 };
 

@@ -24,6 +24,8 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 
 	rows = new row*[height];
 	if (rows == NULL) return;
+	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
+
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		rows[i] = new row(width);
@@ -199,10 +201,11 @@ void compute::cpu::processor::cleanup()
 	if (inputs != NULL) delete inputs;
 	if (rows != NULL)
 	{
-		for (unsigned long i = height - 1UL; i >= 0UL; i--)
+		for (long i = (height - 1L); i >= 0L; i--)
 		{
 			if (rows[i] != NULL) delete rows[i];
 		}
+
 		delete rows;
 	}
 	if (query != NULL) delete query;

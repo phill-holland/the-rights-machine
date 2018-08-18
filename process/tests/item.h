@@ -2,30 +2,33 @@
 #include <vector>
 #include "../process/string.h"
 
-#if !defined(__ITEM)
-#define __ITEM
+#if !defined(__TEST_ITEM)
+#define __TEST_ITEM
 
-namespace data
+namespace tests
 {
-	class item
+	namespace data
 	{
-	public:
-		string name;
-
-		std::vector<line> lines;
-
-	public:
-		item()
+		class item
 		{
-			name = "name";
-		}
+		public:
+			string name;
 
-		item(string name)
-		{
-			this->name = name;
-		}
+			std::vector<line> lines;
 
-		string json();
+		public:
+			item()
+			{
+				name = "name";
+			}
+
+			item(string name)
+			{
+				this->name = name;
+			}
+
+			string json();
+		};
 	};
 };
 

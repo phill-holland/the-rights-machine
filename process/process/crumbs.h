@@ -1,4 +1,5 @@
 #include "string.h"
+#include <vector>
 
 #if !defined(__CRUMBS)
 #define __CRUMBS
@@ -10,7 +11,8 @@ namespace crumbs
 		static const unsigned long DEPTH = 15UL;
 
 		unsigned long depth;
-		string *data;
+		//std::vector<string> data;
+		string **data;
 
 		bool init;
 

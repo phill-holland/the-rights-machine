@@ -92,7 +92,7 @@ namespace error
 			static const unsigned long LENGTH = 255UL;
 
 			unsigned long length;
-			type *errors;
+			type **errors;
 
 			std::unordered_map<string, long, hasher, equality> reverse;
 

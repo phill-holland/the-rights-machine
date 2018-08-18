@@ -1,6 +1,7 @@
+#include "stdafx.h"
 #include "item.h"
 
-string data::item::json()
+string tests::data::item::json()
 {
 	string result = "{\r\n\"name\":\"" + name + "\"";
 	if ((long)lines.size() > 0L)
@@ -15,4 +16,6 @@ string data::item::json()
 		result += "]\r\n";
 	}
 	result += "}\r\n";
+
+	return result;
 }

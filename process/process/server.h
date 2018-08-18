@@ -47,26 +47,7 @@ namespace server
 {
 	
 	class client;
-	/*
-	class pair : public custom::base::pair<global::charbuf>
-	{
-	public:
-		pair() { }
-		pair(global::charbuf name, global::charbuf value) : custom::base::pair<global::charbuf>(name, value) { }
 
-		void clear()
-		{
-			name.clear();
-			value.clear();
-		}
-
-	public:
-		operator custom::base::pair<string>()
-		{
-			return custom::base::pair<string>((string)name, (string)value);
-		}
-	};
-	*/
 	class listener : public thread
 	{
 		enum MODE { NONE = 0, POST = 1, GET = 2 };
@@ -80,7 +61,6 @@ namespace server
 
 		web::parameters parameters;
 		crumbs::crumbs parents;
-		//data::response::responses responses;
 
 		bool quotes;
 		bool left;
@@ -95,9 +75,8 @@ namespace server
 		compute::task task;		
 		::data::request::request requested;
 
-		long content_length;// = length.toLong();
+		long content_length;
 		long read_counter;
-		//::data::json::request::json *current;
 
 		output::output outputter;
 

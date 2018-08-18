@@ -3,34 +3,37 @@
 #include <vector>
 #include "../process/string.h"
 
-#if !defined(__MESSAGE)
-#define __MESSAGE
+#if !defined(__TEST_MESSAGE)
+#define __TEST_MESSAGE
 
-namespace data
+namespace tests
 {
-	class message
+	namespace data
 	{
-	public:
-		string userID;
-		string APIKey;
-
-		std::vector<line> queries;
-		std::vector<item> items;
-
-	public:
-		message()
+		class message
 		{
-			userID = "1";
-			APIKey = "1";
-		}
+		public:
+			string userID;
+			string APIKey;
 
-		message(string userID, string APIKey)
-		{
-			this->userID = userID;
-			this->APIKey = APIKey;
-		}
+			std::vector<line> queries;
+			std::vector<item> items;
 
-		string json();
+		public:
+			message()
+			{
+				userID = "1";
+				APIKey = "1";
+			}
+
+			message(string userID, string APIKey)
+			{
+				this->userID = userID;
+				this->APIKey = APIKey;
+			}
+
+			string json();
+		};
 	};
 };
 

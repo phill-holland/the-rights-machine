@@ -1,6 +1,7 @@
+#include "stdafx.h"
 #include "component.h"
 
-string data::component::json()
+string tests::data::component::json()
 {
 	string result = "{\r\n\"name\":\"" + name + "\"";
 	if ((long)elements.size() > 0L)
@@ -15,4 +16,6 @@ string data::component::json()
 		result += "]\r\n";
 	}
 	result += "}\r\n";
+
+	return result;
 }

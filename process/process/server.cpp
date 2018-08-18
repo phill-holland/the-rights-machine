@@ -6,7 +6,7 @@
 DWORD WINAPI server::listener::background(thread *bt)
 {
 	Sleep(10);
-
+	
 	if ((c->isopen()) && (!c->isError()))
 	{
 		int bytes = c->read(receiving, RECEIVING, 0);
@@ -331,7 +331,7 @@ DWORD WINAPI server::listener::background(thread *bt)
 			}
 		}
 	}
-
+	
 	return (DWORD)0;
 }
 
@@ -395,6 +395,7 @@ void server::listener::validate()
 	//get content - type check application / json
 	//get content - length
 	//check http1.1
+
 	string length = parameters.get(string("Content-Length"));
 	content_length = length.toLong();
 	read_counter = 0L;
@@ -409,7 +410,7 @@ void server::listener::validate()
 	left = true;
 
 	outputter.clear();
-
+	
 	//validate = false;
 }
 
@@ -521,36 +522,6 @@ bool server::client::states::setReadyToPending(long identity)
 	return false;
 }
 
-/*
-distributed::schema *distributed::server::client::states::getPending(long identity)
-{
-	for (long i = 0L; i < MAX; ++i)
-	{
-		if ((children[i].state == pending::STATE::Pending) && (children[i].identity == identity))
-		{
-			return &(children[i].receiving);
-		}
-	}
-
-	return NULL;
-}
-*/
-/*
-distributed::schema *distributed::server::client::states::getFirstFinished(long &identity)
-{
-	identity = 0;
-	for (long i = 0L; i < MAX; ++i)
-	{
-		if ((children[i].state == pending::STATE::Finished) && (children[i].identity > 0L))
-		{
-			identity = children[i].identity;
-			return &(children[i].receiving);
-		}
-	}
-
-	return NULL;
-}
-*/
 bool server::client::states::setPendingToFinished(long identity)
 {
 	for (long i = 0L; i < MAX; ++i)
@@ -732,14 +703,15 @@ void server::server::reset(::server::configuration::configuration *settings)
 
 	clients = new client*[configuration.clients];
 	if (clients == NULL) return;
-
+	for (long i = 0L; i < configuration.clients; ++i) clients[i] = NULL;
+	
 	for (long i = 0L; i < configuration.clients; ++i)
 	{
 		clients[i] = new client(configuration.manager, configuration.errors);
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}
-
+	
 	waiter = new ::server::wait(this);
 	if (waiter == NULL) return;
 
@@ -793,7 +765,10 @@ void server::server::shutdown()
 	{
 		for (long i = 0L; i < configuration.clients; ++i)
 		{
-			if (clients[i]->isopen()) clients[i]->shutdown();
+			if (clients[i] != NULL)
+			{
+				if (clients[i]->isopen()) clients[i]->shutdown();
+			}
 		}
 	}
 }
@@ -911,7 +886,7 @@ void server::server::cleanup()
 	if (waiter != NULL) delete waiter;
 	if (clients != NULL)
 	{
-		for (long i = 0L; i < configuration.clients; ++i)
+		for (long i = (configuration.clients - 1L); i >= 0L; i--)
 		{
 			if (clients[i] != NULL) delete clients[i];
 		}

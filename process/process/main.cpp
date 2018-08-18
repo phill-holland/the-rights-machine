@@ -11,6 +11,12 @@
 #include "element.h"
 #include "elements.h"
 #include "guid.h"
+#include "starter.h"
+
+#include "grid.h"
+#include "error.h"
+#include "crumbs.h"
+#include "parameters.h"
 
 void test()
 {
@@ -104,6 +110,54 @@ int test_elements()
 	return 0;
 }
 
+void test_starter()
+{
+	server::starter s;
+}
+
+void test_grid()
+{
+	compute::grid *a, *b, *c;
+
+	a = new compute::grid;
+	b = new compute::grid;
+	c = new compute::grid;
+
+	delete c;
+	delete b;
+	delete a;
+}
+
+void test_error_type()
+{
+	::error::type::types *a;
+
+	a = new ::error::type::types();
+
+	delete a;
+}
+
+
+void test_crumbs()
+{
+	::crumbs::crumbs *c;
+
+	c = new ::crumbs::crumbs();
+	
+	c->push(string("moo moo"));
+
+	delete c;
+}
+
+void test_parameters()
+{
+	::web::parameters *a;
+
+	a = new ::web::parameters();
+
+	delete a;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -112,8 +166,12 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	//guid::guid g;
 	//Log << (string)g;
-
-	test();
+	test_starter();
+	//test_crumbs();
+	//test_parameters();
+	//test_error_type();
+	//test_grid();
+	//test();
 	//datetime tm(string("2018-06-02"));
 	//test_elements();
 	//test_dates();

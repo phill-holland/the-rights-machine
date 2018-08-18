@@ -15,8 +15,11 @@ namespace web
 		static const unsigned long MAX = 15L;
 
 	private:	
-		std::vector<web::parameter> headers;
+		//std::vector<web::parameter> headers;
+		web::parameter **headers;
 		std::unordered_map<string, int, hasher, equality> map;
+
+		unsigned long length;
 
 		bool init;
 
@@ -27,36 +30,16 @@ namespace web
 		bool initalised() { return init; }
 		void reset();
 
-		void clear() { return headers.clear(); }
+		void clear();
 
-		bool add(parameter &source)
-		{
-			if (count() >= MAX) return false;
-			
-			if (map.find(source.name) == map.end()) map[source.name] = (int)headers.size();
-			headers.push_back(source);
+		bool add(parameter &source);
 
-			return true;
-		}
+		bool exists(string &name);
 
-		bool exists(string &name)
-		{
-			return (map.find(name) != map.end());
-		}
+		parameter& get(unsigned long index);
+		string get(string &name);
 
-		parameter& get(unsigned long index)
-		{
-			return headers[index];
-		}
-
-		string get(string &name)
-		{
-			if (map.find(name) != map.end()) return headers[map[name]].value;
-
-			return string("");
-		}
-
-		long count() { return (unsigned long)headers.size(); }
+		long count();
 
 	public:
 		parameter& operator[](int index)
@@ -65,8 +48,8 @@ namespace web
 		}
 
 	protected:
-		void makeNull() { }
-		void cleanup() { }
+		void makeNull();
+		void cleanup();
 	};
 };
 

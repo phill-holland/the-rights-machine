@@ -39,6 +39,8 @@ namespace server
 		bool start();
 		void stop();
 
+		void shutdown();
+
 	protected:
 		void makeNull();
 		void cleanup();

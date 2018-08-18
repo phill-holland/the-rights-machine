@@ -7,8 +7,15 @@ void error::type::types::reset()
 
 	length = 0UL;
 
-	errors = new type[LENGTH];
+	errors = new type*[LENGTH];
 	if (errors == NULL) return;
+	for (unsigned long i = 0UL; i < LENGTH; ++i) errors[i] = NULL;
+	
+	for (unsigned long i = 0UL; i < LENGTH; ++i)
+	{
+		errors[i] = new type();
+		if (errors[i] == NULL) return;
+	}
 
 	init = true;
 }
@@ -19,7 +26,7 @@ bool error::type::types::push(type &t)
 	if (reverse.find(t.name) != reverse.end()) return false;
 
 	t.code = length + 1L;
-	errors[length++] = t;
+	*errors[length++] = t;
 
 	reverse[t.name] = t.code;
 
@@ -32,7 +39,7 @@ error::type::type error::type::types::lookup(::error::error &error)
 	if (reverse.find(error.name) == reverse.end())  return result;
 
 	long code = reverse[error.name] - 1L;
-	if ((code >= 0L) && (code < (long)length)) result = errors[code];
+	if ((code >= 0L) && (code < (long)length)) result = *errors[code];
 
 	return result;
 }
@@ -44,5 +51,13 @@ void error::type::types::makeNull()
 
 void error::type::types::cleanup()
 {
-	if (errors != NULL) delete errors;
+	if (errors != NULL)
+	{
+		for (long i = (LENGTH - 1L); i >= 0L; i--)
+		{
+			if (errors[i] != NULL) delete errors[i];
+		}
+
+		delete errors;
+	}
 }

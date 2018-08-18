@@ -1,6 +1,7 @@
+#include "stdafx.h"
 #include "message.h"
 
-string data::message::json()
+string tests::data::message::json()
 {
 	string result = "{\r\n\"userID\":\"" + userID + "\",\r\n";
 	result += "\"APIKey\":\"" + APIKey + "\"";
@@ -28,4 +29,6 @@ string data::message::json()
 		result += "]\r\n";
 	}
 	result += "}\r\n";
+
+	return result;
 }

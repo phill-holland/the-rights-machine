@@ -6,26 +6,35 @@ void server::starter::reset()
 
 	messages = new queues::memory::incoming::factory();
 	if (messages == NULL) return;
+	if (!messages->initalised()) return;
 
 	responses = new queues::memory::outgoing::factory();
 	if (responses == NULL) return;
+	if (!responses->initalised()) return;
 
 	cpu = new compute::cpu::cpu(messages);
 	if (cpu == NULL) return;
+	if (!cpu->initalised()) return;
 
 	manager = new manager::manager(responses);
 	if (manager == NULL) return;
+	if (!manager->initalised()) return;
 	manager->add(cpu);
 
 	console = new error::console::errors();
 	if (console == NULL) return;
+	if (!console->initalised()) return;
+
 	errors = new error::errors(console);
+	if (errors == NULL) return;
+	if (!errors->initalised()) return;
 
 	configuration = new ::server::configuration::configuration(manager, errors);
 	if (configuration == NULL) return;
 
 	server = new ::server::server(configuration);
 	if (server == NULL) return;
+	if (!server->initalised()) return;
 
 	init = true;
 }
@@ -47,6 +56,11 @@ void server::starter::stop()
 	server->stop();
 	errors->stop();
 	cpu->stop();
+}
+
+void server::starter::shutdown()
+{
+	server->shutdown();
 }
 
 void server::starter::makeNull()
