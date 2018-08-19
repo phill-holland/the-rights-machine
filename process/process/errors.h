@@ -12,6 +12,7 @@ namespace error
 	// have option, output to console, or database
 	// both respond to queue (or log class!!)
 
+	/*public ::error::type::types,*/
 	class errors : public thread, public ::error::type::types, public queue::in<::error::error>//, public allocator::allocator<::error::error, 10L>
 	{
 		static const long EXPIRATION = 20L;
@@ -47,6 +48,8 @@ namespace error
 		void clear();
 
 		bool set(::error::error &source);
+
+		bool shutdown() { return stopAndWait(); }
 
 	protected:
 		bool flush();

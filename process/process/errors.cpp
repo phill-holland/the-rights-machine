@@ -1,7 +1,11 @@
 #include "errors.h"
+#include "log.h"
 
 DWORD WINAPI error::errors::background(thread *bt)
 {
+	//Sleep(10);
+	//return (DWORD)0;
+
 	Sleep(200);
 	++counter;
 	
@@ -10,7 +14,7 @@ DWORD WINAPI error::errors::background(thread *bt)
 	if ((counter >= EXPIRATION) || (length >= THRESHOLD))
 	{
 		flush();
-		counter = 0L;
+		//counter = 0L;
 	}
 	else Sleep(1000);
 
@@ -26,7 +30,7 @@ void error::errors::reset(::queue::in<::error::type::type> *destination)//::queu
 	data = new ::error::error*[MAX];
 	if (data == NULL) return;
 	for (long i = 0L; i < MAX; ++i) data[i] = NULL;
-
+	
 	for (long i = 0L; i < MAX; ++i)
 	{
 		data[i] = new ::error::error();
@@ -51,6 +55,7 @@ bool error::errors::set(::error::error &source)
 
 	if (length >= MAX) return false;
 	//queue.push_back(source);
+
 	*data[length++] = source;
 
 	return true;
@@ -58,7 +63,7 @@ bool error::errors::set(::error::error &source)
 
 bool error::errors::flush()
 {
-	if (destination != NULL)
+	if (destination != NULL) //&& (data != NULL))
 	{
 		//mutex lock(token);
 
@@ -89,13 +94,19 @@ void error::errors::makeNull()
 
 void error::errors::cleanup()
 {
+	//if (!stopped) stopAndWait();
+
+	Log << "error A\r\n";
 	if (data != NULL)
 	{
+		Log << "error B\r\n";
 		for (long i = (MAX - 1L); i >= 0L; i--)
 		{
 			if (data[i] != NULL) delete data[i];
 		}
-
+		Log << "error C\r\n";
 		delete data;
+		Log << "error D\r\n";
 	}
+	Log << "error E\r\n";
 }

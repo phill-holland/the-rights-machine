@@ -6,7 +6,7 @@ void error::type::types::reset()
 	init = false; cleanup();
 
 	length = 0UL;
-
+	
 	errors = new type*[LENGTH];
 	if (errors == NULL) return;
 	for (unsigned long i = 0UL; i < LENGTH; ++i) errors[i] = NULL;
@@ -16,7 +16,7 @@ void error::type::types::reset()
 		errors[i] = new type();
 		if (errors[i] == NULL) return;
 	}
-
+	
 	init = true;
 }
 
@@ -36,11 +36,12 @@ bool error::type::types::push(type &t)
 error::type::type error::type::types::lookup(::error::error &error)
 {
 	::error::type::type result;
+	
 	if (reverse.find(error.name) == reverse.end())  return result;
 
 	long code = reverse[error.name] - 1L;
 	if ((code >= 0L) && (code < (long)length)) result = *errors[code];
-
+	
 	return result;
 }
 

@@ -6,7 +6,10 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-bool http::client::client::get(web::page *destination, web::page *source, web::parameter *parameters, long count)
+bool http::client::client::get(web::page *destination, 
+							   web::page *source, 
+							   web::parameter *parameters, 
+							   long count)
 {
 	if (destination == NULL) return false;
 
@@ -16,13 +19,17 @@ bool http::client::client::get(web::page *destination, web::page *source, web::p
 	return issue(string("GET"), addr, destination, source, parameters, count);
 }
 
-bool http::client::client::post(web::page *destination, web::page *source, web::parameter *parameters, long count)
+bool http::client::client::post(web::page *destination, 
+								web::page *source, 
+								web::parameter *parameters, 
+								long count)
 {
+	Log << "a\r\n";
 	if (destination == NULL) return false;
-
+	Log << "b\r\n";
 	web::address addr(destination->url);
 	addr.port = destination->port;
-
+	Log << "c\r\n";
 	return issue(string("POST"), addr, destination, source, parameters, count);
 }
 
@@ -43,11 +50,12 @@ bool http::client::client::issue(string &command,
 								 web::parameter *parameters,
 								 long count)
 {
+	Log << "a.1 " << addr.server << "\r\n";
 	if (!::wsock::client::open(addr.server, addr.port)) return false;
-
+	Log << "a.2\r\n";
 	bool result = false;
 	string request;
-
+	Log << "a.3\r\n";
 	request.concat(command);
 
 	request.concat(string(" "));
@@ -57,7 +65,7 @@ bool http::client::client::issue(string &command,
 	request.concat(string("Host: "));
 	request.concat(string(addr.server));
 	request.concat(string("\r\n"));
-
+	Log << "a.4\r\n";
 	if (parameters != NULL)
 	{
 		for (long i = 0L; i < count; ++i)
@@ -68,7 +76,7 @@ bool http::client::client::issue(string &command,
 			request.concat("\r\n");
 		}
 	}
-
+	Log << "a.5\r\n";
 	if (destination->authorization.required)
 	{
 		string auth = string(destination->authorization.username);
@@ -79,7 +87,7 @@ bool http::client::client::issue(string &command,
 		request.concat(auth.toBase64());
 		request.concat("\r\n");
 	}
-
+	Log << "a.6\r\n";
 	request.concat(string("Cache-Control: no-cache\r\n"));
 
 	if (source != NULL)
@@ -100,7 +108,11 @@ bool http::client::client::issue(string &command,
 
 	request.concat(string("\r\n"));
 
+	Log << "headers \r\n" << request;
+
 	if (source != NULL) request.concat(*(source->body));
+
+	Log << "all \r\n" << request;
 
 	bool ok = true;
 	if (addr.secure)
@@ -268,8 +280,11 @@ bool http::client::client::issue(string &command,
 		result = ((destination->status == 200) && (running_total == actual_total));
 	}
 
-	::wsock::client::close();
-	ssl::close();
+	Log << "end receive\r\n";
+	Log << "output\r\n" << destination->body;
 
+	if (addr.secure) ssl::close();
+	::wsock::client::close();
+	
 	return result;
 }

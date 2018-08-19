@@ -74,6 +74,8 @@ namespace compute
 
 			bool flush() { return queue->flush(); }
 
+			bool shutdown() { return stopAndWait(); }
+
 		protected:
 			bool get(::compute::task &destination) { return queue->get(destination); }
 

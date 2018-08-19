@@ -147,10 +147,13 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 									if (!c->manager->set(task))
 									{
+										Log << "server error\r\n";
 										error(string("MESSAGE_PUSH"));
 									}
 									else
 									{
+										Log << "response OK\r\n";
+
 										::data::response::response response;
 										// need different type of structure!!!
 										response.GUID = task.message.GUID;

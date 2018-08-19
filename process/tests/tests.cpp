@@ -53,23 +53,35 @@ namespace tests
 			web::page source, destination;			
 			http::client::client client;
 
-			destination.url = string("127.0.0.1");
+			destination.url = string("http://127.0.0.1");
 			destination.port = 5555L;
 			
 			source.data(message.json());
-			//Log << message.json();
+			Log << "message\r\n"; 
+			Log << message.json();
 			
 			server::starter starter;
 			
-			Assert::AreEqual(starter.initalised(), true);
-			Assert::AreEqual(starter.start(), true);
+			Assert::AreEqual(true, starter.initalised());
+			Assert::AreEqual(true, starter.start());
 			
-			Assert::AreEqual(client.post(&destination, &source), true);
+			Assert::AreEqual(true, client.post(&destination, &source));// , L"Boom", LINE_INFO());
 			
+			starter.shutdown();
+
+			Log << "HERE\r\n";
 			// decode destination, get GUID
 			// send response request
 
-			Assert::AreEqual(1, 1);// name, mc.GetName());
+			//Assert::AreEqual(1, 1);// name, mc.GetName());
+
+			// todo
+			// decode response
+			// request result
+			// setup errors
+			// setup user talbes
+			// setup database classes
+			// error copy function
 		}
 	};
 };

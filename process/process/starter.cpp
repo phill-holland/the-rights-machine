@@ -1,4 +1,5 @@
 #include "starter.h"
+#include "log.h"
 
 void server::starter::reset()
 {
@@ -61,6 +62,8 @@ void server::starter::stop()
 void server::starter::shutdown()
 {
 	server->shutdown();
+	errors->shutdown();
+	cpu->shutdown();
 }
 
 void server::starter::makeNull()
@@ -77,12 +80,25 @@ void server::starter::makeNull()
 
 void server::starter::cleanup()
 {
+	Log << "starter A\r\n";
 	if (server != NULL) delete server;
+	Log << "starter B\r\n";
 	if (configuration != NULL) delete configuration;
+	Log << "starter C\r\n";
 	if (errors != NULL) delete errors;
+	//{
+	//	errors->stopAndWait();
+	//	delete errors;
+	//}
+	Log << "starter D\r\n";
 	if (console != NULL) delete console;
+	Log << "starter E\r\n";
 	if (manager != NULL) delete manager;
+	Log << "starter F\r\n";
 	if (cpu != NULL) delete cpu;
+	Log << "starter G\r\n";
 	if (responses != NULL) delete responses;
+	Log << "starter H\r\n";
 	if (messages != NULL) delete messages;
+	Log << "starter I\r\n";
 }

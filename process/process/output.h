@@ -1,6 +1,7 @@
 #include "response.h"
 #include "error.h"
 #include "parameters.h"
+#include "log.h"
 
 #if !defined(__OUTPUT)
 #define __OUTPUT
@@ -51,12 +52,16 @@ namespace output
 		string get()
 		{
 			//long size = (long)data.size();
+			Log << "posting\r\n";
 
 			string result = "HTTP/1.1 200 OK\r\n";
 			result += "Content-Length: " + string::fromLong((long)data.size() + 2L) + "\r\n";
 			result += "Content-Type: application/json\r\n\r\n{";
 			result += data;
 			result += "}";// \r\n\r\n";
+
+			Log << "result\r\n";
+			Log << result << "\r\n";
 
 			return result;
 			//web::parameters parameters;
