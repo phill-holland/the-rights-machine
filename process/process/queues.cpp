@@ -54,7 +54,8 @@ void queues::memory::outgoing::factory::reset(unsigned long total)
 
 	//::custom::chain<data::response::response> **queues;
 
-	queues = new ::custom::chain<data::response::response>*[total];
+	//queues = new ::custom::chain<data::response::response>*[total];
+	queues = new data::response::responses*[total];
 	if (queues == NULL) return;
 	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
 
@@ -106,7 +107,10 @@ void queues::memory::outgoing::factory::cleanup()
 	{
 		for (long i = (total - 1L); i >= 0L; i--)//queues.size(); ++i)
 		{
-			if (queues[i] != NULL) delete queues[i];
+			if (queues[i] != NULL)
+			{
+				delete queues[i];
+			}
 		}
 
 		delete queues;

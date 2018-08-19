@@ -17,6 +17,7 @@
 #include "error.h"
 #include "crumbs.h"
 #include "parameters.h"
+#include "queues.h"
 
 void test()
 {
@@ -158,6 +159,24 @@ void test_parameters()
 	delete a;
 }
 
+void test_responses()
+{
+	/*
+	data::response::response *response = new data::response::response();
+
+	delete response;
+	*/
+	
+	queues::memory::outgoing::factory *responses;
+
+	responses = new queues::memory::outgoing::factory();
+
+	custom::chain<data::response::response> *a = responses->get();
+
+	delete responses;
+	
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -166,12 +185,13 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	//guid::guid g;
 	//Log << (string)g;
-	test_starter();
+	//test_starter();
+	//test_responses();
 	//test_crumbs();
 	//test_parameters();
 	//test_error_type();
 	//test_grid();
-	//test();
+	test();
 	//datetime tm(string("2018-06-02"));
 	//test_elements();
 	//test_dates();

@@ -56,7 +56,8 @@ namespace queues
 
 			private:
 				//std::vector<::custom::chain<data::response::response>*> queues;
-				::custom::chain<data::response::response> **queues;
+				//::custom::chain<data::response::response> **queues;
+				data::response::responses **queues;
 
 				unsigned long total;
 				unsigned long length;

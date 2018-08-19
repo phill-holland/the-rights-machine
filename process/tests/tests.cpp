@@ -60,12 +60,12 @@ namespace tests
 			//Log << message.json();
 			
 			server::starter starter;
-			/*
+			
 			Assert::AreEqual(starter.initalised(), true);
 			Assert::AreEqual(starter.start(), true);
-
+			
 			Assert::AreEqual(client.post(&destination, &source), true);
-			*/
+			
 			// decode destination, get GUID
 			// send response request
 
