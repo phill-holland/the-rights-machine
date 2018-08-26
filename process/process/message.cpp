@@ -27,9 +27,6 @@ void data::message::message::reset()
 
 	for (long i = 0L; i < 15L; ++i)
 	{
-		//Log << "ME " << identifiers[i]->identifier() << "\r\n";
-		//Log << "FQDN " << identifiers[i]->FQDN() << "\r\n";
-
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 	}
 

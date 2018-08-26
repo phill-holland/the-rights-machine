@@ -6,6 +6,8 @@
 #include "line.h"
 #include "item.h"
 #include "message.h"
+#include "response.h"
+#include "request.h"
 #include "../process/starter.h"
 #include "../process/string.h"
 #include "../process/http.h"
@@ -67,6 +69,17 @@ namespace tests
 			
 			Assert::AreEqual(true, client.post(&destination, &source));// , L"Boom", LINE_INFO());
 			
+			data::response response;
+
+			Assert::AreEqual(true, response.parse(destination.data()));
+			Log << "response GUID\r\n";
+			Log << response.GUID << "\r\n";
+
+			data::request request(message.userID, message.APIKey, response.GUID);
+			source.data(request.json());
+
+			Assert::AreEqual(true, client.post(&destination, &source));
+
 			starter.shutdown();
 
 			Log << "HERE\r\n";

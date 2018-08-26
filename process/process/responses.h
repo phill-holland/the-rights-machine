@@ -121,7 +121,7 @@ namespace data
 			bool remove(string &identity);
 
 		public:
-			data::response::response& operator[](int index)
+			data::response::response operator[](int index)
 			{
 				return get((unsigned long)index);
 			}

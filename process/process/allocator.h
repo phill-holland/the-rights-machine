@@ -74,7 +74,7 @@ namespace allocator
 				return true;
 			}*/
 
-			X &get(long index)
+			X get(long index)
 			{
 				if ((index < 0) || (index >= Y)) return X();
 				return *data[index];
@@ -103,7 +103,7 @@ namespace allocator
 				return *this;
 			}
 
-			X& operator[](int index)
+			X operator[](int index)
 			{
 				return get((long)index);
 			}
@@ -184,7 +184,7 @@ namespace allocator
 		*/
 		long count() { return elements; }
 
-		X &get(long index)
+		X get(long index)
 		{
 			if ((index < 0L) || (index >= elements)) return X();
 
@@ -289,7 +289,7 @@ namespace allocator
 			return *this;
 		}
 
-		X& operator[](int index)
+		X operator[](int index)
 		{
 			return get((long)index);
 		}

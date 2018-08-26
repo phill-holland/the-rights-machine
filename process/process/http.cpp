@@ -281,7 +281,7 @@ bool http::client::client::issue(string &command,
 	}
 
 	Log << "end receive\r\n";
-	Log << "output\r\n" << destination->body;
+	Log << "output\r\n" << (*destination->body);
 
 	if (addr.secure) ssl::close();
 	::wsock::client::close();
