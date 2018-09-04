@@ -72,12 +72,14 @@ public:
 	bool isInteger();
 	bool isHex();
 
+public:
 	static string fromFloat(float source);
 	static string fromLong(long source);
 	static string fromInt(int source);
 	static string fromBool(bool source);
 	static string fromTime(time_t source);
 
+public:
 	bool operator==(const string &source) { return compare(source) == 0; }
 
 	string operator<<(string &source) { this->concat(source); return *this; }

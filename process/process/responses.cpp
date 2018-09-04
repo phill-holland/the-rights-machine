@@ -1,5 +1,6 @@
 #include "responses.h"
 #include "datetime.h"
+#include "log.h"
 
 DWORD WINAPI data::response::responses::background(thread *bt)
 {
@@ -100,6 +101,7 @@ unsigned long data::response::responses::count()
 
 data::response::response data::response::responses::find(string &identity)
 {
+	Log << "find " << identity << "\r\n";
 	mutex lock(token);
 
 	data::response::response result;

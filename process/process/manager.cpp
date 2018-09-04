@@ -35,6 +35,7 @@ bool manager::manager::set(compute::task &source)
 	return result;
 }
 
+/*
 bool manager::manager::get(custom::chain<data::response::response> &destination)//::queue::queue<data::response::response> &destination)
 {
 	custom::chain<data::response::response> *temp = factory->get();
@@ -43,6 +44,12 @@ bool manager::manager::get(custom::chain<data::response::response> &destination)
 	destination = *temp;
 
 	return true;
+}
+*/
+
+custom::chain<data::response::response> *manager::manager::get()
+{
+	return factory->get();
 }
 
 void manager::manager::makeNull()

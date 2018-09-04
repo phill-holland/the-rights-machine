@@ -32,6 +32,8 @@ namespace compute
 
 		void clear();
 
+		bool isempty();
+
 		void set(unsigned long x, unsigned long y)
 		{
 			if ((x >= width) || (y >= height)) return;
@@ -44,7 +46,9 @@ namespace compute
 		
 		bool push(row &source);
 
-		void extract(queue::in<result> *destination);
+		void output();
+
+		//void extract(queue::in<result> *destination);
 
 	public:
 		grid& operator-(const grid& source)

@@ -68,6 +68,7 @@ void compute::cpu::processor::clear()
 void compute::cpu::processor::push(::compute::task &task)
 {
 	clear();
+	Log << "ACTUAL MOTHERING FUCKING PUSH\r\n";
 
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
@@ -94,12 +95,14 @@ void compute::cpu::processor::push(::compute::task &task)
 							for (long l = 0L; l < result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
+								Log << "woof-1\r\n";
 							}
 						}
 					}
 				}
 				else if (source.typeID == (int)data::line::line::TYPE::out)
 				{
+					Log << "woof-2\r\n";
 					out_map[source.lineID] = out_ptr++;
 					outputs[output_ptr++].copy(source);
 				}
@@ -114,8 +117,10 @@ void compute::cpu::processor::push(::compute::task &task)
 
 	// need to decode grid
 
+	Log << "woof1\r\n";
 	if (input_ptr > 0UL)
 	{
+		Log << "woof2\r\n";
 		task.message.filter(rows, height, in_map);
 
 		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
@@ -125,6 +130,7 @@ void compute::cpu::processor::push(::compute::task &task)
 
 		if (output_ptr > 0L)
 		{
+			Log << "woof3\r\n";
 			task.message.filter(rows, height, out_map);
 			
 			unsigned long offset = 0UL;
@@ -149,6 +155,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			}
 		}
 
+		Log << "woof14r\n";
 		unsigned long offset = 0UL;
 		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
 		{
@@ -164,6 +171,12 @@ void compute::cpu::processor::push(::compute::task &task)
 					query->push(*rows[offset + k]);
 				}
 			}
+
+			Log << "in\r\n";
+			in->output();
+			
+			Log << "\r\nquery\r\n";
+			query->output();
 
 			in->and(*query);
 

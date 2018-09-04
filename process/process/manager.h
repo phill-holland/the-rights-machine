@@ -14,7 +14,7 @@
 
 namespace manager
 {
-	class manager : public ::queue::in<compute::task>, ::queue::out<custom::chain<data::response::response>>//::queue::queue<data::response::response>>
+	class manager : public ::queue::in<compute::task>//, ::queue::out<custom::chain<data::response::response>>//::queue::queue<data::response::response>>
 	{
 		long read;
 
@@ -35,7 +35,11 @@ namespace manager
 		void add(compute::compute *source);
 
 		bool set(compute::task &source);
-		bool get(custom::chain<data::response::response> &destination);//::queue::queue<data::response::response> &destination);
+		//bool get(custom::chain<data::response::response> &destination);//::queue::queue<data::response::response> &destination);
+
+		// ***
+		custom::chain<data::response::response> *get();
+		// ***
 
 	protected:
 		void makeNull();

@@ -10,7 +10,8 @@ void data::request::request::clear()
 
 data::json::request::json *data::request::request::find(string FQDN)
 {
-	if (FQDN == this->FQDN()) return this;
+	if (FQDN.icompare(this->FQDN())) return this;
+	//if (FQDN == this->FQDN()) return this;
 	
 	return NULL;
 }
@@ -37,14 +38,17 @@ void data::request::request::output()
 
 bool data::request::request::add(custom::pair &source)
 {
+	Log << "add " << source.name << " " << source.value << "\r\n";
 	if (string("GUID").icompare(source.name))
 	{
+		Log << "GUID[]\r\n";
 		GUID = source.value;
 		return true;
 	}
 
 	if (string("userID").icompare(source.name))
 	{
+		Log << "UserID[]\r\n";
 		userID = source.value.toInteger();
 		return true;
 	}

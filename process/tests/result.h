@@ -1,24 +1,32 @@
 #include "../process/json.h"
+#include "../process/pair.h"
 #include "../process/string.h"
+#include "../process/datetime.h"
 #include "../process/comparison.h"
 #include <unordered_map>
 
-#if !defined(__TEST_RESPONSE)
-#define __TEST_RESPONSE
+#if !defined(__TEST_RESULT)
+#define __TEST_RESULT
 
 namespace tests
 {
 	namespace data
 	{
-		class response : public ::data::json::request::json
+		using namespace global;
+
+		class result : public ::data::json::request::json
 		{
 			std::unordered_map<string, json *, comparison::hasher, comparison::equality> hash;
 
 		public:
 			string GUID;
+			int userID;
+			int queryID;
+			datetime created;
+			bool available;
 
 		public:
-			response();
+			result();
 
 		public:
 			bool add(custom::pair &source);
@@ -30,7 +38,7 @@ namespace tests
 		public:
 			json *find(string FQDN);
 		};
-	};
+	};	
 };
 
 #endif

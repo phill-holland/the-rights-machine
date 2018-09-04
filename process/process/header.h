@@ -1,3 +1,4 @@
+#include "string.h"
 
 #if !defined(__HEADER)
 #define __HEADER
@@ -24,21 +25,12 @@ namespace compute
 		header(header const &source) { clear(); copy(source); }
 		~header() { }
 
-		void clear()
-		{
-			messageID = 0;
-			itemID = 0;
-			lineID = 0;
-			componentID = 0;
-		}
+		void clear();
+		bool isempty();
 
-		void copy(header const &source)
-		{
-			messageID = source.messageID;
-			itemID = source.itemID;
-			lineID = source.lineID;
-			componentID = source.componentID;
-		}
+		string serialize();
+		
+		void copy(header const &source);
 
 	public:
 		header& operator=(const header& source)

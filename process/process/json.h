@@ -21,8 +21,11 @@ namespace data
 				virtual void clear() = 0;
 				virtual string identifier() = 0;
 				virtual bool add(custom::pair &source) = 0;
+				virtual json *find(string FQDN) { return NULL; }
 
 			public:
+				bool parse(string json);
+
 				string FQDN();
 
 				void parent(json *source) { _parent = source; }

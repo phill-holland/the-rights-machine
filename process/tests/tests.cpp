@@ -8,6 +8,7 @@
 #include "message.h"
 #include "response.h"
 #include "request.h"
+#include "result.h"
 #include "../process/starter.h"
 #include "../process/string.h"
 #include "../process/http.h"
@@ -78,8 +79,15 @@ namespace tests
 			data::request request(message.userID, message.APIKey, response.GUID);
 			source.data(request.json());
 
-			Assert::AreEqual(true, client.post(&destination, &source));
+			Assert::AreEqual(true, client.get(&destination, &source));
 
+			data::result result;
+
+			Assert::AreEqual(true, result.parse(destination.data()));
+
+			Log << "result GUID\r\n";
+			Log << result.GUID << "\r\n";
+			Log << (result.available == true ? string("true") : string("false")) << "\r\n";
 			starter.shutdown();
 
 			Log << "HERE\r\n";

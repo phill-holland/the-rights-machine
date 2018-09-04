@@ -102,8 +102,8 @@ DWORD WINAPI server::listener::background(thread *bt)
 					{
 						if (receiving[i] == '{')
 						{
-							//string t = (string)label;
-							//Log << "label :" << t << "\r\n";
+							string t = (string)label;
+							Log << "label :" << t << "\r\n";
 
 							if (!parents.push((string)label))
 							{
@@ -170,11 +170,15 @@ DWORD WINAPI server::listener::background(thread *bt)
 							}
 							else if (get() == MODE::GET)
 							{
+								Log << "GET mode\r\n";
 								if (!parents.isempty())
 								{
+									Log << "BAA " << (string)label << " " << (string)value << "\r\n";
 									::data::json::request::json *current = requested.find(parents.FQDN());
 									if (current != NULL) current->add(custom::pair(label, value));
 
+									Log << "parents " << parents.FQDN() << "\r\n";
+									Log << "requested " << requested.FQDN() << "\r\n";
 									if (parents.FQDN().icompare(requested.FQDN()))
 									{
 										Log << "REQUEST\r\n";
@@ -182,24 +186,36 @@ DWORD WINAPI server::listener::background(thread *bt)
 										
 										requested.output();
 
-										data::response::response result = task.response->find(requested.GUID);
-										if ((result.GUID == requested.GUID) && (result.userID))
+										if (requested.GUID.count() > 0L)
 										{
-											outputter.set(&result);
-											// push response back to user
+											Log << "GUIIDDDD\r\n";
+											data::response::response result = task.response->find(requested.GUID);
+											if ((result.GUID == requested.GUID) && (result.userID))
+											{
+												Log << "Boom\r\n";
+												outputter.set(&result);
+												// push response back to user
 
-											// response factory
-											// error factory
+												// response factory
+												// error factory
+											}
+											else
+											{
+												Log << "Bang\r\n";
+
+												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
+
+												// push not found back to user (create hash lookup for valid GUI'IDs)
+												// check hash that GUI was pushed through to be processed
+
+												// create output queue for pointers for json::response *
+												// hmmm, but need to store the actual objects somewhere??
+											}
 										}
 										else
 										{
-											// push not found back to user (create hash lookup for valid GUI'IDs)
-											// check hash that GUI was pushed through to be processed
-
-											// create output queue for pointers for json::response *
-											// hmmm, but need to store the actual objects somewhere??
+											Log << "no guid found\r\n";
 										}
-
 										// need a special type of task queue
 										// push things onto queue, with key
 										// have find function to retreive item
@@ -344,7 +360,10 @@ void server::listener::reset(client *source)
 
 	c = source; 
 
-	if (!c->manager->get(*(task.response))) return;
+	//if (!c->manager->get(*(task.response))) return;
+	//if (!c->manager->get(*(task.response))) return;
+	task.response = c->manager->get();
+	if (task.response == NULL) return;
 
 	clear();
 

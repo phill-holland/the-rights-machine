@@ -1,5 +1,5 @@
 #include "grid.h"
-
+#include "log.h"
 
 void compute::grid::reset(unsigned long width, unsigned long height)
 {
@@ -33,6 +33,16 @@ void compute::grid::clear()
 	write_ptr = 0UL;
 	memset(data, 0, sizeof(int) * width * height);
 	for (unsigned long i = 0UL; i < height; ++i) headers[i]->clear();
+}
+
+bool compute::grid::isempty()
+{
+	for (unsigned long i = 0UL; i < height; ++i)
+	{
+		if (!headers[i]->isempty()) return false;
+	}
+
+	return true;
 }
 
 void compute::grid::minus(grid &right)
@@ -101,9 +111,34 @@ bool compute::grid::push(row &source)
 	return true;
 }
 
+void compute::grid::output()
+{
+	for (unsigned long i = 0UL; i < height; ++i)
+	{
+		if (!headers[i]->isempty())
+		{
+			string result = headers[i]->serialize();
+			
+			result += ",{";
+			if (data[0] > 0) result += "\"0\":1,";
+
+			for (unsigned long j = 1UL; j < width; ++j)
+			{
+				if (data[j] > 0) result += ",\"" + string(j) + "\":1";
+			}
+			
+			result += "}";
+
+			Log << result << "\r\n";
+		}
+	}
+}
+
+/*
 void compute::grid::extract(queue::in<result> *destination)
 {
 }
+*/
 
 void compute::grid::makeNull()
 {
