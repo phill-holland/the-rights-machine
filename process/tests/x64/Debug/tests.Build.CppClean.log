@@ -9,9 +9,13 @@ c:\git\the-rights-machine\process\tests\x64\debug\line.obj
 c:\git\the-rights-machine\process\tests\x64\debug\item.obj
 c:\git\the-rights-machine\process\tests\x64\debug\element.obj
 c:\git\the-rights-machine\process\tests\x64\debug\component.obj
+c:\git\the-rights-machine\process\x64\debug\tests.dll
+c:\git\the-rights-machine\process\x64\debug\tests.lib
+c:\git\the-rights-machine\process\x64\debug\tests.exp
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.command.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.read.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.write.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\link.command.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\link.read.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\link.write.1.tlog
+c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\tests.write.1u.tlog

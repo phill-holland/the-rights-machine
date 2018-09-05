@@ -190,7 +190,7 @@ DWORD WINAPI server::listener::background(thread *bt)
 										{
 											Log << "GUIIDDDD\r\n";
 											data::response::response result = task.response->find(requested.GUID);
-											if ((result.GUID == requested.GUID) && (result.userID))
+											if ((result.GUID == requested.GUID) && (result.userID == requested.userID))
 											{
 												Log << "Boom\r\n";
 												outputter.set(&result);
@@ -202,7 +202,13 @@ DWORD WINAPI server::listener::background(thread *bt)
 											else
 											{
 												Log << "Bang\r\n";
+												result.clear();
 
+												result.GUID = requested.GUID;
+												result.userID = requested.userID;
+												result.status = data::response::response::STATUS::UNKNOWN;
+												
+												outputter.set(&result);
 												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
 
 												// push not found back to user (create hash lookup for valid GUI'IDs)

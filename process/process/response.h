@@ -19,8 +19,12 @@ namespace data
 		class response : public data::json::response::json
 		{
 		public:
+			enum STATUS { OK = 1, PENDING = 2, UNKNOWN = 3 };
+
+		public:
 			string GUID;
 			int userID;
+			STATUS status;
 			//string status;
 			datetime created;
 
@@ -33,18 +37,19 @@ namespace data
 			// for each error/responds pushed onto response queuer
 
 		public:
+			response() { clear(); }
+			response(STATUS status) { clear(); this->status = status; }
+
 			string identifier() { return string("response"); }
+
+			void clear();
 
 			unsigned long pairs();
 			custom::pair pull(unsigned long index);
 
-			void clear()
-			{
-				GUID = "";
-				userID = 0;
-				queryID = 0;
-				available = false;
-			}
+		protected:
+			string map(STATUS source);
+			
 			//int userID;
 			//int responseID;
 			//int messageID;

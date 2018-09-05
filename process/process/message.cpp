@@ -113,6 +113,7 @@ void data::message::message::copy(message const &source)
 	created = source.created;
 	finished = source.finished;
 
+	queries = source.queries;
 	items = source.items;
 	lines = source.lines;
 	components = source.components;

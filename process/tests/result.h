@@ -16,12 +16,16 @@ namespace tests
 
 		class result : public ::data::json::request::json
 		{
+		public:
+			enum STATUS { OK = 1, PENDING = 2, UNKNOWN = 3 };
+
 			std::unordered_map<string, json *, comparison::hasher, comparison::equality> hash;
 
 		public:
 			string GUID;
 			int userID;
-			int queryID;
+			STATUS status;
+			//int queryID;
 			datetime created;
 			bool available;
 

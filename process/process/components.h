@@ -69,6 +69,7 @@ namespace data
 			public:
 				components() { index = 0; temp.parent(this); }
 				components(json *parent) { index = 0; json::parent(parent); }
+				components(components<Y> const &source) { clear(); copy(source); }
 
 			public:
 				int identity() { return index; }
@@ -100,6 +101,18 @@ namespace data
 				bool add(custom::pair &source)
 				{
 					return temp.add(source);
+				}
+
+				void copy(components<Y> const &source)
+				{
+					::allocator::allocator<component::query::component, Y>::copy(source);
+				}
+
+			public:
+				components<Y> operator=(const components<Y>& source)
+				{
+					this->copy((components<Y>&)source);
+					return *this;
 				}
 			};
 		};

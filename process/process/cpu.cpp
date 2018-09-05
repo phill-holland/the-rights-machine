@@ -75,22 +75,28 @@ void compute::cpu::processor::push(::compute::task &task)
 
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
+		Log << "meow1\r\n";
 		data::line::line source = task.message.lines[i];
-
+		Log << "query count " << task.message.queries.count() << "\r\n";
 		for (long j = 0L; j < task.message.queries.count(); ++j)
 		{
+			Log << "meow2\r\n";
 			data::query::query query = task.message.queries[j];
 
 			if (source.overlapped(query))
 			{
+				Log << "meow3\r\n";
 				if (source.typeID == (int)data::line::line::TYPE::in)
 				{
+					Log << "meow4\r\n";
 					in_map[source.lineID] = in_ptr++;
 					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
+						Log << "meow5\r\n";
 						data::line::line output = task.message.lines[k];
 						if (output.typeID == (int)data::line::line::TYPE::out)
 						{
+							Log << "meow6\r\n";
 							std::vector<zone::zone> result = source.split(output);
 							for (long l = 0L; l < result.size(); ++l)
 							{
@@ -230,13 +236,16 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 {
 	Sleep(100);
 
+	Log << "TICK\r\n";
 	::compute::task task;
 	if (get(task))
 	{
+		Log << "CPU GET\r\n";
 		process->push(task);
 	}
 	else
 	{
+		Log << "CPU SLEEP\r\n";
 		Sleep(5000);
 	}
 

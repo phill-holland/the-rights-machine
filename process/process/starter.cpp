@@ -16,7 +16,7 @@ void server::starter::reset()
 	cpu = new compute::cpu::cpu(messages);
 	if (cpu == NULL) return;
 	if (!cpu->initalised()) return;
-
+	
 	manager = new manager::manager(responses);
 	if (manager == NULL) return;
 	if (!manager->initalised()) return;
@@ -42,12 +42,15 @@ void server::starter::reset()
 
 bool server::starter::start()
 {
+	Log << "start A\r\n";
 	if (!cpu->start()) return false;
+	Log << "start b\r\n";
 	if (!errors->start()) return false;
-	
+	Log << "start c\r\n";
 	if (!server->open()) return false;
+	Log << "start d\r\n";
 	if (!server->start()) return false;
-
+	Log << "start e\r\n";
 	return true;
 }
 

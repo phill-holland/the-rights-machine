@@ -18,6 +18,7 @@ namespace data
 		public:
 			queries() { index = 0; temp.parent(this); }
 			queries(json *parent) { index = 0; json::parent(parent); }
+			queries(queries<Y> const &source) { clear(); copy(source); }
 
 		public:
 			int identity() { return index; }
@@ -50,6 +51,18 @@ namespace data
 			bool add(custom::pair &source)
 			{
 				return temp.add(source);
+			}
+
+			void copy(queries<Y> const &source)
+			{
+				::allocator::allocator<query::query, Y>::copy(source);
+			}
+
+		public:
+			queries<Y> operator=(const queries<Y>& source)
+			{
+				this->copy((queries<Y>&)source);
+				return *this;
 			}
 		};
 	};

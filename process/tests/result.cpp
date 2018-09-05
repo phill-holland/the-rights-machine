@@ -23,11 +23,19 @@ bool tests::data::result::add(custom::pair &source)
 		userID = source.value.toInteger();
 		return true;
 	}
-	else if (string("queryid").icompare(source.name))
+	else if (string("status").icompare(source.name))
+	{
+		if (source.value.icompare(string("OK"))) status = STATUS::OK;
+		else if (source.value.icompare(string("PENDING"))) status = STATUS::PENDING;
+
+		status = STATUS::UNKNOWN;
+	}
+
+	/*else if (string("queryid").icompare(source.name))
 	{
 		queryID = source.value.toInteger();
 		return true;
-	}
+	}*/
 	else if (string("created").icompare(source.name))
 	{
 		created = (datetime)source.value;

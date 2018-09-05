@@ -66,8 +66,9 @@ namespace tests
 			server::starter starter;
 			
 			Assert::AreEqual(true, starter.initalised());
+			Log << "starter.start\r\n";
 			Assert::AreEqual(true, starter.start());
-			
+			Log << "starter.started\r\n";
 			Assert::AreEqual(true, client.post(&destination, &source));// , L"Boom", LINE_INFO());
 			
 			data::response response;
@@ -75,19 +76,37 @@ namespace tests
 			Assert::AreEqual(true, response.parse(destination.data()));
 			Log << "response GUID\r\n";
 			Log << response.GUID << "\r\n";
-
-			data::request request(message.userID, message.APIKey, response.GUID);
-			source.data(request.json());
-
-			Assert::AreEqual(true, client.get(&destination, &source));
-
+									
+			int loops = 0;
+			bool success = false;
 			data::result result;
 
-			Assert::AreEqual(true, result.parse(destination.data()));
+			while (loops < 5 && !success)
+			{
+				data::request request(message.userID, message.APIKey, response.GUID);
+				source.data(request.json());
 
-			Log << "result GUID\r\n";
-			Log << result.GUID << "\r\n";
-			Log << (result.available == true ? string("true") : string("false")) << "\r\n";
+				Assert::AreEqual(true, client.get(&destination, &source));
+
+				//data::result result;
+				result.clear();
+
+				Assert::AreEqual(true, result.parse(destination.data()));
+
+				Log << "result GUID\r\n";
+				Log << result.GUID << "\r\n";
+				Log << result.status << "\r\n";
+				Log << (result.available == true ? string("true") : string("false")) << "\r\n";
+
+				success = result.status == data::result::STATUS::OK;
+
+				if (!success) Sleep(1000);
+
+				++loops;
+			}
+			
+			Assert::AreEqual((int)data::result::STATUS::OK, (int)result.status);
+
 			starter.shutdown();
 
 			Log << "HERE\r\n";

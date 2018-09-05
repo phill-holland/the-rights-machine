@@ -20,6 +20,7 @@ namespace data
 		public:
 			items() { index = 0; temp.parent(this); }
 			items(json *parent) { index = 0; json::parent(parent); }
+			items(items<Y> const &source) { clear(); copy(source); }
 
 		public:
 			int identity() { return index; }
@@ -51,6 +52,18 @@ namespace data
 			bool add(custom::pair &source)
 			{
 				return temp.add(source);
+			}
+
+			void copy(items<Y> const &source)
+			{
+				::allocator::allocator<item::item, Y>::copy(source);
+			}
+
+		public:
+			items<Y> operator=(const items<Y>& source)
+			{
+				this->copy((items<Y>&)source);
+				return *this;
 			}
 		};
 	};
