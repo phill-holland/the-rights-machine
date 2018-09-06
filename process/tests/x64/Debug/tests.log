@@ -1,4 +1,4 @@
-﻿Build started 05/09/2018 21:07:38.
+﻿Build started 06/09/2018 21:30:49.
      1>Project "C:\Git\the-rights-machine\process\tests\tests.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\include" /I"C:\build-OpenSSL-VC64\include" /ZI /nologo /W1 /WX- /Od /Oy- /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /FC /errorReport:prompt component.cpp element.cpp item.cpp line.cpp message.cpp request.cpp response.cpp result.cpp stdafx.cpp tests.cpp
@@ -31,4 +31,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:11.72
+Time Elapsed 00:00:12.08

@@ -78,6 +78,11 @@ void compute::cpu::processor::push(::compute::task &task)
 		Log << "meow1\r\n";
 		data::line::line source = task.message.lines[i];
 		Log << "query count " << task.message.queries.count() << "\r\n";
+
+		// ***
+		// if no query generate ERROR, somewhere
+		// ***
+
 		for (long j = 0L; j < task.message.queries.count(); ++j)
 		{
 			Log << "meow2\r\n";
@@ -89,6 +94,7 @@ void compute::cpu::processor::push(::compute::task &task)
 				if (source.typeID == (int)data::line::line::TYPE::in)
 				{
 					Log << "meow4\r\n";
+					//bool split = false;
 					in_map[source.lineID] = in_ptr++;
 					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
@@ -101,10 +107,17 @@ void compute::cpu::processor::push(::compute::task &task)
 							for (long l = 0L; l < result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
+								//split = true;
 								Log << "woof-1\r\n";
 							}
 						}
 					}
+
+					//if (!split)
+					//{
+						//Log << "no split found\r\n";
+						//inputs[input_ptr++] = source;
+					//}
 				}
 				else if (source.typeID == (int)data::line::line::TYPE::out)
 				{
@@ -124,17 +137,21 @@ void compute::cpu::processor::push(::compute::task &task)
 	// need to decode grid
 
 	Log << "woof1\r\n";
-	if (input_ptr > 0UL)
+	//if (input_ptr > 0UL)
+	if(in_ptr > 0)
 	{
 		Log << "woof2\r\n";
 		task.message.filter(rows, height, in_map);
-
+		Log << "woof2.1\r\n";
 		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
 		{
+			Log << "woof2.2\r\n";
 			in->push(*rows[i]);
+			Log << "woof2.3\r\n";
 		}
 
-		if (output_ptr > 0L)
+		//if (output_ptr > 0L)
+		if(out_ptr > 0)
 		{
 			Log << "woof3\r\n";
 			task.message.filter(rows, height, out_map);
@@ -201,6 +218,10 @@ void compute::cpu::processor::push(::compute::task &task)
 			// need to validate query components is same as message.components.maximum()
 			offset += task.message.components.maximum();
 		}
+	}
+	else
+	{
+		// no acquired rights, throw error, not available here!!!
 	}
 }
 

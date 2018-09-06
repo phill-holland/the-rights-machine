@@ -177,6 +177,22 @@ void test_responses()
 	
 }
 
+void test_mappings()
+{
+	mapping::mapper map;
+
+	map.push(string("woof"), 12, 0);
+
+	string result = map.map(0);
+	string moo = map.map(10);
+
+	mapping::mapper mine = map;
+
+	string result1 = mine.map(0);
+	string moo1 = mine.map(10);
+
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -191,6 +207,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//test_parameters();
 	//test_error_type();
 	//test_grid();
+	//test_mappings();
 	test();
 	//datetime tm(string("2018-06-02"));
 	//test_elements();

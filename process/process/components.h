@@ -106,6 +106,7 @@ namespace data
 				void copy(components<Y> const &source)
 				{
 					::allocator::allocator<component::query::component, Y>::copy(source);
+					::mapping::mapper::copy(source);
 				}
 
 			public:

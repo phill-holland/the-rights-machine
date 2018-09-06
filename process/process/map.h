@@ -1,6 +1,7 @@
 #include "string.h"
 #include "comparison.h"
 #include <unordered_map>
+#include "log.h"
 
 #if !defined(__MAP)
 #define __MAP
@@ -19,6 +20,7 @@ namespace mapping
 
 	public:
 		mapper() { reset(); }
+		mapper(mapper const &source) { reset(); copy(source); }
 
 		void reset()
 		{
@@ -36,7 +38,7 @@ namespace mapping
 
 		void push(string &name, int id, int parent)
 		{
-			if (forward.find(name) != forward.end())
+			if (forward.find(name) == forward.end())
 			{
 				forward[name] = index;
 				reverse[index] = name;
@@ -53,20 +55,59 @@ namespace mapping
 
 		string map(int idx)
 		{
-			return reverse.at(idx);
+			try
+			{
+				return reverse.at(idx);
+			}
+			catch (std::out_of_range)
+			{
+				return string("");
+			}
 		}
 
 		int map(string &name)
 		{
-			return forward.at(name);
+			try
+			{
+				return forward.at(name);
+			}
+			catch (std::out_of_range)
+			{
+				return -1;
+			}
 		}
 
 		int parent(int id)
 		{
-			return parents.at(id);
+			try
+			{
+				return parents.at(id);
+			}
+			catch (std::out_of_range)
+			{
+				return -1;
+			}
 		}
 		
 		int maximum() { return (int)forward.size(); }
+
+		void copy(mapper const &source)
+		{
+			empty();
+
+			forward = source.forward;
+			reverse = source.reverse;
+			parents = source.parents;
+
+			index = source.index;
+		}
+
+	public:
+		mapper operator=(const mapper& source)
+		{
+			this->copy((mapper&)source);
+			return *this;
+		}
 	};
 };
 

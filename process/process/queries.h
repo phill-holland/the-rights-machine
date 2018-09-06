@@ -56,6 +56,7 @@ namespace data
 			void copy(queries<Y> const &source)
 			{
 				::allocator::allocator<query::query, Y>::copy(source);
+				::mapping::mapper::copy(source);
 			}
 
 		public:

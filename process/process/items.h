@@ -57,6 +57,7 @@ namespace data
 			void copy(items<Y> const &source)
 			{
 				::allocator::allocator<item::item, Y>::copy(source);
+				::mapping::mapper::copy(source);
 			}
 
 		public:

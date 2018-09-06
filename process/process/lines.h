@@ -58,6 +58,7 @@ namespace data
 			void copy(lines<Y> const &source)
 			{
 				::allocator::allocator<line::line, Y>::copy(source);
+				::mapping::mapper::copy(source);
 			}
 
 		public:
