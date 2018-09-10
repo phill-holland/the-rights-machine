@@ -22,6 +22,7 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 	if (query == NULL) return;
 	if (!query->initalised()) return;
 
+	Log << "WIDTH,HEIGHT " << width << " " << height << "\r\n";
 	rows = new row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;

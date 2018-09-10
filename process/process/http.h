@@ -1,5 +1,6 @@
 #include "wsock.h"
 #include "page.h"
+#include "address.h"
 #include "ssl.h"
 
 #if !defined(__HTTP)

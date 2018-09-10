@@ -103,10 +103,15 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 			int itemID = lines.mapper::parent(lineID);
 			Log << "filter 8\r\n";
 			unsigned long offset = (map[lineID] * max_components) + componentID;
+			Log << "offset " << offset << "\r\n";
 			if (offset < total)
 			{
-				Log << "filter 9\r\n";
+				Log << "filter 9 " << element.value << "\r\n";
+				Log << "map " << elements.map(element.value) << "\r\n";
+				// (*rows)[1].set(2); // english
+				if ((rows)[offset] == NULL) Log << "NULL\r\n";
 				(*rows)[offset].set(elements.map(element.value));
+				Log << "filter 9.1\r\n";
 				(*rows)[offset].set(compute::header(messageID, itemID, lineID, componentID));
 				Log << "filter 10\r\n";
 			}

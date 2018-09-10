@@ -193,6 +193,45 @@ void test_mappings()
 
 }
 
+void test_rows()
+{
+	unsigned long width = 255;
+	unsigned long height = 255;
+
+	compute::row **rows = new compute::row*[height];
+	if (rows == NULL) return;
+	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
+
+	for (unsigned long i = 0UL; i < height; ++i)
+	{
+		rows[i] = new compute::row(width);
+		if (rows[i] == NULL) return;
+		if (!rows[i]->initalised()) return;
+	}
+
+	for (unsigned long y = 0UL; y < height; ++y)
+	{
+		for (unsigned long x = 0UL; x < width; ++x)
+		{
+			(*rows[y]).set(x);
+		}
+	}
+// ***
+	Log << "done\r\n";
+	for (unsigned long i = 0UL; i < height; ++i)
+	{
+		delete rows[i];
+	}
+}
+
+void test_cpu()
+{
+	compute::cpu::processor *cpu = new compute::cpu::processor(255, 255);
+	if (cpu == NULL) return;
+
+	delete cpu;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -208,7 +247,11 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//test_error_type();
 	//test_grid();
 	//test_mappings();
-	test();
+	test_rows();
+	
+	//test();
+	
+	
 	//datetime tm(string("2018-06-02"));
 	//test_elements();
 	//test_dates();

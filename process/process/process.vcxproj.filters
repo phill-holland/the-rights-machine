@@ -48,12 +48,6 @@
     <ClInclude Include="log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mutex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="process.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,9 +153,6 @@
     <ClInclude Include="queries.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="comparison.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="zone.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
@@ -231,18 +222,21 @@
     <ClInclude Include="starter.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="mutex.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="thread.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="comparison.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mutex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="process.cpp">
@@ -350,9 +344,6 @@
     <ClCompile Include="queries.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
-    <ClCompile Include="comparison.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="zone.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
@@ -421,6 +412,15 @@
     </ClCompile>
     <ClCompile Include="starter.cpp">
       <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="mutex.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="thread.cpp">
+      <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="comparison.cpp">
+      <Filter>Source Files\Types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

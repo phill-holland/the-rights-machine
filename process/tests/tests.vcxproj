@@ -105,6 +105,7 @@
       <AdditionalLibraryDirectories>C:\Git\the-rights-machine\process\process\x64\Debug;$(VCInstallDir)UnitTest\lib;C:\build-OpenSSL-VC64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;C:\build-OpenSSL-VC64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

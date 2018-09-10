@@ -1,5 +1,6 @@
 #include "row.h"
 #include <windows.h>
+#include "log.h"
 
 void compute::row::reset(unsigned long length)
 {
@@ -30,8 +31,9 @@ bool compute::row::set(unsigned long idx)
 {
 	if (idx >= length) return false;
 
+	//Log << "data set\r\n";
 	data[idx] = 1;
-
+	//Log << "end data set\r\n";
 	return true;
 }
 
