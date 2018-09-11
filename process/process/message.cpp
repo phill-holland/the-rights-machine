@@ -82,7 +82,7 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 	Log << "filter 2\r\n";
 	for (unsigned long i = 0UL; i < total; ++i)
 	{
-		Log << "filter 3\r\n";
+		//Log << "filter 3\r\n";
 		rows[i]->clear();
 	}
 
@@ -109,10 +109,11 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 				Log << "filter 9 " << element.value << "\r\n";
 				Log << "map " << elements.map(element.value) << "\r\n";
 				// (*rows)[1].set(2); // english
-				if ((rows)[offset] == NULL) Log << "NULL\r\n";
-				(*rows)[offset].set(elements.map(element.value));
+				if (rows[offset] == NULL) Log << "NULL\r\n";
+				//(*rows)[offset].set(elements.map(element.value));
+				rows[offset]->set(elements.map(element.value));
 				Log << "filter 9.1\r\n";
-				(*rows)[offset].set(compute::header(messageID, itemID, lineID, componentID));
+				rows[offset]->set(compute::header(messageID, itemID, lineID, componentID));
 				Log << "filter 10\r\n";
 			}
 		}

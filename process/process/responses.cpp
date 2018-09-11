@@ -11,7 +11,7 @@ DWORD WINAPI data::response::responses::background(thread *bt)
 
 	std::vector<string> erase;
 
-	for (unsigned long i = 0UL; i < count(); ++i)//(unsigned long)data.size(); ++i)
+	for (unsigned long i = 0UL; i < length; ++i)//count(); ++i)//(unsigned long)data.size(); ++i)
 	{
 		data::response::response temp = *data[i];
 		if ((temp.created + global::datetime(0,0,0,0,30,0)) < global::datetime::now())//global::datetime.now())
@@ -64,9 +64,11 @@ void data::response::responses::clear()
 
 bool data::response::responses::set(data::response::response &source)
 {
+	// count() calls lock again!!
 	mutex lock(token);
 
-	if (count() >= total) return false;
+	//if (count() >= total) return false;
+	if (length >= total) return false;
 	if (map.find(source.GUID) != map.end()) return false;
 
 	*data[length] = source;

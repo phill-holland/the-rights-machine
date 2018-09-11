@@ -197,15 +197,15 @@ void compute::cpu::processor::push(::compute::task &task)
 			}
 
 			Log << "in\r\n";
-			in->output();
+			//in->output();
 			
 			Log << "\r\nquery\r\n";
-			query->output();
+			//query->output();
 
 			in->and(*query);
-
+			Log << "and\r\n";
 			bool result = in->compare(*query);
-
+			Log << "compare\r\n";
 			data::response::response response;
 			response.queryID = q.queryID;
 			response.GUID = task.message.GUID;
@@ -213,17 +213,19 @@ void compute::cpu::processor::push(::compute::task &task)
 			response.available = result;
 			response.created = datetime::now();
 			//response.status = string("OK");
-
+			Log << "set response\r\n";
 			task.response->set(response);
-
+			Log << "setted\r\n";
 			// need to validate query components is same as message.components.maximum()
 			offset += task.message.components.maximum();
+			Log << "inc offset\r\n";
 		}
 	}
 	else
 	{
 		// no acquired rights, throw error, not available here!!!
 	}
+	Log << "PROCESS CPU DONE\r\n";
 }
 
 void compute::cpu::processor::makeNull()

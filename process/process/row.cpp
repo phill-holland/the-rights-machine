@@ -18,7 +18,8 @@ void compute::row::reset(unsigned long length)
 
 void compute::row::clear()
 {
-	memset(data, 0, sizeof(int) * length);
+	//memset(data, 0, sizeof(int) * length);
+	for (unsigned long i = 0UL; i < length; ++i) data[i] = 0;
 	top.clear();
 }
 

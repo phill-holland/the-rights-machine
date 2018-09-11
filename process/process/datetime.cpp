@@ -67,21 +67,9 @@ string global::datetime::to()
 
 global::datetime global::datetime::now()
 {
-	datetime result;
-
 	std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-	tm l;
-	localtime_s(&l, &tt);
-
-	result.year = l.tm_year;
-	result.month = l.tm_mon;
-	result.day = l.tm_mday;
-
-	result.hour = l.tm_hour;
-	result.minute = l.tm_min;
-	result.second = l.tm_sec;
-
-	return result;
+	
+	return datetime(tt);
 }
 
 void global::datetime::copy(datetime const &source)

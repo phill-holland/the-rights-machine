@@ -15,14 +15,14 @@ bool compute::header::isempty()
 
 string compute::header::serialize()
 {
-	string result = string("{\"header:\":{\"m\":");
-	result += string(messageID);
+	string result = string("{\"header\":{\"m\":");
+	result += string::fromInt(messageID);
 	result += string(",\"i\":");
-	result += string(itemID);
+	result += string::fromInt(itemID);
 	result += string(",\"l\":");
-	result += string(lineID);
+	result += string::fromInt(lineID);
 	result += string(",\"c\":");
-	result += string(componentID);
+	result += string::fromInt(componentID);
 	result += string("} }");
 
 	return result;

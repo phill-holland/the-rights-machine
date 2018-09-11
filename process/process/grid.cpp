@@ -119,12 +119,12 @@ void compute::grid::output()
 		{
 			string result = headers[i]->serialize();
 			
-			result += ",{";
-			if (data[0] > 0) result += "\"0\":1,";
+			result += ",\"row\":{";
+			if (data[0] > 0) result += "\"0\":1";
 
 			for (unsigned long j = 1UL; j < width; ++j)
 			{
-				if (data[j] > 0) result += ",\"" + string(j) + "\":1";
+				if (data[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
 			}
 			
 			result += "}";

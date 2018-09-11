@@ -59,9 +59,10 @@ void data::query::query::filter(compute::row **rows, unsigned long total, unsign
 			for (unsigned long i = 0UL; i < lines; ++i)
 			{
 				unsigned long offset = (i * max_components) + components.map(component);
+				Log << "offseTITS " << offset << "\r\n";
 				if (offset < total)
 				{
-					(*rows)[offset].set(elements.map(element.value));
+					rows[offset]->set(elements.map(element.value));
 				}
 			}
 		}

@@ -106,7 +106,7 @@ namespace tests
 			}
 			
 			Assert::AreEqual((int)data::result::STATUS::OK, (int)result.status);
-
+			Log << "shutting down your arse\r\n";
 			starter.shutdown();
 
 			Log << "HERE\r\n";

@@ -14,6 +14,20 @@ namespace global
 		datetime() { clear(); }
 		datetime(string const &source) { clear(); from((string)source); }
 		datetime(datetime const &source) { clear(); copy(source); }
+		datetime(time_t const &source)
+		{
+			tm l;
+			localtime_s(&l, &source);
+
+			year = l.tm_year + 1900;
+			month = l.tm_mon + 1;
+			day = l.tm_mday;
+
+			hour = l.tm_hour;
+			minute = l.tm_min;
+			second = l.tm_sec;
+		}
+
 		datetime(int y, int m, int d, int hh = 0, int mm = 0, int ss = 0)
 		{
 			clear();
@@ -37,8 +51,31 @@ namespace global
 		void copy(datetime const &source);
 
 	public:
+		operator time_t()
+		{
+			tm temp = (tm)*this;
+
+			return mktime(&temp);
+		}
+
+		operator tm()
+		{
+			struct tm l = { 0 };
+
+			l.tm_year = year > 0 ? (year - 1900) : 0;
+			l.tm_mon = month - 1;
+			l.tm_mday = day;
+
+			l.tm_hour = hour;
+			l.tm_min = minute;
+			l.tm_sec = second;
+
+			return l;
+		}
+
 		operator string() { return to(); }
 
+	public:
 		datetime& operator=(const datetime& source)
 		{
 			this->copy((datetime&)source);
@@ -115,8 +152,37 @@ namespace global
 
 		datetime& operator+(const datetime& source)
 		{
-			//const unsigned char a[] = { 31, 28, 31, 30, 31, 30, 31,    31, 30,    31, 30, 31 };
-			//const unsigned char b[] = { 31, 59, 90, 120, 151, 181, 112, 143, 173, 204, 230, 261 };
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			a.tm_year += b.tm_year;
+			a.tm_mon += b.tm_mon;
+			a.tm_mday += b.tm_mday;
+			a.tm_hour += b.tm_hour;
+			a.tm_min += b.tm_min;
+			a.tm_sec += b.tm_sec;
+
+			time_t c = mktime(&a);
+			this->copy((datetime)c);
+			
+			return *this;
+		}
+
+		datetime& operator-(const datetime& source)
+		{
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			a.tm_year -= b.tm_year;
+			a.tm_mon -= b.tm_mon;
+			a.tm_mday -= b.tm_mday;
+			a.tm_hour -= b.tm_hour;
+			a.tm_min -= b.tm_min;
+			a.tm_sec -= b.tm_sec;
+
+			time_t c = mktime(&a);
+			this->copy((datetime)c);
+
 			return *this;
 		}
 	};

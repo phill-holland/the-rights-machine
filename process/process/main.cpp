@@ -232,6 +232,17 @@ void test_cpu()
 	delete cpu;
 }
 
+void test_dt()
+{
+	global::datetime now = global::datetime::now();
+
+	global::datetime bob(0, 7, 0);
+
+	datetime result = now + bob;
+
+	Log << (string)result;
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -247,8 +258,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//test_error_type();
 	//test_grid();
 	//test_mappings();
-	test_rows();
-	
+	//test_rows();
+	test_dt();
 	//test();
 	
 	
