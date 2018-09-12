@@ -169,7 +169,6 @@ string data::json::response::json::extract()
 		if (!pair.value.empty())
 		{
 			result.push_back(pair);
-			Log << "extract name " << pair.name << " [" << pair.value << "]\r\n";
 		}
 	}
 
@@ -181,8 +180,6 @@ string data::json::response::json::extract()
 	{		
 		custom::pair pair = result[i];
 		data += "\"" + pair.name + "\" : \"" + pair.value + "\",\r\n";
-
-		Log << "extractor name " << pair.name << " " << pair.value << "\r\n";
 	}
 
 	custom::pair pair = result[result.size() - 1L];
@@ -194,11 +191,6 @@ string data::json::response::json::extract()
 	}
 
 	data += "}\r\n";
-
-
-	Log << "DATA\r\n";
-	Log << data;
-	Log << "\r\n\r\n";
 
 	return data;
 }

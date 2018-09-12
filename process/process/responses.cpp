@@ -98,12 +98,10 @@ unsigned long data::response::responses::count()
 	mutex lock(token);
 
 	return length;
-	//return (unsigned long)data.size(); 
 }
 
 data::response::response data::response::responses::find(string &identity)
 {
-	Log << "find " << identity << "\r\n";
 	mutex lock(token);
 
 	data::response::response result;

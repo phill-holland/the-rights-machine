@@ -77,44 +77,26 @@ data::json::request::json *data::message::message::find(string FQDN)
 
 void data::message::message::filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map)
 {
-	Log << "filter 1\r\n";
 	int max_components = components.maximum();
-	Log << "filter 2\r\n";
 	for (unsigned long i = 0UL; i < total; ++i)
 	{
-		//Log << "filter 3\r\n";
 		rows[i]->clear();
 	}
 
-	Log << "filter 4\r\n";
 	for (long h = 0L; h < elements.count(); ++h)
 	{
-		Log << "filter 5\r\n";
 		data::element::element element = elements[h];
 		int lineID = components.mapper::parent(element.componentID);
-		Log << "filter 6\r\n";
 		if (map.find(lineID) != map.end())
 		{
-			Log << "filter 7\r\n";
 			string component = components.map(element.componentID);
-			Log << "filter 7.1\r\n";
 			int componentID = components.map(component);
-			Log << "filter 7.2\r\n";
 			int itemID = lines.mapper::parent(lineID);
-			Log << "filter 8\r\n";
 			unsigned long offset = (map[lineID] * max_components) + componentID;
-			Log << "offset " << offset << "\r\n";
 			if (offset < total)
 			{
-				Log << "filter 9 " << element.value << "\r\n";
-				Log << "map " << elements.map(element.value) << "\r\n";
-				// (*rows)[1].set(2); // english
-				if (rows[offset] == NULL) Log << "NULL\r\n";
-				//(*rows)[offset].set(elements.map(element.value));
 				rows[offset]->set(elements.map(element.value));
-				Log << "filter 9.1\r\n";
 				rows[offset]->set(compute::header(messageID, itemID, lineID, componentID));
-				Log << "filter 10\r\n";
 			}
 		}
 	}

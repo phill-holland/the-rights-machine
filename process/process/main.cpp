@@ -243,6 +243,22 @@ void test_dt()
 	Log << (string)result;
 }
 
+/*
+void test append()
+{
+	string *body = new string(140);
+
+	char[]data = { "{\"response\" : 
+	{
+		\"GUID\" : \"D63546CF-EE09-49DB-A9DC-CD89E8A86CD7\",
+			\"status\" : \"UNKNOWN\",
+			"available" : "false",
+			"created" : "2018-9-12"
+	}
+	}
+	delete body;
+}
+*/
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,

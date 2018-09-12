@@ -48,6 +48,8 @@ namespace web
 
 		void reset();
 
+		void clear();
+
 		bool set(string &name, string &value);
 		string get(string &name);
 

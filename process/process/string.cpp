@@ -464,6 +464,9 @@ long string::toLongFromHex()
 
 bool string::toBoolean()
 {
+	if (upper().trim().icompare(string("false"))) return false;
+	else if (upper().trim().icompare(string("true"))) return true;
+
 	return toLong() <= 0L ? false : true;
 }
 

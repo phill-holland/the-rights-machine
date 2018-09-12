@@ -10,9 +10,15 @@ void web::page::reset()
 	body = new string(length);
 	if (body == NULL) return;
 
-	parameters.clear();
+	clear();
 
 	init = true;
+}
+
+void web::page::clear()
+{
+	body->clear();
+	parameters.clear();
 }
 
 bool web::page::set(string &name, string &value)

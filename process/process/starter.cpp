@@ -42,15 +42,11 @@ void server::starter::reset()
 
 bool server::starter::start()
 {
-	Log << "start A\r\n";
 	if (!cpu->start()) return false;
-	Log << "start b\r\n";
 	if (!errors->start()) return false;
-	Log << "start c\r\n";
 	if (!server->open()) return false;
-	Log << "start d\r\n";
 	if (!server->start()) return false;
-	Log << "start e\r\n";
+
 	return true;
 }
 
@@ -83,14 +79,9 @@ void server::starter::makeNull()
 
 void server::starter::cleanup()
 {
-	Log << "starter A\r\n";
 	if (server != NULL) delete server;
 	if (configuration != NULL) delete configuration;
 	if (errors != NULL) delete errors;
-	//{
-	//	errors->stopAndWait();
-	//	delete errors;
-	//}
 	if (console != NULL) delete console;
 	if (manager != NULL) delete manager;
 	if (cpu != NULL) delete cpu;

@@ -94,19 +94,12 @@ void error::errors::makeNull()
 
 void error::errors::cleanup()
 {
-	//if (!stopped) stopAndWait();
-
-	Log << "error A\r\n";
 	if (data != NULL)
 	{
-		Log << "error B\r\n";
 		for (long i = (MAX - 1L); i >= 0L; i--)
 		{
 			if (data[i] != NULL) delete data[i];
 		}
-		Log << "error C\r\n";
 		delete data;
-		Log << "error D\r\n";
 	}
-	Log << "error E\r\n";
 }

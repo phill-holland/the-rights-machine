@@ -20,7 +20,6 @@ custom::pair data::response::response::pull(unsigned long index)
 {
 	custom::pair result;
 
-	Log << "WOO_OOF " << userID << "\r\n";
 	if (index == 0UL) result = custom::pair(string("GUID"), GUID);
 	//else if (index == 1UL) result = custom::pair(string("userID"), string::fromInt(userID));
 	else if (index == 1UL) result = custom::pair(string("status"), map(status));

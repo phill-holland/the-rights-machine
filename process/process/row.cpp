@@ -18,8 +18,8 @@ void compute::row::reset(unsigned long length)
 
 void compute::row::clear()
 {
-	//memset(data, 0, sizeof(int) * length);
 	for (unsigned long i = 0UL; i < length; ++i) data[i] = 0;
+	
 	top.clear();
 }
 
@@ -32,9 +32,8 @@ bool compute::row::set(unsigned long idx)
 {
 	if (idx >= length) return false;
 
-	//Log << "data set\r\n";
 	data[idx] = 1;
-	//Log << "end data set\r\n";
+
 	return true;
 }
 

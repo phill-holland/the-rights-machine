@@ -22,7 +22,6 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 	if (query == NULL) return;
 	if (!query->initalised()) return;
 
-	Log << "WIDTH,HEIGHT " << width << " " << height << "\r\n";
 	rows = new row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
@@ -65,20 +64,16 @@ void compute::cpu::processor::clear()
 	}	
 }
 
-//void compute::cpu::processor::push(data::message::message &message)
 void compute::cpu::processor::push(::compute::task &task)
 {
 	clear();
-	Log << "ACTUAL MOTHERING FUCKING PUSH\r\n";
 
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
 
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
-		Log << "meow1\r\n";
 		data::line::line source = task.message.lines[i];
-		Log << "query count " << task.message.queries.count() << "\r\n";
 
 		// ***
 		// if no query generate ERROR, somewhere
@@ -86,43 +81,28 @@ void compute::cpu::processor::push(::compute::task &task)
 
 		for (long j = 0L; j < task.message.queries.count(); ++j)
 		{
-			Log << "meow2\r\n";
 			data::query::query query = task.message.queries[j];
 
 			if (source.overlapped(query))
 			{
-				Log << "meow3\r\n";
 				if (source.typeID == (int)data::line::line::TYPE::in)
 				{
-					Log << "meow4\r\n";
-					//bool split = false;
 					in_map[source.lineID] = in_ptr++;
 					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
-						Log << "meow5\r\n";
 						data::line::line output = task.message.lines[k];
 						if (output.typeID == (int)data::line::line::TYPE::out)
 						{
-							Log << "meow6\r\n";
 							std::vector<zone::zone> result = source.split(output);
 							for (long l = 0L; l < result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
-								//split = true;
-								Log << "woof-1\r\n";
 							}
 						}
 					}
-
-					//if (!split)
-					//{
-						//Log << "no split found\r\n";
-						//inputs[input_ptr++] = source;
-					//}
 				}
 				else if (source.typeID == (int)data::line::line::TYPE::out)
 				{
-					Log << "woof-2\r\n";
 					out_map[source.lineID] = out_ptr++;
 					outputs[output_ptr++].copy(source);
 				}
@@ -137,24 +117,16 @@ void compute::cpu::processor::push(::compute::task &task)
 
 	// need to decode grid
 
-	Log << "woof1\r\n";
-	//if (input_ptr > 0UL)
 	if(in_ptr > 0)
 	{
-		Log << "woof2\r\n";
 		task.message.filter(rows, height, in_map);
-		Log << "woof2.1\r\n";
 		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
 		{
-			Log << "woof2.2\r\n";
 			in->push(*rows[i]);
-			Log << "woof2.3\r\n";
 		}
 
-		//if (output_ptr > 0L)
 		if(out_ptr > 0)
 		{
-			Log << "woof3\r\n";
 			task.message.filter(rows, height, out_map);
 			
 			unsigned long offset = 0UL;
@@ -179,7 +151,6 @@ void compute::cpu::processor::push(::compute::task &task)
 			}
 		}
 
-		Log << "woof14r\n";
 		unsigned long offset = 0UL;
 		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
 		{
@@ -196,36 +167,26 @@ void compute::cpu::processor::push(::compute::task &task)
 				}
 			}
 
-			Log << "in\r\n";
-			//in->output();
-			
-			Log << "\r\nquery\r\n";
-			//query->output();
-
 			in->and(*query);
-			Log << "and\r\n";
 			bool result = in->compare(*query);
-			Log << "compare\r\n";
+
 			data::response::response response;
 			response.queryID = q.queryID;
 			response.GUID = task.message.GUID;
 			response.userID = task.message.userID;
 			response.available = result;
 			response.created = datetime::now();
-			//response.status = string("OK");
-			Log << "set response\r\n";
+
 			task.response->set(response);
-			Log << "setted\r\n";
+
 			// need to validate query components is same as message.components.maximum()
 			offset += task.message.components.maximum();
-			Log << "inc offset\r\n";
 		}
 	}
 	else
 	{
 		// no acquired rights, throw error, not available here!!!
 	}
-	Log << "PROCESS CPU DONE\r\n";
 }
 
 void compute::cpu::processor::makeNull()
@@ -260,16 +221,13 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 {
 	Sleep(100);
 
-	Log << "TICK\r\n";
 	::compute::task task;
 	if (get(task))
 	{
-		Log << "CPU GET\r\n";
 		process->push(task);
 	}
 	else
 	{
-		Log << "CPU SLEEP\r\n";
 		Sleep(5000);
 	}
 

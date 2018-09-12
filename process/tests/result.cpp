@@ -16,19 +16,23 @@ bool tests::data::result::add(custom::pair &source)
 	if (string("guid").icompare(source.name))
 	{
 		GUID = source.value;
+		
 		return true;
 	}
 	else if (string("userid").icompare(source.name))
 	{
 		userID = source.value.toInteger();
+
 		return true;
 	}
 	else if (string("status").icompare(source.name))
 	{
-		if (source.value.icompare(string("OK"))) status = STATUS::OK;
-		else if (source.value.icompare(string("PENDING"))) status = STATUS::PENDING;
-
 		status = STATUS::UNKNOWN;
+
+		if (source.value.icompare(string("OK"))) status = STATUS::OK;
+		else if (source.value.icompare(string("PENDING"))) status = STATUS::PENDING;		
+
+		return true;
 	}
 
 	/*else if (string("queryid").icompare(source.name))
