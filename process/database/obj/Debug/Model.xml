@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DataSchemaModel FileFormatVersion="1.2" SchemaVersion="2.4" DspName="Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider" CollationLcid="1033" CollationCaseSensitive="False" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+<DataSchemaModel FileFormatVersion="1.2" SchemaVersion="2.4" DspName="Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider" CollationLcid="1033" CollationCaseSensitive="False" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
 	<Header>
 		<CustomData Category="AnsiNulls">
 			<Metadata Name="AnsiNulls" Value="True" />
@@ -8,11 +8,11 @@
 			<Metadata Name="QuotedIdentifier" Value="True" />
 		</CustomData>
 		<CustomData Category="CompatibilityMode">
-			<Metadata Name="CompatibilityMode" Value="120" />
+			<Metadata Name="CompatibilityMode" Value="110" />
 		</CustomData>
 		<CustomData Category="Reference" Type="Assembly">
 			<Metadata Name="LogicalName" Value="database.dll" />
-			<Metadata Name="FileName" Value="C:\USERS\PHILL\DOCUMENTS\VISUAL STUDIO 2013\PROJECTS\PROCESS2\DATABASE\OBJ\DEBUG\DATABASE.DLL" />
+			<Metadata Name="FileName" Value="C:\GIT\THE-RIGHTS-MACHINE\PROCESS\DATABASE\OBJ\DEBUG\DATABASE.DLL" />
 			<Metadata Name="AssemblyName" Value="database" />
 			<Metadata Name="PermissionSet" Value="SAFE" />
 			<Metadata Name="Owner" Value="" />
@@ -20,7 +20,7 @@
 			<Metadata Name="IsVisible" Value="True" />
 			<Metadata Name="IsModelAware" Value="True" />
 			<Metadata Name="SkipCreationIfEmpty" Value="True" />
-			<Metadata Name="AssemblySymbolsName" Value="C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\database.pdb" />
+			<Metadata Name="AssemblySymbolsName" Value="C:\Git\the-rights-machine\process\database\obj\Debug\database.pdb" />
 		</CustomData>
 		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
 	</Header>
@@ -43,6 +43,108 @@
 				</Entry>
 			</Relationship>
 		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[0]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tUser].[banned]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="3" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[0]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tUser].[active]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="4" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[0]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tUser].[verified]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="5" />
+		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[(getdate())]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tUser].[created]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[tUserChange].[userChangeID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUserChange]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
+		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[tUser].[userID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
+		</Element>
 		<Element Type="SqlDefaultConstraint" Name="[dbo].[DF_tMessage_CreatedDate]">
 			<Property Name="DefaultExpressionScript">
 				<Value><![CDATA[(getdate())]]></Value>
@@ -57,7 +159,7 @@
 					<References Name="[dbo].[tMessage].[CreatedDate]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="3" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
 		</Element>
 		<Element Type="SqlDefaultConstraint" Name="[dbo].[DF_tResponse_CreatedDate]">
 			<Property Name="DefaultExpressionScript">
@@ -73,7 +175,7 @@
 					<References Name="[dbo].[tResponse].[CreatedDate]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="4" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tComponent]">
 			<Relationship Name="ColumnSpecifications">
@@ -92,7 +194,7 @@
 					<References Name="[dbo].[tComponent]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="5" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tItem]">
 			<Relationship Name="ColumnSpecifications">
@@ -111,7 +213,7 @@
 					<References Name="[dbo].[tItem]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tLine]">
 			<Relationship Name="ColumnSpecifications">
@@ -130,7 +232,7 @@
 					<References Name="[dbo].[tLine]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tMessage]">
 			<Relationship Name="ColumnSpecifications">
@@ -149,7 +251,7 @@
 					<References Name="[dbo].[tMessage]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tResponse]">
 			<Relationship Name="ColumnSpecifications">
@@ -168,7 +270,7 @@
 					<References Name="[dbo].[tResponse]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="9" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tComponent]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -227,7 +329,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="5" />
+			<AttachedAnnotation Disambiguator="11" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tItem]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -286,7 +388,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="6" />
+			<AttachedAnnotation Disambiguator="12" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tLine]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -389,7 +491,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="7" />
+			<AttachedAnnotation Disambiguator="13" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tMessage]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -439,7 +541,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="3" />
+						<AttachedAnnotation Disambiguator="9" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -463,7 +565,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="8" />
+			<AttachedAnnotation Disambiguator="14" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tResponse]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -544,7 +646,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="4" />
+						<AttachedAnnotation Disambiguator="10" />
 					</Element>
 				</Entry>
 			</Relationship>
@@ -553,7 +655,229 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="9" />
+			<AttachedAnnotation Disambiguator="15" />
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[tUser]">
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[userID]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="8" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[username]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="50" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[email]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="1024" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[apikey]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="1024" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[GUID]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Property Name="Length" Value="1024" />
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[nvarchar]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[banned]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="3" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[active]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="4" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[verified]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[bit]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="5" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[created]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[datetime]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="6" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[updated]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[datetime]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+		</Element>
+		<Element Type="SqlTable" Name="[dbo].[tUserChange]">
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="Columns">
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUserChange].[userChangeID]">
+						<Property Name="IsNullable" Value="False" />
+						<Property Name="IsIdentity" Value="True" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="7" />
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUserChange].[userID]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
 		</Element>
 	</Model>
 </DataSchemaModel>

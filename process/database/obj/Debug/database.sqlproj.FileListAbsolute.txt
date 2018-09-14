@@ -7,3 +7,12 @@ C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug
 C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\predeploy.sql
 C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\database.dll
 C:\Users\Phill\Documents\Visual Studio 2013\Projects\process2\database\obj\Debug\database.pdb
+C:\Git\the-rights-machine\process\database\bin\Debug\database.dacpac
+C:\Git\the-rights-machine\process\database\bin\Debug\database.dll
+C:\Git\the-rights-machine\process\database\bin\Debug\database.pdb
+C:\Git\the-rights-machine\process\database\obj\Debug\Model.xml
+C:\Git\the-rights-machine\process\database\obj\Debug\refactor.xml
+C:\Git\the-rights-machine\process\database\obj\Debug\postdeploy.sql
+C:\Git\the-rights-machine\process\database\obj\Debug\predeploy.sql
+C:\Git\the-rights-machine\process\database\obj\Debug\database.dll
+C:\Git\the-rights-machine\process\database\obj\Debug\database.pdb

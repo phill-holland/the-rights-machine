@@ -19,6 +19,9 @@
 #include "parameters.h"
 #include "queues.h"
 
+#include "users.h"
+#include "odbc.h"
+
 void test()
 {
 	queues::memory::incoming::factory messages;
@@ -259,6 +262,25 @@ void test append()
 	delete body;
 }
 */
+
+void test_users_db()
+{
+	database::odbc::factory::connection connections;
+	database::odbc::factory::recordset recordsets;
+
+	string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
+
+	database::settings settings(location, &connections, &recordsets);
+
+	data::users users(100, settings);
+	
+	data::user *result = users.get(1);
+	if (result != NULL)
+	{
+		result->output();
+	}
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance,
 					 HINSTANCE hPrevInstance,
 					 LPSTR     lpCmdLine,
@@ -275,9 +297,10 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//test_grid();
 	//test_mappings();
 	//test_rows();
-	test_dt();
+	//test_dt();
 	//test();
-	
+	test_users_db();
+		
 	
 	//datetime tm(string("2018-06-02"));
 	//test_elements();

@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Http">
       <UniqueIdentifier>{d9eececb-3ace-4984-81ca-ff65e2a51a7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Data\Database">
+      <UniqueIdentifier>{f1324050-3c48-4d78-95a6-a2f7546b7b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Data\Database">
+      <UniqueIdentifier>{f6433961-3720-4ded-bd3d-adf51641f45a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="log.h">
@@ -61,9 +67,6 @@
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="message.h">
-      <Filter>Header Files\Data</Filter>
-    </ClInclude>
-    <ClInclude Include="odbc.h">
       <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="compute.h">
@@ -110,9 +113,6 @@
     </ClInclude>
     <ClInclude Include="pair.h">
       <Filter>Header Files\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="database.h">
-      <Filter>Header Files\Data</Filter>
     </ClInclude>
     <ClInclude Include="json.h">
       <Filter>Header Files\Data</Filter>
@@ -231,6 +231,18 @@
     <ClInclude Include="comparison.h">
       <Filter>Header Files\Types</Filter>
     </ClInclude>
+    <ClInclude Include="odbc.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="database.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="users.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -252,12 +264,6 @@
       <Filter>Source Files\Data</Filter>
     </ClCompile>
     <ClCompile Include="message.cpp">
-      <Filter>Source Files\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="database.cpp">
-      <Filter>Source Files\Data</Filter>
-    </ClCompile>
-    <ClCompile Include="odbc.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
     <ClCompile Include="gpu.cpp">
@@ -421,6 +427,18 @@
     </ClCompile>
     <ClCompile Include="comparison.cpp">
       <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="odbc.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="database.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="users.cpp">
+      <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

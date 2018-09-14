@@ -1,9 +1,19 @@
-﻿Build started 12/09/2018 12:51:31.
-     1>Project "C:\Git\the-rights-machine\process\tests\tests.vcxproj" on node 2 (Build target(s)).
+﻿Build started 14/09/2018 09:45:15.
+     1>Project "C:\Git\the-rights-machine\process\tests\tests.vcxproj" on node 2 (Rebuild target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\include" /I"C:\build-OpenSSL-VC64\include" /ZI /nologo /W1 /WX- /Od /Oy- /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /FC /errorReport:prompt tests.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\include" /I"C:\build-OpenSSL-VC64\include" /ZI /nologo /W1 /WX- /Od /Oy- /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /FC /errorReport:prompt component.cpp element.cpp item.cpp line.cpp message.cpp request.cpp response.cpp result.cpp stdafx.cpp tests.cpp
      1>cl : Command line warning D9038: /ZI is not supported on this platform; enabling /Zi instead
+         component.cpp
+         element.cpp
+         item.cpp
+         line.cpp
+         message.cpp
+         request.cpp
+         response.cpp
+         result.cpp
+         stdafx.cpp
          tests.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\the-rights-machine\process\x64\Debug\tests.dll" /NOLOGO /LIBPATH:"C:\Git\the-rights-machine\process\process\x64\Debug" /LIBPATH:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\UnitTest\lib" /LIBPATH:"C:\build-OpenSSL-VC64\lib" address.obj allocator.obj authentication.obj chain.obj charbuf.obj comparison.obj component.obj components.obj compute.obj configuration.obj console.obj cpu.obj crumbs.obj database.obj datetime.obj element.obj elements.obj error.obj errors.obj factory.obj fifo.obj gpu.obj grid.obj guid.obj header.obj http.obj item.obj items.obj json.obj line.obj lines.obj list.obj log.obj manager.obj map.obj message.obj mutex.obj odbc.obj output.obj page.obj pair.obj parameter.obj parameters.obj process.obj query.obj queries.obj queue.obj queues.obj request.obj response.obj responses.obj result.obj results.obj row.obj server.obj ssl.obj starter.obj string.obj task.obj thread.obj wsock.obj zone.obj wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\the-rights-machine\process\x64\Debug\tests.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\the-rights-machine\process\x64\Debug\tests.lib" /MACHINE:X64 /DLL x64\Debug\component.obj
          x64\Debug\element.obj
@@ -15,9 +25,10 @@
          x64\Debug\result.obj
          x64\Debug\stdafx.obj
          x64\Debug\tests.obj
+            Creating library C:\Git\the-rights-machine\process\x64\Debug\tests.lib and object C:\Git\the-rights-machine\process\x64\Debug\tests.exp
          tests.vcxproj -> C:\Git\the-rights-machine\process\x64\Debug\tests.dll
-     1>Done Building Project "C:\Git\the-rights-machine\process\tests\tests.vcxproj" (Build target(s)).
+     1>Done Building Project "C:\Git\the-rights-machine\process\tests\tests.vcxproj" (Rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:04.82
+Time Elapsed 00:00:12.13

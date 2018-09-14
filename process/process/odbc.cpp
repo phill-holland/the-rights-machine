@@ -223,7 +223,7 @@ bool database::odbc::connection::executeNoResults(string &sql)
 }
 
 
-bool database::odbc::connection::executeWithResults(string &sql, recordset &result)
+bool database::odbc::connection::executeWithResults(string &sql, database::recordset *result)
 {
 	return executeWithResults(sql.c_str(), result);
 }
@@ -233,7 +233,7 @@ long database::odbc::connection::executeScalar(string &sql)
 	return executeScalar(sql.c_str());
 }
 
-bool database::odbc::connection::Prepare(string &sql, recordset &result)
+bool database::odbc::connection::Prepare(string &sql, database::recordset *result)
 {
 	return Prepare(sql.c_str(), result);
 }
@@ -256,11 +256,13 @@ bool database::odbc::connection::executeNoResults(const char *sql)
 
 }
 
-bool database::odbc::connection::executeWithResults(const char *sql, recordset &result)
+bool database::odbc::connection::executeWithResults(const char *sql, database::recordset *result)
 {
-	if (result.create(lpConnection))
+	database::odbc::recordset *temp = (database::odbc::recordset*)result;
+
+	if (temp->create(lpConnection))
 	{
-		return result.Execute(sql);
+		return temp->Execute(sql);
 	}
 
 	return false;
@@ -286,11 +288,13 @@ long database::odbc::connection::executeScalar(const char *sql)
 	return result;
 }
 
-bool database::odbc::connection::Prepare(const char *sql, recordset &result)
+bool database::odbc::connection::Prepare(const char *sql, database::recordset *result)
 {
-	if (result.create(lpConnection))
+	database::odbc::recordset *temp = (database::odbc::recordset*)result;
+
+	if (temp->create(lpConnection))
 	{
-		return result.Prepare(sql);
+		return temp->Prepare(sql);
 	}
 
 	return false;
@@ -320,4 +324,58 @@ void database::odbc::connection::makeNull()
 void database::odbc::connection::cleanup()
 {
 	if (isopen) close();
+}
+
+void database::odbc::factory::connection::reset()
+{
+	init = false; cleanup();
+
+	init = true;
+}
+
+database::connection *database::odbc::factory::connection::get()
+{
+	database::odbc::connection *result = new database::odbc::connection();
+	if(result != NULL) connections.push_back(result);
+	return result;
+}
+
+void database::odbc::factory::connection::makeNull()
+{
+}
+
+void database::odbc::factory::connection::cleanup()
+{
+	for (long i = (long)connections.size() - 1L; i >= 0L; i--)
+	{
+		database::odbc::connection *temp = connections[i];
+		if (temp != NULL) delete temp;
+	}
+}
+
+void database::odbc::factory::recordset::reset()
+{
+	init = false; cleanup();
+
+	init = true;
+}
+
+database::recordset *database::odbc::factory::recordset::get()
+{
+	database::odbc::recordset *result = new database::odbc::recordset();
+	if (result != NULL) recordsets.push_back(result);
+	return result;
+}
+
+void database::odbc::factory::recordset::makeNull()
+{
+}
+
+void database::odbc::factory::recordset::cleanup()
+{
+	for (long i = (long)recordsets.size() - 1L; i >= 0L; i--)
+	{
+		database::odbc::recordset *temp = recordsets[i];
+		if (temp != NULL) delete temp;
+	}
 }

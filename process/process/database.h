@@ -9,6 +9,8 @@ namespace database
 
 	class recordset
 	{
+		friend class connection;
+
 	private:
 		virtual bool create(void *source) = 0;
 
@@ -52,14 +54,63 @@ namespace database
 		virtual bool close() = 0;
 
 		virtual bool executeNoResults(string &sql) = 0;
-		virtual bool executeWithResults(string &sql, recordset &result) = 0;
+		virtual bool executeWithResults(string &sql, recordset *result) = 0;
 		virtual long executeScalar(string &sql) = 0;
-		virtual bool Prepare(string &sql, recordset &result) = 0;
+		virtual bool Prepare(string &sql, recordset *result) = 0;
 
 		virtual bool executeNoResults(const char *sql) = 0;
-		virtual bool executeWithResults(const char *sql, recordset &result) = 0;
+		virtual bool executeWithResults(const char *sql, recordset *result) = 0;
 		virtual long executeScalar(const char *sql) = 0;
-		virtual bool Prepare(const char *sql, recordset &result) = 0;
+		virtual bool Prepare(const char *sql, recordset *result) = 0;
+	};
+
+	namespace factory
+	{
+		class recordset
+		{
+		public:
+			virtual database::recordset *get() = 0;
+		};
+
+		class connection
+		{
+		public:
+			virtual database::connection *get() = 0;
+		};
+	};
+
+	class settings
+	{
+		factory::connection *connections;
+		factory::recordset *recordsets;
+
+		string location;
+
+		bool init;
+
+	public:
+		settings(string location, factory::connection *connections, factory::recordset *recordsets) { makeNull(); reset(location, connections, recordsets); }
+		
+		bool initalised() { return init; }
+
+		void reset(string location, factory::connection *connections, factory::recordset *recordsets)
+		{
+			this->location = location;
+			this->connections = connections;
+			this->recordsets = recordsets;
+		}
+
+		string getLocation() { return location; }
+		
+		factory::connection *getConnections() { return connections; }
+		factory::recordset *getRecordSets() { return recordsets; }
+
+	protected:
+		void makeNull()
+		{
+			connections = NULL;
+			recordsets = NULL;
+		}
 	};
 };
 

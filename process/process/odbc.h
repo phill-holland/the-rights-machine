@@ -4,6 +4,7 @@
 #include <sqlext.h>
 #include "database.h"
 #include "string.h"
+#include <vector>
 
 #if !defined(__ODBC)
 #define __ODBC
@@ -88,20 +89,63 @@ namespace database
 			bool close();
 
 			bool executeNoResults(string &sql);
-			bool executeWithResults(string &sql, recordset &result);
+			bool executeWithResults(string &sql, database::recordset *result);
 			long executeScalar(string &sql);
-			bool Prepare(string &sql, recordset &result);
+			bool Prepare(string &sql, database::recordset *result);
 
 			bool executeNoResults(const char *sql);
-			bool executeWithResults(const char *sql, recordset &result);
+			bool executeWithResults(const char *sql, database::recordset *result);
 			long executeScalar(const char *sql);
-			bool Prepare(const char *sql, recordset &result);
+			bool Prepare(const char *sql, database::recordset *result);
 
 			int logConnectionError();
 
 		protected:
 			void makeNull();
 			void cleanup();
+		};
+
+		namespace factory
+		{
+			class connection : public database::factory::connection
+			{
+				std::vector<odbc::connection*> connections;
+
+				bool init;
+
+			public:
+				connection() { makeNull(); reset(); }
+				~connection() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset();
+
+				database::connection *get();
+
+			protected:
+				void makeNull();
+				void cleanup();
+			};
+
+			class recordset : public database::factory::recordset
+			{
+				std::vector<odbc::recordset*> recordsets;
+
+				bool init;
+
+			public:
+				recordset() { makeNull(); reset(); }
+				~recordset() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset();
+
+				database::recordset *get();
+				
+			protected:
+				void makeNull();
+				void cleanup();
+			};
 		};
 	};
 };

@@ -40,8 +40,6 @@ c:\git\the-rights-machine\process\process\x64\debug\line.obj
 c:\git\the-rights-machine\process\process\x64\debug\lines.obj
 c:\git\the-rights-machine\process\process\x64\debug\list.obj
 c:\git\the-rights-machine\process\process\x64\debug\manager.obj
-c:\git\the-rights-machine\process\process\x64\debug\chain.obj
-c:\git\the-rights-machine\process\process\x64\debug\charbuf.obj
 c:\git\the-rights-machine\process\process\x64\debug\crumbs.obj
 c:\git\the-rights-machine\process\process\x64\debug\errors.obj
 c:\git\the-rights-machine\process\process\x64\debug\guid.obj
@@ -56,6 +54,8 @@ c:\git\the-rights-machine\process\process\x64\debug\result.obj
 c:\git\the-rights-machine\process\process\x64\debug\results.obj
 c:\git\the-rights-machine\process\process\x64\debug\row.obj
 c:\git\the-rights-machine\process\process\x64\debug\starter.obj
+c:\git\the-rights-machine\process\process\x64\debug\user.obj
+c:\git\the-rights-machine\process\process\x64\debug\users.obj
 c:\git\the-rights-machine\process\process\x64\debug\zone.obj
 c:\git\the-rights-machine\process\process\x64\debug\comparison.obj
 c:\git\the-rights-machine\process\process\x64\debug\component.obj
@@ -63,6 +63,8 @@ c:\git\the-rights-machine\process\process\x64\debug\components.obj
 c:\git\the-rights-machine\process\process\x64\debug\address.obj
 c:\git\the-rights-machine\process\process\x64\debug\allocator.obj
 c:\git\the-rights-machine\process\process\x64\debug\authentication.obj
+c:\git\the-rights-machine\process\process\x64\debug\chain.obj
+c:\git\the-rights-machine\process\process\x64\debug\charbuf.obj
 c:\git\the-rights-machine\process\x64\debug\process.ilk
 c:\git\the-rights-machine\process\x64\debug\process.exe
 c:\git\the-rights-machine\process\x64\debug\process.pdb
