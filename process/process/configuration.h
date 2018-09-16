@@ -1,6 +1,8 @@
 #include "queue.h"
 #include "manager.h"
 #include "errors.h"
+#include "users.h"
+#include "pending.h"
 
 #if !defined(__CONFIGURATION)
 #define __CONFIGURATION
@@ -8,60 +10,26 @@
 namespace server
 {
 	class server;
+	class client;
+	class listener;
+};
 
-	namespace configuration
+namespace configuration
+{
+	namespace server
 	{
-		/*
-		class settings
+		namespace client
 		{
-			friend class server;
-
-		public:
-			long port;
-			long clients;
-
-		protected:
-			const static long PORT = 5555L;
-			const static long CLIENTS = 1L;
-
-		public:
-			manager::manager *manager;
-			error::errors *errors;
-
-		public:
-			settings() 
-			{ 
-				manager = NULL; 
-				errors = NULL; 
-
-				port = PORT;
-				clients = CLIENTS;
-			}
-
-			settings(settings const &source) { copy(source); }
-
-			void copy(settings const &source)
-			{
-				manager = source.manager;
-				errors = source.errors;
-				port = source.port;
-				clients = source.clients;
-			}
-
-		public:
-			settings& operator=(const settings& source)
-			{
-				this->copy((settings&)source);
-				return *this;
-			}
+			class configuration;
 		};
-		*/
+
 		class configuration
 		{
-			friend class server;
+			friend class ::server::server;
+			friend class ::configuration::server::client::configuration;
 
-			//settings settings;
 			manager::manager *manager;
+			data::users *users;
 			error::errors *errors;
 
 		public:
@@ -73,15 +41,13 @@ namespace server
 			const static long CLIENTS = 1L;
 
 		protected:
-			configuration() { reset(NULL, NULL); }
+			configuration() { reset(NULL, NULL, NULL); }
 
 		public:
-			configuration(manager::manager *manager, error::errors *errors) { reset(manager, errors); }		
+			configuration(manager::manager *manager, data::users *users, error::errors *errors) { reset(manager, users, errors); }
 			configuration(configuration const &source) { copy(source); }
 
-			void reset(manager::manager *manager, error::errors *errors);
-
-			//manager::manager *get() { return settings.manager; }
+			void reset(manager::manager *manager, data::users *users, error::errors *errors);
 
 			void copy(configuration const &source);
 
@@ -91,6 +57,59 @@ namespace server
 				this->copy((configuration&)source);
 				return *this;
 			}
+		};
+
+		namespace client
+		{
+			class configuration
+			{
+				friend class ::server::client;
+				friend class ::server::listener;
+
+				manager::manager *manager;
+				custom::chain<data::response::response> *responses;
+				pending::pending *requested;
+				data::users *users;
+
+				error::errors *errors;
+
+			protected:
+				configuration() { reset(NULL, NULL, NULL, NULL, NULL); }
+
+			public:
+				configuration(manager::manager *manager,
+							  custom::chain<data::response::response> *responses,
+							  pending::pending *requested,
+							  data::users *users,
+							  error::errors *errors)
+				{
+					reset(manager, responses, requested, users, errors);
+				}
+				configuration(configuration const &source) { copy(source); }
+				configuration(::configuration::server::configuration const &source, pending::pending *requested = NULL) { copy(source, requested); }
+
+				void reset(manager::manager *manager,
+						   custom::chain<data::response::response> *responses,
+						   pending::pending *requested,
+						   data::users *users,
+						   error::errors *errors);
+
+				void copy(configuration const &source);
+				void copy(::configuration::server::configuration const &source, pending::pending *requested = NULL);
+
+			public:
+				configuration& operator=(const configuration& source)
+				{
+					this->copy((configuration&)source);
+					return *this;
+				}
+
+				configuration& operator=(const ::configuration::server::configuration& source)
+				{
+					this->copy((::configuration::server::configuration&)source);
+					return *this;
+				}
+			};
 		};
 	};
 };

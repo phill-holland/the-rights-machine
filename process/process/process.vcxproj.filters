@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Data\Database">
       <UniqueIdentifier>{f6433961-3720-4ded-bd3d-adf51641f45a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Server\Queues">
+      <UniqueIdentifier>{cb1bbb00-b7b2-407e-bf6d-09810c41061e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Server\Queues">
+      <UniqueIdentifier>{19d95370-5ad5-47f9-86a4-d6ade47c5964}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="log.h">
@@ -104,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="fifo.h">
       <Filter>Header Files\Types</Filter>
-    </ClInclude>
-    <ClInclude Include="queues.h">
-      <Filter>Header Files\Server</Filter>
     </ClInclude>
     <ClInclude Include="components.h">
       <Filter>Header Files\Data</Filter>
@@ -234,13 +237,28 @@
     <ClInclude Include="odbc.h">
       <Filter>Header Files\Data\Database</Filter>
     </ClInclude>
-    <ClInclude Include="database.h">
-      <Filter>Header Files\Data\Database</Filter>
-    </ClInclude>
     <ClInclude Include="user.h">
       <Filter>Header Files\Data\Database</Filter>
     </ClInclude>
     <ClInclude Include="users.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="pending.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="databases.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>Header Files\Server\Queues</Filter>
+    </ClInclude>
+    <ClInclude Include="database.h">
+      <Filter>Header Files\Server\Queues</Filter>
+    </ClInclude>
+    <ClInclude Include="record.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="records.h">
       <Filter>Header Files\Data\Database</Filter>
     </ClInclude>
   </ItemGroup>
@@ -301,9 +319,6 @@
     </ClCompile>
     <ClCompile Include="queue.cpp">
       <Filter>Source Files\Types</Filter>
-    </ClCompile>
-    <ClCompile Include="queues.cpp">
-      <Filter>Source Files\Server</Filter>
     </ClCompile>
     <ClCompile Include="components.cpp">
       <Filter>Source Files\Data</Filter>
@@ -431,13 +446,28 @@
     <ClCompile Include="odbc.cpp">
       <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
-    <ClCompile Include="database.cpp">
-      <Filter>Source Files\Data\Database</Filter>
-    </ClCompile>
     <ClCompile Include="user.cpp">
       <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
     <ClCompile Include="users.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="pending.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClCompile Include="databases.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="memory.cpp">
+      <Filter>Source Files\Server\Queues</Filter>
+    </ClCompile>
+    <ClCompile Include="database.cpp">
+      <Filter>Source Files\Server\Queues</Filter>
+    </ClCompile>
+    <ClCompile Include="record.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="records.cpp">
       <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
   </ItemGroup>

@@ -19,12 +19,6 @@ bool tests::data::result::add(custom::pair &source)
 		
 		return true;
 	}
-	else if (string("userid").icompare(source.name))
-	{
-		userID = source.value.toInteger();
-
-		return true;
-	}
 	else if (string("status").icompare(source.name))
 	{
 		status = STATUS::UNKNOWN;
@@ -34,12 +28,6 @@ bool tests::data::result::add(custom::pair &source)
 
 		return true;
 	}
-
-	/*else if (string("queryid").icompare(source.name))
-	{
-		queryID = source.value.toInteger();
-		return true;
-	}*/
 	else if (string("created").icompare(source.name))
 	{
 		created = (datetime)source.value;

@@ -3,7 +3,7 @@
 
 string tests::data::message::json()
 {
-	string result = "{\"message\":\r\n{\r\n\"userID\":\"" + userID + "\",\r\n";
+	string result = "{\"message\":\r\n{\r\n\"user\":\"" + user + "\",\r\n";
 	result += "\"APIKey\":\"" + APIKey + "\"";
 	if ((long)queries.size() > 0L)
 	{

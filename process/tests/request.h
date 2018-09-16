@@ -13,21 +13,18 @@ namespace tests
 		class request
 		{
 		public:
-			string userID;
 			string APIKey;
 			string GUID;
 
 		public:
 			request()
 			{
-				userID = "1";
 				APIKey = "1";
 				GUID = "1";
 			}
 
-			request(string userID, string APIKey, string GUID)
+			request(string APIKey, string GUID)
 			{
-				this->userID = userID;
 				this->APIKey = APIKey;
 				this->GUID = GUID;
 			}

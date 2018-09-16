@@ -11,6 +11,7 @@
 #include "crumbs.h"
 #include "responses.h"
 #include "request.h"
+#include "pending.h"
 #include "error.h"
 #include "output.h"
 
@@ -44,8 +45,7 @@
 #define __SERVER
 
 namespace server
-{
-	
+{	
 	class client;
 
 	class listener : public thread
@@ -172,8 +172,8 @@ namespace server
 		friend class listener;
 
 		::server::listener *listen;
-		manager::manager *manager;
-		error::errors *errors;
+
+		configuration::server::client::configuration configuration;
 
 		mutex::token token;
 
@@ -186,11 +186,11 @@ namespace server
 		states statuses;
 
 	public:
-		client(manager::manager *manager, error::errors *errors) { makeNull(); reset(manager, errors); }
+		client(configuration::server::client::configuration &configuration) { makeNull(); reset(configuration); }
 		~client() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(manager::manager *manager, error::errors *errors);
+		void reset(configuration::server::client::configuration &configuration);
 
 		void clear();
 
@@ -246,13 +246,15 @@ namespace server
 		friend class wait;
 		friend class watchdog;
 
-		client **clients;
+		::server::client **clients;
 
-		::server::configuration::configuration configuration;
+		::configuration::server::configuration configuration;
+
+		::pending::pending *requested;
 
 		::server::wait *waiter;
 		::server::watchdog *watcher;
-
+		
 		long counter, iterations;
 
 		mutex::token token;
@@ -260,10 +262,10 @@ namespace server
 		bool init;
 
 	public:
-		server(::server::configuration::configuration *settings) { makeNull(); reset(settings); }
+		server(configuration::server::configuration *settings) { makeNull(); reset(settings); }
 		~server() { cleanup(); }
 
-		void reset(::server::configuration::configuration *settings);
+		void reset(configuration::server::configuration *settings);
 		bool initalised() { return init; }
 
 		bool open() { return ::wsock::server::open(configuration.port); }

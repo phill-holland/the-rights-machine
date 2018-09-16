@@ -130,27 +130,40 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 								if (parents.FQDN().icompare(task.message.items.FQDN()))
 								{
-									guid::guid g;
-									task.message.GUID = g.get();
-									task.message.created = global::datetime::now();
-									// PUSH GUID TO UNORDERED_MAP
-
-									if (!c->manager->set(task))
+									data::user *user = c->configuration.users->get(task.message.user);
+									if (user != NULL)
 									{
-										error(string("MESSAGE_PUSH"));
-									}
-									else
-									{
-										::data::response::response response;
+										if (user->apikey.icompare(task.message.APIkey))
+										{
+											guid::guid g;
+											task.message.GUID = g.get();
+											task.message.created = global::datetime::now();
 
-										response.GUID = task.message.GUID;
-										response.userID = 1;
-										response.created = datetime::now();
-										response.queryID = 1;
-										response.available = false;
+											if (!c->configuration.manager->set(task))
+											{
+												error(string("MESSAGE_PUSH"));
+											}
+											else
+											{
+												if (!c->configuration.requested->add(::pending::waiting(task.message.GUID, task.message.user)))
+												{
+													error(string("ALREADY_REQUESTED"));
+												}
 
-										outputter.set(&response);
+												::data::response::response response;
+
+												response.GUID = task.message.GUID;
+												response.created = datetime::now();
+												response.queryID = 1;
+												response.available = false;
+
+												outputter.set(&response);
+											}
+										} 
+										else error(string("INVALID_APIKEY"));
+
 									}
+									else error(string("INVALID_USER"));
 								}
 							}
 							else if (get() == MODE::GET)
@@ -165,17 +178,24 @@ DWORD WINAPI server::listener::background(thread *bt)
 										if (requested.GUID.count() > 0L)
 										{
 											data::response::response result = task.response->find(requested.GUID);
-											if ((result.GUID == requested.GUID) && (result.userID == requested.userID))
+											if ((result.GUID.icompare(requested.GUID)) && (result.user.icompare(requested.user)))
 											{
+												if (!c->configuration.requested->remove(::pending::waiting(requested.GUID, requested.user))) error(string("NOT_IN_PENDING"));
+
 												outputter.set(&result);
 											}
 											else
 											{
+												data::response::response::STATUS status = data::response::response::STATUS::UNKNOWN;
+
+												if (c->configuration.requested->contains(::pending::waiting(requested.GUID, requested.user))) status = data::response::response::STATUS::PENDING;
+												else error(string("NOT_IN_PENDING"));
+
 												result.clear();
 
 												result.GUID = requested.GUID;
-												result.userID = requested.userID;
-												result.status = data::response::response::STATUS::UNKNOWN;
+												result.user = requested.user;
+												result.status = status;
 												
 												outputter.set(&result);
 												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
@@ -335,7 +355,7 @@ void server::listener::reset(client *source)
 
 	c = source; 
 
-	task.response = c->manager->get();
+	task.response = c->configuration.responses;
 	if (task.response == NULL) return;
 
 	clear();
@@ -410,7 +430,7 @@ void server::listener::validate()
 void server::listener::error(string &error)
 {
 	// output error via JSON/response
-	c->errors->set(::error::error(error));
+	c->configuration.errors->set(::error::error(error));
 	c->makeError(client::ERRORS::Read);
 	clear();
 }
@@ -564,12 +584,11 @@ void server::client::states::output()
 	Log << result;
 }
 
-void server::client::reset(manager::manager *manager, error::errors *errors)
+void server::client::reset(configuration::server::client::configuration &configuration)
 {
 	init = false; cleanup();
 
-	this->manager = manager;
-	this->errors = errors;
+	this->configuration = configuration;
 
 	isInError = false;
 	lastErrorCode = ERRORS::None;
@@ -687,7 +706,7 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 	return (DWORD)0;
 }
 
-void server::server::reset(::server::configuration::configuration *settings)
+void server::server::reset(configuration::server::configuration *settings)
 {
 	init = false; cleanup();
 	iterations = 0L; counter = 0L;
@@ -698,13 +717,19 @@ void server::server::reset(::server::configuration::configuration *settings)
 	if (clients == NULL) return;
 	for (long i = 0L; i < configuration.clients; ++i) clients[i] = NULL;
 	
+	configuration::server::client::configuration temp(*settings, requested);
+
 	for (long i = 0L; i < configuration.clients; ++i)
 	{
-		clients[i] = new client(configuration.manager, configuration.errors);
+		clients[i] = new client(temp);
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}
 	
+	requested = new ::pending::pending();
+	if (requested == NULL) return;
+	if (!requested->initalised()) return;
+
 	waiter = new ::server::wait(this);
 	if (waiter == NULL) return;
 
@@ -867,6 +892,7 @@ void server::server::output(string &source)
 void server::server::makeNull()
 {
 	clients = NULL;
+	requested = NULL;
 	waiter = NULL;
 	watcher = NULL;
 }
@@ -877,6 +903,7 @@ void server::server::cleanup()
 
 	if (watcher != NULL) delete watcher;
 	if (waiter != NULL) delete waiter;
+	if (requested != NULL) delete requested;
 	if (clients != NULL)
 	{
 		for (long i = (configuration.clients - 1L); i >= 0L; i--)

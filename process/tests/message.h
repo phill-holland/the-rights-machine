@@ -13,7 +13,7 @@ namespace tests
 		class message
 		{
 		public:
-			string userID;
+			string user;
 			string APIKey;
 
 			std::vector<line> queries;
@@ -22,13 +22,13 @@ namespace tests
 		public:
 			message()
 			{
-				userID = "1";
+				user = "1";
 				APIKey = "1";
 			}
 
-			message(string userID, string APIKey)
+			message(string user, string APIKey)
 			{
-				this->userID = userID;
+				this->user = user;
 				this->APIKey = APIKey;
 			}
 

@@ -1,5 +1,7 @@
 #include "users.h"
 
+using namespace comparison;
+
 DWORD WINAPI data::users::background(thread *bt)
 {
 	if (counter > interval)
@@ -14,7 +16,7 @@ DWORD WINAPI data::users::background(thread *bt)
 	return (DWORD)0;
 }
 
-void data::users::reset(unsigned long interval, database::settings &settings)
+void data::users::reset(database::settings &settings, unsigned long interval)
 {
 	init = false; cleanup();
 
@@ -34,6 +36,19 @@ void data::users::reset(unsigned long interval, database::settings &settings)
 	refresh();
 
 	init = true;
+}
+
+data::user *data::users::get(string user)
+{
+	mutex lock(token);
+
+	std::unordered_map<string, data::user, hasher, equality>::iterator i = map.find(user);
+	if (i == map.end()) return NULL;
+
+	data::user *result = &((data::user)i->second);
+	if (!result->validate()) return NULL;
+
+	return result;
 }
 
 void data::users::refresh()
@@ -64,7 +79,7 @@ void data::users::refresh()
 				temp.verified = recordset->GetBool(7L);
 				temp.active = recordset->GetBool(8L);
 
-				map[temp.userID] = temp;
+				map[temp.guid] = temp;
 
 				recordset->MoveNext();
 			}

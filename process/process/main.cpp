@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "configuration.h"
 #include "manager.h"
-#include "queues.h"
+#include "memory.h"
 #include "cpu.h"
 #include "server.h"
 #include "errors.h"
@@ -17,11 +17,11 @@
 #include "error.h"
 #include "crumbs.h"
 #include "parameters.h"
-#include "queues.h"
 
 #include "users.h"
 #include "odbc.h"
 
+/*
 void test()
 {
 	queues::memory::incoming::factory messages;
@@ -36,6 +36,7 @@ void test()
 	error::console::errors console;
 	error::errors errors(&console);
 	if (!errors.start()) return;
+
 
 	server::configuration::configuration configuration(&manager, &errors);
 	server::server *server = new server::server(&configuration);
@@ -59,6 +60,7 @@ void test()
 
 	delete server;
 }
+*/
 
 void test_dates()
 {
@@ -116,7 +118,9 @@ int test_elements()
 
 void test_starter()
 {
-	server::starter s;
+	string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
+
+	server::starter s(location);
 }
 
 void test_grid()
@@ -272,7 +276,7 @@ void test_users_db()
 
 	database::settings settings(location, &connections, &recordsets);
 
-	data::users users(100, settings);
+	data::users users(settings);
 	
 	data::user *result = users.get(1);
 	if (result != NULL)

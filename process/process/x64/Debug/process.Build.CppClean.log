@@ -24,7 +24,7 @@ c:\git\the-rights-machine\process\process\x64\debug\compute.obj
 c:\git\the-rights-machine\process\process\x64\debug\configuration.obj
 c:\git\the-rights-machine\process\process\x64\debug\console.obj
 c:\git\the-rights-machine\process\process\x64\debug\cpu.obj
-c:\git\the-rights-machine\process\process\x64\debug\database.obj
+c:\git\the-rights-machine\process\process\x64\debug\databases.obj
 c:\git\the-rights-machine\process\process\x64\debug\datetime.obj
 c:\git\the-rights-machine\process\process\x64\debug\element.obj
 c:\git\the-rights-machine\process\process\x64\debug\elements.obj
@@ -40,7 +40,6 @@ c:\git\the-rights-machine\process\process\x64\debug\line.obj
 c:\git\the-rights-machine\process\process\x64\debug\lines.obj
 c:\git\the-rights-machine\process\process\x64\debug\list.obj
 c:\git\the-rights-machine\process\process\x64\debug\manager.obj
-c:\git\the-rights-machine\process\process\x64\debug\crumbs.obj
 c:\git\the-rights-machine\process\process\x64\debug\errors.obj
 c:\git\the-rights-machine\process\process\x64\debug\guid.obj
 c:\git\the-rights-machine\process\process\x64\debug\header.obj
@@ -48,6 +47,7 @@ c:\git\the-rights-machine\process\process\x64\debug\map.obj
 c:\git\the-rights-machine\process\process\x64\debug\output.obj
 c:\git\the-rights-machine\process\process\x64\debug\parameter.obj
 c:\git\the-rights-machine\process\process\x64\debug\parameters.obj
+c:\git\the-rights-machine\process\process\x64\debug\pending.obj
 c:\git\the-rights-machine\process\process\x64\debug\request.obj
 c:\git\the-rights-machine\process\process\x64\debug\responses.obj
 c:\git\the-rights-machine\process\process\x64\debug\result.obj
@@ -65,6 +65,7 @@ c:\git\the-rights-machine\process\process\x64\debug\allocator.obj
 c:\git\the-rights-machine\process\process\x64\debug\authentication.obj
 c:\git\the-rights-machine\process\process\x64\debug\chain.obj
 c:\git\the-rights-machine\process\process\x64\debug\charbuf.obj
+c:\git\the-rights-machine\process\process\x64\debug\crumbs.obj
 c:\git\the-rights-machine\process\x64\debug\process.ilk
 c:\git\the-rights-machine\process\x64\debug\process.exe
 c:\git\the-rights-machine\process\x64\debug\process.pdb

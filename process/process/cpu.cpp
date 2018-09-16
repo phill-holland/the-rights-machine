@@ -173,7 +173,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			data::response::response response;
 			response.queryID = q.queryID;
 			response.GUID = task.message.GUID;
-			response.userID = task.message.userID;
+			response.user = task.message.user;
 			response.available = result;
 			response.created = datetime::now();
 

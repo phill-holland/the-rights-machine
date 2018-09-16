@@ -13,7 +13,8 @@ namespace data
 		public:
 			int requestID;
 			string GUID;
-			int userID;
+			string user;
+			//int userID;
 
 		public:
 			request() { clear(); }

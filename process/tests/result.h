@@ -23,9 +23,7 @@ namespace tests
 
 		public:
 			string GUID;
-			int userID;
 			STATUS status;
-			//int queryID;
 			datetime created;
 			bool available;
 

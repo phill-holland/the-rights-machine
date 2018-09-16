@@ -19,13 +19,31 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace tests
 {		
+	// to do
+	// error json responses - send to client, log in database
+	// (including error strings)
+
+	// database classes
+
+	// pending class, self tidy up
+
+	// server, responses, self tidy up
+
+	// av. algorithm, check split results (iterate through all returned structures, if all matches, combine date ranges
+
+	// GPU implementation
+
+	// av. algorithm, add request mode, to wait for result
+	// av.algorithm, add to request json, endpoint to post result
+
 	TEST_CLASS(Tests)
 	{
 	public:
 		
 		TEST_METHOD(TestBasicQuery)
 		{
-			
+			string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
+
 			data::component country(string("country"));
 			data::component language(string("language"));
 			
@@ -61,7 +79,7 @@ namespace tests
 			
 			source.data(message.json());
 			
-			server::starter starter;
+			server::starter starter(location);
 			
 			Assert::AreEqual(true, starter.initalised());
 			Assert::AreEqual(true, starter.start());
@@ -78,7 +96,7 @@ namespace tests
 
 			while (loops < 5 && !success)
 			{
-				data::request request(message.userID, message.APIKey, response.GUID);
+				data::request request(message.APIKey, response.GUID);
 				source.data(request.json());
 
 				Assert::AreEqual(true, client.get(&destination, &source));

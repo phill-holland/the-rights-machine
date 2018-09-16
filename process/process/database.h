@@ -1,116 +1,88 @@
-#include "string.h"
+#include "fifo.h"
+#include "queue.h"
+#include "databases.h"
+#include "message.h"
+#include "databases.h"
+#include "response.h"
+#include "task.h"
+#include "factory.h"
+#include "chain.h"
+#include "responses.h"
+#include "thread.h"
 
 #if !defined(__DATABASE)
 #define __DATABASE
 
-namespace database
+namespace queues
 {
-	class connection;
-
-	class recordset
+	namespace database
 	{
-		friend class connection;
-
-	private:
-		virtual bool create(void *source) = 0;
-
-	public:
-		virtual bool IsInitalised() = 0;
-
-		virtual bool MoveNext() = 0;
-
-		virtual long GetLong(long index) = 0;
-		virtual string GetString(long index) = 0;
-		virtual float GetFloat(long index) = 0;
-		virtual double GetDouble(long index) = 0;
-		virtual bool GetBool(long index) = 0;
-
-		virtual bool BindLong(long index, long &data) = 0;
-		virtual bool BindString(long index, unsigned char *data) = 0;
-		virtual bool BindFloat(long index, float &data) = 0;
-		virtual bool BindDouble(long index, double &data) = 0;
-		virtual bool BindBool(long index, bool &data) = 0;
-
-		virtual bool Execute() = 0;
-
-		virtual void close() = 0;
-
-	protected:
-		virtual bool Execute(string &sql) = 0;
-		virtual bool Execute(const char *sql) = 0;
-
-		virtual bool Prepare(string &sql) = 0;
-		virtual bool Prepare(const char *sql) = 0;
-	};
-
-	class connection
-	{
-	public:
-		virtual bool initalised() = 0;
-
-		virtual bool open(string &connection) = 0;
-		virtual bool open(const char *connection) = 0;
-
-		virtual bool close() = 0;
-
-		virtual bool executeNoResults(string &sql) = 0;
-		virtual bool executeWithResults(string &sql, recordset *result) = 0;
-		virtual long executeScalar(string &sql) = 0;
-		virtual bool Prepare(string &sql, recordset *result) = 0;
-
-		virtual bool executeNoResults(const char *sql) = 0;
-		virtual bool executeWithResults(const char *sql, recordset *result) = 0;
-		virtual long executeScalar(const char *sql) = 0;
-		virtual bool Prepare(const char *sql, recordset *result) = 0;
-	};
-
-	namespace factory
-	{
-		class recordset
+		namespace incoming
 		{
-		public:
-			virtual database::recordset *get() = 0;
+			class queue : public ::queue::queue<data::message::message>, public thread
+			{
+			protected:
+				static const unsigned long INTERVAL = 100UL;
+
+				static const long LENGTH = 100L;
+
+				const static unsigned long INPUT = 15L;
+				const static unsigned long OUTPUT = 15L;
+
+			private:
+				custom::fifo<data::message::message, LENGTH> *incoming;
+				custom::fifo<data::message::message, LENGTH> *outgoing; // fetch buffer to reduce database hits
+
+				mutex::token token;
+
+				string location;
+				unsigned long counter, interval;
+
+				::database::connection *connection;
+				::database::recordset *recordset;
+
+				bool init;
+
+			public:
+				DWORD WINAPI background(thread *bt);
+
+			public:
+				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
+				~queue() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
+
+				bool get(data::message::message &destination);
+				bool set(data::message::message &source);
+
+				bool flush();
+
+			protected:
+				bool write();
+				bool read();
+
+			protected:
+				void makeNull();
+				void cleanup();
+			};
 		};
 
-		class connection
+		namespace outgoing
 		{
-		public:
-			virtual database::connection *get() = 0;
+			class queue : public ::queue::queue<data::response::response>
+			{
+			public:
+				bool get(data::response::response &destination) { return false; }
+				bool set(data::response::response &source) { return false; }
+
+				bool flush() { return false; }
+
+				// pass this into server class too!!!
+
+				// then use HTTP header GET/POST to determine which queue the user wants!!
+			};
 		};
-	};
-
-	class settings
-	{
-		factory::connection *connections;
-		factory::recordset *recordsets;
-
-		string location;
-
-		bool init;
-
-	public:
-		settings(string location, factory::connection *connections, factory::recordset *recordsets) { makeNull(); reset(location, connections, recordsets); }
-		
-		bool initalised() { return init; }
-
-		void reset(string location, factory::connection *connections, factory::recordset *recordsets)
-		{
-			this->location = location;
-			this->connections = connections;
-			this->recordsets = recordsets;
-		}
-
-		string getLocation() { return location; }
-		
-		factory::connection *getConnections() { return connections; }
-		factory::recordset *getRecordSets() { return recordsets; }
-
-	protected:
-		void makeNull()
-		{
-			connections = NULL;
-			recordsets = NULL;
-		}
 	};
 };
 

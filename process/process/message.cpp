@@ -46,7 +46,8 @@ void data::message::message::reset()
 void data::message::message::clear()
 {
 	messageID = 0;
-	userID = 0;
+	user = string("");
+	APIkey = string("");
 	GUID = string("");
 
 	created.clear();
@@ -105,7 +106,8 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;
-	userID = source.userID;
+	user = source.user;
+	APIkey = source.APIkey;
 	GUID = source.GUID;
 	created = source.created;
 	finished = source.finished;
@@ -130,9 +132,14 @@ void data::message::message::output()
 
 bool data::message::message::add(custom::pair &source)
 {
-	if (string("userID").icompare(source.name))
+	if (string("user").icompare(source.name))
 	{
-		userID = source.value.toInteger();
+		user = source.value;
+		return true;
+	}
+	else if (string("apikey").icompare(source.name))
+	{
+		APIkey = source.value;
 		return true;
 	}
 

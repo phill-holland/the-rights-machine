@@ -4,14 +4,13 @@
 void data::request::request::clear()
 {
 	requestID = 0;
-	userID = 0;
-	GUID = "";
+	user = string("");
+	GUID = string("");
 }
 
 data::json::request::json *data::request::request::find(string FQDN)
 {
 	if (FQDN.icompare(this->FQDN())) return this;
-	//if (FQDN == this->FQDN()) return this;
 	
 	return NULL;
 }
@@ -19,7 +18,7 @@ data::json::request::json *data::request::request::find(string FQDN)
 void data::request::request::copy(request const &source)
 {
 	requestID = source.requestID;
-	userID = source.userID;
+	user = source.user;
 	GUID = source.GUID;
 }
 
@@ -27,8 +26,8 @@ void data::request::request::output()
 {
 	string result = "\"request\" : {\"requestID\" : ";
 	result += string::fromInt(requestID);
-	result += ", \"userID\" : ";
-	result += string::fromInt(userID);
+	result += ", \"user\" : ";
+	result += user;
 	result += ", \"GUID\" : \"";
 	result += GUID;
 	result += "\"}\r\n";
@@ -44,9 +43,9 @@ bool data::request::request::add(custom::pair &source)
 		return true;
 	}
 
-	if (string("userID").icompare(source.name))
+	if (string("user").icompare(source.name))
 	{
-		userID = source.value.toInteger();
+		user = source.value;
 		return true;
 	}
 

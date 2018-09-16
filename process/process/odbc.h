@@ -2,7 +2,7 @@
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
-#include "database.h"
+#include "databases.h"
 #include "string.h"
 #include <vector>
 

@@ -2,7 +2,8 @@
 #include "user.h"
 #include "thread.h"
 #include "mutex.h"
-#include "database.h"
+#include "databases.h"
+#include "comparison.h"
 #include <unordered_map>
 
 #if !defined(__USERS)
@@ -10,9 +11,15 @@
 
 namespace data
 {
+	using namespace comparison;
+
 	class users : public thread
 	{
-		std::unordered_map<int, data::user> map;
+	protected:
+		static const unsigned long INTERVAL = 100UL;
+
+	private:
+		std::unordered_map<string, data::user, hasher, equality> map;
 
 		mutex::token token;
 
@@ -29,23 +36,14 @@ namespace data
 		DWORD WINAPI background(thread *bt);
 
 	public:
-		users(unsigned long interval, database::settings &settings) { makeNull(); reset(interval, settings); }
+		users(database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
 		~users() { cleanup(); }
 
 		bool initalised() { return init; }
 
-		void reset(unsigned long interval, database::settings &settings);
+		void reset(database::settings &settings, unsigned long interval);
 
-		data::user *get(int id)
-		{
-			mutex lock(token);
-
-			if (map.find(id) == map.end()) return NULL;
-			data::user *result = &map[id];
-			if (!result->validate()) return NULL;
-
-			return result;
-		}
+		data::user *get(string user);
 
 	protected:
 		void refresh();

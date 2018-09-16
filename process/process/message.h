@@ -26,7 +26,8 @@ namespace data
 
 		public:
 			int messageID;
-			int userID;
+			string user;
+			string APIkey;
 			string GUID;
 			datetime created;
 			datetime finished;
