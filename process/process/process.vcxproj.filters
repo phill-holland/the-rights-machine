@@ -261,6 +261,12 @@
     <ClInclude Include="records.h">
       <Filter>Header Files\Data\Database</Filter>
     </ClInclude>
+    <ClInclude Include="file.h">
+      <Filter>Header Files\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="storage.h">
+      <Filter>Header Files\Data\Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -468,6 +474,12 @@
       <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
     <ClCompile Include="records.cpp">
+      <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="file.cpp">
+      <Filter>Source Files\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="storage.cpp">
       <Filter>Source Files\Data\Database</Filter>
     </ClCompile>
   </ItemGroup>

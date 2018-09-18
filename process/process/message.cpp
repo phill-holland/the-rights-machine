@@ -103,6 +103,90 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 	}
 }
 
+bool data::message::message::load(file::file<data::item::item> *source)
+{
+	bool valid = false;
+
+	data::item::item temp;
+
+	while (source->read(temp))
+	{
+		if (!items.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::load(file::file<data::line::line> *source)
+{
+	bool valid = false;
+
+	data::line::line temp;
+
+	while (source->read(temp))
+	{
+		if (!lines.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::load(file::file<data::component::line::component> *source)
+{
+	bool valid = false;
+
+	data::component::line::component temp;
+
+	while (source->read(temp))
+	{
+		if (!components.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::load(file::file<data::element::element> *source)
+{
+	bool valid = false;
+
+	data::element::element temp;
+
+	while (source->read(temp))
+	{
+		if (!elements.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::save(file::file<data::item::item> *destination)
+{
+	return false;
+}
+
+bool data::message::message::save(file::file<data::line::line> *destination)
+{
+	return false;
+}
+
+bool data::message::message::save(file::file<data::component::line::component> *destination)
+{
+	return false;
+}
+
+bool data::message::message::save(file::file<data::element::element> *destination)
+{
+	return false;
+}
+
 void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;

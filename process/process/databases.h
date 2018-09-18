@@ -1,4 +1,5 @@
 #include "string.h"
+#include "datetime.h"
 
 #if !defined(__DATABASES)
 #define __DATABASES
@@ -24,12 +25,14 @@ namespace database
 		virtual float GetFloat(long index) = 0;
 		virtual double GetDouble(long index) = 0;
 		virtual bool GetBool(long index) = 0;
+		virtual global::datetime GetDateTime(long index) = 0;
 
 		virtual bool BindLong(long index, long &data) = 0;
 		virtual bool BindString(long index, unsigned char *data) = 0;
 		virtual bool BindFloat(long index, float &data) = 0;
 		virtual bool BindDouble(long index, double &data) = 0;
 		virtual bool BindBool(long index, bool &data) = 0;
+		virtual bool BindDateTime(long index, TIMESTAMP_STRUCT &data) = 0;
 
 		virtual bool Execute() = 0;
 

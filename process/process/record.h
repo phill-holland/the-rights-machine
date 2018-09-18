@@ -23,6 +23,14 @@ namespace database
 				memset(identifier, 0, 15L);
 				source.toChar(identifier, 15L);
 			}
+
+			string database::storage::message::generate()
+			{
+				string random = string::randBase64();
+				random.toChar(identifier, 15L);
+
+				return random;
+			}
 		};
 	};
 };

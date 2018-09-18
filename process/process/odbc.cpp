@@ -63,6 +63,15 @@ bool database::odbc::recordset::GetBool(long index)
 	return result;
 }
 
+global::datetime database::odbc::recordset::GetDateTime(long index)
+{
+	TIMESTAMP_STRUCT ts = { 0 };
+
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_TIMESTAMP, &ts, 0, NULL);
+	
+	return datetime(ts);
+}
+
 bool database::odbc::recordset::BindLong(long index, long &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
@@ -75,8 +84,6 @@ bool database::odbc::recordset::BindString(long index, SQLCHAR *data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, strlen((char*)data), 0, data, strlen((char*)data), NULL) == SQL_SUCCESS)
 		return true;
-
-	return false;
 }
 
 bool database::odbc::recordset::BindFloat(long index, float &data)
@@ -98,6 +105,14 @@ bool database::odbc::recordset::BindBool(long index, bool &data)
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
+}
+
+bool database::odbc::recordset::BindDateTime(long index, TIMESTAMP_STRUCT &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_TIMESTAMP, SQL_TIMESTAMP, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+	return false;
+
 }
 
 bool database::odbc::recordset::Execute()

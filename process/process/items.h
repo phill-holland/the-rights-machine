@@ -2,6 +2,7 @@
 #include "json.h"
 #include "allocator.h"
 #include "map.h"
+#include "file.h"
 
 #if !defined(__ITEMS)
 #define __ITEMS

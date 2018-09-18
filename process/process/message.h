@@ -7,6 +7,7 @@
 #include "elements.h"
 #include "comparison.h"
 #include "row.h"
+#include "file.h"
 #include <unordered_map>
 
 #if !defined(__MESSAGE)
@@ -58,6 +59,16 @@ namespace data
 			data::json::request::json *find(string FQDN);
 
 			void filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map);
+
+			bool load(file::file<data::item::item> *source);
+			bool load(file::file<data::line::line> *source);
+			bool load(file::file<data::component::line::component> *source);
+			bool load(file::file<data::element::element> *source);
+
+			bool save(file::file<data::item::item> *destination);
+			bool save(file::file<data::line::line> *destination);
+			bool save(file::file<data::component::line::component> *destination);
+			bool save(file::file<data::element::element> *destination);
 
 			void copy(message const &source);
 

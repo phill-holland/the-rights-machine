@@ -166,6 +166,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="crumbs.h" />
     <ClInclude Include="database.h" />
     <ClInclude Include="errors.h" />
+    <ClInclude Include="file.h" />
     <ClInclude Include="guid.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="map.h" />
@@ -182,6 +183,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="results.h" />
     <ClInclude Include="row.h" />
     <ClInclude Include="starter.h" />
+    <ClInclude Include="storage.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="users.h" />
     <ClInclude Include="zone.h" />
@@ -236,6 +238,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="crumbs.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="errors.cpp" />
+    <ClCompile Include="file.cpp" />
     <ClCompile Include="guid.cpp" />
     <ClCompile Include="header.cpp" />
     <ClCompile Include="map.cpp" />
@@ -252,6 +255,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="results.cpp" />
     <ClCompile Include="row.cpp" />
     <ClCompile Include="starter.cpp" />
+    <ClCompile Include="storage.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="users.cpp" />
     <ClCompile Include="zone.cpp" />

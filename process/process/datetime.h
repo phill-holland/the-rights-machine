@@ -1,4 +1,6 @@
 #include "string.h"
+#include <Windows.h>
+#include <sqltypes.h>
 
 #if !defined(__DATETIME)
 #define __DATETIME
@@ -26,6 +28,16 @@ namespace global
 			hour = l.tm_hour;
 			minute = l.tm_min;
 			second = l.tm_sec;
+		}
+		datetime(TIMESTAMP_STRUCT const &source)
+		{
+			year = (int)source.year;
+			month = (int)source.month;
+			day = (int)source.day;
+
+			hour = (int)source.hour;
+			minute = (int)source.minute;
+			second = (int)second;
 		}
 
 		datetime(int y, int m, int d, int hh = 0, int mm = 0, int ss = 0)
@@ -71,6 +83,21 @@ namespace global
 			l.tm_sec = second;
 
 			return l;
+		}
+
+		operator TIMESTAMP_STRUCT()
+		{
+			TIMESTAMP_STRUCT ts = { 0 };
+
+			ts.year = (SQLSMALLINT)year;
+			ts.month = (SQLSMALLINT)month;
+			ts.day = (SQLSMALLINT)day;
+
+			ts.hour = (SQLSMALLINT)hour;
+			ts.minute = (SQLSMALLINT)minute;
+			ts.day = (SQLSMALLINT)day;
+
+			return ts;
 		}
 
 		operator string() { return to(); }

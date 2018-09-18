@@ -4,6 +4,7 @@
 #include <sqlext.h>
 #include "databases.h"
 #include "string.h"
+#include "datetime.h"
 #include <vector>
 
 #if !defined(__ODBC)
@@ -13,6 +14,8 @@ namespace database
 {
 	namespace odbc
 	{
+		using namespace global;
+
 		class connection;
 
 		class recordset : public ::database::recordset
@@ -37,12 +40,14 @@ namespace database
 			float GetFloat(long index);
 			double GetDouble(long index);
 			bool GetBool(long index);
+			datetime GetDateTime(long index);
 
 			bool BindLong(long index, long &data);
 			bool BindString(long index, SQLCHAR *data);
 			bool BindFloat(long index, float &data);
 			bool BindDouble(long index, double &data);
 			bool BindBool(long index, bool &data);
+			bool BindDateTime(long index, TIMESTAMP_STRUCT &data);
 
 			bool Execute();
 
