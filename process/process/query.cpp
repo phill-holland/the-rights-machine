@@ -11,6 +11,7 @@ void data::query::query::reset()
 
 void data::query::query::clear()
 {
+
 	queryID = 0;
 	messageID = 0;
 	

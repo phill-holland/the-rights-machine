@@ -5,7 +5,7 @@ void data::element::element::clear()
 {
 	elementID = 0;
 	componentID = 0;
-	value = "";
+	value = string("");
 }
 
 bool data::element::element::add(custom::pair &source)

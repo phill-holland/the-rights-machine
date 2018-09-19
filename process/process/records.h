@@ -20,7 +20,7 @@ namespace database
 			static const long MAX = 1024L;
 
 		public:
-			long messageID;
+			char messageID[MAX];
 
 			char user[MAX];
 			char APIKey[MAX];
@@ -40,8 +40,8 @@ namespace database
 			static const long MAX = 1024L;
 
 		public:
-			long itemID;
-			long messageID;
+			char itemID[MAX];
+			char messageID[MAX];
 			char name[MAX];
 
 		public:
@@ -55,8 +55,8 @@ namespace database
 			static const long MAX = 1024L;
 
 		public:
-			long lineID;
-			long itemID;
+			char lineID[MAX];
+			char itemID[MAX];
 			TIMESTAMP_STRUCT start;
 			TIMESTAMP_STRUCT end;
 			long exclusivityID;
@@ -77,9 +77,9 @@ namespace database
 					static const long MAX = 1024L;
 
 				public:
-					long componentID;
-					long lineID;
-					char name[MAX];	
+					char componentID[MAX];
+					char lineID[MAX];
+					char name[MAX];
 
 				public:
 					bool bind(database::recordset *recordset);
@@ -91,6 +91,17 @@ namespace database
 			{
 				class component : public record::record<data::component::query::component>
 				{
+				public:
+					static const long MAX = 1024L;
+
+				public:
+					char componentID[MAX];
+					char queryID[MAX];
+					char name[MAX];
+
+				public:
+					bool bind(database::recordset *recordset);
+					void set(data::component::query::component &source);
 				};
 			};
 		};
@@ -101,8 +112,8 @@ namespace database
 			static const long MAX = 1024L;
 
 		public:
-			long elementID;
-			long componentID;
+			char elementID[MAX];
+			char componentID[MAX];
 			char value[MAX];
 
 		public:

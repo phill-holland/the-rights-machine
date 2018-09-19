@@ -88,7 +88,9 @@ void data::message::message::filter(compute::row **rows, unsigned long total, st
 	{
 		data::element::element element = elements[h];
 		int lineID = components.mapper::parent(element.componentID);
-		if (map.find(lineID) != map.end())
+
+		std::unordered_map<int, int>::iterator it = map.find(lineID);
+		if (it != map.end())
 		{
 			string component = components.map(element.componentID);
 			int componentID = components.map(component);

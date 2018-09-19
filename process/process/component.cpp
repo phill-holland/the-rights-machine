@@ -5,7 +5,7 @@ void data::component::line::component::clear()
 {
 	componentID = 0;
 	lineID = 0;
-	name = "";
+	name = string("");
 }
 
 bool data::component::line::component::add(custom::pair &source)
@@ -43,7 +43,7 @@ void data::component::query::component::clear()
 {
 	componentID = 0;
 	queryID = 0;
-	name = "";
+	name = string("");
 }
 
 bool data::component::query::component::add(custom::pair &source)

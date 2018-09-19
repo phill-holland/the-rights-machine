@@ -20,11 +20,9 @@ DWORD WINAPI queues::database::incoming::queue::background(thread *bt)
 	Sleep(1000);
 
 	return (DWORD)0;
-
-	return (DWORD)0;
 }
 
-void queues::database::incoming::queue::reset(::database::settings &settings, unsigned long interval = INTERVAL)
+void queues::database::incoming::queue::reset(::database::settings &settings, unsigned long interval)
 {
 	init = false; cleanup();
 
@@ -92,6 +90,7 @@ bool queues::database::incoming::queue::flush()
 
 bool queues::database::incoming::queue::write()
 {
+	return false;
 }
 
 bool queues::database::incoming::queue::read()
@@ -130,6 +129,8 @@ bool queues::database::incoming::queue::read()
 
 		connection->close();
 	}
+
+	return false;
 }
 
 void queues::database::incoming::queue::makeNull()

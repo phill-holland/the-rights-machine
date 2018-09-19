@@ -35,6 +35,8 @@ void data::line::line::output()
 	result += string::fromInt(itemID);
 	result += ", \"typeID\" : ";
 	result += string::fromInt(typeID);
+	result += ", \"exclusivityID\" : ";
+	result += string::fromInt(exclusivityID);
 	result += "}\r\n";
 
 	Log << result;

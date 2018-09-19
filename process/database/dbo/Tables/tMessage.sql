@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[tMessage] (
-    [MessageID]   INT              IDENTITY (1, 1) NOT NULL,
+    [MessageID]   UNIQUEIDENTIFIER NOT NULL,
     [User]      NVARCHAR(50)              NOT NULL,    
     [GUID]        UNIQUEIDENTIFIER NOT NULL,
     [APIKey] NVARCHAR(1024) NOT NULL, 

@@ -23,10 +23,8 @@ namespace data
 
 		public:
 			string GUID;
-			//int userID;
 			string user;
 			STATUS status;
-			//string status;
 			datetime created;
 
 			int queryID;

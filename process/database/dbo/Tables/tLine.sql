@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tLine] (
-    [LineID]        INT      IDENTITY (1, 1) NOT NULL,
-    [ItemID]        INT      NULL,
+    [LineID]        UNIQUEIDENTIFIER NOT NULL,
+    [ItemID]        UNIQUEIDENTIFIER      NULL,
     [StartDate]     DATETIME NULL,
     [EndDate]       DATETIME NULL,
     [ExclusivityID] INT      NULL,

@@ -1,5 +1,4 @@
 c:\git\the-rights-machine\process\tests\x64\debug\vc120.pdb
-c:\git\the-rights-machine\process\tests\x64\debug\tests.obj
 c:\git\the-rights-machine\process\tests\x64\debug\stdafx.obj
 c:\git\the-rights-machine\process\tests\x64\debug\result.obj
 c:\git\the-rights-machine\process\tests\x64\debug\response.obj
@@ -9,12 +8,12 @@ c:\git\the-rights-machine\process\tests\x64\debug\line.obj
 c:\git\the-rights-machine\process\tests\x64\debug\item.obj
 c:\git\the-rights-machine\process\tests\x64\debug\element.obj
 c:\git\the-rights-machine\process\tests\x64\debug\component.obj
+c:\git\the-rights-machine\process\tests\x64\debug\tests.obj
 c:\git\the-rights-machine\process\x64\debug\tests.ilk
 c:\git\the-rights-machine\process\x64\debug\tests.dll
 c:\git\the-rights-machine\process\x64\debug\tests.pdb
 c:\git\the-rights-machine\process\x64\debug\tests.lib
 c:\git\the-rights-machine\process\x64\debug\tests.exp
-c:\git\the-rights-machine\process\tests\x64\debug\tests.vcxprojresolveassemblyreference.cache
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.command.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.read.1.tlog
 c:\git\the-rights-machine\process\tests\x64\debug\tests.tlog\cl.write.1.tlog

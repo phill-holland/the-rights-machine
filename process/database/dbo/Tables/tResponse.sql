@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[tResponse] (
-    [ResponseID]  INT             IDENTITY (1, 1) NOT NULL,
-    [ItemID]      INT             NULL,
+    [ResponseID]  UNIQUEIDENTIFIER NOT NULL,
+    [ItemID]      UNIQUEIDENTIFIER             NULL,
     [Code]        INT             NULL,
     [Description] NVARCHAR (1024) NULL,
     [CreatedDate] DATETIME        CONSTRAINT [DF_tResponse_CreatedDate] DEFAULT (getdate()) NULL,

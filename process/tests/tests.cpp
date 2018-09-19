@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include <vector>
+#include "../process/wsock.h"
+#include <windows.h>
 #include "element.h"
 #include "component.h"
 #include "line.h"
@@ -128,6 +129,11 @@ namespace tests
 			// setup user talbes
 			// setup database classes
 			// error copy function
+
+			// test connect with valid user
+			// withuot valid user
+
+			// test database mode
 		}
 	};
 };

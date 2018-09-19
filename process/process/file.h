@@ -1,5 +1,6 @@
 #include "string.h"
 #include "databases.h"
+#include "guid.h"
 
 #if !defined(__FILE)
 #define __FILE
@@ -15,8 +16,12 @@ namespace file
 		virtual bool read(T &destination) = 0;
 		virtual bool write(T &source) = 0;
 
-		//virtual string identifier() = 0;
-		//virtual void identifier(string &value) = 0;
+	public:
+		string generate()
+		{
+			guid::guid guid;
+			return guid.get();
+		}
 	};
 };
 

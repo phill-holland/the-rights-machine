@@ -11,10 +11,10 @@ namespace data
 		class request : public json::request::json
 		{
 		public:
+			//string requestID;
 			int requestID;
 			string GUID;
 			string user;
-			//int userID;
 
 		public:
 			request() { clear(); }

@@ -1,9 +1,10 @@
-#include "file.h"
 #include "record.h"
 #include "records.h"
 #include "databases.h"
 #include "odbc.h"
 #include "message.h"
+#include "comparison.h"
+#include "file.h"
 #include <vector>
 #include <unordered_map>
 
@@ -19,6 +20,8 @@ namespace database
 {
 	namespace storage
 	{
+		using namespace comparison;
+
 		class element : public file::file<data::element::element>
 		{
 			database::records::element bound;
@@ -26,19 +29,17 @@ namespace database
 			database::connection *connection;
 			database::recordset *recordset;
 
-			std::unordered_map<long, std::vector<database::records::element>> data;
-
-			string random;
+			std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
 		public:
 			data::message::message *parent;
-			std::vector<long> identities;
-			long componentID; 
+			std::vector<string> identities;
+			string componentID; 
 
 		public:
 			element()
 			{
-				componentID = 0L;
+				componentID = string("");
 
 				parent = NULL;
 				connection = NULL;
@@ -66,19 +67,17 @@ namespace database
 
 			element element;
 
-			std::unordered_map<long, std::vector<database::records::component::line::component>> data;
-
-			string random;
+			std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality> data;
 
 		public:
 			data::message::message *parent;
-			std::vector<long> identities;
-			long lineID;
+			std::vector<string> identities;
+			string lineID;
 
 		public:
 			component()
 			{
-				lineID = 0L;
+				lineID = string("");
 
 				parent = NULL;
 				connection = NULL;
@@ -106,14 +105,12 @@ namespace database
 
 			component component;
 
-			std::unordered_map<long, std::vector<database::records::line>> data;
+			std::unordered_map<string, std::vector<database::records::line>, hasher, equality> data;
 			
-			string random;
-
 		public:
 			data::message::message *parent;
-			std::vector<long> identities;
-			long itemID;
+			std::vector<string> identities;
+			string itemID;
 
 		public:
 			line() 
@@ -139,28 +136,24 @@ namespace database
 
 		class item : public file::file<data::item::item>
 		{
-			database::records::message bound;
+			database::records::item bound;
 
 			database::connection *connection;
 			database::recordset *recordset;
 
 			line line;
 
-			std::unordered_map<long, std::vector<database::records::item>> data;
-
-			data::message::message *parent;
-
-			string random;
+			std::unordered_map<string, std::vector<database::records::item>, hasher, equality> data;
 
 		public:
 			data::message::message *parent;
-			std::vector<long> identities;
-			long messageID;
+			std::vector<string> identities;
+			string messageID;
 			
 		public:
 			item()
 			{ 
-				messageID = 0L;
+				messageID = string("");
 
 				parent = NULL;
 				connection = NULL;
@@ -189,10 +182,8 @@ namespace database
 			item item;
 
 			std::vector<database::records::message> data;
-			std::vector<long> identities;
+			std::vector<string> identities;
 
-			string random;
-			
 		public:
 			long max;
 

@@ -1,52 +1,184 @@
-﻿Build started 18/09/2018 12:47:23.
-     1>Project "C:\Git\the-rights-machine\process\process\process.vcxproj" on node 2 (ClCompile target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt storage.cpp
+﻿Build started 19/09/2018 21:43:00.
+     1>Project "C:\Git\the-rights-machine\process\process\process.vcxproj" on node 2 (Rebuild target(s)).
+     1>CudaClean:
+         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmp5bba44d040ff403e9c9a99bfff0ad6b6.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" -clean
+         
+         C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" -clean 
+         kernel.cu
+       AddCudaCompileDeps:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files (x86)\Visual Leak Detector\include" /IC:\build-OpenSSL-VC64\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Git\the-rights-machine\process\process\kernel.cu 
+       CudaBuild:
+         Compiling CUDA source file kernel.cu...
+         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmpaf036775aa5844c8a5af45841f0b665a.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu"
+         
+         C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" 
+         kernel.cu
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt address.cpp allocator.cpp authentication.cpp chain.cpp charbuf.cpp crumbs.cpp database.cpp errors.cpp file.cpp guid.cpp header.cpp map.cpp memory.cpp output.cpp parameter.cpp parameters.cpp pending.cpp record.cpp records.cpp request.cpp responses.cpp result.cpp results.cpp row.cpp starter.cpp storage.cpp user.cpp users.cpp zone.cpp comparison.cpp component.cpp components.cpp compute.cpp configuration.cpp console.cpp cpu.cpp databases.cpp datetime.cpp element.cpp elements.cpp error.cpp factory.cpp fifo.cpp gpu.cpp grid.cpp http.cpp item.cpp items.cpp line.cpp lines.cpp list.cpp manager.cpp message.cpp odbc.cpp log.cpp main.cpp mutex.cpp pair.cpp process.cpp queries.cpp query.cpp queue.cpp json.cpp response.cpp server.cpp ssl.cpp string.cpp task.cpp thread.cpp page.cpp wsock.cpp
+         wsock.cpp
+         page.cpp
+         thread.cpp
+         task.cpp
+         string.cpp
+         ssl.cpp
+         server.cpp
+         response.cpp
+         json.cpp
+         queue.cpp
+         query.cpp
+         queries.cpp
+         process.cpp
+         pair.cpp
+         mutex.cpp
+         main.cpp
+         log.cpp
+         odbc.cpp
+         message.cpp
+         manager.cpp
+         Generating Code...
+         Compiling...
+         list.cpp
+         lines.cpp
+         line.cpp
+         items.cpp
+         item.cpp
+         http.cpp
+         grid.cpp
+         gpu.cpp
+         fifo.cpp
+         factory.cpp
+         error.cpp
+         elements.cpp
+         element.cpp
+         datetime.cpp
+         databases.cpp
+         cpu.cpp
+         console.cpp
+         configuration.cpp
+         compute.cpp
+         components.cpp
+         Generating Code...
+         Compiling...
+         component.cpp
+         comparison.cpp
+         zone.cpp
+         users.cpp
+         user.cpp
          storage.cpp
-     1>c:\git\the-rights-machine\process\process\record.h(27): error C3083: 'storage': the symbol to the left of a '::' must be a type
-                 c:\git\the-rights-machine\process\process\record.h(34) : see reference to class template instantiation 'database::record::record<X>' being compiled
-     1>c:\git\the-rights-machine\process\process\record.h(27): error C3083: 'message': the symbol to the left of a '::' must be a type
-     1>c:\git\the-rights-machine\process\process\record.h(27): error C2039: 'generate' : is not a member of 'database'
-     1>storage.cpp(28): error C2374: 'i' : redefinition; multiple initialization
-                 storage.cpp(25) : see declaration of 'i'
-     1>storage.cpp(29): error C2088: '==' : illegal for class
-     1>storage.cpp(84): error C2440: '=' : cannot convert from 'string' to 'char [1024]'
-                 No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>storage.cpp(122): error C2065: 'itemID' : undeclared identifier
-     1>storage.cpp(125): error C2371: 'i' : redefinition; different basic types
-                 storage.cpp(122) : see declaration of 'i'
-     1>storage.cpp(125): error C2065: 'itemID' : undeclared identifier
-     1>storage.cpp(126): error C2088: '==' : illegal for class
-     1>storage.cpp(128): error C2065: 'itemID' : undeclared identifier
-     1>storage.cpp(132): error C2065: 'itemID' : undeclared identifier
-     1>storage.cpp(132): error C2228: left of '.back' must have class/struct/union
-     1>storage.cpp(133): error C2065: 'itemID' : undeclared identifier
-     1>storage.cpp(133): error C2228: left of '.pop_back' must have class/struct/union
-     1>storage.cpp(136): error C2039: 'itemID' : is not a member of 'data::component::line::component'
-                 c:\git\the-rights-machine\process\process\component.h(14) : see declaration of 'data::component::line::component'
-     1>storage.cpp(137): error C2039: 'start' : is not a member of 'data::component::line::component'
-                 c:\git\the-rights-machine\process\process\component.h(14) : see declaration of 'data::component::line::component'
-     1>storage.cpp(138): error C2039: 'end' : is not a member of 'data::component::line::component'
-                 c:\git\the-rights-machine\process\process\component.h(14) : see declaration of 'data::component::line::component'
-     1>storage.cpp(139): error C2039: 'exclusivityID' : is not a member of 'data::component::line::component'
-                 c:\git\the-rights-machine\process\process\component.h(14) : see declaration of 'data::component::line::component'
-     1>storage.cpp(140): error C2039: 'typeID' : is not a member of 'data::component::line::component'
-                 c:\git\the-rights-machine\process\process\component.h(14) : see declaration of 'data::component::line::component'
-     1>storage.cpp(186): error C2664: 'void std::vector<database::records::component::line::component,std::allocator<_Ty>>::push_back(const database::records::component::line::component &)' : cannot convert argument 1 from 'database::records::line' to 'database::records::component::line::component &&'
-                 with
-                 [
-                     _Ty=database::records::component::line::component
-                 ]
-                 Reason: cannot convert from 'database::records::line' to 'database::records::component::line::component'
-                 No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
-     1>storage.cpp(224): error C2374: 'i' : redefinition; multiple initialization
-                 storage.cpp(221) : see declaration of 'i'
-     1>storage.cpp(225): error C2088: '==' : illegal for class
-     1>storage.cpp(323): error C2374: 'i' : redefinition; multiple initialization
-                 storage.cpp(320) : see declaration of 'i'
-     1>storage.cpp(324): error C2088: '==' : illegal for class
-     1>Done Building Project "C:\Git\the-rights-machine\process\process\process.vcxproj" (ClCompile target(s)) -- FAILED.
+         starter.cpp
+         row.cpp
+         results.cpp
+         result.cpp
+         responses.cpp
+         request.cpp
+         records.cpp
+         record.cpp
+         pending.cpp
+         parameters.cpp
+         parameter.cpp
+         output.cpp
+         memory.cpp
+         map.cpp
+         Generating Code...
+         Compiling...
+         header.cpp
+         guid.cpp
+         file.cpp
+         errors.cpp
+         database.cpp
+         crumbs.cpp
+         charbuf.cpp
+         chain.cpp
+         authentication.cpp
+         allocator.cpp
+         address.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\kernel.cu.obj
+         x64\Debug\address.obj
+         x64\Debug\allocator.obj
+         x64\Debug\authentication.obj
+         x64\Debug\chain.obj
+         x64\Debug\charbuf.obj
+         x64\Debug\crumbs.obj
+         x64\Debug\database.obj
+         x64\Debug\errors.obj
+         x64\Debug\file.obj
+         x64\Debug\guid.obj
+         x64\Debug\header.obj
+         x64\Debug\map.obj
+         x64\Debug\memory.obj
+         x64\Debug\output.obj
+         x64\Debug\parameter.obj
+         x64\Debug\parameters.obj
+         x64\Debug\pending.obj
+         x64\Debug\record.obj
+         x64\Debug\records.obj
+         x64\Debug\request.obj
+         x64\Debug\responses.obj
+         x64\Debug\result.obj
+         x64\Debug\results.obj
+         x64\Debug\row.obj
+         x64\Debug\starter.obj
+         x64\Debug\storage.obj
+         x64\Debug\user.obj
+         x64\Debug\users.obj
+         x64\Debug\zone.obj
+         x64\Debug\comparison.obj
+         x64\Debug\component.obj
+         x64\Debug\components.obj
+         x64\Debug\compute.obj
+         x64\Debug\configuration.obj
+         x64\Debug\console.obj
+         x64\Debug\cpu.obj
+         x64\Debug\databases.obj
+         x64\Debug\datetime.obj
+         x64\Debug\element.obj
+         x64\Debug\elements.obj
+         x64\Debug\error.obj
+         x64\Debug\factory.obj
+         x64\Debug\fifo.obj
+         x64\Debug\gpu.obj
+         x64\Debug\grid.obj
+         x64\Debug\http.obj
+         x64\Debug\item.obj
+         x64\Debug\items.obj
+         x64\Debug\line.obj
+         x64\Debug\lines.obj
+         x64\Debug\list.obj
+         x64\Debug\manager.obj
+         x64\Debug\message.obj
+         x64\Debug\odbc.obj
+         x64\Debug\log.obj
+         x64\Debug\main.obj
+         x64\Debug\mutex.obj
+         x64\Debug\pair.obj
+         x64\Debug\process.obj
+         x64\Debug\queries.obj
+         x64\Debug\query.obj
+         x64\Debug\queue.obj
+         x64\Debug\json.obj
+         x64\Debug\response.obj
+         x64\Debug\server.obj
+         x64\Debug\ssl.obj
+         x64\Debug\string.obj
+         x64\Debug\task.obj
+         x64\Debug\thread.obj
+         x64\Debug\page.obj
+         x64\Debug\wsock.obj
+         process.vcxproj -> C:\Git\the-rights-machine\process\x64\Debug\process.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Git\the-rights-machine\process\x64\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Git\the-rights-machine\process\x64\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart*.dll" "C:\Git\the-rights-machine\process\x64\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart32_75.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart64_75.dll
+                 2 file(s) copied.
+     1>Done Building Project "C:\Git\the-rights-machine\process\process\process.vcxproj" (Rebuild target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:03.82
+Time Elapsed 00:01:35.33

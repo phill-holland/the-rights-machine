@@ -87,8 +87,8 @@ namespace mapping
 			{
 				return -1;
 			}
-		}
-		
+		}		
+
 		int maximum() { return (int)forward.size(); }
 
 		void copy(mapper const &source)

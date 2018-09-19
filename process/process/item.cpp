@@ -5,7 +5,7 @@ void data::item::item::clear()
 {
 	itemID = 0;
 	messageID = 0;
-	name = "";
+	name = string("");
 }
 
 void data::item::item::copy(item const &source)
