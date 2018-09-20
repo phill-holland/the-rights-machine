@@ -5,7 +5,7 @@ void data::request::request::clear()
 {
 	requestID = 0;
 	user = string("");
-	GUID = string("");
+	guid = string("");
 }
 
 data::json::request::json *data::request::request::find(string FQDN)
@@ -19,7 +19,7 @@ void data::request::request::copy(request const &source)
 {
 	requestID = source.requestID;
 	user = source.user;
-	GUID = source.GUID;
+	guid = source.guid;
 }
 
 void data::request::request::output()
@@ -28,9 +28,9 @@ void data::request::request::output()
 	result += string::fromInt(requestID);
 	result += ", \"user\" : ";
 	result += user;
-	result += ", \"GUID\" : \"";
-	result += GUID;
-	result += "\"}\r\n";
+	result += ", \"GUID\" : \"'";
+	result += guid;
+	result += "'\"}\r\n";
 
 	Log << result;
 }
@@ -39,7 +39,7 @@ bool data::request::request::add(custom::pair &source)
 {
 	if (string("GUID").icompare(source.name))
 	{
-		GUID = source.value;
+		guid = source.value;
 		return true;
 	}
 

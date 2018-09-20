@@ -47,8 +47,8 @@ void data::message::message::clear()
 {
 	messageID = 0;
 	user = string("");
-	APIkey = string("");
-	GUID = string("");
+	apikey = string("");
+	guid = string("");
 
 	created.clear();
 	finished.clear();
@@ -193,8 +193,8 @@ void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;
 	user = source.user;
-	APIkey = source.APIkey;
-	GUID = source.GUID;
+	apikey = source.apikey;
+	guid = source.guid;
 	created = source.created;
 	finished = source.finished;
 
@@ -225,7 +225,7 @@ bool data::message::message::add(custom::pair &source)
 	}
 	else if (string("apikey").icompare(source.name))
 	{
-		APIkey = source.value;
+		apikey = source.value;
 		return true;
 	}
 

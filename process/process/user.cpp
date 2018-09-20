@@ -1,4 +1,5 @@
 #include "user.h"
+#include "guid.h"
 #include "log.h"
 
 void data::user::reset()
@@ -6,11 +7,22 @@ void data::user::reset()
 	userID = 0;
 	username = "";
 	email = "";
-	apikey = "";
-	guid = "";
 	active = false;
 	banned = true;
 	verified = false;
+}
+
+bool data::user::validate() 
+{ 
+	return (active && !banned && verified); 
+}
+
+bool data::user::validate(::data::message::message &message)
+{
+	if (!((string)guid::guid(apikey)).icompare((string)guid::guid(message.apikey))) return false;
+	if (!((string)guid::guid(guid)).icompare((string)guid::guid(message.guid))) return false;
+
+	return true;
 }
 
 void data::user::output()
@@ -21,11 +33,11 @@ void data::user::output()
 	result += username;
 	result += ", \"email\" : \"";
 	result += email;
-	result += ", \"apikey\" : \"";
-	result += apikey;
-	result += ", \"guid\" : \"";
-	result += guid;
-	result += ", \"active\" : \"";
+	result += ", \"apikey\" : \"'";
+	result += (string)guid::guid(apikey);
+	result += "', \"guid\" : \"'";
+	result += (string)guid::guid(guid);
+	result += "', \"active\" : \"";
 	result += string::fromBool(active);
 	result += ", \"banned\" : \"";
 	result += string::fromBool(banned);

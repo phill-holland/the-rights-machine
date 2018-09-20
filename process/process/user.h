@@ -1,3 +1,4 @@
+#include "message.h"
 #include "string.h"
 #include "datetime.h"
 
@@ -12,8 +13,8 @@ namespace data
 		int userID;
 		string username;
 		string email;
-		string apikey;
-		string guid;
+		GUID apikey;
+		GUID guid;
 		bool active;
 		bool banned;
 		bool verified;
@@ -23,8 +24,9 @@ namespace data
 
 		void reset();
 
-		bool validate() { return (active && !banned&& verified); }
-		
+		bool validate();		
+		bool validate(data::message::message &message);
+
 	public:
 		void output();
 	};

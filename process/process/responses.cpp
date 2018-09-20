@@ -11,12 +11,12 @@ DWORD WINAPI data::response::responses::background(thread *bt)
 
 	std::vector<string> erase;
 
-	for (unsigned long i = 0UL; i < length; ++i)//count(); ++i)//(unsigned long)data.size(); ++i)
+	for (unsigned long i = 0UL; i < length; ++i)
 	{
 		data::response::response temp = *data[i];
-		if ((temp.created + global::datetime(0,0,0,0,30,0)) < global::datetime::now())//global::datetime.now())
+		if ((temp.created + global::datetime(0,0,0,0,30,0)) < global::datetime::now())
 		{
-			erase.push_back(temp.GUID);
+			erase.push_back(temp.guid);
 		}
 
 	}
@@ -47,7 +47,7 @@ void data::response::responses::reset(unsigned long total)
 		data[i] = new data::response::response();
 		if (data[i] == NULL) return;
 	}
-	//data.clear();
+
 	map.clear();
 
 	init = true;
@@ -58,31 +58,20 @@ void data::response::responses::clear()
 	mutex lock(token);
 
 	length = 0UL;
-	//data.clear(); 
 	map.clear();
 }
 
 bool data::response::responses::set(data::response::response &source)
 {
-	// count() calls lock again!!
 	mutex lock(token);
 
-	//if (count() >= total) return false;
 	if (length >= total) return false;
-	if (map.find(source.GUID) != map.end()) return false;
+	if (map.find(source.guid) != map.end()) return false;
 
 	*data[length] = source;
-	//data.push_back(source);
-	map[source.GUID] = length;//((unsigned long)data.size() - 1UL);
+	map[source.guid] = length;
 	++length;
 
-/*
-	if (count() >= MAX) return false;
-	if (map.find(source.GUID) != map.end()) return false;
-
-	data.push_back(source);
-	map[source.GUID] = ((unsigned long)data.size() - 1UL);
-	*/
 	return true;
 }
 
@@ -120,7 +109,6 @@ bool data::response::responses::remove(string &identity)
 	auto &it = map.find(identity);
 	if (it != map.end())
 	{
-		//data.erase(data.begin() + map[identity]);
 		data[map[identity]]->clear();
 		map.erase(it);
 

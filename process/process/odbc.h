@@ -40,14 +40,16 @@ namespace database
 			float GetFloat(long index);
 			double GetDouble(long index);
 			bool GetBool(long index);
-			datetime GetDateTime(long index);
+			TIMESTAMP_STRUCT GetTimeStamp(long index);
+			GUID GetGUID(long index);
 
 			bool BindLong(long index, long &data);
 			bool BindString(long index, SQLCHAR *data);
 			bool BindFloat(long index, float &data);
 			bool BindDouble(long index, double &data);
 			bool BindBool(long index, bool &data);
-			bool BindDateTime(long index, TIMESTAMP_STRUCT &data);
+			bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data);
+			bool BindGUID(long index, GUID &data);
 
 			bool Execute();
 

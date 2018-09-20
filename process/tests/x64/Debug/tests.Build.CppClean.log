@@ -1,4 +1,5 @@
 c:\git\the-rights-machine\process\tests\x64\debug\vc120.pdb
+c:\git\the-rights-machine\process\tests\x64\debug\tests.obj
 c:\git\the-rights-machine\process\tests\x64\debug\stdafx.obj
 c:\git\the-rights-machine\process\tests\x64\debug\result.obj
 c:\git\the-rights-machine\process\tests\x64\debug\response.obj
@@ -8,7 +9,6 @@ c:\git\the-rights-machine\process\tests\x64\debug\line.obj
 c:\git\the-rights-machine\process\tests\x64\debug\item.obj
 c:\git\the-rights-machine\process\tests\x64\debug\element.obj
 c:\git\the-rights-machine\process\tests\x64\debug\component.obj
-c:\git\the-rights-machine\process\tests\x64\debug\tests.obj
 c:\git\the-rights-machine\process\x64\debug\tests.ilk
 c:\git\the-rights-machine\process\x64\debug\tests.dll
 c:\git\the-rights-machine\process\x64\debug\tests.pdb

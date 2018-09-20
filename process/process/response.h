@@ -22,7 +22,7 @@ namespace data
 			enum STATUS { OK = 1, PENDING = 2, UNKNOWN = 3 };
 
 		public:
-			string GUID;
+			string guid;
 			string user;
 			STATUS status;
 			datetime created;

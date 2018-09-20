@@ -11,9 +11,8 @@ namespace data
 		class request : public json::request::json
 		{
 		public:
-			//string requestID;
 			int requestID;
-			string GUID;
+			string guid;
 			string user;
 
 		public:

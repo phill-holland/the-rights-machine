@@ -17,17 +17,15 @@ namespace database
 		class message : public record::record<data::message::message>
 		{
 		public:
-			static const long MAX = 1024L;
+			static const long MAX = 128L;
 
 		public:
-			char messageID[MAX];
-
-			char user[MAX];
-			char APIKey[MAX];
-			char GUID[MAX];
-			
-			TIMESTAMP_STRUCT created;
-			TIMESTAMP_STRUCT finished;
+			GUID messageID;
+			GUID user;
+			GUID apikey;
+			GUID guid;
+			char created[MAX];
+			char finished[MAX];
 
 		public:
 			bool bind(database::recordset *recordset);
@@ -37,11 +35,11 @@ namespace database
 		class item : public record::record<data::item::item>
 		{
 		public:
-			static const long MAX = 1024L;
+			static const long MAX = 128L;
 
 		public:
-			char itemID[MAX];
-			char messageID[MAX];
+			GUID itemID;
+			GUID messageID;
 			char name[MAX];
 
 		public:
@@ -52,13 +50,13 @@ namespace database
 		class line : public record::record<data::line::line>
 		{
 		public:
-			static const long MAX = 1024L;
+			static const long MAX = 128L;
 
 		public:
-			char lineID[MAX];
-			char itemID[MAX];
-			TIMESTAMP_STRUCT start;
-			TIMESTAMP_STRUCT end;
+			GUID lineID;
+			GUID itemID;
+			char start[MAX];
+			char end[MAX];
 			long exclusivityID;
 			long typeID;
 
@@ -74,11 +72,11 @@ namespace database
 				class component : public record::record<data::component::line::component>
 				{
 				public:
-					static const long MAX = 1024L;
+					static const long MAX = 128L;
 
 				public:
-					char componentID[MAX];
-					char lineID[MAX];
+					GUID componentID;
+					GUID lineID;
 					char name[MAX];
 
 				public:
@@ -92,11 +90,11 @@ namespace database
 				class component : public record::record<data::component::query::component>
 				{
 				public:
-					static const long MAX = 1024L;
+					static const long MAX = 128L;
 
 				public:
-					char componentID[MAX];
-					char queryID[MAX];
+					GUID componentID;
+					GUID queryID;
 					char name[MAX];
 
 				public:
@@ -109,11 +107,11 @@ namespace database
 		class element : public record::record<data::element::element>
 		{
 		public:
-			static const long MAX = 1024L;
+			static const long MAX = 128L;
 
 		public:
-			char elementID[MAX];
-			char componentID[MAX];
+			GUID elementID;
+			GUID componentID;
 			char value[MAX];
 
 		public:

@@ -63,13 +63,22 @@ bool database::odbc::recordset::GetBool(long index)
 	return result;
 }
 
-global::datetime database::odbc::recordset::GetDateTime(long index)
+TIMESTAMP_STRUCT database::odbc::recordset::GetTimeStamp(long index)
 {
 	TIMESTAMP_STRUCT ts = { 0 };
 
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_TIMESTAMP, &ts, 0, NULL);
 	
-	return datetime(ts);
+	return ts;
+}
+
+GUID database::odbc::recordset::GetGUID(long index)
+{
+	GUID result;
+
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_GUID, &result, 0, NULL);
+
+	return result;
 }
 
 bool database::odbc::recordset::BindLong(long index, long &data)
@@ -107,9 +116,16 @@ bool database::odbc::recordset::BindBool(long index, bool &data)
 	return false;
 }
 
-bool database::odbc::recordset::BindDateTime(long index, TIMESTAMP_STRUCT &data)
+bool database::odbc::recordset::BindTimeStamp(long index, TIMESTAMP_STRUCT &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_TIMESTAMP, SQL_TIMESTAMP, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+	return false;
+}
+
+bool database::odbc::recordset::BindGUID(long index, GUID &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_GUID, SQL_GUID, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
 }
@@ -118,7 +134,7 @@ bool database::odbc::recordset::Execute()
 {
 	if (lpStatement == NULL) return false;
 	SQLRETURN result = SQLExecute(lpStatement);
-
+	logStatementError();
 	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
 }
 

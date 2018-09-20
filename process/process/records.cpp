@@ -1,31 +1,32 @@
 #include "records.h"
 #include "sqltypes.h"
+#include "guid.h"
 
 bool database::records::message::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)messageID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)user)) return false;
-	if (!recordset->BindString(3L, (SQLCHAR*)APIKey)) return false;
-	if (!recordset->BindString(4L, (SQLCHAR*)GUID)) return false;
-	if (!recordset->BindDateTime(5L, created)) return false;
-	if (!recordset->BindDateTime(6L, finished)) return false;
+	if (!recordset->BindGUID(1L, messageID)) return false;
+	if (!recordset->BindGUID(2L, user)) return false;
+	if (!recordset->BindGUID(3L, apikey)) return false;
+	if (!recordset->BindGUID(4L, guid)) return false;
+	if (!recordset->BindString(5L, (SQLCHAR*)created)) return false;
+	if (!recordset->BindString(6L, (SQLCHAR*)finished)) return false;
 
 	return true;
 }
 
 void database::records::message::set(data::message::message &source)
 {
-	source.user.toChar(user, database::records::message::MAX);
-	source.APIkey.toChar(APIKey, database::records::message::MAX);
-	source.GUID.toChar(GUID, database::records::message::MAX);
-	created = source.created;
-	finished = source.finished;
+	user = (GUID)guid::guid(source.user);
+	apikey = (GUID)guid::guid(source.apikey);
+	guid = (GUID)guid::guid(source.guid);
+	((string)source.created).toChar(created, database::records::message::MAX);
+	((string)source.finished).toChar(finished, database::records::message::MAX);
 }
 
 bool database::records::item::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)itemID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)messageID)) return false;
+	if (!recordset->BindGUID(1L, itemID)) return false;
+	if (!recordset->BindGUID(2L, messageID)) return false;
 	if (!recordset->BindString(3L, (SQLCHAR*)name)) return false;
 
 	return true;
@@ -38,10 +39,10 @@ void database::records::item::set(data::item::item &source)
 
 bool database::records::line::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)lineID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)itemID)) return false;
-	if (!recordset->BindDateTime(3L, start)) return false;
-	if (!recordset->BindDateTime(4L, end)) return false;
+	if (!recordset->BindGUID(1L, lineID)) return false;
+	if (!recordset->BindGUID(2L, itemID)) return false;
+	if (!recordset->BindString(3L, (SQLCHAR*)start)) return false;
+	if (!recordset->BindString(4L, (SQLCHAR*)end)) return false;
 	if (!recordset->BindLong(5L, exclusivityID)) return false;
 	if (!recordset->BindLong(6L, typeID)) return false;
 
@@ -50,16 +51,16 @@ bool database::records::line::bind(database::recordset *recordset)
 
 void database::records::line::set(data::line::line &source)
 {
-	start = source.start;
-	end = source.end;
+	((string)source.start).toChar(start, database::records::message::MAX);
+	((string)source.end).toChar(end, database::records::message::MAX);
 	exclusivityID = source.exclusivityID;
 	typeID = source.typeID;
 }
 
 bool database::records::component::line::component::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)componentID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)lineID)) return false;
+	if (!recordset->BindGUID(1L, componentID)) return false;
+	if (!recordset->BindGUID(2L, lineID)) return false;
 	if (!recordset->BindString(3L, (SQLCHAR*)name)) return false;
 
 	return true;
@@ -72,8 +73,8 @@ void database::records::component::query::component::set(data::component::query:
 
 bool database::records::component::query::component::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)componentID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)queryID)) return false;
+	if (!recordset->BindGUID(1L, componentID)) return false;
+	if (!recordset->BindGUID(2L, queryID)) return false;
 	if (!recordset->BindString(3L, (SQLCHAR*)name)) return false;
 
 	return true;
@@ -86,8 +87,8 @@ void database::records::component::line::component::set(data::component::line::c
 
 bool database::records::element::bind(database::recordset *recordset)
 {
-	if (!recordset->BindString(1L, (SQLCHAR*)elementID)) return false;
-	if (!recordset->BindString(2L, (SQLCHAR*)componentID)) return false;
+	if (!recordset->BindGUID(1L, elementID)) return false;
+	if (!recordset->BindGUID(2L, componentID)) return false;
 	if (!recordset->BindString(3L, (SQLCHAR*)value)) return false;
 
 	return true;

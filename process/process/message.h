@@ -28,8 +28,8 @@ namespace data
 		public:
 			int messageID;
 			string user;
-			string APIkey;
-			string GUID;
+			string apikey;
+			string guid;
 			datetime created;
 			datetime finished;
 

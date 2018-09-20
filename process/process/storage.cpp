@@ -27,18 +27,20 @@ bool database::storage::element::close()
 
 bool database::storage::element::read(data::element::element &destination)
 {
-	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator i = data.find(componentID);
+	string key = (string)guid::guid(componentID);
+
+	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end()) if (!load()) return false;
 
-	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator j = data.find(componentID);
+	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator j = data.find(key);
 	if (j == data.end()) return false;
 
-	std::vector<database::records::element> source = data[componentID];
+	std::vector<database::records::element> source = data[key];
 
 	if (source.size() > 0)
 	{
-		database::records::element temp = data[componentID].back();
-		data[componentID].pop_back();
+		database::records::element temp = data[key].back();
+		data[key].pop_back();
 
 		destination.value = string(temp.value);
 
@@ -62,8 +64,8 @@ bool database::storage::element::write(data::element::element &source)
 	{
 		bound.set(source);
 
-		string unique = this->generate();
-		unique.toChar(bound.elementID, database::records::element::MAX);
+		GUID unique = this->generate();
+		bound.elementID = unique;
 
 		bound.bind(recordset);
 
@@ -109,14 +111,11 @@ bool database::storage::element::load()
 			{
 				database::records::element temp;
 
-				recordset->GetString(1L).toChar(temp.elementID, database::records::element::MAX);
-
-				string componentID = recordset->GetString(2L);
-				componentID.toChar(temp.componentID, records::line::MAX);
-
+				temp.elementID = recordset->GetGUID(1L);
+				temp.componentID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.value, database::records::element::MAX);
 
-				data[componentID].push_back(temp);
+				data[(string)guid::guid(componentID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -165,7 +164,9 @@ bool database::storage::component::close()
 
 bool database::storage::component::read(data::component::line::component &destination)
 {
-	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator i = data.find(lineID);
+	string key = (string)guid::guid(lineID);
+
+	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
 	{
 		if (!load()) return false;
@@ -173,15 +174,15 @@ bool database::storage::component::read(data::component::line::component &destin
 		element.identities = identities;
 	}
 
-	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator j = data.find(lineID);
+	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator j = data.find(key);
 	if (j == data.end()) return false;
 
-	std::vector<database::records::component::line::component> source = data[lineID];
+	std::vector<database::records::component::line::component> source = data[key];
 
 	if (source.size() > 0)
 	{
-		database::records::component::line::component temp = data[lineID].back();
-		data[lineID].pop_back();
+		database::records::component::line::component temp = data[key].back();
+		data[key].pop_back();
 
 		destination.name = (string)temp.name;
 
@@ -212,8 +213,8 @@ bool database::storage::component::write(data::component::line::component &sourc
 	{
 		bound.set(source);
 
-		string unique = this->generate();
-		unique.toChar(bound.componentID, database::records::component::line::component::MAX);
+		GUID unique = this->generate();
+		bound.componentID = unique;
 
 		bound.bind(recordset);
 
@@ -265,14 +266,11 @@ bool database::storage::component::load()
 			{
 				database::records::component::line::component temp;
 
-				recordset->GetString(1L).toChar(temp.componentID, database::records::component::line::component::MAX);
-				
-				string lineID = recordset->GetString(2L);
-				lineID.toChar(temp.lineID, records::line::MAX);
-				
+				temp.componentID = recordset->GetGUID(1L);
+				temp.lineID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, database::records::component::line::component::MAX);
 
-				data[lineID].push_back(temp);
+				data[(string)guid::guid(lineID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -319,7 +317,9 @@ bool database::storage::line::close()
 
 bool database::storage::line::read(data::line::line &destination)
 {
-	std::unordered_map<string, std::vector<records::line>, hasher, equality>::iterator i = data.find(itemID);
+	string key = (string)guid::guid(itemID);
+
+	std::unordered_map<string, std::vector<records::line>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
 	{
 		if (!load()) return false;
@@ -327,18 +327,18 @@ bool database::storage::line::read(data::line::line &destination)
 		component.identities = identities;
 	}
 
-	std::unordered_map<string, std::vector<records::line>, hasher, equality>::iterator j = data.find(itemID);
+	std::unordered_map<string, std::vector<records::line>, hasher, equality>::iterator j = data.find(key);
 	if (j == data.end()) return false;
 
-	std::vector<records::line> source = data[itemID];
+	std::vector<records::line> source = data[key];
 
 	if (source.size() > 0)
 	{
-		records::line temp = data[itemID].back();
-		data[itemID].pop_back();
+		records::line temp = data[key].back();
+		data[key].pop_back();
 
-		destination.start = temp.start;
-		destination.end = temp.end;
+		destination.start = (datetime)string(temp.start);
+		destination.end = (datetime)string(temp.end);
 		destination.exclusivityID = temp.exclusivityID;
 		destination.typeID = temp.typeID;
 
@@ -359,7 +359,7 @@ bool database::storage::line::write(data::line::line &source)
 {
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tLine (lineID, itemID, start, end, exclusivityID, typeID)";
+		string sql = "INSERT INTO tLine (lineID, itemID, [start], [end], exclusivityID, typeID)";
 		sql.concat(" VALUES(?,?,?,?,?,?);");
 
 		connection->Prepare(sql, recordset);
@@ -369,8 +369,8 @@ bool database::storage::line::write(data::line::line &source)
 	{
 		bound.set(source);
 
-		string unique = this->generate();
-		unique.toChar(bound.lineID, database::records::line::MAX);
+		GUID unique = this->generate();
+		bound.lineID = unique;
 
 		bound.bind(recordset);
 
@@ -395,7 +395,7 @@ bool database::storage::line::load()
 
 	if (!recordset->IsInitalised())
 	{
-		string sql("SELECT lineID, itemID, start, end, exclusivityID, typeID FROM tLine ");
+		string sql("SELECT lineID, itemID, [start], [end], exclusivityID, typeID FROM tLine ");
 		sql.concat(" LEFT JOIN tItem ON tLine.itemID = tItem.itemID WHERE 1=1");
 
 		if (identities.size() > 0UL)
@@ -420,17 +420,14 @@ bool database::storage::line::load()
 			{
 				records::line temp;
 
-				recordset->GetString(1L).toChar(temp.lineID, records::line::MAX);
-
-				string itemID = recordset->GetString(2L);
-				itemID.toChar(temp.itemID, records::line::MAX);
-							
-				temp.start = recordset->GetDateTime(3L);
-				temp.end = recordset->GetDateTime(4L);
+				temp.lineID = recordset->GetGUID(1L);
+				temp.itemID = recordset->GetGUID(2L);
+				recordset->GetString(3L).toChar(temp.start, records::line::MAX);
+				recordset->GetString(4L).toChar(temp.end, records::line::MAX);
 				temp.exclusivityID = recordset->GetLong(5L);
 				temp.typeID = recordset->GetLong(6L);
 
-				data[itemID].push_back(temp);
+				data[(string)guid::guid(itemID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -479,7 +476,9 @@ bool database::storage::item::close()
 
 bool database::storage::item::read(data::item::item &destination)
 {
-	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator i = data.find(messageID);
+	string key = (string)guid::guid(messageID);
+
+	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
 	{
 		if (!load()) return false;
@@ -487,14 +486,14 @@ bool database::storage::item::read(data::item::item &destination)
 		line.identities = identities;
 	}
 
-	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator j = data.find(messageID);
+	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator j = data.find(key);
 	if (j == data.end()) return false;
 
-	std::vector<records::item> source = data[messageID];
+	std::vector<records::item> source = data[key];
 	if (source.size() > 0)
 	{
-		records::item temp = data[messageID].back();
-		data[messageID].pop_back();
+		records::item temp = data[key].back();
+		data[key].pop_back();
 
 		destination.name = (string)temp.name;
 
@@ -525,8 +524,8 @@ bool database::storage::item::write(data::item::item &source)
 	{
 		bound.set(source);
 
-		string unique = this->generate();
-		unique.toChar(bound.itemID, database::records::item::MAX);
+		GUID unique = this->generate();
+		bound.itemID = unique;
 
 		bound.bind(recordset);
 
@@ -574,14 +573,12 @@ bool database::storage::item::load()
 			while (recordset->MoveNext())
 			{
 				records::item temp;
-
-				string messageID = recordset->GetString(1L);
-				messageID.toChar(temp.messageID, records::message::MAX);
-
-				recordset->GetString(2L).toChar(temp.messageID, records::message::MAX);
+				
+				temp.itemID = recordset->GetGUID(1L);
+				temp.messageID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, records::message::MAX);
 
-				data[messageID].push_back(temp);
+				data[(string)guid::guid(temp.messageID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -642,11 +639,11 @@ bool database::storage::message::read(data::message::message &destination)
 		records::message temp = data.back();
 		data.pop_back();
 
-		destination.user = (string)temp.user;
-		destination.GUID = (string)temp.GUID;
-		destination.APIkey = (string)temp.APIKey;
-		destination.created = (datetime)temp.created;
-		destination.finished = (datetime)temp.finished;
+		destination.user = (string)guid::guid(temp.user);
+		destination.guid = (string)guid::guid(temp.guid);
+		destination.apikey = (string)guid::guid(temp.apikey);
+		destination.created = (datetime)string(temp.created);
+		destination.finished = (datetime)string(temp.finished);
 		
 		item.messageID = temp.messageID;		
 		item.parent = &destination;
@@ -660,20 +657,23 @@ bool database::storage::message::read(data::message::message &destination)
 
 bool database::storage::message::write(data::message::message &source)
 {
+	bool prepared = true;
+
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tMessage (messageID, user, GUID, APIKEy, created, finished)";
+		string sql = "INSERT INTO tMessage (messageID, [user], [GUID], APIKey, created, finished)";
 		sql.concat(" VALUES(?,?,?,?,?,?);");
 
-		connection->Prepare(sql, recordset);
+		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
 
-	if (recordset->IsInitalised())
+
+	if ((recordset->IsInitalised())&&(prepared))
 	{
 		bound.set(source);
 		
-		string unique = this->generate();
-		unique.toChar(bound.messageID, database::records::message::MAX);
+		GUID unique = this->generate();
+		bound.messageID = unique;
 
 		bound.bind(recordset);
 
@@ -706,7 +706,7 @@ bool database::storage::message::load()
 			order = " ORDER BY created DESC";
 		}
 
-		sql.concat(" messageID, User, GUID, APIKey, Created, Finished FROM tMessage WHERE 1=1");
+		sql.concat(" messageID, [User], [GUID], APIKey, Created, Finished FROM tMessage WHERE 1=1");
 		if (order.length() > 0) sql.concat(order);
 
 		sql.concat(string(";"));
@@ -716,18 +716,16 @@ bool database::storage::message::load()
 			while (recordset->MoveNext())
 			{
 				records::message temp;
-				
-				string messageID = recordset->GetString(1L);
-				messageID.toChar(temp.messageID, records::message::MAX);
 
-				recordset->GetString(2L).toChar(temp.user, records::message::MAX);
-				recordset->GetString(3L).toChar(temp.GUID, records::message::MAX);
-				recordset->GetString(4L).toChar(temp.APIKey, records::message::MAX);
-				temp.created = (TIMESTAMP_STRUCT)recordset->GetDateTime(5L);
-				temp.finished = (TIMESTAMP_STRUCT)recordset->GetDateTime(6L);
+				temp.messageID = recordset->GetGUID(1L);
+				temp.user = recordset->GetGUID(2L);
+				temp.guid = recordset->GetGUID(3L);
+				temp.apikey = recordset->GetGUID(4L);
+				recordset->GetString(5L).toChar(temp.created, records::message::MAX);
+				recordset->GetString(6L).toChar(temp.finished, records::message::MAX);
 
 				data.push_back(temp);
-				identities.push_back(messageID);
+				identities.push_back((string)guid::guid(temp.messageID));
 			};
 		}
 		else return false;

@@ -133,10 +133,10 @@ DWORD WINAPI server::listener::background(thread *bt)
 									data::user *user = c->configuration.users->get(task.message.user);
 									if (user != NULL)
 									{
-										if (user->apikey.icompare(task.message.APIkey))
+										if(user->validate(task.message))
 										{
 											guid::guid g;
-											task.message.GUID = g.get();
+											task.message.guid = g.get();
 											task.message.created = global::datetime::now();
 
 											if (!c->configuration.manager->set(task))
@@ -145,14 +145,14 @@ DWORD WINAPI server::listener::background(thread *bt)
 											}
 											else
 											{
-												if (!c->configuration.requested->add(::pending::waiting(task.message.GUID, task.message.user)))
+												if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
 												{
 													error(string("ALREADY_REQUESTED"));
 												}
 
 												::data::response::response response;
 
-												response.GUID = task.message.GUID;
+												response.guid = task.message.guid;
 												response.created = datetime::now();
 												response.queryID = 1;
 												response.available = false;
@@ -175,12 +175,12 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 									if (parents.FQDN().icompare(requested.FQDN()))
 									{
-										if (requested.GUID.count() > 0L)
+										if (requested.guid.count() > 0L)
 										{
-											data::response::response result = task.response->find(requested.GUID);
-											if ((result.GUID.icompare(requested.GUID)) && (result.user.icompare(requested.user)))
+											data::response::response result = task.response->find(requested.guid);
+											if ((result.guid.icompare(requested.guid)) && (result.user.icompare(requested.user)))
 											{
-												if (!c->configuration.requested->remove(::pending::waiting(requested.GUID, requested.user))) error(string("NOT_IN_PENDING"));
+												if (!c->configuration.requested->remove(::pending::waiting(requested.guid, requested.user))) error(string("NOT_IN_PENDING"));
 
 												outputter.set(&result);
 											}
@@ -188,12 +188,12 @@ DWORD WINAPI server::listener::background(thread *bt)
 											{
 												data::response::response::STATUS status = data::response::response::STATUS::UNKNOWN;
 
-												if (c->configuration.requested->contains(::pending::waiting(requested.GUID, requested.user))) status = data::response::response::STATUS::PENDING;
+												if (c->configuration.requested->contains(::pending::waiting(requested.guid, requested.user))) status = data::response::response::STATUS::PENDING;
 												else error(string("NOT_IN_PENDING"));
 
 												result.clear();
 
-												result.GUID = requested.GUID;
+												result.guid = requested.guid;
 												result.user = requested.user;
 												result.status = status;
 												

@@ -34,13 +34,11 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			string componentID; 
+			GUID componentID; 
 
 		public:
 			element()
 			{
-				componentID = string("");
-
 				parent = NULL;
 				connection = NULL;
 				recordset = NULL;
@@ -72,13 +70,11 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			string lineID;
+			GUID lineID;
 
 		public:
 			component()
 			{
-				lineID = string("");
-
 				parent = NULL;
 				connection = NULL;
 				recordset = NULL;
@@ -110,13 +106,11 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			string itemID;
+			GUID itemID;
 
 		public:
 			line() 
 			{
-				itemID = 0L;
-
 				parent = NULL;
 				connection = NULL;
 				recordset = NULL;				
@@ -148,13 +142,11 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			string messageID;
+			GUID messageID;
 			
 		public:
 			item()
 			{ 
-				messageID = string("");
-
 				parent = NULL;
 				connection = NULL;
 				recordset = NULL;

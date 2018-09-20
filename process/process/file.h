@@ -17,10 +17,9 @@ namespace file
 		virtual bool write(T &source) = 0;
 
 	public:
-		string generate()
+		GUID generate()
 		{
-			guid::guid guid;
-			return guid.get();
+			return (GUID)guid::guid();
 		}
 	};
 };

@@ -14,6 +14,8 @@
 #include "../process/string.h"
 #include "../process/http.h"
 #include "../process/page.h"
+#include "../process/message.h"
+#include "../process/storage.h"
 #include "../process/log.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -134,6 +136,71 @@ namespace tests
 			// withuot valid user
 
 			// test database mode
+		}
+	
+		TEST_METHOD(TestDatabaseQuery)
+		{
+			string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
+
+			data::component country(string("country"));
+			data::component language(string("language"));
+
+			country.elements.push_back(data::element("england"));
+			country.elements.push_back(data::element("france"));
+
+			language.elements.push_back(data::element("english"));
+			language.elements.push_back(data::element("french"));
+
+			data::line line;
+
+			line.components.push_back(country);
+			line.components.push_back(language);
+
+			data::item item(string("item1"));
+			item.lines.push_back(line);
+
+			data::line query;
+
+			query.components.push_back(country);
+			query.components.push_back(language);
+
+			data::message message;
+
+			message.queries.push_back(query);
+			message.items.push_back(item);
+
+			::data::message::message msg;
+			msg.parse(message.json());
+
+			database::odbc::factory::connection *connections = new database::odbc::factory::connection();
+			Assert::AreEqual(true, connections != NULL);
+			Assert::AreEqual(true, connections->initalised());
+
+			database::odbc::factory::recordset *recordsets = new database::odbc::factory::recordset();
+			Assert::AreEqual(true, recordsets != NULL);
+			if (!recordsets->initalised()) return;
+
+			database::settings settings(location, connections, recordsets);
+			Assert::AreEqual(true, settings.initalised());
+
+			database::storage::message storage;
+
+			storage.open(settings);
+
+			Assert::AreEqual(true, storage.write(msg));
+
+			storage.close();
+
+			delete recordsets;
+			delete connections;
+		}
+
+		TEST_METHOD(TestInvalidUser)
+		{
+			// with insert into errors table
+
+			// create watchdog, which writes every five minutes to DB table
+			// or create "PING" command in server itself
 		}
 	};
 };

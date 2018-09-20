@@ -25,14 +25,16 @@ namespace database
 		virtual float GetFloat(long index) = 0;
 		virtual double GetDouble(long index) = 0;
 		virtual bool GetBool(long index) = 0;
-		virtual global::datetime GetDateTime(long index) = 0;
+		virtual TIMESTAMP_STRUCT GetTimeStamp(long index) = 0;
+		virtual GUID GetGUID(long index) = 0;
 
 		virtual bool BindLong(long index, long &data) = 0;
 		virtual bool BindString(long index, unsigned char *data) = 0;
 		virtual bool BindFloat(long index, float &data) = 0;
 		virtual bool BindDouble(long index, double &data) = 0;
 		virtual bool BindBool(long index, bool &data) = 0;
-		virtual bool BindDateTime(long index, TIMESTAMP_STRUCT &data) = 0;
+		virtual bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data) = 0;
+		virtual bool BindGUID(long index, GUID &data) = 0;
 
 		virtual bool Execute() = 0;
 
@@ -98,9 +100,13 @@ namespace database
 
 		void reset(string location, factory::connection *connections, factory::recordset *recordsets)
 		{
+			init = false;
+
 			this->location = location;
 			this->connections = connections;
 			this->recordsets = recordsets;
+
+			init = true;
 		}
 
 		string getLocation() { return location; }

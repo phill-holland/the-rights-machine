@@ -1,4 +1,5 @@
 #include "users.h"
+#include "guid.h"
 
 using namespace comparison;
 
@@ -73,13 +74,13 @@ void data::users::refresh()
 				temp.userID = recordset->GetLong(1L);
 				temp.username = recordset->GetString(2L);
 				temp.email = recordset->GetString(3L);
-				temp.apikey = recordset->GetString(4L);
-				temp.guid = recordset->GetString(5L);
+				temp.apikey = recordset->GetGUID(4L);
+				temp.guid = recordset->GetGUID(5L);
 				temp.banned = recordset->GetBool(6L);
 				temp.verified = recordset->GetBool(7L);
 				temp.active = recordset->GetBool(8L);
 
-				map[temp.guid] = temp;
+				map[(string)guid::guid(temp.guid)] = temp;
 
 				recordset->MoveNext();
 			}
