@@ -17,17 +17,18 @@ namespace database
 		class message : public record::record<data::message::message>
 		{
 		public:
-			static const long MAX = 128L;
-
-		public:
 			GUID messageID;
 			GUID user;
 			GUID apikey;
 			GUID guid;
-			char created[MAX];
-			char finished[MAX];
+			TIMESTAMP_STRUCT created;
+			TIMESTAMP_STRUCT finished;
 
 		public:
+			message() { clear(); }
+
+			void clear();
+
 			bool bind(database::recordset *recordset);
 			void set(data::message::message &source);
 		};
@@ -43,6 +44,10 @@ namespace database
 			char name[MAX];
 
 		public:
+			item() { clear(); }
+			
+			void clear();
+
 			bool bind(database::recordset *recordset);
 			void set(data::item::item &source);
 		};
@@ -50,17 +55,18 @@ namespace database
 		class line : public record::record<data::line::line>
 		{
 		public:
-			static const long MAX = 128L;
-
-		public:
 			GUID lineID;
 			GUID itemID;
-			char start[MAX];
-			char end[MAX];
+			TIMESTAMP_STRUCT start;
+			TIMESTAMP_STRUCT end;
 			long exclusivityID;
 			long typeID;
 
 		public:
+			line() { clear(); }
+
+			void clear();
+
 			bool bind(database::recordset *recordset);
 			void set(data::line::line &source);
 		};
@@ -80,6 +86,10 @@ namespace database
 					char name[MAX];
 
 				public:
+					component() { clear(); }
+
+					void clear();
+
 					bool bind(database::recordset *recordset);
 					void set(data::component::line::component &source);
 				};
@@ -98,6 +108,10 @@ namespace database
 					char name[MAX];
 
 				public:
+					component() { clear(); }
+					
+					void clear();
+
 					bool bind(database::recordset *recordset);
 					void set(data::component::query::component &source);
 				};
@@ -115,6 +129,10 @@ namespace database
 			char value[MAX];
 
 		public:
+			element() { clear(); }
+			
+			void clear();
+			
 			bool bind(database::recordset *recordset);
 			void set(data::element::element &source);
 		};

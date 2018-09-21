@@ -1,5 +1,6 @@
 #include "pair.h"
 #include "string.h"
+#include "queue.h"
 
 #if !defined(__JSON)
 #define __JSON
@@ -21,7 +22,9 @@ namespace data
 				virtual void clear() = 0;
 				virtual string identifier() = 0;
 				virtual bool add(custom::pair &source) = 0;
-				virtual json *find(string FQDN) { return NULL; }
+
+				virtual queue::base *findQ(string FQDN) { return NULL; }
+				virtual json *find(string FQDN) { return NULL; }				
 
 			public:
 				bool parse(string json);

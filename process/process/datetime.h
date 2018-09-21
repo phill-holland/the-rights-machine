@@ -93,9 +93,12 @@ namespace global
 			ts.month = (SQLSMALLINT)month;
 			ts.day = (SQLSMALLINT)day;
 
-			ts.hour = (SQLSMALLINT)hour;
-			ts.minute = (SQLSMALLINT)minute;
-			ts.day = (SQLSMALLINT)day;
+			ts.hour = (SQLUSMALLINT)hour;
+			ts.minute = (SQLUSMALLINT)minute;
+			ts.day = (SQLUSMALLINT)day;
+
+			ts.second = (SQLUSMALLINT)0;
+			ts.fraction = (SQLUINTEGER)0;
 
 			return ts;
 		}

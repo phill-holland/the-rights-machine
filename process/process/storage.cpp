@@ -52,19 +52,22 @@ bool database::storage::element::read(data::element::element &destination)
 
 bool database::storage::element::write(data::element::element &source)
 {
+	bool prepared = true;
+
 	if (!recordset->IsInitalised())
 	{
 		string sql = "INSERT INTO tElement (elementID, componentID, value)";
 		sql.concat(" VALUES(?,?,?);");
 
-		connection->Prepare(sql, recordset);
+		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
 
-	if (recordset->IsInitalised())
+	if ((recordset->IsInitalised()) && (prepared))
 	{
 		bound.set(source);
 
 		GUID unique = this->generate();
+		bound.componentID = componentID;
 		bound.elementID = unique;
 
 		bound.bind(recordset);
@@ -201,19 +204,22 @@ bool database::storage::component::read(data::component::line::component &destin
 
 bool database::storage::component::write(data::component::line::component &source)
 {
+	bool prepared = true;
+
 	if (!recordset->IsInitalised())
 	{
 		string sql = "INSERT INTO tComponent (componentID, lineID, name)";
 		sql.concat(" VALUES(?,?,?);");
 
-		connection->Prepare(sql, recordset);
+		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
 
-	if (recordset->IsInitalised())
+	if ((recordset->IsInitalised()) && (prepared))
 	{
 		bound.set(source);
 
 		GUID unique = this->generate();
+		bound.lineID = lineID;
 		bound.componentID = unique;
 
 		bound.bind(recordset);
@@ -337,8 +343,8 @@ bool database::storage::line::read(data::line::line &destination)
 		records::line temp = data[key].back();
 		data[key].pop_back();
 
-		destination.start = (datetime)string(temp.start);
-		destination.end = (datetime)string(temp.end);
+		destination.start = (datetime)temp.start;
+		destination.end = (datetime)temp.end;
 		destination.exclusivityID = temp.exclusivityID;
 		destination.typeID = temp.typeID;
 
@@ -357,19 +363,22 @@ bool database::storage::line::read(data::line::line &destination)
 
 bool database::storage::line::write(data::line::line &source)
 {
+	bool prepared = true;
+
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tLine (lineID, itemID, [start], [end], exclusivityID, typeID)";
+		string sql = "INSERT INTO tLine (lineID, itemID, startDate, endDate, exclusivityID, typeID)";
 		sql.concat(" VALUES(?,?,?,?,?,?);");
 
-		connection->Prepare(sql, recordset);
+		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
 
-	if (recordset->IsInitalised())
+	if ((recordset->IsInitalised()) && (prepared))
 	{
 		bound.set(source);
 
 		GUID unique = this->generate();
+		bound.itemID = itemID;
 		bound.lineID = unique;
 
 		bound.bind(recordset);
@@ -395,7 +404,7 @@ bool database::storage::line::load()
 
 	if (!recordset->IsInitalised())
 	{
-		string sql("SELECT lineID, itemID, [start], [end], exclusivityID, typeID FROM tLine ");
+		string sql("SELECT lineID, itemID, startDate, endDate, exclusivityID, typeID FROM tLine ");
 		sql.concat(" LEFT JOIN tItem ON tLine.itemID = tItem.itemID WHERE 1=1");
 
 		if (identities.size() > 0UL)
@@ -422,8 +431,8 @@ bool database::storage::line::load()
 
 				temp.lineID = recordset->GetGUID(1L);
 				temp.itemID = recordset->GetGUID(2L);
-				recordset->GetString(3L).toChar(temp.start, records::line::MAX);
-				recordset->GetString(4L).toChar(temp.end, records::line::MAX);
+				temp.start = recordset->GetTimeStamp(3L);
+				temp.end = recordset->GetTimeStamp(4L);
 				temp.exclusivityID = recordset->GetLong(5L);
 				temp.typeID = recordset->GetLong(6L);
 
@@ -512,19 +521,22 @@ bool database::storage::item::read(data::item::item &destination)
 
 bool database::storage::item::write(data::item::item &source)
 {
+	bool prepared = true;
+
 	if (!recordset->IsInitalised())
 	{
 		string sql = "INSERT INTO tItem (itemID, messageID, name)";
 		sql.concat(" VALUES(?,?,?);");
 
-		connection->Prepare(sql, recordset);
+		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
 
-	if (recordset->IsInitalised())
+	if ((recordset->IsInitalised()) && (prepared))
 	{
 		bound.set(source);
 
 		GUID unique = this->generate();
+		bound.messageID = messageID;
 		bound.itemID = unique;
 
 		bound.bind(recordset);
@@ -576,7 +588,7 @@ bool database::storage::item::load()
 				
 				temp.itemID = recordset->GetGUID(1L);
 				temp.messageID = recordset->GetGUID(2L);
-				recordset->GetString(3L).toChar(temp.name, records::message::MAX);
+				recordset->GetString(3L).toChar(temp.name, records::item::MAX);
 
 				data[(string)guid::guid(temp.messageID)].push_back(temp);
 			};
@@ -642,8 +654,8 @@ bool database::storage::message::read(data::message::message &destination)
 		destination.user = (string)guid::guid(temp.user);
 		destination.guid = (string)guid::guid(temp.guid);
 		destination.apikey = (string)guid::guid(temp.apikey);
-		destination.created = (datetime)string(temp.created);
-		destination.finished = (datetime)string(temp.finished);
+		destination.created = (datetime)temp.created;
+		destination.finished = (datetime)temp.finished;
 		
 		item.messageID = temp.messageID;		
 		item.parent = &destination;
@@ -668,10 +680,10 @@ bool database::storage::message::write(data::message::message &source)
 	}
 
 
-	if ((recordset->IsInitalised())&&(prepared))
+	if ((recordset->IsInitalised()) && (prepared))
 	{
 		bound.set(source);
-		
+
 		GUID unique = this->generate();
 		bound.messageID = unique;
 
@@ -681,9 +693,7 @@ bool database::storage::message::write(data::message::message &source)
 
 		item.messageID = unique;
 		item.parent = &source;
-		source.save(&item);
-
-		return true;
+		return source.save(&item);
 	}
 
 	return false;
@@ -721,8 +731,8 @@ bool database::storage::message::load()
 				temp.user = recordset->GetGUID(2L);
 				temp.guid = recordset->GetGUID(3L);
 				temp.apikey = recordset->GetGUID(4L);
-				recordset->GetString(5L).toChar(temp.created, records::message::MAX);
-				recordset->GetString(6L).toChar(temp.finished, records::message::MAX);
+				temp.created = recordset->GetTimeStamp(5L);
+				temp.finished = recordset->GetTimeStamp(6L);
 
 				data.push_back(temp);
 				identities.push_back((string)guid::guid(temp.messageID));

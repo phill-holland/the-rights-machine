@@ -6,7 +6,7 @@ string tests::data::line::json()
 	string result = "{\r\n\"start\":\"" + (string)start + "\",\r\n";
 	result += "\"end\":\"" + (string)end + "\",\r\n";
 	result += "\"exclusivity\":" + exclusivity + ",\r\n";
-	result += "\"type\":" + type + ",\r\n";
+	result += "\"type\":" + type + "\r\n";
 	if ((long)components.size() > 0L)
 	{
 		result += ",\r\n\"components\":\r\n[\r\n";

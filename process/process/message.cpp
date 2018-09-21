@@ -9,7 +9,6 @@ void data::message::message::reset()
 	items.json::parent(this);
 	queries.json::parent(this);
 
-	// need to move this into query class???
 	queries.temp.components.json::parent(&queries);
 	queries.temp.elements.json::parent(&queries.temp.components);
 
@@ -153,6 +152,11 @@ bool data::message::message::load(file::file<data::component::line::component> *
 	return valid;
 }
 
+bool data::message::message::load(file::file<data::component::query::component> *source)
+{
+	return false;
+}
+
 bool data::message::message::load(file::file<data::element::element> *source)
 {
 	bool valid = false;
@@ -171,22 +175,79 @@ bool data::message::message::load(file::file<data::element::element> *source)
 
 bool data::message::message::save(file::file<data::item::item> *destination)
 {
-	return false;
+	bool valid = false;
+
+	data::item::item temp;
+
+	for (long i = 0L; i < items.count(); ++i)
+	{
+		temp = items[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
 }
 
 bool data::message::message::save(file::file<data::line::line> *destination)
 {
-	return false;
+	bool valid = false;
+
+	data::line::line temp;
+
+	for (long i = 0L; i < lines.count(); ++i)
+	{
+		temp = lines[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
 }
 
 bool data::message::message::save(file::file<data::component::line::component> *destination)
+{
+	bool valid = false;
+
+	data::component::line::component temp;
+
+	for (long i = 0L; i < components.count(); ++i)
+	{
+		temp = components[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::save(file::file<data::component::query::component> *destination)
 {
 	return false;
 }
 
 bool data::message::message::save(file::file<data::element::element> *destination)
 {
-	return false;
+	bool valid = false;
+
+	data::element::element temp;
+
+	for (long i = 0L; i < elements.count(); ++i)
+	{
+		temp = elements[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
 }
 
 void data::message::message::copy(message const &source)

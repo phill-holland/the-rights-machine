@@ -172,6 +172,12 @@ namespace tests
 			::data::message::message msg;
 			msg.parse(message.json());
 
+			msg.guid = (string)guid::guid();
+			msg.user = (string)guid::guid();
+			msg.apikey = (string)guid::guid();
+			msg.created = global::datetime::now();
+			msg.finished = global::datetime::now();
+
 			database::odbc::factory::connection *connections = new database::odbc::factory::connection();
 			Assert::AreEqual(true, connections != NULL);
 			Assert::AreEqual(true, connections->initalised());
@@ -197,6 +203,14 @@ namespace tests
 
 		TEST_METHOD(TestInvalidUser)
 		{
+			// to do
+			// query implement to/from database
+			// test loading message from database
+			// clear message from database after read
+			// test user validation
+			// test error logging to database
+			
+
 			// with insert into errors table
 
 			// create watchdog, which writes every five minutes to DB table

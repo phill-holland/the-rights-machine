@@ -42,6 +42,9 @@ bool data::json::request::json::parse(string json)
 					{
 						::data::json::request::json *current = find(parents.FQDN());
 						if (current != NULL) current->add(custom::pair(label, value));
+
+						queue::base *b = findQ(parents.FQDN());
+						if (b != NULL) b->flush();
 					}
 
 					left = true;

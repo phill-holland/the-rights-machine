@@ -77,7 +77,7 @@ GUID database::odbc::recordset::GetGUID(long index)
 	GUID result;
 
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_GUID, &result, 0, NULL);
-
+	
 	return result;
 }
 
