@@ -120,6 +120,22 @@ bool data::message::message::load(file::file<data::item::item> *source)
 	return valid;
 }
 
+bool data::message::message::load(file::file<data::query::query> *source)
+{
+	bool valid = false;
+
+	data::query::query temp;
+
+	while (source->read(temp))
+	{
+		if (!queries.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
 bool data::message::message::load(file::file<data::line::line> *source)
 {
 	bool valid = false;
@@ -152,11 +168,6 @@ bool data::message::message::load(file::file<data::component::line::component> *
 	return valid;
 }
 
-bool data::message::message::load(file::file<data::component::query::component> *source)
-{
-	return false;
-}
-
 bool data::message::message::load(file::file<data::element::element> *source)
 {
 	bool valid = false;
@@ -182,6 +193,24 @@ bool data::message::message::save(file::file<data::item::item> *destination)
 	for (long i = 0L; i < items.count(); ++i)
 	{
 		temp = items[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::message::message::save(file::file<data::query::query> *destination)
+{
+	bool valid = false;
+
+	data::query::query temp;
+
+	for (long i = 0L; i < items.count(); ++i)
+	{
+		temp = queries[i];
 
 		if (!destination->write(temp)) return false;
 
@@ -225,11 +254,6 @@ bool data::message::message::save(file::file<data::component::line::component> *
 	}
 
 	return valid;
-}
-
-bool data::message::message::save(file::file<data::component::query::component> *destination)
-{
-	return false;
 }
 
 bool data::message::message::save(file::file<data::element::element> *destination)

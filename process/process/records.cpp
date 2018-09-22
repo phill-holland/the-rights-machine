@@ -8,8 +8,8 @@ void database::records::message::clear()
 	memset(&user, 0, sizeof(GUID));
 	memset(&apikey, 0, sizeof(GUID));
 	memset(&guid, 0, sizeof(GUID));
+	memset(&tag, 0, sizeof(GUID));
 	memset(&created, 0, sizeof(TIMESTAMP_STRUCT));
-	memset(&finished, 0, sizeof(TIMESTAMP_STRUCT));
 }
 
 bool database::records::message::bind(database::recordset *recordset)
@@ -18,8 +18,8 @@ bool database::records::message::bind(database::recordset *recordset)
 	if (!recordset->BindGUID(2L, user)) return false;
 	if (!recordset->BindGUID(3L, apikey)) return false;
 	if (!recordset->BindGUID(4L, guid)) return false;
-	if (!recordset->BindTimeStamp(5L, created)) return false;
-	if (!recordset->BindTimeStamp(6L, finished)) return false;
+	if (!recordset->BindGUID(5L, tag)) return false;
+	if (!recordset->BindTimeStamp(6L, created)) return false;
 
 	return true;
 }
@@ -32,7 +32,6 @@ void database::records::message::set(data::message::message &source)
 	apikey = (GUID)guid::guid(source.apikey);
 	guid = (GUID)guid::guid(source.guid);
 	created = (TIMESTAMP_STRUCT)source.created;
-	finished = (TIMESTAMP_STRUCT)source.finished;
 }
 
 void database::records::item::clear()
@@ -56,6 +55,25 @@ void database::records::item::set(data::item::item &source)
 	clear();
 
 	source.name.toChar(name, MAX);
+}
+
+void database::records::query::clear()
+{
+	memset(&queryID, 0, sizeof(GUID));
+	memset(&messageID, 0, sizeof(GUID));
+}
+
+bool database::records::query::bind(database::recordset * recordset)
+{
+	if (!recordset->BindGUID(1L, queryID)) return false;
+	if (!recordset->BindGUID(2L, messageID)) return false;
+
+	return true;
+}
+
+void database::records::query::set(data::query::query &source)
+{
+	clear();
 }
 
 void database::records::line::clear()
@@ -96,6 +114,8 @@ void database::records::component::line::component::clear()
 	memset(&componentID, 0, sizeof(GUID));
 	memset(&lineID, 0, sizeof(GUID));
 	memset(name, 0, MAX);
+
+	type = TYPE;
 }
 
 void database::records::component::line::component::set(data::component::line::component &source)
@@ -109,7 +129,8 @@ bool database::records::component::line::component::bind(database::recordset *re
 {
 	if (!recordset->BindGUID(1L, componentID)) return false;
 	if (!recordset->BindGUID(2L, lineID)) return false;
-	if (!recordset->BindString(3L, (SQLCHAR*)name)) return false;
+	if (!recordset->BindLong(3L, type)) return false;
+	if (!recordset->BindString(4L, (SQLCHAR*)name)) return false;
 
 	return true;
 }
@@ -119,6 +140,8 @@ void database::records::component::query::component::clear()
 	memset(&componentID, 0, sizeof(GUID));
 	memset(&queryID, 0, sizeof(GUID));
 	memset(name, 0, MAX);
+
+	type = TYPE;
 }
 
 void database::records::component::query::component::set(data::component::query::component &source)
@@ -132,7 +155,8 @@ bool database::records::component::query::component::bind(database::recordset *r
 {
 	if (!recordset->BindGUID(1L, componentID)) return false;
 	if (!recordset->BindGUID(2L, queryID)) return false;
-	if (!recordset->BindString(3L, (SQLCHAR*)name)) return false;
+	if (!recordset->BindLong(3L, type)) return false;
+	if (!recordset->BindString(4L, (SQLCHAR*)name)) return false;
 
 	return true;
 }

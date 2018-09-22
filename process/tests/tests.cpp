@@ -208,8 +208,10 @@ namespace tests
 			// test loading message from database
 			// clear message from database after read
 			// test user validation
+
+
 			// test error logging to database
-			
+			// write error long descriptions
 
 			// with insert into errors table
 

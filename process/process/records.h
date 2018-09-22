@@ -21,9 +21,9 @@ namespace database
 			GUID user;
 			GUID apikey;
 			GUID guid;
+			GUID tag;
 			TIMESTAMP_STRUCT created;
-			TIMESTAMP_STRUCT finished;
-
+			
 		public:
 			message() { clear(); }
 
@@ -50,6 +50,21 @@ namespace database
 
 			bool bind(database::recordset *recordset);
 			void set(data::item::item &source);
+		};
+
+		class query : public record::record<data::query::query>
+		{
+		public:
+			GUID queryID;
+			GUID messageID;
+
+		public:
+			query() { clear(); }
+
+			void clear();
+
+			bool bind(database::recordset * recordset);
+			void set(data::query::query &source);
 		};
 
 		class line : public record::record<data::line::line>
@@ -79,10 +94,12 @@ namespace database
 				{
 				public:
 					static const long MAX = 128L;
+					static const long TYPE = 2L;
 
 				public:
 					GUID componentID;
 					GUID lineID;
+					long type;
 					char name[MAX];
 
 				public:
@@ -101,10 +118,12 @@ namespace database
 				{
 				public:
 					static const long MAX = 128L;
+					static const long TYPE = 2L;
 
 				public:
 					GUID componentID;
 					GUID queryID;
+					long type;
 					char name[MAX];
 
 				public:

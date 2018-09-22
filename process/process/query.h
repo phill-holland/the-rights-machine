@@ -5,6 +5,7 @@
 #include "components.h"
 #include "elements.h"
 #include "row.h"
+#include "file.h"
 
 #if !defined(__QUERY)
 #define __QUERY
@@ -42,6 +43,12 @@ namespace data
 
 			void filter(compute::row **rows, unsigned long total, unsigned long lines);
 			
+			bool load(file::file<data::component::query::component> *source);
+			bool load(file::file<data::element::element> *source);
+
+			bool save(file::file<data::component::query::component> *destination);
+			bool save(file::file<data::element::element> *destination);
+
 			void copy(query const &source);
 
 		public:

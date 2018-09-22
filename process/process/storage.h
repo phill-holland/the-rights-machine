@@ -11,85 +11,159 @@
 #if !defined(__STORAGE)
 #define __STORAGE
 
-// change primary keys into uniqueidentifiers - GUIDS/strings
-// implement query load
-// implement save, generate GUIDS so database doesn't need a read during save
-// need to mark messageID's (from list of identities as read, or delete from DB
-
 namespace database
 {
 	namespace storage
 	{
 		using namespace comparison;
 
-		class element : public file::file<data::element::element>
+		namespace common
 		{
-			database::records::element bound;
-
-			database::connection *connection;
-			database::recordset *recordset;
-
-			std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
-
-		public:
-			data::message::message *parent;
-			std::vector<string> identities;
-			GUID componentID; 
-
-		public:
-			element()
+			namespace line
 			{
-				parent = NULL;
-				connection = NULL;
-				recordset = NULL;
-			}
+				class element : public file::file<data::element::element>
+				{
+					database::records::element bound;
 
-			bool open(database::settings &settings);
-			bool close();
+					database::connection *connection;
+					database::recordset *recordset;
 
-			bool read(data::element::element &destination);
-			bool write(data::element::element &source);
+					std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
-			void clear() { data.clear(); identities.clear(); }
+				public:
+					data::message::message *parent;
+					std::vector<string> identities;
+					GUID componentID;
 
-		protected:
-			bool load();
-		};
+				public:
+					element()
+					{
+						parent = NULL;
+						connection = NULL;
+						recordset = NULL;
+					}
 
-		class component : public file::file<data::component::line::component>
-		{
-			database::records::component::line::component bound;
+					bool open(database::settings &settings);
+					bool close();
 
-			database::connection *connection;
-			database::recordset *recordset;
+					bool read(data::element::element &destination);
+					bool write(data::element::element &source);
 
-			element element;
+					void clear() { data.clear(); identities.clear(); }
 
-			std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality> data;
+				protected:
+					bool load();
+				};
 
-		public:
-			data::message::message *parent;
-			std::vector<string> identities;
-			GUID lineID;
+				class component : public file::file<data::component::line::component>
+				{
+					database::records::component::line::component bound;
 
-		public:
-			component()
+					database::connection *connection;
+					database::recordset *recordset;
+
+					element element;
+
+					std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality> data;
+
+				public:
+					data::message::message *parent;
+					std::vector<string> identities;
+					GUID lineID;
+
+				public:
+					component()
+					{
+						parent = NULL;
+						connection = NULL;
+						recordset = NULL;
+					}
+
+					bool open(database::settings &settings);
+					bool close();
+
+					bool read(data::component::line::component &destination);
+					bool write(data::component::line::component &source);
+
+					void clear() { data.clear(); element.clear(); identities.clear(); }
+
+				protected:
+					bool load();
+				};
+			};
+
+			namespace query
 			{
-				parent = NULL;
-				connection = NULL;
-				recordset = NULL;
-			}
+				class element : public file::file<data::element::element>
+				{
+					database::records::element bound;
 
-			bool open(database::settings &settings);
-			bool close();
+					database::connection *connection;
+					database::recordset *recordset;
 
-			bool read(data::component::line::component &destination);
-			bool write(data::component::line::component &source);
+					std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
-			void clear() { data.clear(); element.clear(); identities.clear(); }
+				public:
+					data::query::query *parent;
+					std::vector<string> identities;
+					GUID componentID;
 
-		protected:
-			bool load();
+				public:
+					element()
+					{
+						parent = NULL;
+						connection = NULL;
+						recordset = NULL;
+					}
+
+					bool open(database::settings &settings);
+					bool close();
+
+					bool read(data::element::element &destination);
+					bool write(data::element::element &source);
+
+					void clear() { data.clear(); identities.clear(); }
+
+				protected:
+					bool load();
+				};
+
+				class component : public file::file<data::component::query::component>
+				{
+					database::records::component::query::component bound;
+
+					database::connection *connection;
+					database::recordset *recordset;
+
+					element element;
+
+					std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality> data;
+
+				public:
+					data::query::query *parent;
+					std::vector<string> identities;
+					GUID queryID;
+
+				public:
+					component()
+					{
+						parent = NULL;
+						connection = NULL;
+						recordset = NULL;
+					}
+
+					bool open(database::settings &settings);
+					bool close();
+
+					bool read(data::component::query::component &destination);
+					bool write(data::component::query::component &source);
+
+					void clear() { data.clear(); element.clear(); identities.clear(); }
+
+				protected:
+					bool load();
+				};
+			};
 		};
 
 		class line : public file::file<data::line::line>
@@ -99,21 +173,21 @@ namespace database
 			database::connection *connection;
 			database::recordset *recordset;
 
-			component component;
+			common::line::component component;
 
 			std::unordered_map<string, std::vector<database::records::line>, hasher, equality> data;
-			
+
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
 			GUID itemID;
 
 		public:
-			line() 
+			line()
 			{
 				parent = NULL;
 				connection = NULL;
-				recordset = NULL;				
+				recordset = NULL;
 			}
 
 			bool open(database::settings &settings);
@@ -127,6 +201,43 @@ namespace database
 		protected:
 			bool load();
 		};
+
+		class query : public file::file<data::query::query>
+		{
+			database::records::query bound;
+
+			database::connection *connection;
+			database::recordset *recordset;
+
+			common::query::component component;
+
+			std::unordered_map<string, std::vector<database::records::query>, hasher, equality> data;
+
+		public:
+			data::message::message *parent;
+			std::vector<string> identities;
+			GUID messageID;
+
+		public:
+			query()
+			{
+				parent = NULL;
+				connection = NULL;
+				recordset = NULL;
+			}
+
+			bool open(database::settings &settings);
+			bool close();
+
+			bool read(data::query::query &destination);
+			bool write(data::query::query &source);
+
+			void clear() { data.clear(); component.clear(); identities.clear(); }
+
+		protected:
+			bool load();
+		};
+		
 
 		class item : public file::file<data::item::item>
 		{
@@ -166,16 +277,21 @@ namespace database
 
 		class message : public file::file<data::message::message>
 		{
+		public:
+			static const long TOP = 200L;
+
+		private:
 			database::records::message bound;
 
 			database::connection *connection;
 			database::recordset *recordset;
 
 			item item;
+			query query;
 
 			std::vector<database::records::message> data;
 			std::vector<string> identities;
-
+			
 		public:
 			long max;
 
@@ -191,7 +307,11 @@ namespace database
 			void clear() { data.clear(); item.clear(); identities.clear(); }
 
 		public:
-			bool load();			
+			bool load();
+
+		protected:
+			bool tag(GUID &tagged);
+			bool erase(GUID &tagged);
 		};
 	};
 };

@@ -1,6 +1,6 @@
 #include "storage.h"
 
-bool database::storage::element::open(database::settings &settings)
+bool database::storage::common::line::element::open(database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -17,7 +17,7 @@ bool database::storage::element::open(database::settings &settings)
 	return true;
 }
 
-bool database::storage::element::close()
+bool database::storage::common::line::element::close()
 {
 	recordset->close();
 	if (!connection->close()) return false;
@@ -25,7 +25,7 @@ bool database::storage::element::close()
 	return true;
 }
 
-bool database::storage::element::read(data::element::element &destination)
+bool database::storage::common::line::element::read(data::element::element &destination)
 {
 	string key = (string)guid::guid(componentID);
 
@@ -50,7 +50,7 @@ bool database::storage::element::read(data::element::element &destination)
 	return false;
 }
 
-bool database::storage::element::write(data::element::element &source)
+bool database::storage::common::line::element::write(data::element::element &source)
 {
 	bool prepared = true;
 
@@ -80,7 +80,7 @@ bool database::storage::element::write(data::element::element &source)
 	return false;
 }
 
-bool database::storage::element::load()
+bool database::storage::common::line::element::load()
 {
 	clear();
 
@@ -128,7 +128,7 @@ bool database::storage::element::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::component::open(database::settings &settings)
+bool database::storage::common::line::component::open(database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -153,7 +153,7 @@ bool database::storage::component::open(database::settings &settings)
 	return true;
 }
 
-bool database::storage::component::close()
+bool database::storage::common::line::component::close()
 {
 	int index = 0;
 
@@ -165,7 +165,7 @@ bool database::storage::component::close()
 	return index == 0;
 }
 
-bool database::storage::component::read(data::component::line::component &destination)
+bool database::storage::common::line::component::read(data::component::line::component &destination)
 {
 	string key = (string)guid::guid(lineID);
 
@@ -202,14 +202,14 @@ bool database::storage::component::read(data::component::line::component &destin
 	return false;
 }
 
-bool database::storage::component::write(data::component::line::component &source)
+bool database::storage::common::line::component::write(data::component::line::component &source)
 {
 	bool prepared = true;
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tComponent (componentID, lineID, name)";
-		sql.concat(" VALUES(?,?,?);");
+		string sql = "INSERT INTO tComponent (componentID, [ID], [Type], name)";
+		sql.concat(" VALUES(?,?,?,?);");
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -239,16 +239,16 @@ bool database::storage::component::write(data::component::line::component &sourc
 	return false;
 }
 
-bool database::storage::component::load()
+bool database::storage::common::line::component::load()
 {
 	clear();
 
 	if (!recordset->IsInitalised())
 	{
-		string sql("SELECT componentID, lineID, name FROM tComponent ");
+		string sql("SELECT componentID, [ID], name FROM tComponent ");
 		sql.concat("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID ");
 		sql.concat("LEFT jOIN tItem ON tLine.itemID = tItem.itemID ");
-		sql.concat("WHERE 1=1");
+		sql.concat("WHERE tComponent.Type=1");
 
 		if (identities.size() > 0UL)
 		{
@@ -277,6 +277,289 @@ bool database::storage::component::load()
 				recordset->GetString(3L).toChar(temp.name, database::records::component::line::component::MAX);
 
 				data[(string)guid::guid(lineID)].push_back(temp);
+			};
+		}
+		else return false;
+	}
+	else return false;
+
+	return (data.size() > 0);
+}
+
+bool database::storage::common::query::element::open(database::settings &settings)
+{
+	connection = settings.getConnections()->get();
+	if (connection == NULL) return false;
+	if (!connection->open(settings.getLocation())) return false;
+
+	recordset = settings.getRecordSets()->get();
+	if (recordset == NULL)
+	{
+		connection->close();
+
+		return false;
+	}
+
+	return true;
+}
+
+bool database::storage::common::query::element::close()
+{
+	recordset->close();
+	if (!connection->close()) return false;
+
+	return true;
+}
+
+bool database::storage::common::query::element::read(data::element::element &destination)
+{
+	string key = (string)guid::guid(componentID);
+
+	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator i = data.find(key);
+	if (i == data.end()) if (!load()) return false;
+
+	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator j = data.find(key);
+	if (j == data.end()) return false;
+
+	std::vector<database::records::element> source = data[key];
+
+	if (source.size() > 0)
+	{
+		database::records::element temp = data[key].back();
+		data[key].pop_back();
+
+		destination.value = string(temp.value);
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::common::query::element::write(data::element::element &source)
+{
+	bool prepared = true;
+
+	if (!recordset->IsInitalised())
+	{
+		string sql = "INSERT INTO tElement (elementID, componentID, value)";
+		sql.concat(" VALUES(?,?,?);");
+
+		if (!connection->Prepare(sql, recordset)) prepared = false;
+	}
+
+	if ((recordset->IsInitalised()) && (prepared))
+	{
+		bound.set(source);
+
+		GUID unique = this->generate();
+		bound.componentID = componentID;
+		bound.elementID = unique;
+
+		bound.bind(recordset);
+
+		if (!recordset->Execute()) return false;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::common::query::element::load()
+{
+	clear();
+
+	if (!recordset->IsInitalised())
+	{
+		string sql("SELECT elementID, componentID, value FROM tElement ");
+		sql.concat("LEFT JOIN tComponent ON tElement.componentID = tComponent.componentID ");
+		sql.concat("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID ");
+		sql.concat("LEFT jOIN tItem ON tLine.itemID = tItem.itemID ");
+		sql.concat("WHERE 1=1");
+
+		if (identities.size() > 0UL)
+		{
+			sql.concat(" AND (");
+			for (unsigned long i = 0UL; i < identities.size(); ++i)
+			{
+				string temp = identities[i];
+				if (i > 0UL) sql.concat(" OR ");
+				sql.concat("tItem.messageID='");
+				sql.concat(temp);
+				sql.concat("'");
+			}
+			sql.concat(")");
+		}
+
+		sql.concat(string(";"));
+
+		if (connection->executeWithResults(sql, recordset))
+		{
+			while (recordset->MoveNext())
+			{
+				database::records::element temp;
+
+				temp.elementID = recordset->GetGUID(1L);
+				temp.componentID = recordset->GetGUID(2L);
+				recordset->GetString(3L).toChar(temp.value, database::records::element::MAX);
+
+				data[(string)guid::guid(componentID)].push_back(temp);
+			};
+		}
+		else return false;
+	}
+	else return false;
+
+	return (data.size() > 0);
+}
+
+bool database::storage::common::query::component::open(database::settings &settings)
+{
+	connection = settings.getConnections()->get();
+	if (connection == NULL) return false;
+	if (!connection->open(settings.getLocation())) return false;
+
+	recordset = settings.getRecordSets()->get();
+	if (recordset == NULL)
+	{
+		connection->close();
+
+		return false;
+	}
+
+	if (!element.open(settings))
+	{
+		recordset->close();
+		connection->close();
+
+		return false;
+	}
+
+	return true;
+}
+
+bool database::storage::common::query::component::close()
+{
+	int index = 0;
+
+	recordset->close();
+
+	if (!element.close()) ++index;
+	if (!connection->close()) ++index;
+
+	return index == 0;
+}
+
+bool database::storage::common::query::component::read(data::component::query::component &destination)
+{
+	string key = (string)guid::guid(queryID);
+
+	std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality>::iterator i = data.find(key);
+	if (i == data.end())
+	{
+		if (!load()) return false;
+
+		element.identities = identities;
+	}
+
+	std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality>::iterator j = data.find(key);
+	if (j == data.end()) return false;
+
+	std::vector<database::records::component::query::component> source = data[key];
+
+	if (source.size() > 0)
+	{
+		database::records::component::query::component temp = data[key].back();
+		data[key].pop_back();
+
+		destination.name = (string)temp.name;
+
+		if (parent != NULL)
+		{
+			element.componentID = temp.componentID;
+			element.parent = parent;
+			if (!parent->load(&element)) return false;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::common::query::component::write(data::component::query::component &source)
+{
+	bool prepared = true;
+
+	if (!recordset->IsInitalised())
+	{
+		string sql = "INSERT INTO tComponent (componentID, [ID], [Type], name)";
+		sql.concat(" VALUES(?,?,?,?);");
+
+		if (!connection->Prepare(sql, recordset)) prepared = false;
+	}
+
+	if ((recordset->IsInitalised()) && (prepared))
+	{
+		GUID unique = this->generate();
+		bound.queryID = queryID;
+		bound.componentID = unique;
+
+		bound.bind(recordset);
+
+		if (!recordset->Execute()) return false;
+
+		if (parent != NULL)
+		{
+			element.componentID = unique;
+			element.parent = parent;
+			if (!parent->save(&element)) return false;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::common::query::component::load()
+{
+	clear();
+
+	if (!recordset->IsInitalised())
+	{
+		string sql("SELECT componentID, [ID], name FROM tComponent ");
+		sql.concat("LEFT JOIN tQuery ON tComponent.ID = tQuery.ID ");
+		sql.concat("WHERE tComponent.Type=2");
+
+		if (identities.size() > 0UL)
+		{
+			sql.concat(" AND (");
+			for (unsigned long i = 0UL; i < identities.size(); ++i)
+			{
+				string temp = identities[i];
+				if (i > 0UL) sql.concat(" OR ");
+				sql.concat("tQuery.messageID='");
+				sql.concat(temp);
+				sql.concat("'");
+			}
+			sql.concat(")");
+		}
+
+		sql.concat(string(";"));
+
+		if (connection->executeWithResults(sql, recordset))
+		{
+			while (recordset->MoveNext())
+			{
+				database::records::component::query::component temp;
+
+				temp.componentID = recordset->GetGUID(1L);
+				temp.queryID = recordset->GetGUID(2L);
+				recordset->GetString(3L).toChar(temp.name, database::records::component::query::component::MAX);
+
+				data[(string)guid::guid(queryID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -437,6 +720,157 @@ bool database::storage::line::load()
 				temp.typeID = recordset->GetLong(6L);
 
 				data[(string)guid::guid(itemID)].push_back(temp);
+			};
+		}
+		else return false;
+	}
+	else return false;
+
+	return (data.size() > 0);
+}
+
+bool database::storage::query::open(database::settings &settings)
+{
+	connection = settings.getConnections()->get();
+	if (connection == NULL) return false;
+	if (!connection->open(settings.getLocation())) return false;
+
+	recordset = settings.getRecordSets()->get();
+	if (recordset == NULL)
+	{
+		connection->close();
+
+		return false;
+	}
+
+	if (!component.open(settings))
+	{
+		recordset->close();
+		connection->close();
+
+		return false;
+	}
+
+	return true;
+}
+
+bool database::storage::query::close()
+{
+	int index = 0;
+
+	recordset->close();
+
+	if (!component.close()) ++index;
+	if (!connection->close()) ++index;
+
+	return index == 0;
+}
+
+bool database::storage::query::read(data::query::query &destination)
+{
+	string key = (string)guid::guid(messageID);
+
+	std::unordered_map<string, std::vector<records::query>, hasher, equality>::iterator i = data.find(key);
+	if (i == data.end())
+	{
+		if (!load()) return false;
+
+		component.identities = identities;
+	}
+
+	std::unordered_map<string, std::vector<records::query>, hasher, equality>::iterator j = data.find(key);
+	if (j == data.end()) return false;
+
+	std::vector<records::query> source = data[key];
+	if (source.size() > 0)
+	{
+		records::query temp = data[key].back();
+		data[key].pop_back();
+
+		if (parent != NULL)
+		{
+			component.queryID = temp.queryID;
+			component.parent = &destination;
+			if (!destination.load(&component)) return false;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::query::write(data::query::query &source)
+{
+	bool prepared = true;
+
+	if (!recordset->IsInitalised())
+	{
+		string sql = "INSERT INTO tQuery (queryID, messageID)";
+		sql.concat(" VALUES(?,?);");
+
+		if (!connection->Prepare(sql, recordset)) prepared = false;
+	}
+
+	if ((recordset->IsInitalised()) && (prepared))
+	{
+		bound.set(source);
+
+		GUID unique = this->generate();
+		bound.messageID = messageID;
+		bound.queryID = unique;
+
+		bound.bind(recordset);
+
+		if (!recordset->Execute()) return false;
+
+		if (parent != NULL)
+		{
+			component.queryID = unique;
+			component.parent = &source;
+			if (!source.save(&component)) return false;
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::query::load()
+{
+	clear();
+
+	if (!recordset->IsInitalised())
+	{
+		string sql("SELECT queryID, messageID FROM tQuery WHERE 1=1");
+
+		if (identities.size() > 0UL)
+		{
+			sql.concat(" AND (");
+			for (unsigned long i = 0UL; i < identities.size(); ++i)
+			{
+				string temp = identities[i];
+				if (i > 0UL) sql.concat(" OR ");
+				sql.concat("messageID='");
+				sql.concat(temp);
+				sql.concat("'");
+			}
+			sql.concat(")");
+		}
+
+		sql.concat(string(";"));
+
+		if (connection->executeWithResults(sql, recordset))
+		{
+			while (recordset->MoveNext())
+			{
+				records::query temp;
+
+				temp.queryID = recordset->GetGUID(1L);
+				temp.messageID = recordset->GetGUID(2L);
+
+				data[(string)guid::guid(temp.messageID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -622,6 +1056,15 @@ bool database::storage::message::open(database::settings &settings)
 		return false;
 	}
 
+	if (!query.open(settings))
+	{
+		item.close();
+		recordset->close();
+		connection->close();
+
+		return false;
+	}
+
 	return true;
 }
 
@@ -631,6 +1074,7 @@ bool database::storage::message::close()
 
 	recordset->close();
 
+	if (!query.close()) ++index;
 	if (!item.close()) ++index;
 	if (!connection->close()) ++index;
 
@@ -640,7 +1084,7 @@ bool database::storage::message::close()
 bool database::storage::message::read(data::message::message &destination)
 {
 	if (data.size() == 0)
-	{
+	{		
 		if (!load()) return false;
 
 		item.identities = identities;		
@@ -655,11 +1099,14 @@ bool database::storage::message::read(data::message::message &destination)
 		destination.guid = (string)guid::guid(temp.guid);
 		destination.apikey = (string)guid::guid(temp.apikey);
 		destination.created = (datetime)temp.created;
-		destination.finished = (datetime)temp.finished;
 		
 		item.messageID = temp.messageID;		
 		item.parent = &destination;
-		destination.load(&item);
+		if (!destination.load(&item)) return false;
+
+		query.messageID = temp.messageID;
+		item.parent = &destination;
+		if (!destination.load(&query)) return false;
 
 		return true;
 	}
@@ -693,7 +1140,13 @@ bool database::storage::message::write(data::message::message &source)
 
 		item.messageID = unique;
 		item.parent = &source;
-		return source.save(&item);
+		if (!source.save(&item)) return false;
+
+		query.messageID = unique;
+		item.parent = &source;
+		if (!source.save(&query)) return false;
+
+		return true;
 	}
 
 	return false;
@@ -705,6 +1158,9 @@ bool database::storage::message::load()
 
 	if (!recordset->IsInitalised())
 	{
+		GUID tagged = this->generate();		
+		if (!tag(tagged)) return false;
+
 		string order = "";
 
 		string sql("SELECT");
@@ -716,10 +1172,11 @@ bool database::storage::message::load()
 			order = " ORDER BY created DESC";
 		}
 
-		sql.concat(" messageID, [User], [GUID], APIKey, Created, Finished FROM tMessage WHERE 1=1");
+		sql.concat(" messageID, [User], [GUID], APIKey, Tag, Created FROM tMessage WHERE Tag=?");
 		if (order.length() > 0) sql.concat(order);
-
 		sql.concat(string(";"));
+
+		recordset->BindGUID(1L, tagged);
 
 		if (connection->executeWithResults(sql, recordset))
 		{
@@ -731,8 +1188,8 @@ bool database::storage::message::load()
 				temp.user = recordset->GetGUID(2L);
 				temp.guid = recordset->GetGUID(3L);
 				temp.apikey = recordset->GetGUID(4L);
-				temp.created = recordset->GetTimeStamp(5L);
-				temp.finished = recordset->GetTimeStamp(6L);
+				temp.tag = recordset->GetGUID(5L);
+				temp.created = recordset->GetTimeStamp(6L);
 
 				data.push_back(temp);
 				identities.push_back((string)guid::guid(temp.messageID));
@@ -743,4 +1200,23 @@ bool database::storage::message::load()
 	else return false;
 
 	return (data.size() > 0);
+}
+
+bool database::storage::message::tag(GUID &tagged)
+{	
+	string sql = "UPDATE tMessage SET Tag=? WHERE tMessage.MessageID IN (SELECT TOP ";
+	sql.concat(string::fromLong(TOP));
+	sql.concat(" msg.MessageID FROM tMessage AS msg WHERE msg.Tag IS NULL ORDER BY msg.Created);");
+
+	recordset->BindGUID(1L, tagged);
+
+	return connection->executeNoResults(sql);
+}
+
+bool database::storage::message::erase(GUID &tagged)
+{
+	string sql = "EXEC dbo.pEraseMessagesWithTag ?;";
+	recordset->BindGUID(1L, tagged);
+
+	return connection->executeNoResults(sql);
 }

@@ -70,6 +70,72 @@ void data::query::query::filter(compute::row **rows, unsigned long total, unsign
 	}
 }
 
+bool data::query::query::load(file::file<data::component::query::component> *source)
+{
+	bool valid = false;
+
+	data::component::query::component temp;
+
+	while (source->read(temp))
+	{
+		if (!components.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::query::query::load(file::file<data::element::element> *source)
+{
+	bool valid = false;
+
+	data::element::element temp;
+
+	while (source->read(temp))
+	{
+		if (!elements.set(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::query::query::save(file::file<data::component::query::component> *destination)
+{
+	bool valid = false;
+
+	data::component::query::component temp;
+
+	for (long i = 0L; i < components.count(); ++i)
+	{
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
+bool data::query::query::save(file::file<data::element::element> *destination)
+{
+	bool valid = false;
+
+	data::element::element temp;
+
+	for (long i = 0L; i < elements.count(); ++i)
+	{
+		temp = elements[i];
+
+		if (!destination->write(temp)) return false;
+
+		valid = true;
+	}
+
+	return valid;
+}
+
 void data::query::query::copy(query const &source)
 {
 	queryID = source.queryID;

@@ -107,6 +107,22 @@
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="6" />
 		</Element>
+		<Element Type="SqlDefaultConstraint">
+			<Property Name="DefaultExpressionScript">
+				<Value><![CDATA[1]]></Value>
+			</Property>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tComponent]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="ForColumn">
+				<Entry>
+					<References Name="[dbo].[tComponent].[Type]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
+		</Element>
 		<Element Type="SqlPrimaryKeyConstraint">
 			<Relationship Name="ColumnSpecifications">
 				<Entry>
@@ -122,25 +138,6 @@
 			<Relationship Name="DefiningTable">
 				<Entry>
 					<References Name="[dbo].[tUserChange]" />
-				</Entry>
-			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="7" />
-		</Element>
-		<Element Type="SqlPrimaryKeyConstraint">
-			<Relationship Name="ColumnSpecifications">
-				<Entry>
-					<Element Type="SqlIndexedColumnSpecification">
-						<Relationship Name="Column">
-							<Entry>
-								<References Name="[dbo].[tUser].[userID]" />
-							</Entry>
-						</Relationship>
-					</Element>
-				</Entry>
-			</Relationship>
-			<Relationship Name="DefiningTable">
-				<Entry>
-					<References Name="[dbo].[tUser]" />
 				</Entry>
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="8" />
@@ -183,6 +180,25 @@
 			</Relationship>
 			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="10" />
 		</Element>
+		<Element Type="SqlPrimaryKeyConstraint">
+			<Relationship Name="ColumnSpecifications">
+				<Entry>
+					<Element Type="SqlIndexedColumnSpecification">
+						<Relationship Name="Column">
+							<Entry>
+								<References Name="[dbo].[tUser].[userID]" />
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="DefiningTable">
+				<Entry>
+					<References Name="[dbo].[tUser]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
+		</Element>
 		<Element Type="SqlDefaultConstraint" Name="[dbo].[DF_tResponse_CreatedDate]">
 			<Property Name="DefaultExpressionScript">
 				<Value><![CDATA[(getdate())]]></Value>
@@ -197,7 +213,290 @@
 					<References Name="[dbo].[tResponse].[CreatedDate]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="11" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
+		</Element>
+		<Element Type="SqlProcedure" Name="[dbo].[pEraseMessagesWithTag]">
+			<Property Name="BodyScript">
+				<Value><![CDATA[
+begin
+begin transaction;
+
+delete from tElement where tElement.ElementID IN
+(select tElement.ElementID from tElement
+left join tComponent on tElement.ComponentID = tComponent.ComponentID
+left join tLine on tComponent.ID = tLine.LineID
+left join tItem on tLine.ItemID = tItem.ItemID
+left join tMessage on tItem.MessageID = tMessage.MessageID
+WHERE tComponent.[Type]=1 AND tMessage.Tag = @tag);
+
+delete from tComponent where tComponent.ComponentID IN
+(select tComponent.ComponentID from tComponent
+left join tLine on tComponent.ID = tLine.LineID
+left join tItem on tLine.ItemID = tItem.ItemID
+left join tMessage on tItem.MessageID = tMessage.MessageID
+WHERE tComponent.[Type]=1 AND tMessage.Tag = @tag);
+
+delete from tLine where tLine.LineID IN
+(select tLine.LineID from tLine
+left join tItem on tLine.ItemID = tItem.ItemID
+left join tMessage on tItem.MessageID = tMessage.MessageID
+WHERE tMessage.Tag = @tag);
+
+delete from tItem where tItem.ItemID IN
+(select tItem.ItemID from tItem
+left join tMessage on tItem.MessageID = tMessage.MessageID
+WHERE tMessage.Tag = @tag);
+
+/* Query Delete */
+
+delete from tElement where tElement.ElementID IN
+(select tElement.ElementID from tElement
+left join tComponent on tElement.ComponentID = tComponent.ComponentID
+left join tQuery on tComponent.ID = tQuery.QueryID
+left join tMessage on tQuery.MessageID = tMessage.MessageID
+WHERE tComponent.[Type]=2 AND tMessage.Tag = @tag);
+
+delete from tComponent where tComponent.ComponentID IN
+(select tComponent.ComponentID from tComponent
+left join tQuery on tComponent.ID = tQuery.QueryID
+left join tMessage on tQuery.MessageID = tMessage.MessageID
+WHERE tComponent.[Type]=2 AND tMessage.Tag = @tag);
+
+delete from tQuery where tQuery.MessageID IN
+(select tMessage.MessageID from tMessage
+WHERE tMessage.Tag = @tag);
+
+delete from tMessage where tMessage.Tag = @tag;
+
+commit transaction;
+end;]]></Value>
+			</Property>
+			<Property Name="IsAnsiNullsOn" Value="True" />
+			<Relationship Name="BodyDependencies">
+				<Entry>
+					<References Name="[dbo].[tElement]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tElement].[ElementID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tElement]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tElement].[ComponentID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ComponentID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[LineID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tElement].[ElementID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[pEraseMessagesWithTag].[@tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ComponentID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[LineID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ComponentID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[LineID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tLine].[LineID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tItem].[ItemID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery].[QueryID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tElement].[ElementID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery].[QueryID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[ComponentID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tComponent].[Type]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tQuery].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[MessageID]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage]" />
+				</Entry>
+				<Entry>
+					<References Name="[dbo].[tMessage].[Tag]" />
+				</Entry>
+			</Relationship>
+			<Relationship Name="Parameters">
+				<Entry>
+					<Element Type="SqlSubroutineParameter" Name="[dbo].[pEraseMessagesWithTag].[@tag]">
+						<Relationship Name="Type">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+			</Relationship>
+			<Relationship Name="Schema">
+				<Entry>
+					<References ExternalSource="BuiltIns" Name="[dbo]" />
+				</Entry>
+			</Relationship>
+			<Annotation Type="SysCommentsObjectAnnotation">
+				<Property Name="Length" Value="1984" />
+				<Property Name="StartLine" Value="1" />
+				<Property Name="StartColumn" Value="1" />
+				<Property Name="HeaderContents" Value="create proc dbo.pEraseMessagesWithTag(@tag uniqueidentifier)&#xD;&#xA;as" />
+			</Annotation>
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tComponent]">
 			<Relationship Name="ColumnSpecifications">
@@ -216,7 +515,7 @@
 					<References Name="[dbo].[tComponent]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="12" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tItem]">
 			<Relationship Name="ColumnSpecifications">
@@ -235,7 +534,7 @@
 					<References Name="[dbo].[tItem]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="13" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tLine]">
 			<Relationship Name="ColumnSpecifications">
@@ -254,7 +553,7 @@
 					<References Name="[dbo].[tLine]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="14" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tMessage]">
 			<Relationship Name="ColumnSpecifications">
@@ -273,7 +572,7 @@
 					<References Name="[dbo].[tMessage]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="15" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="16" />
 		</Element>
 		<Element Type="SqlPrimaryKeyConstraint" Name="[dbo].[PK_tResponse]">
 			<Relationship Name="ColumnSpecifications">
@@ -292,7 +591,7 @@
 					<References Name="[dbo].[tResponse]" />
 				</Entry>
 			</Relationship>
-			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="16" />
+			<Annotation Type="SqlInlineConstraintAnnotation" Disambiguator="17" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tComponent]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -314,7 +613,8 @@
 					</Element>
 				</Entry>
 				<Entry>
-					<Element Type="SqlSimpleColumn" Name="[dbo].[tComponent].[LineID]">
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tComponent].[ID]">
+						<Property Name="IsNullable" Value="False" />
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
@@ -329,7 +629,25 @@
 					</Element>
 				</Entry>
 				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tComponent].[Type]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+						<AttachedAnnotation Disambiguator="7" />
+					</Element>
+				</Entry>
+				<Entry>
 					<Element Type="SqlSimpleColumn" Name="[dbo].[tComponent].[Name]">
+						<Property Name="IsNullable" Value="False" />
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
@@ -342,6 +660,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
+						<AttachedAnnotation Disambiguator="13" />
 					</Element>
 				</Entry>
 			</Relationship>
@@ -350,7 +669,6 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="12" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tElement]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -468,7 +786,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="13" />
+			<AttachedAnnotation Disambiguator="14" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tLine]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -570,7 +888,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="14" />
+			<AttachedAnnotation Disambiguator="15" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tMessage]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -656,13 +974,13 @@
 					</Element>
 				</Entry>
 				<Entry>
-					<Element Type="SqlSimpleColumn" Name="[dbo].[tMessage].[Finished]">
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tMessage].[Tag]">
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
 									<Relationship Name="Type">
 										<Entry>
-											<References ExternalSource="BuiltIns" Name="[datetime]" />
+											<References ExternalSource="BuiltIns" Name="[uniqueidentifier]" />
 										</Entry>
 									</Relationship>
 								</Element>
@@ -676,7 +994,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="15" />
+			<AttachedAnnotation Disambiguator="16" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tQuery]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -799,7 +1117,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="11" />
+						<AttachedAnnotation Disambiguator="12" />
 					</Element>
 				</Entry>
 			</Relationship>
@@ -808,7 +1126,7 @@
 					<References ExternalSource="BuiltIns" Name="[dbo]" />
 				</Entry>
 			</Relationship>
-			<AttachedAnnotation Disambiguator="16" />
+			<AttachedAnnotation Disambiguator="17" />
 		</Element>
 		<Element Type="SqlTable" Name="[dbo].[tUser]">
 			<Property Name="IsAnsiNullsOn" Value="True" />
@@ -828,7 +1146,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="8" />
+						<AttachedAnnotation Disambiguator="11" />
 					</Element>
 				</Entry>
 				<Entry>
@@ -867,7 +1185,6 @@
 				</Entry>
 				<Entry>
 					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[apikey]">
-						<Property Name="IsNullable" Value="False" />
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
@@ -882,7 +1199,7 @@
 					</Element>
 				</Entry>
 				<Entry>
-					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[GUID]">
+					<Element Type="SqlSimpleColumn" Name="[dbo].[tUser].[guid]">
 						<Relationship Name="TypeSpecifier">
 							<Entry>
 								<Element Type="SqlTypeSpecifier">
@@ -1004,7 +1321,7 @@
 								</Element>
 							</Entry>
 						</Relationship>
-						<AttachedAnnotation Disambiguator="7" />
+						<AttachedAnnotation Disambiguator="8" />
 					</Element>
 				</Entry>
 				<Entry>
