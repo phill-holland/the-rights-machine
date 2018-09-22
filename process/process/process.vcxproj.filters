@@ -267,6 +267,9 @@
     <ClInclude Include="storage.h">
       <Filter>Header Files\Data\Database</Filter>
     </ClInclude>
+    <ClInclude Include="watchdog.h">
+      <Filter>Header Files\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -481,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="storage.cpp">
       <Filter>Source Files\Data\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="watchdog.cpp">
+      <Filter>Source Files\Server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

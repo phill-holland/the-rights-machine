@@ -1208,6 +1208,8 @@ bool database::storage::message::tag(GUID &tagged)
 	sql.concat(string::fromLong(TOP));
 	sql.concat(" msg.MessageID FROM tMessage AS msg WHERE msg.Tag IS NULL ORDER BY msg.Created);");
 
+	if (!connection->Prepare(sql, recordset)) return false;
+
 	recordset->BindGUID(1L, tagged);
 
 	return connection->executeNoResults(sql);
@@ -1216,6 +1218,9 @@ bool database::storage::message::tag(GUID &tagged)
 bool database::storage::message::erase(GUID &tagged)
 {
 	string sql = "EXEC dbo.pEraseMessagesWithTag ?;";
+
+	if (!connection->Prepare(sql, recordset)) return false;
+
 	recordset->BindGUID(1L, tagged);
 
 	return connection->executeNoResults(sql);

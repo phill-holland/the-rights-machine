@@ -217,6 +217,10 @@ namespace tests
 
 			// create watchdog, which writes every five minutes to DB table
 			// or create "PING" command in server itself
+
+			// write to database field every X seconds
+
+			// photoshop plug in??
 		}
 	};
 };

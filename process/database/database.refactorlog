@@ -56,4 +56,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="820d6050-3c66-448b-a3aa-e3af1f833a7c" ChangeDateTime="09/22/2018 20:10:32">
+    <Property Name="ElementName" Value="[dbo].[tWatchdog].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tWatchdog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="WatchdogID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5a7ff42c-29db-4f2f-b93d-a4df905d5f6f" ChangeDateTime="09/22/2018 20:11:50">
+    <Property Name="ElementName" Value="[dbo].[tError].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[tError]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ErrorID" />
+  </Operation>
 </Operations>

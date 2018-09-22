@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[tWatchdog]
+(
+	[WatchdogID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Updated] DATETIME NOT NULL
+)
