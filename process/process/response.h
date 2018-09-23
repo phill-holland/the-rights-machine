@@ -5,8 +5,6 @@
 #if !defined(__RESPONSE)
 #define __RESPONSE
 
-//using namespace global;
-
 namespace data
 {
 	namespace response
@@ -26,8 +24,6 @@ namespace data
 			string user;
 			STATUS status;
 			datetime created;
-
-			int queryID;
 			bool available;
 
 			// put error::type class here

@@ -22,8 +22,6 @@ void guid::guid::reset()
 string guid::guid::get()
 {
 	char result[37];
-
-	reset();
 	
 	sprintf_s(result,"%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX",
 			  value.Data1,    value.Data2,    value.Data3,

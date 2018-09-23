@@ -7,6 +7,8 @@ void data::user::reset()
 	userID = 0;
 	username = "";
 	email = "";
+	memset(&apikey, 0, sizeof(GUID));
+	memset(&guid, 0, sizeof(GUID));
 	active = false;
 	banned = true;
 	verified = false;
@@ -19,10 +21,22 @@ bool data::user::validate()
 
 bool data::user::validate(::data::message::message &message)
 {
-	if (!((string)guid::guid(apikey)).icompare((string)guid::guid(message.apikey))) return false;
-	if (!((string)guid::guid(guid)).icompare((string)guid::guid(message.guid))) return false;
+	if (!((string)guid::guid(apikey)).icompare(message.apikey)) return false;
+	if (!((string)guid::guid(guid)).icompare(message.user)) return false;
 
 	return true;
+}
+
+void data::user::copy(user const &source)
+{
+	userID = source.userID;
+	username = source.username;
+	email = source.email;
+	memcpy(&apikey, &source.apikey, sizeof(GUID));
+	memcpy(&guid, &source.guid, sizeof(GUID));
+	active = source.active;
+	banned = source.banned;
+	verified = source.verified;
 }
 
 void data::user::output()

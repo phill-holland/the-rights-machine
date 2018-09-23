@@ -171,7 +171,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			bool result = in->compare(*query);
 
 			data::response::response response;
-			response.queryID = q.queryID;
+			//response.queryID = q.queryID;
 			response.guid = task.message.guid;
 			response.user = task.message.user;
 			response.available = result;

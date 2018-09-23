@@ -1,8 +1,26 @@
-﻿Build started 22/09/2018 21:14:53.
+﻿Build started 23/09/2018 19:38:31.
      1>Project "C:\Git\the-rights-machine\process\process\process.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt watchdog.cpp
-         watchdog.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt compute.cpp configuration.cpp cpu.cpp database.cpp gpu.cpp main.cpp manager.cpp memory.cpp message.cpp process.cpp records.cpp server.cpp starter.cpp storage.cpp task.cpp user.cpp users.cpp
+         user.cpp
+         Generating Code...
+         Skipping... (no relevant changes detected)
+         users.cpp
+         task.cpp
+         storage.cpp
+         starter.cpp
+         server.cpp
+         records.cpp
+         process.cpp
+         message.cpp
+         memory.cpp
+         manager.cpp
+         main.cpp
+         gpu.cpp
+         database.cpp
+         cpu.cpp
+         configuration.cpp
+         compute.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\kernel.cu.obj
          x64\Debug\address.obj
@@ -90,4 +108,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.86
+Time Elapsed 00:00:03.51

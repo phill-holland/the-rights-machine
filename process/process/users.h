@@ -43,7 +43,7 @@ namespace data
 
 		void reset(database::settings &settings, unsigned long interval);
 
-		data::user *get(string user);
+		data::user get(string user);
 
 	protected:
 		void refresh();

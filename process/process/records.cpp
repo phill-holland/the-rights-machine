@@ -183,3 +183,66 @@ void database::records::element::set(data::element::element &source)
 
 	source.value.toChar(value, MAX);
 }
+
+void database::records::request::clear()
+{
+	memset(&requestID, 0, sizeof(GUID));
+	memset(&guid, 0, sizeof(GUID));
+	memset(&user, 0, sizeof(GUID));
+	memset(&tag, 0, sizeof(GUID));
+	memset(&created, 0, sizeof(TIMESTAMP_STRUCT));
+}
+
+bool database::records::request::bind(database::recordset *recordset)
+{
+	if (!recordset->BindGUID(1L, requestID)) return false;
+	if (!recordset->BindGUID(2L, guid)) return false;
+	if (!recordset->BindGUID(3L, user)) return false;
+	if (!recordset->BindGUID(4L, tag)) return false;
+	if (!recordset->BindTimeStamp(5L, created)) return false;
+
+	return true;
+}
+
+void database::records::request::set(data::request::request &source)
+{
+	clear();
+
+	user = (GUID)guid::guid(source.user);
+	guid = (GUID)guid::guid(source.guid);
+	created = (TIMESTAMP_STRUCT)source.created;
+}
+
+void database::records::response::clear()
+{
+	memset(&responseID, 0, sizeof(GUID));
+	memset(&guid, 0, sizeof(GUID));
+	memset(&user, 0, sizeof(GUID));
+	memset(&created, 0, sizeof(TIMESTAMP_STRUCT));
+
+	status = 1L;
+	available = false;	
+}
+
+bool database::records::response::bind(database::recordset *recordset)
+{
+	if (!recordset->BindGUID(1L, responseID)) return false;
+	if (!recordset->BindGUID(2L, guid)) return false;
+	if (!recordset->BindGUID(3L, user)) return false;
+	if (!recordset->BindLong(4L, status)) return false;
+	if (!recordset->BindTimeStamp(5L, created)) return false;
+	if (!recordset->BindBool(6L, available)) return false;
+
+	return true;
+}
+
+void database::records::response::set(data::response::response &source)
+{
+	clear();
+
+	guid = (GUID)guid::guid(source.guid);
+	user = (GUID)guid::guid(source.user);	
+	status = source.status;
+	created = (TIMESTAMP_STRUCT)source.created;
+	available = source.available;
+}

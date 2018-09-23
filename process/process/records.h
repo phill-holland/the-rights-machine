@@ -4,6 +4,8 @@
 #include "item.h"
 #include "line.h"
 #include "component.h"
+#include "request.h"
+#include "response.h"
 
 #if !defined(__RECORDS)
 #define __RECORDS
@@ -154,6 +156,43 @@ namespace database
 			
 			bool bind(database::recordset *recordset);
 			void set(data::element::element &source);
+		};
+
+		class request : public record::record <data::request::request>
+		{
+		public:
+			GUID requestID;
+			GUID guid;
+			GUID user;
+			GUID tag;
+			TIMESTAMP_STRUCT created;
+
+		public:
+			request() { clear(); }
+
+			void clear();
+
+			bool bind(database::recordset *recordset);
+			void set(data::request::request &source);
+		};
+
+		class response : public record::record <data::response::response>
+		{
+		public:
+			GUID responseID;
+			GUID guid;
+			GUID user;
+			long status;
+			TIMESTAMP_STRUCT created;
+			bool available;
+
+		public:
+			response() { clear(); }
+
+			void clear();
+
+			bool bind(database::recordset *recordset);
+			void set(data::response::response &source);
 		};
 	};
 };

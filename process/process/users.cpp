@@ -39,17 +39,18 @@ void data::users::reset(database::settings &settings, unsigned long interval)
 	init = true;
 }
 
-data::user *data::users::get(string user)
+data::user data::users::get(string user)
 {
 	mutex lock(token);
 
 	std::unordered_map<string, data::user, hasher, equality>::iterator i = map.find(user);
-	if (i == map.end()) return NULL;
+	if (i != map.end())
+	{
+		data::user temp = ((data::user)i->second);
+		if (temp.validate()) return temp;
+	}
 
-	data::user *result = &((data::user)i->second);
-	if (!result->validate()) return NULL;
-
-	return result;
+	return data::user();
 }
 
 void data::users::refresh()

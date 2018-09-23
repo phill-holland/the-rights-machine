@@ -130,10 +130,10 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 								if (parents.FQDN().icompare(task.message.items.FQDN()))
 								{
-									data::user *user = c->configuration.users->get(task.message.user);
-									if (user != NULL)
+									data::user user = c->configuration.users->get(task.message.user);
+									if (!user.isempty())
 									{
-										if(user->validate(task.message))
+										if(user.validate(task.message))
 										{
 											guid::guid g;
 											task.message.guid = g.get();
@@ -154,7 +154,6 @@ DWORD WINAPI server::listener::background(thread *bt)
 
 												response.guid = task.message.guid;
 												response.created = datetime::now();
-												response.queryID = 1;
 												response.available = false;
 
 												outputter.set(&response);

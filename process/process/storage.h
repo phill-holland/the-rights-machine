@@ -3,6 +3,8 @@
 #include "databases.h"
 #include "odbc.h"
 #include "message.h"
+#include "request.h"
+#include "response.h"
 #include "comparison.h"
 #include "file.h"
 #include <vector>
@@ -16,6 +18,90 @@ namespace database
 	namespace storage
 	{
 		using namespace comparison;
+
+		class request : public file::file<data::request::request>
+		{
+		public:
+			static const long TOP = 200L;
+
+		protected:
+			database::records::request bound;
+
+			database::connection *connection;
+			database::recordset *recordset;
+
+			std::vector<database::records::request> data;
+
+		public:
+			std::vector<string> identities;
+
+		public:
+			long max;
+
+		public:
+			request()
+			{
+				max = TOP;
+
+				connection = NULL;
+				recordset = NULL;
+			}
+
+			bool open(database::settings &settings);
+			bool close();
+
+			bool read(data::request::request &destination);
+			bool write(data::request::request &source);
+
+			void clear() { data.clear(); identities.clear(); }
+
+		protected:
+			bool load();
+
+		protected:
+			bool tag(GUID &tagged);
+			bool erase(GUID &tagged);
+		};
+
+		class response : public file::file<data::response::response>
+		{
+		public:
+			static const long TOP = 200L;
+
+		protected:
+			database::records::response bound;
+
+			database::connection *connection;
+			database::recordset *recordset;
+
+			std::vector<database::records::response> data;
+
+		public:
+			std::vector<string> identities;
+
+		public:
+			long max;
+
+		public:
+			response()
+			{
+				max = TOP;
+
+				connection = NULL;
+				recordset = NULL;
+			}
+
+			bool open(database::settings &settings);
+			bool close();
+
+			bool read(data::response::response &destination);
+			bool write(data::response::response &source);
+
+			void clear() { data.clear(); identities.clear(); }
+
+		protected:
+			bool load();
+		};
 
 		namespace common
 		{
@@ -296,7 +382,13 @@ namespace database
 			long max;
 
 		public:
-			message() { max = 0L; }
+			message() 
+			{ 
+				max = TOP;
+			
+				connection = NULL;
+				recordset = NULL;
+			}
 
 			bool open(database::settings &settings);
 			bool close();

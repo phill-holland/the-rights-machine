@@ -80,10 +80,13 @@ namespace tests
 			destination.url = string("http://127.0.0.1");
 			destination.port = 5555L;
 			
+			message.user = (string)guid::guid(string("5CEF8B8F-98BB-4CC1-9A1F-ECF01F1EF255"));
+			message.APIKey = (string)guid::guid(string("FF4ABFA3-B7CE-457F-B827-6EC7AFBEC7BC"));
+
 			source.data(message.json());
-			
+						
 			server::starter starter(location);
-			
+
 			Assert::AreEqual(true, starter.initalised());
 			Assert::AreEqual(true, starter.start());
 
@@ -140,6 +143,8 @@ namespace tests
 	
 		TEST_METHOD(TestDatabaseQuery)
 		{
+			// this isn't a finished test, does not communication with server/cpu class
+
 			string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
 
 			data::component country(string("country"));
@@ -172,9 +177,9 @@ namespace tests
 			::data::message::message msg;
 			msg.parse(message.json());
 
-			msg.guid = (string)guid::guid();
+			msg.guid = (string)guid::guid(string("5CEF8B8F-98BB-4CC1-9A1F-ECF01F1EF255"));
 			msg.user = (string)guid::guid();
-			msg.apikey = (string)guid::guid();
+			msg.apikey = (string)guid::guid(string("FF4ABFA3-B7CE-457F-B827-6EC7AFBEC7BC"));
 			msg.created = global::datetime::now();
 			msg.finished = global::datetime::now();
 

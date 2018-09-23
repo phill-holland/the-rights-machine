@@ -1,5 +1,291 @@
 #include "storage.h"
 
+bool database::storage::request::open(database::settings &settings)
+{
+	connection = settings.getConnections()->get();
+	if (connection == NULL) return false;
+	if (!connection->open(settings.getLocation())) return false;
+
+	recordset = settings.getRecordSets()->get();
+	if (recordset == NULL)
+	{
+		connection->close();
+
+		return false;
+	}
+
+	return true;
+}
+
+bool database::storage::request::close()
+{
+	recordset->close();
+	if (!connection->close()) return false;
+
+	return true;
+}
+
+bool database::storage::request::read(data::request::request &destination)
+{
+	if (data.size() == 0)
+	{
+		if (!load()) return false;
+	}
+
+	if (data.size() > 0)
+	{
+		records::request temp = data.back();
+		data.pop_back();
+
+		destination.user = (string)guid::guid(temp.user);
+		destination.guid = (string)guid::guid(temp.guid);
+		destination.created = (datetime)temp.created;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::request::write(data::request::request &source)
+{
+	bool prepared = true;
+
+	if (!recordset->IsInitalised())
+	{
+		string sql = "INSERT INTO tRequest (requestID, [user], [GUID], created)";
+		sql.concat(" VALUES(?,?,?,?);");
+
+		if (!connection->Prepare(sql, recordset)) prepared = false;
+	}
+
+
+	if ((recordset->IsInitalised()) && (prepared))
+	{
+		bound.set(source);
+
+		GUID unique = this->generate();
+		bound.requestID = unique;
+
+		bound.bind(recordset);
+
+		if (!recordset->Execute()) return false;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::request::load()
+{
+	clear();
+
+	if (!recordset->IsInitalised())
+	{
+		GUID tagged = this->generate();
+		if (!tag(tagged)) return false;
+
+		string order = "";
+
+		string sql("SELECT");
+		if (max > 0L)
+		{
+			sql.concat(" TOP ");
+			sql.concat(string::fromLong(max));
+
+			order = " ORDER BY created DESC";
+		}
+
+		sql.concat(" requestID, [User], [GUID], Tag, Created FROM tRequest WHERE Tag=?");
+		if (order.length() > 0) sql.concat(order);
+		sql.concat(string(";"));
+
+		recordset->BindGUID(1L, tagged);
+
+		if (connection->executeWithResults(sql, recordset))
+		{
+			while (recordset->MoveNext())
+			{
+				records::request temp;
+
+				temp.requestID = recordset->GetGUID(1L);
+				temp.user = recordset->GetGUID(2L);
+				temp.guid = recordset->GetGUID(3L);
+				temp.tag = recordset->GetGUID(4L);
+				temp.created = recordset->GetTimeStamp(5L);
+
+				data.push_back(temp);
+				identities.push_back((string)guid::guid(temp.requestID));
+			};
+		}
+		else return false;
+	}
+	else return false;
+
+	return (data.size() > 0);
+}
+
+bool database::storage::request::tag(GUID &tagged)
+{
+	string sql = "UPDATE tRequest SET Tag=? WHERE tRequest.RequestID IN (SELECT TOP ";
+	sql.concat(string::fromLong(TOP));
+	sql.concat(" rqst.requestID FROM tRequest AS rqst WHERE rqst.Tag IS NULL ORDER BY rqst.Created);");
+
+	if (!connection->Prepare(sql, recordset)) return false;
+
+	recordset->BindGUID(1L, tagged);
+
+	return connection->executeNoResults(sql);
+}
+
+bool database::storage::request::erase(GUID &tagged)
+{
+	string sql = "DELETE FROM tRequest WHERE Tag=?;";
+
+	if (!connection->Prepare(sql, recordset)) return false;
+
+	recordset->BindGUID(1L, tagged);
+
+	return connection->executeNoResults(sql);
+}
+
+// ***
+
+bool database::storage::response::open(database::settings &settings)
+{
+	connection = settings.getConnections()->get();
+	if (connection == NULL) return false;
+	if (!connection->open(settings.getLocation())) return false;
+
+	recordset = settings.getRecordSets()->get();
+	if (recordset == NULL)
+	{
+		connection->close();
+
+		return false;
+	}
+
+	return true;
+}
+
+bool database::storage::response::close()
+{
+	recordset->close();
+	if (!connection->close()) return false;
+
+	return true;
+}
+
+bool database::storage::response::read(data::response::response &destination)
+{
+	if (data.size() == 0)
+	{
+		if (!load()) return false;
+	}
+
+	if (data.size() > 0)
+	{
+		records::response temp = data.back();
+		data.pop_back();
+
+		/*
+		GUID responseID;
+		GUID guid;
+		GUID user;
+		long status;
+		TIMESTAMP_STRUCT created;
+		bool available;
+		*/
+
+		destination.guid = (string)guid::guid(temp.guid);
+		destination.user = (string)guid::guid(temp.user);
+		destination.status = (data::response::response::STATUS)temp.status;
+		destination.created = (datetime)temp.created;
+		destination.available = temp.available;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::response::write(data::response::response &source)
+{
+	bool prepared = true;
+
+	if (!recordset->IsInitalised())
+	{
+		string sql = "INSERT INTO tResponse (responseID, [guid], [user], status, created, available)";
+		sql.concat(" VALUES(?,?,?,?,?,?);");
+
+		if (!connection->Prepare(sql, recordset)) prepared = false;
+	}
+
+
+	if ((recordset->IsInitalised()) && (prepared))
+	{
+		bound.set(source);
+
+		GUID unique = this->generate();
+		bound.responseID = unique;
+
+		bound.bind(recordset);
+
+		if (!recordset->Execute()) return false;
+
+		return true;
+	}
+
+	return false;
+}
+
+bool database::storage::response::load()
+{
+	clear();
+
+	if (!recordset->IsInitalised())
+	{
+		string order = "";
+
+		string sql("SELECT");
+		if (max > 0L)
+		{
+			sql.concat(" TOP ");
+			sql.concat(string::fromLong(max));
+
+			order = " ORDER BY created DESC";
+		}
+
+		sql.concat(" responseID, [Guid], [User], Status, Created, Available FROM tResponse WHERE (1=1)");
+		if (order.length() > 0) sql.concat(order);
+		sql.concat(string(";"));
+
+		if (connection->executeWithResults(sql, recordset))
+		{
+			while (recordset->MoveNext())
+			{
+				records::response temp;
+
+				temp.responseID = recordset->GetGUID(1L);
+				temp.guid = recordset->GetGUID(2L);
+				temp.user = recordset->GetGUID(3L);
+				temp.status = recordset->GetLong(4L);
+				temp.created = recordset->GetTimeStamp(5L);
+				temp.available = recordset->GetBool(6L);
+
+				data.push_back(temp);
+				identities.push_back((string)guid::guid(temp.responseID));
+			};
+		}
+		else return false;
+	}
+	else return false;
+
+	return (data.size() > 0);
+}
+// ****
+
 bool database::storage::common::line::element::open(database::settings &settings)
 {
 	connection = settings.getConnections()->get();

@@ -6,7 +6,7 @@ void data::response::response::clear()
 	guid = string("");
 	user = string("");
 	status = STATUS::OK;
-	queryID = 0;
+	//queryID = 0;
 	available = false;
 	created = datetime::now();
 }

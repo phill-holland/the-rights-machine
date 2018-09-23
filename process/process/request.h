@@ -1,5 +1,6 @@
 #include "string.h"
 #include "json.h"
+#include "datetime.h"
 
 #if !defined(__REQUEST)
 #define __REQUEST
@@ -8,12 +9,15 @@ namespace data
 {
 	namespace request
 	{
+		using namespace global;
+
 		class request : public json::request::json
 		{
 		public:
 			int requestID;
 			string guid;
 			string user;
+			datetime created;
 
 		public:
 			request() { clear(); }

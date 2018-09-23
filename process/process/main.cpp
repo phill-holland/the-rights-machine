@@ -278,10 +278,10 @@ void test_users_db()
 
 	data::users users(settings);
 	
-	data::user *result = users.get(1);
-	if (result != NULL)
+	data::user result = users.get(1);
+	if (!result.isempty())
 	{
-		result->output();
+		result.output();
 	}
 }
 
