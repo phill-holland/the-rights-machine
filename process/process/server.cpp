@@ -145,9 +145,12 @@ DWORD WINAPI server::listener::background(thread *bt)
 											}
 											else
 											{
-												if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
+												if (c->configuration.requested != NULL)
 												{
-													error(string("ALREADY_REQUESTED"));
+													if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
+													{
+														error(string("ALREADY_REQUESTED"));
+													}
 												}
 
 												::data::response::response response;
@@ -179,7 +182,10 @@ DWORD WINAPI server::listener::background(thread *bt)
 											data::response::response result = task.response->find(requested.guid);
 											if ((result.guid.icompare(requested.guid)) && (result.user.icompare(requested.user)))
 											{
-												if (!c->configuration.requested->remove(::pending::waiting(requested.guid, requested.user))) error(string("NOT_IN_PENDING"));
+												if (c->configuration.requested != NULL)
+												{
+													if (!c->configuration.requested->remove(::pending::waiting(requested.guid, requested.user))) error(string("NOT_IN_PENDING"));
+												}
 
 												outputter.set(&result);
 											}
@@ -187,8 +193,11 @@ DWORD WINAPI server::listener::background(thread *bt)
 											{
 												data::response::response::STATUS status = data::response::response::STATUS::UNKNOWN;
 
-												if (c->configuration.requested->contains(::pending::waiting(requested.guid, requested.user))) status = data::response::response::STATUS::PENDING;
-												else error(string("NOT_IN_PENDING"));
+												if (c->configuration.requested != NULL)
+												{
+													if (c->configuration.requested->contains(::pending::waiting(requested.guid, requested.user))) status = data::response::response::STATUS::PENDING;
+													else error(string("NOT_IN_PENDING"));
+												}
 
 												result.clear();
 
@@ -712,11 +721,15 @@ void server::server::reset(configuration::server::configuration *settings)
 
 	configuration = *settings;
 
+	requested = new ::pending::pending();
+	if (requested == NULL) return;
+	if (!requested->initalised()) return;
+
+	configuration::server::client::configuration temp(*settings, requested);
+
 	clients = new client*[configuration.clients];
 	if (clients == NULL) return;
 	for (long i = 0L; i < configuration.clients; ++i) clients[i] = NULL;
-	
-	configuration::server::client::configuration temp(*settings, requested);
 
 	for (long i = 0L; i < configuration.clients; ++i)
 	{
@@ -725,10 +738,6 @@ void server::server::reset(configuration::server::configuration *settings)
 		if (!clients[i]->initalised()) return;
 	}
 	
-	requested = new ::pending::pending();
-	if (requested == NULL) return;
-	if (!requested->initalised()) return;
-
 	waiter = new ::server::wait(this);
 	if (waiter == NULL) return;
 
@@ -890,8 +899,8 @@ void server::server::output(string &source)
 
 void server::server::makeNull()
 {
-	clients = NULL;
 	requested = NULL;
+	clients = NULL;
 	waiter = NULL;
 	watcher = NULL;
 }
@@ -901,8 +910,7 @@ void server::server::cleanup()
 	shutdown();
 
 	if (watcher != NULL) delete watcher;
-	if (waiter != NULL) delete waiter;
-	if (requested != NULL) delete requested;
+	if (waiter != NULL) delete waiter;	
 	if (clients != NULL)
 	{
 		for (long i = (configuration.clients - 1L); i >= 0L; i--)
@@ -912,4 +920,5 @@ void server::server::cleanup()
 
 		delete clients;
 	}
+	if (requested != NULL) delete requested;
 }

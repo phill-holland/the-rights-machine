@@ -14,7 +14,7 @@ bool pending::pending::add(::pending::waiting wait)
 	if (!wait.validate()) return false;
 
 	std::unordered_map<string, waiting, hasher, equality>::iterator i = map.find(wait.guid);
-	if (i == map.end()) return false;
+	if (i != map.end()) return false;
 
 	map[wait.guid] = wait;
 
