@@ -28,6 +28,16 @@ custom::pair data::response::response::pull(unsigned long index)
 	return result;
 }
 
+bool data::response::response::validate(data::request::request &request)
+{
+	if ((guid.icompare(request.guid)) && (user.icompare(request.user)))
+	{
+		return true;
+	}
+
+	return false;
+}
+
 string data::response::response::map(STATUS source)
 {
 	if (source == STATUS::OK) return string("OK");

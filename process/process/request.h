@@ -15,6 +15,7 @@ namespace data
 		{
 		public:
 			int requestID;
+			string apikey;
 			string guid;
 			string user;
 			datetime created;

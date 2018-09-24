@@ -179,8 +179,8 @@ DWORD WINAPI server::listener::background(thread *bt)
 									{
 										if (requested.guid.count() > 0L)
 										{
-											data::response::response result = task.response->find(requested.guid);
-											if ((result.guid.icompare(requested.guid)) && (result.user.icompare(requested.user)))
+											data::response::response result = task.response->find(requested.guid);											
+											if(result.validate(requested))
 											{
 												if (c->configuration.requested != NULL)
 												{
@@ -342,15 +342,17 @@ DWORD WINAPI server::listener::background(thread *bt)
 			}
 		}
 
-		if (bytes <= 0)
+		if ((bytes <= 0) && (++errors >= ERRORS))
 		{
-			++errors;
-			if (errors >= ERRORS)
+			if (read_counter >= content_length - 2)
 			{
-				error(string("READ"));
-				//c->makeError(client::ERRORS::Read);
-				//clear();
+				if (get() != MODE::NONE)
+				{
+					goodbye();
+					//Log << "Client terminated connection, expected\r\n";
+				}
 			}
+			else error(string("READ"));
 		}
 	}
 	
@@ -435,11 +437,19 @@ void server::listener::validate()
 	//validate = false;
 }
 
+void server::listener::goodbye()
+{
+	c->goodbye();
+	clear();
+}
+
 void server::listener::error(string &error)
 {
 	// output error via JSON/response
-	c->configuration.errors->set(::error::error(error));
-	c->makeError(client::ERRORS::Read);
+	//Log << "erroring " << error << "\r\n";
+	//c->configuration.errors->set(::error::error(error));
+	//c->makeError(client::ERRORS::Read);
+	c->makeError(::error::error(error));
 	clear();
 }
 
@@ -598,8 +608,10 @@ void server::client::reset(configuration::server::client::configuration &configu
 
 	this->configuration = configuration;
 
-	isInError = false;
-	lastErrorCode = ERRORS::None;
+	isInExit = false;
+
+	isInError = false;	
+	lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
 
 	listen = new listener(this);
 	if (listen == NULL) return;
@@ -611,6 +623,7 @@ void server::client::clear()
 {
 	statuses.reset();
 	resetError();
+	resetExit();
 }
 
 bool server::client::start()
@@ -643,21 +656,37 @@ bool server::client::isPaused()
 	return listen->isPaused();
 }
 
+void server::client::goodbye()
+{
+	isInExit = true;
+}
+
+bool server::client::isDeparting()
+{
+	return isInExit;
+}
+
+void server::client::resetExit()
+{
+	isInExit = false;
+}
+
 bool server::client::isError()
 {
 	return isInError;
 }
 
-void server::client::makeError(ERRORS code)
+void server::client::makeError(::error::error &error)//ERRORS code)
 {
-	lastErrorCode = code;
+	configuration.errors->set(error);
+	lastErrorCode = error;
 	isInError = true;
 }
 
 void server::client::resetError()
 {
 	isInError = false;
-	lastErrorCode = ERRORS::None;
+	lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
 }
 
 void server::client::shutdown()
@@ -702,9 +731,16 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 	{
 		if (s->clients[i]->isError())
 		{
-			client::ERRORS lastError = s->clients[i]->lastError();
+			::error::error lastError = s->clients[i]->lastError();
 
-			s->output(string("Server detected client [") << i << "] in error(" << ((int)lastError) << "), shutting down");
+			s->output(string("Server detected client [") << i << "] in error(" << (lastError.name) << "), shutting down");
+
+			s->clients[i]->shutdown();
+			s->clients[i]->clear();
+		}
+		else if (s->clients[i]->isDeparting())
+		{
+			s->output(string("Server detected client [") << i << "] in graceful shutdown");
 
 			s->clients[i]->shutdown();
 			s->clients[i]->clear();

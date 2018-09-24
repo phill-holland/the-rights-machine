@@ -189,15 +189,6 @@ bool database::storage::response::read(data::response::response &destination)
 		records::response temp = data.back();
 		data.pop_back();
 
-		/*
-		GUID responseID;
-		GUID guid;
-		GUID user;
-		long status;
-		TIMESTAMP_STRUCT created;
-		bool available;
-		*/
-
 		destination.guid = (string)guid::guid(temp.guid);
 		destination.user = (string)guid::guid(temp.user);
 		destination.status = (data::response::response::STATUS)temp.status;

@@ -5,6 +5,9 @@ void server::starter::reset(string location)
 {
 	init = false; cleanup();
 
+	// create mode classes with this interfaces in, pass into starter
+	// along with database settings ..??
+
 	messages = new queues::memory::incoming::factory();
 	if (messages == NULL) return;
 	if (!messages->initalised()) return;

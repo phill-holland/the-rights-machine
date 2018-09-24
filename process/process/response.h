@@ -1,6 +1,7 @@
 #include "string.h"
 #include "json.h"
 #include "datetime.h"
+#include "request.h"
 
 #if !defined(__RESPONSE)
 #define __RESPONSE
@@ -17,7 +18,7 @@ namespace data
 		class response : public data::json::response::json
 		{
 		public:
-			enum STATUS { OK = 1, PENDING = 2, UNKNOWN = 3 };
+			enum STATUS { ERR = 0, OK = 1, PENDING = 2, UNKNOWN = 3 };
 
 		public:
 			string guid;
@@ -41,6 +42,8 @@ namespace data
 
 			unsigned long pairs();
 			custom::pair pull(unsigned long index);
+
+			bool validate(data::request::request &request);
 
 		protected:
 			string map(STATUS source);

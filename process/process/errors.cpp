@@ -9,12 +9,11 @@ DWORD WINAPI error::errors::background(thread *bt)
 	Sleep(200);
 	++counter;
 	
-	mutex lock(token);
-
 	if ((counter >= EXPIRATION) || (length >= THRESHOLD))
 	{
+		mutex lock(token);
+
 		flush();
-		//counter = 0L;
 	}
 	else Sleep(1000);
 

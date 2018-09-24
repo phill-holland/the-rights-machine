@@ -101,11 +101,13 @@ namespace server
 		void validate();
 
 	protected:
+		void goodbye();
 		void error(string &error);
 	};
 		
 	class client : public ::wsock::client
 	{
+		/*
 	public:
 		enum ERRORS { None = 0,
 					  Read = 1,
@@ -120,7 +122,7 @@ namespace server
 					  Changed = 10,
 					  Fail = 11
 					};
-
+					*/
 	protected:
 		class states;
 
@@ -177,8 +179,9 @@ namespace server
 
 		mutex::token token;
 
-		ERRORS lastErrorCode;
-		bool isInError;
+		//ERRORS lastErrorCode;
+		::error::error lastErrorCode;
+		bool isInExit, isInError;
 
 		bool init;
 
@@ -199,10 +202,16 @@ namespace server
 		bool pauseAndWait(bool value);
 		bool isPaused();
 
+		void goodbye();
+		bool isDeparting();
+		void resetExit();
+
 		bool isError();
-		void makeError(ERRORS code);
+		void makeError(::error::error &error);
+		//void makeError(ERRORS code);
 		void resetError();
-		ERRORS lastError() { return lastErrorCode; }
+		//ERRORS lastError() { return lastErrorCode; }
+		::error::error lastError() { return lastErrorCode; }
 
 		void shutdown();
 

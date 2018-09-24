@@ -102,7 +102,7 @@ namespace tests
 
 			while (loops < 5 && !success)
 			{
-				data::request request(message.APIKey, response.GUID);
+				data::request request(message.user, message.APIKey, response.GUID);
 				source.data(request.json());
 
 				Assert::AreEqual(true, client.get(&destination, &source));
