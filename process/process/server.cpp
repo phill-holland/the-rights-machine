@@ -608,13 +608,15 @@ void server::client::reset(configuration::server::client::configuration &configu
 
 	this->configuration = configuration;
 
-	isInExit = false;
+	//isInExit = false;
 
-	isInError = false;	
-	lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
+	//isInError = false;	
+	//lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
 
 	listen = new listener(this);
 	if (listen == NULL) return;
+
+	clear();
 
 	init = true;
 }

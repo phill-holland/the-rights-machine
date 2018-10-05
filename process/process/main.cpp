@@ -118,9 +118,11 @@ int test_elements()
 
 void test_starter()
 {
-	string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
+	//string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
 
-	server::starter s(location);
+	messaging::memory::memory messages;
+
+	server::starter s(&messages);
 }
 
 void test_grid()

@@ -2,17 +2,12 @@
 
 DWORD WINAPI queues::database::incoming::queue::background(thread *bt)
 {
-	// if inteval ticked, or one of the buffers >INPUT or OUTPUT
-	//go for it
-
-	// get
-
-	// insert
-
 	if (counter > interval)
 	{
-		counter = 0; 
-		//refresh();
+		flush();
+		poll();
+
+		counter = 0UL;
 	}
 
 	++counter;
@@ -28,119 +23,192 @@ void queues::database::incoming::queue::reset(::database::settings &settings, un
 
 	counter = 0UL;
 
-	this->location = settings.getLocation();
+	this->settings = &settings;
 	this->interval = interval;
 
-	connection = settings.getConnections()->get();
-	if (connection == NULL) return;
-
-	recordset = settings.getRecordSets()->get();
-	if (recordset == NULL) return;
-
-	incoming = new custom::fifo<data::message::message, LENGTH>();
+	incoming = new custom::fifo<compute::task, LENGTH>();
 	if (incoming == NULL) return;
 	if (!incoming->initalised()) return;
 
-	outgoing = new custom::fifo<data::message::message, LENGTH>();
+	outgoing = new custom::fifo<compute::task, LENGTH>();
 	if (outgoing == NULL) return;
 	if (!outgoing->initalised()) return;
+
+	message = new ::database::storage::message();
+	if (message == NULL) return;
 
 	init = true;
 }
 
-bool queues::database::incoming::queue::set(data::message::message &source)
+bool queues::database::incoming::queue::set(compute::task &source)
 {
-	if (incoming->entries() >= INPUT)
-	{
-		// push to database
-	}
+	if (incoming->entries() >= INPUT) flush();
 
 	return incoming->set(source);
-	// shove into incoming queue
-	// if queue exceeds X amount
-	// flush to database
 }
 
-bool queues::database::incoming::queue::get(data::message::message &destination)
+bool queues::database::incoming::queue::get(compute::task &destination)
 {
-	if (outgoing->entries() == 0L)
-	{
-		// also need some sort of timeout, don't want to keep
-		// hitting the database
+	poll();
 
-		// pull from database
+	if (outgoing->entries() > 0UL)
+	{
+		return outgoing->get(destination);
 	}
 
-	return outgoing->get(destination);
-	// if nothing in buffer, load 100L items from database into buffer
-	// reutrn buffer
+	return false;
 }
 
 bool queues::database::incoming::queue::flush()
 {
-	// flush "put" queue to database
+	mutex lock(flushing);
 
-	if (incoming->entries() > 0UL)
+	unsigned long successful = 0UL, count = incoming->entries();
+
+	if (count > 0UL)
 	{
-		// push to database
-	}
-
-	return true;
-}
-
-bool queues::database::incoming::queue::write()
-{
-	return false;
-}
-
-bool queues::database::incoming::queue::read()
-{
-	mutex lock(token);
-
-	if (connection->open(location))
-	{
-		string sql("SELECT userID, username, email, apikey, GUID, banned, verified, active FROM tUser WHERE (1=1)");
-		
-		if (connection->executeWithResults(sql, recordset))
+		if (message->open(*settings))
 		{
-			recordset->MoveNext();
+			compute::task temp;
 
-			while (recordset->IsInitalised())
-			{
-				/*
-				data::user temp;
-
-				temp.userID = recordset->GetLong(1L);
-				temp.username = recordset->GetString(2L);
-				temp.email = recordset->GetString(3L);
-				temp.apikey = recordset->GetString(4L);
-				temp.guid = recordset->GetString(5L);
-				temp.banned = recordset->GetBool(6L);
-				temp.verified = recordset->GetBool(7L);
-				temp.active = recordset->GetBool(8L);
-				*/
-				recordset->MoveNext();
+			for (unsigned long i = 0UL; i < incoming->entries(); ++i)
+			{				
+				if (incoming->get(temp))
+				{
+					if (message->write(temp.message)) ++successful;
+				}				
 			}
 
-			recordset->close();
-
-			connection->executeNoResults("DELETE FROM tUserChange");
-		}
-
-		connection->close();
+			message->close();
+		} 
 	}
 
-	return false;
+	return successful == count;
+}
+
+bool queues::database::incoming::queue::poll()
+{
+	mutex lock(polling);
+
+	if (outgoing->entries() == 0UL)
+	{
+		if (message->open(*settings))
+		{
+			compute::task temp;
+			while ((message->read(temp.message)) && (!outgoing->isfull()))
+			{
+				if (!outgoing->set(temp)) return false;
+			}
+		}
+	}	
+
+	return true;
 }
 
 void queues::database::incoming::queue::makeNull()
 {
 	incoming = NULL;
 	outgoing = NULL;
+	message = NULL;
 }
 
 void queues::database::incoming::queue::cleanup()
 {
+	if (message != NULL) delete message;
 	if (outgoing != NULL) delete outgoing;
 	if (incoming != NULL) delete incoming;
+}
+
+void queues::database::incoming::factory::reset(::database::settings &settings, unsigned long total)
+{
+	init = false; cleanup();
+
+	this->settings = &settings;
+	this->total = total;
+	length = 0UL;
+
+	queues = new ::queue::queue<compute::task>*[total];
+	if (queues == NULL) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
+
+	init = true;
+}
+
+::queue::queue<compute::task> *queues::database::incoming::factory::get()
+{
+	if (length >= MAX) return NULL;
+
+	queue *result = new queues::database::incoming::queue(*settings);
+	if (result != NULL)
+	{
+		queues[length++] = result;
+	}
+
+	return result;
+}
+
+void queues::database::incoming::factory::makeNull()
+{
+	queues = NULL;
+}
+
+void queues::database::incoming::factory::cleanup()
+{
+	if (queues != NULL)
+	{
+		for (long i = (total - 1L); i >= 0L; i--)
+		{
+			if (queues[i] != NULL) delete queues[i];
+		}
+
+		delete queues;
+	}
+}
+
+void queues::database::outgoing::factory::reset(::database::settings &settings, unsigned long total)
+{
+	init = false; cleanup();
+
+	this->total = total;
+	length = 0UL;
+
+	queues = new data::response::responses*[total];
+	if (queues == NULL) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
+
+	init = true;
+}
+
+::custom::chain<data::response::response> *queues::database::outgoing::factory::get()
+{
+	if (length >= MAX) return NULL;
+
+	data::response::responses *result = new data::response::responses();
+	if (result != NULL)
+	{
+		queues[length++] = result;
+	}
+
+	return result;
+}
+
+void queues::database::outgoing::factory::makeNull()
+{
+	queues = NULL;
+}
+
+void queues::database::outgoing::factory::cleanup()
+{
+	if (queues != NULL)
+	{
+		for (long i = (total - 1L); i >= 0L; i--)
+		{
+			if (queues[i] != NULL)
+			{
+				delete queues[i];
+			}
+		}
+
+		delete queues;
+	}
 }

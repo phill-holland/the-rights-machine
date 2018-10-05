@@ -8,6 +8,7 @@
 #include "errors.h"
 #include "odbc.h"
 #include "users.h"
+#include "messaging.h"
 
 #if !defined(__STARTER)
 #define __STARTER
@@ -16,9 +17,6 @@ namespace server
 {
 	class starter
 	{
-		queues::memory::incoming::factory *messages;
-		queues::memory::outgoing::factory *responses;
-
 		database::odbc::factory::connection *connections;
 		database::odbc::factory::recordset *recordsets;
 
@@ -37,11 +35,11 @@ namespace server
 		bool init;
 
 	public:
-		starter(string location) { makeNull(); reset(location); }
+		starter(messaging::common::messaging *messaging) { makeNull(); reset(messaging); }
 		~starter() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(string location);
+		void reset(messaging::common::messaging *messaging);
 
 		bool start();
 		void stop();

@@ -1,5 +1,6 @@
 #include <array>
 #include "thread.h"
+#include "mutex.h"
 #include "string.h"
 #include "queue.h"
 
@@ -27,8 +28,8 @@ namespace custom
 
 		unsigned long entries() { mutex lock(token); return elements; }
 
-		bool isfull() { mutex(token); return _isfull(); }
-		bool isempty() { mutex(token); return _isempty(); }
+		bool isfull() { mutex lock(token); return _isfull(); }
+		bool isempty() { mutex lock(token); return _isempty(); }
 
 		long size() { return Y; }
 

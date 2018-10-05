@@ -84,8 +84,10 @@ namespace tests
 			message.APIKey = (string)guid::guid(string("FF4ABFA3-B7CE-457F-B827-6EC7AFBEC7BC"));
 
 			source.data(message.json());
-						
-			server::starter starter(location);
+					
+			messaging::memory::memory messages;
+
+			server::starter starter(&messages);// location);
 
 			Assert::AreEqual(true, starter.initalised());
 			Assert::AreEqual(true, starter.start());

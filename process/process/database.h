@@ -9,6 +9,7 @@
 #include "chain.h"
 #include "responses.h"
 #include "thread.h"
+#include "storage.h"
 
 #if !defined(__DATABASE)
 #define __DATABASE
@@ -19,7 +20,7 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public ::queue::queue<data::message::message>, public thread
+			class queue : public ::queue::queue<compute::task>, public thread
 			{
 			protected:
 				static const unsigned long INTERVAL = 100UL;
@@ -30,16 +31,15 @@ namespace queues
 				const static unsigned long OUTPUT = 15L;
 
 			private:
-				custom::fifo<data::message::message, LENGTH> *incoming;
-				custom::fifo<data::message::message, LENGTH> *outgoing; // fetch buffer to reduce database hits
+				custom::fifo<compute::task, LENGTH> *incoming;
+				custom::fifo<compute::task, LENGTH> *outgoing;
 
-				mutex::token token;
+				mutex::token polling, flushing;
 
-				string location;
 				unsigned long counter, interval;
 
-				::database::connection *connection;
-				::database::recordset *recordset;
+				::database::settings *settings;
+				::database::storage::message *message;
 
 				bool init;
 
@@ -53,14 +53,39 @@ namespace queues
 				bool initalised() { return init; }
 				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
 
-				bool get(data::message::message &destination);
-				bool set(data::message::message &source);
-
-				bool flush();
+				bool get(compute::task &destination);
+				bool set(compute::task &source);
 
 			protected:
-				bool write();
-				bool read();
+				bool flush();
+				bool poll();
+
+			protected:
+				void makeNull();
+				void cleanup();
+			};
+
+			class factory : public ::queue::factory<compute::task>
+			{
+				const static unsigned long MAX = 10UL;
+
+			private:
+				::queue::queue<compute::task> **queues;
+				::database::settings *settings;
+
+				unsigned long total;
+				unsigned long length;
+
+				bool init;
+
+			public:
+				factory(::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
+				~factory() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset(::database::settings &settings, unsigned long total);
+
+				::queue::queue<compute::task> *get();
 
 			protected:
 				void makeNull();
@@ -72,6 +97,7 @@ namespace queues
 		{
 			class queue : public ::queue::queue<data::response::response>
 			{
+				// make same as incoming
 			public:
 				bool get(data::response::response &destination) { return false; }
 				bool set(data::response::response &source) { return false; }
@@ -82,6 +108,32 @@ namespace queues
 
 				// then use HTTP header GET/POST to determine which queue the user wants!!
 			};
+			
+			class factory : public ::queue::chain_factory<data::response::response>
+			{
+				const static unsigned long MAX = 10UL;
+
+			private:
+				data::response::responses **queues;
+
+				unsigned long total;
+				unsigned long length;
+
+				bool init;
+
+			public:
+				factory(::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
+				~factory() { cleanup(); }
+
+				bool initalised() { return init; }
+				void reset(::database::settings &settings, unsigned long total);
+
+				::custom::chain<data::response::response> *get();
+
+			protected:
+				void makeNull();
+				void cleanup();
+			};			
 		};
 	};
 };
