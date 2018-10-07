@@ -273,6 +273,9 @@
     <ClInclude Include="messaging.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
+    <ClInclude Include="grid.cuh">
+      <Filter>Cuda Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -497,6 +500,9 @@
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="kernel.cu">
+      <Filter>Cuda Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="grid.cu">
       <Filter>Cuda Source Files</Filter>
     </CudaCompile>
   </ItemGroup>

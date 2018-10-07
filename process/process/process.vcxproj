@@ -155,6 +155,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="grid.cu" />
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="database.h" />
     <ClInclude Include="errors.h" />
     <ClInclude Include="file.h" />
+    <ClInclude Include="grid.cuh" />
     <ClInclude Include="guid.h" />
     <ClInclude Include="header.h" />
     <ClInclude Include="map.h" />

@@ -95,20 +95,51 @@ namespace queues
 
 		namespace outgoing
 		{
-			class queue : public ::queue::queue<data::response::response>
+			class queue : public ::queue::queue<data::response::response>, public thread
 			{
-				// make same as incoming
+			protected:
+				static const unsigned long INTERVAL = 100UL;
+
+				static const long LENGTH = 100L;
+
+				const static unsigned long INPUT = 15L;
+				const static unsigned long OUTPUT = 15L;
+
+			private:
+				custom::fifo<data::response::response, LENGTH> *incoming;
+				custom::fifo<data::response::response, LENGTH> *outgoing;
+
+				mutex::token polling, flushing;
+
+				unsigned long counter, interval;
+
+				::database::settings *settings;
+				::database::storage::response *response;
+
+				bool init;
+
 			public:
-				bool get(data::response::response &destination) { return false; }
-				bool set(data::response::response &source) { return false; }
+				DWORD WINAPI background(thread *bt);
 
-				bool flush() { return false; }
+			public:
+				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
+				~queue() { cleanup(); }
 
-				// pass this into server class too!!!
+				bool initalised() { return init; }
+				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
 
-				// then use HTTP header GET/POST to determine which queue the user wants!!
+				bool get(data::response::response &destination);
+				bool set(data::response::response &source);
+
+			protected:
+				bool flush();
+				bool poll();
+
+			protected:
+				void makeNull();
+				void cleanup();
 			};
-			
+
 			class factory : public ::queue::chain_factory<data::response::response>
 			{
 				const static unsigned long MAX = 10UL;

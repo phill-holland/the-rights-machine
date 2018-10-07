@@ -12,7 +12,7 @@ void global::datetime::clear()
 	second = 0;
 }
 
-bool global::datetime::from(string &source)
+bool global::datetime::from(string const &source)
 {
 	char yy[] = { '0', '0', '0', '0', 0 };
 	char mm[] = { '0', '0', 0 };
@@ -24,7 +24,7 @@ bool global::datetime::from(string &source)
 	long ptr = 2L;
 	long idx = 1L;
 
-	for (long i = source.count() - 1L; i >=0L; i--)
+	for (long i = (long)source.length() - 1L; i >=0L; i--)
 	{
 		if (ptr < 0L) return false;
 

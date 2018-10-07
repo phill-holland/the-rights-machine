@@ -165,6 +165,125 @@ void queues::database::incoming::factory::cleanup()
 	}
 }
 
+DWORD WINAPI queues::database::outgoing::queue::background(thread *bt)
+{
+	if (counter > interval)
+	{
+		flush();
+		poll();
+
+		counter = 0UL;
+	}
+
+	++counter;
+
+	Sleep(1000);
+
+	return (DWORD)0;
+}
+
+void queues::database::outgoing::queue::reset(::database::settings &settings, unsigned long interval)
+{
+	init = false; cleanup();
+
+	counter = 0UL;
+
+	this->settings = &settings;
+	this->interval = interval;
+
+	incoming = new custom::fifo<data::response::response, LENGTH>();
+	if (incoming == NULL) return;
+	if (!incoming->initalised()) return;
+
+	outgoing = new custom::fifo<data::response::response, LENGTH>();
+	if (outgoing == NULL) return;
+	if (!outgoing->initalised()) return;
+
+	response = new ::database::storage::response();
+	if (response == NULL) return;
+
+	init = true;
+}
+
+bool queues::database::outgoing::queue::set(data::response::response &source)
+{
+	if (incoming->entries() >= INPUT) flush();
+
+	return incoming->set(source);
+}
+
+bool queues::database::outgoing::queue::get(data::response::response &destination)
+{
+	poll();
+
+	if (outgoing->entries() > 0UL)
+	{
+		return outgoing->get(destination);
+	}
+
+	return false;
+}
+
+bool queues::database::outgoing::queue::flush()
+{
+	mutex lock(flushing);
+
+	unsigned long successful = 0UL, count = incoming->entries();
+
+	if (count > 0UL)
+	{
+		if (response->open(*settings))
+		{
+			data::response::response temp;
+
+			for (unsigned long i = 0UL; i < incoming->entries(); ++i)
+			{
+				if (incoming->get(temp))
+				{
+					if (response->write(temp)) ++successful;
+				}
+			}
+
+			response->close();
+		}
+	}
+
+	return successful == count;
+}
+
+bool queues::database::outgoing::queue::poll()
+{
+	mutex lock(polling);
+
+	if (outgoing->entries() == 0UL)
+	{
+		if (response->open(*settings))
+		{
+			data::response::response temp;
+			while ((response->read(temp)) && (!outgoing->isfull()))
+			{
+				if (!outgoing->set(temp)) return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+void queues::database::outgoing::queue::makeNull()
+{
+	incoming = NULL;
+	outgoing = NULL;
+	response = NULL;
+}
+
+void queues::database::outgoing::queue::cleanup()
+{
+	if (response != NULL) delete response;
+	if (outgoing != NULL) delete outgoing;
+	if (incoming != NULL) delete incoming;
+}
+
 void queues::database::outgoing::factory::reset(::database::settings &settings, unsigned long total)
 {
 	init = false; cleanup();

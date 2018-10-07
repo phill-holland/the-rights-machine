@@ -43,7 +43,6 @@ namespace compute
 			void clear();
 			
 			void push(::compute::task &task);
-			//void push(data::message::message &message);
 
 		protected:
 			void makeNull();

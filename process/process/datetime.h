@@ -14,7 +14,7 @@ namespace global
 
 	public:
 		datetime() { clear(); }
-		datetime(string const &source) { clear(); from((string)source); }
+		datetime(string const &source) { clear(); from(source); }
 		datetime(datetime const &source) { clear(); copy(source); }
 		datetime(time_t const &source)
 		{
@@ -57,7 +57,7 @@ namespace global
 
 		static datetime now();
 
-		bool from(string &source);
+		bool from(string const &source);
 		string to();
 
 		void copy(datetime const &source);

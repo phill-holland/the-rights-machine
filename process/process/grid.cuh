@@ -1,18 +1,23 @@
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
 #include "item.h"
 #include "header.h"
 #include "row.h"
 #include "result.h"
 
-#if !defined(__CPU_GRID)
-#define __CPU_GRID
+#if !defined(__GPU_GRID)
+#define __GPU_GRID
 
 namespace compute
 {
-	namespace cpu
+	namespace gpu
 	{
 		class grid
 		{
 		protected:
+			const static unsigned long GRIDS = 255;
+			const static unsigned long THREADS = 255;
+
 			const static unsigned long WIDTH = 255;
 			const static unsigned long HEIGHT = 255;
 
@@ -20,7 +25,7 @@ namespace compute
 			unsigned long width, height;
 			unsigned long write_ptr;
 
-			header **headers;
+			header **headers;			
 			int *data;
 
 			bool init;

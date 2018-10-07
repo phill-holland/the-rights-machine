@@ -127,11 +127,11 @@ void test_starter()
 
 void test_grid()
 {
-	compute::grid *a, *b, *c;
+	compute::cpu::grid *a, *b, *c;
 
-	a = new compute::grid;
-	b = new compute::grid;
-	c = new compute::grid;
+	a = new compute::cpu::grid;
+	b = new compute::cpu::grid;
+	c = new compute::cpu::grid;
 
 	delete c;
 	delete b;

@@ -1,7 +1,21 @@
-#include "grid.h"
+#include "grid.cuh"
 #include "log.h"
 
-void compute::cpu::grid::reset(unsigned long width, unsigned long height)
+__global__ void minusKernel(int *a, const int *b)
+{
+	int i = threadIdx.x;
+
+	a[i] = a[i] - b[i];
+}
+
+__global__ void andKernel(int *a, const int *b)
+{
+	int i = threadIdx.x;
+
+	a[i] = a[i] & b[i];
+}
+
+void compute::gpu::grid::reset(unsigned long width, unsigned long height)
 {
 	init = false; cleanup();
 
@@ -17,25 +31,24 @@ void compute::cpu::grid::reset(unsigned long width, unsigned long height)
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		headers[i] = new header();
-		if (headers[i] == NULL) return;			
+		if (headers[i] == NULL) return;
 	}
-	
-	data = new int[width * height];
-	if (data == NULL) return;
+
+	if (!cudaMalloc((void**)&data, width * height * sizeof(int))) return;
 
 	clear();
 
 	init = true;
 }
 
-void compute::cpu::grid::clear()
+void compute::gpu::grid::clear()
 {
 	write_ptr = 0UL;
 	memset(data, 0, sizeof(int) * width * height);
 	for (unsigned long i = 0UL; i < height; ++i) headers[i]->clear();
 }
 
-bool compute::cpu::grid::isempty()
+bool compute::gpu::grid::isempty()
 {
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
@@ -45,40 +58,22 @@ bool compute::cpu::grid::isempty()
 	return true;
 }
 
-void compute::cpu::grid::minus(grid &right)
+void compute::gpu::grid::minus(grid &right)
 {
-	unsigned long offset = 0UL;
-
-	for (unsigned long y = 0UL; y < height; ++y)
-	{
-		for (unsigned long x = 0UL; x < width; ++x)
-		{
-			if(data[offset + x] > 0) data[offset + x] -= right.data[offset + x];
-		}
-
-		offset += width;
-	}
+	minusKernel<<<GRIDS, THREADS>>>(data, right.data);
 }
 
-void compute::cpu::grid::and(grid &right)
+void compute::gpu::grid::and(grid &right)
 {
-	unsigned long offset = 0UL;
-
-	for (unsigned long y = 0UL; y < height; ++y)
-	{
-		for (unsigned long x = 0UL; x < width; ++x)
-		{
-			data[offset + x] = data[offset + x] & right.data[offset + x];
-		}
-
-		offset += width;
-	}
+	andKernel<<<GRIDS, THREADS>>>(data, right.data);
 }
 
-bool compute::cpu::grid::compare(grid &right)
+bool compute::gpu::grid::compare(grid &right)
 {
-	unsigned long offset = 0UL;
+	// reduce kernel here, need temp???
+	//unsigned long offset = 0UL;
 
+	/*
 	for (unsigned long y = 0UL; y < height; ++y)
 	{
 		for (unsigned long x = 0UL; x < width; ++x)
@@ -88,11 +83,11 @@ bool compute::cpu::grid::compare(grid &right)
 
 		offset += width;
 	}
-
+	*/
 	return true;
 }
 
-bool compute::cpu::grid::push(row &source)
+bool compute::gpu::grid::push(row &source)
 {
 	if (source.length > width) return false;
 	if (write_ptr >= height) return false;
@@ -101,24 +96,21 @@ bool compute::cpu::grid::push(row &source)
 
 	*headers[write_ptr] = source.top;
 
-	for (unsigned long i = 0UL; i < source.length; ++i)
-	{
-		data[offset + i] = source.data[i];
-	}
+	if (cudaMemcpy(&data[offset], source.data, source.length * sizeof(int), cudaMemcpyKind::cudaMemcpyHostToDevice) != cudaSuccess) return false;
 
 	++write_ptr;
 
 	return true;
 }
 
-void compute::cpu::grid::output()
+void compute::gpu::grid::output()
 {
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		if (!headers[i]->isempty())
 		{
 			string result = headers[i]->serialize();
-			
+
 			result += ",\"row\":{";
 			if (data[0] > 0) result += "\"0\":1";
 
@@ -126,7 +118,7 @@ void compute::cpu::grid::output()
 			{
 				if (data[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
 			}
-			
+
 			result += "}";
 
 			Log << result << "\r\n";
@@ -134,13 +126,13 @@ void compute::cpu::grid::output()
 	}
 }
 
-void compute::cpu::grid::makeNull()
+void compute::gpu::grid::makeNull()
 {
 	headers = NULL;
 	data = NULL;
 }
 
-void compute::cpu::grid::cleanup()
+void compute::gpu::grid::cleanup()
 {
 	if (headers != NULL)
 	{
@@ -152,5 +144,5 @@ void compute::cpu::grid::cleanup()
 		delete headers;
 	}
 
-	if (data != NULL) delete data;
+	if (data != NULL) cudaFree(data);
 }

@@ -6,38 +6,84 @@
 #include "task.h"
 #include "factory.h"
 #include "thread.h"
+#include "line.h"
+#include "grid.cuh"
 
 #if !defined(__GPU)
 #define __GPU
 
 namespace compute
 {
-	class gpu : public compute, public thread
+	namespace gpu
 	{
-		::queue::queue<::compute::task> *queue;
+		class processor
+		{
+			const static unsigned long WIDTH = 255;
+			const static unsigned long HEIGHT = 255;
 
-		bool init;
+		private:
+			unsigned long width, height;
+			unsigned long input_ptr, output_ptr;
 
-	public:
-		DWORD WINAPI background(thread *bt);
+			grid *in, *out, *query;
+			row **rows;
 
-	public:
-		gpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
-		~gpu() { cleanup(); }
+			data::line::line *inputs;
+			data::line::line *outputs;
 
-		bool initalised() { return init; }
-		void reset(::queue::factory<::compute::task> *factory);
+			bool init;
 
-		bool set(::compute::task &source) { return queue->set(source); }
-		bool flush() { return queue->flush(); }
+		public:
+			processor(unsigned long width, unsigned long height) { makeNull(); reset(width, height); }
+			~processor() { cleanup(); }
 
-	protected:
-		bool get(::compute::task &destination) { return queue->get(destination); }
+			bool initalised() { return init; }
+			void reset(unsigned long width, unsigned long height);
 
-	protected:
-		void makeNull();
-		void cleanup();
+			void clear();
+
+			void push(::compute::task &task);
+
+		protected:
+			void makeNull();
+			void cleanup();
+		};
+
+		class gpu : public compute, public thread
+		{
+			::queue::queue<::compute::task> *queue;
+			processor *process;
+
+			bool init;
+
+		public:
+			DWORD WINAPI background(thread *bt);
+
+		public:
+			gpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
+			~gpu() { cleanup(); }
+
+			bool initalised() { return init; }
+			void reset(::queue::factory<::compute::task> *factory);
+
+			bool set(::compute::task &source)
+			{
+				return queue->set(source);
+			}
+
+			bool flush() { return queue->flush(); }
+
+			bool shutdown() { return stopAndWait(); }
+
+		protected:
+			bool get(::compute::task &destination) { return queue->get(destination); }
+
+		protected:
+			void makeNull();
+			void cleanup();
+		};
 	};
 };
+
 
 #endif

@@ -5,17 +5,26 @@
 
 namespace compute
 {
-	class grid;
+	namespace cpu
+	{
+		class grid;
+	};
+
+	namespace gpu
+	{
+		class grid;
+	};
 
 	class row
 	{
-		friend class grid;
+		friend class cpu::grid;
+		friend class gpu::grid;
 
 	protected:
 		static const unsigned long LENGTH = 255L;
 
-	private:		
-		unsigned long length;		
+	private:
+		unsigned long length;
 
 		header top;
 		int *data;
@@ -35,7 +44,7 @@ namespace compute
 		bool set(unsigned long idx);
 
 		bool copy(row const &source);
-		
+
 	public:
 		row& operator=(const row& source)
 		{
