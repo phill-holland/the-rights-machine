@@ -75,7 +75,7 @@ data::json::request::json *data::message::message::find(string FQDN)
 	return NULL;
 }
 
-void data::message::message::filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map)
+void data::message::message::filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map)
 {
 	int max_components = components.maximum();
 	for (unsigned long i = 0UL; i < total; ++i)

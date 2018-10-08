@@ -8,6 +8,7 @@
 #include "thread.h"
 #include "line.h"
 #include "grid.cuh"
+#include "row.cuh"
 
 #if !defined(__GPU)
 #define __GPU
@@ -26,7 +27,7 @@ namespace compute
 			unsigned long input_ptr, output_ptr;
 
 			grid *in, *out, *query;
-			row **rows;
+			::compute::common::row **rows;
 
 			data::line::line *inputs;
 			data::line::line *outputs;

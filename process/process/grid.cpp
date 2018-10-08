@@ -53,7 +53,7 @@ void compute::cpu::grid::minus(grid &right)
 	{
 		for (unsigned long x = 0UL; x < width; ++x)
 		{
-			if(data[offset + x] > 0) data[offset + x] -= right.data[offset + x];
+			if (data[offset + x] > 0) data[offset + x] -= right.data[offset + x];
 		}
 
 		offset += width;
@@ -92,18 +92,18 @@ bool compute::cpu::grid::compare(grid &right)
 	return true;
 }
 
-bool compute::cpu::grid::push(row &source)
+bool compute::cpu::grid::push(::compute::common::row *source)
 {
-	if (source.length > width) return false;
+	if (source->count() > width) return false;
 	if (write_ptr >= height) return false;
 
 	unsigned long offset = (write_ptr * width);
 
-	*headers[write_ptr] = source.top;
+	*headers[write_ptr] = source->first();
 
-	for (unsigned long i = 0UL; i < source.length; ++i)
+	for (unsigned long i = 0UL; i < source->count(); ++i)
 	{
-		data[offset + i] = source.data[i];
+		data[offset + i] = source->get(i);
 	}
 
 	++write_ptr;

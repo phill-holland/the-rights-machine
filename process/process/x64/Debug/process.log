@@ -1,125 +1,239 @@
-﻿Build started 07/10/2018 14:28:17.
-     1>Project "C:\Git\the-rights-machine\process\process\process.vcxproj" on node 2 (Rebuild target(s)).
-     1>CudaClean:
-         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmp0f7007900df244be97920ba4722b1106.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\grid.cu.obj "C:\Git\the-rights-machine\process\process\grid.cu" -clean
-         
-         C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\grid.cu.obj "C:\Git\the-rights-machine\process\process\grid.cu" -clean 
-         grid.cu
-       CudaClean:
-         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmpc7ffa31bba324777815b2238147aa15b.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" -clean
-         
-         C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile   -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" -clean 
-         kernel.cu
-       AddCudaCompileDeps:
+﻿Build started 08/10/2018 16:37:57.
+     1>Project "C:\Git\the-rights-machine\process\process\process.vcxproj" on node 2 (Build target(s)).
+     1>AddCudaCompileDeps:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files (x86)\Visual Leak Detector\include" /IC:\build-OpenSSL-VC64\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Git\the-rights-machine\process\process\grid.cu 
-       AddCudaCompileDeps:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /DWIN64 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files (x86)\Visual Leak Detector\include" /IC:\build-OpenSSL-VC64\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /I. /FIcuda_runtime.h /c C:\Git\the-rights-machine\process\process\kernel.cu 
        CudaBuild:
          Compiling CUDA source file grid.cu...
-         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmp77b1f3522c8e498386a6e5494411e823.cmd"
+         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmp772e6f0876004532ae3e3d3847bb9179.cmd"
          "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\grid.cu.obj "C:\Git\the-rights-machine\process\process\grid.cu"
          
          C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\grid.cu.obj "C:\Git\the-rights-machine\process\process\grid.cu" 
          grid.cu
-       CudaBuild:
-         Compiling CUDA source file kernel.cu...
-         cmd.exe /C "C:\Users\phill\AppData\Local\Temp\tmp1211c7ea07c046fb8c665755ba7c6cda.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu"
-         
-         C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64"  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Zi /RTC1 /MDd " -o x64\Debug\kernel.cu.obj "C:\Git\the-rights-machine\process\process\kernel.cu" 
-         kernel.cu
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(241): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>::size_type', possible loss of data
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(303): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>::size_type', possible loss of data
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(319): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>::size_type', possible loss of data
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(439): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>::size_type', possible loss of data
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(250): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>,0x00>::size_type', possible loss of data
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(625) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>,0x00> thrust::system::cuda::detail::bulk_::par<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>>(ExecutionAgent,size_t)' being compiled
+                 with
+                 [
+                     ExecutionAgent=thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x01>,0x00>
+                 ]
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(250): warning C4267: 'argument' : conversion from 'size_t' to 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>::size_type', possible loss of data
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/execution_policy.hpp(311) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00> thrust::system::cuda::detail::bulk_::par<ExecutionAgent>(ExecutionAgent,size_t)' being compiled
+                 with
+                 [
+                     ExecutionAgent=thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/reduce.inl(126) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::async_launch<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>> thrust::system::cuda::detail::bulk_::par<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>>(cudaStream_t,ExecutionAgent,size_t)' being compiled
+                 with
+                 [
+                     ExecutionAgent=thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/reduce.inl(204) : see reference to function template instantiation 'OutputType thrust::system::cuda::detail::reduce_detail::tuned_reduce<thrust::system::cuda::detail::par_t,InputIterator,OutputType,BinaryFunction>(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::par_t> &,InputIterator,InputIterator,OutputType,BinaryFunction)' being compiled
+                 with
+                 [
+                     OutputType=InputType
+         ,            InputIterator=thrust::device_ptr<int>
+         ,            BinaryFunction=thrust::plus<int>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/reduce.inl(259) : see reference to function template instantiation 'int thrust::system::cuda::detail::reduce_detail::reduce<thrust::system::cuda::detail::par_t,InputIterator,OutputType,BinaryFunction>(thrust::system::cuda::detail::execution_policy<thrust::system::cuda::detail::par_t> &,InputIterator,InputIterator,OutputType,BinaryFunction)' being compiled
+                 with
+                 [
+                     InputIterator=thrust::device_ptr<int>
+         ,            OutputType=InputType
+         ,            BinaryFunction=thrust::plus<int>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory0(469) : see reference to function template instantiation 'void std::_Alloc_construct::_Fn<_Alloc,_Ty,const _Tval&>(int,std::_Wrap_alloc<std::allocator<_Ty>> &,_Objty *,const _Tval &)' being compiled
+                 with
+                 [
+                     _Alloc=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Ty=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Objty=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory0(872) : see reference to function template instantiation 'void std::allocator_traits<_Alloc>::construct<_Ty,const _Tval&>(_Alloc &,_Ty *,const _Tval &)' being compiled
+                 with
+                 [
+                     _Alloc=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Ty=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory0(872) : see reference to function template instantiation 'void std::allocator_traits<_Alloc>::construct<_Ty,const _Tval&>(_Alloc &,_Ty *,const _Tval &)' being compiled
+                 with
+                 [
+                     _Alloc=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Ty=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory(595) : see reference to function template instantiation 'void std::_Wrap_alloc<_Alloc0>::construct<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,const _Tval&>(std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *,const _Tval &)' being compiled
+                 with
+                 [
+                     _Alloc0=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Kty=int
+         ,            _Ty=int
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory(595) : see reference to function template instantiation 'void std::_Wrap_alloc<_Alloc0>::construct<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,const _Tval&>(std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *,const _Tval &)' being compiled
+                 with
+                 [
+                     _Alloc0=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Kty=int
+         ,            _Ty=int
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xmemory(635) : see reference to function template instantiation 'void std::_Uninit_fill_n<_FwdIt,_Diff,_Tval,_Alloc0,std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>>(_FwdIt,_Diff,const _Tval *,std::_Wrap_alloc<_Alloc0> &,_Valty *,std::_Nonscalar_ptr_iterator_tag)' being compiled
+                 with
+                 [
+                     _FwdIt=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>> *
+         ,            _Diff=unsigned __int64
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Alloc0=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _Kty=int
+         ,            _Ty=int
+         ,            _Valty=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\vector(1748) : see reference to function template instantiation 'void std::_Uninitialized_fill_n<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,unsigned __int64,std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,std::_Wrap_alloc<_Alloc0>>(_FwdIt,_Diff,const _Tval *,_Alloc &)' being compiled
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+         ,            _Alloc0=std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>
+         ,            _FwdIt=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>> *
+         ,            _Diff=unsigned __int64
+         ,            _Tval=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+         ,            _Alloc=std::_Wrap_alloc<std::_Wrap_alloc<std::allocator<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\vector(1746) : while compiling class template member function 'std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *std::vector<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,std::_Wrap_alloc<std::allocator<_Other>>>::_Ufill(std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> ,unsigned __int64,const std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *)'
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+         ,            _Other=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\vector(1676) : see reference to function template instantiation 'std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *std::vector<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,std::_Wrap_alloc<std::allocator<_Other>>>::_Ufill(std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> ,unsigned __int64,const std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>> *)' being compiled
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+         ,            _Other=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\xhash(1042) : see reference to class template instantiation 'std::vector<std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const _Kty,_Ty>>>>,std::_Wrap_alloc<std::allocator<_Other>>>' being compiled
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+         ,            _Other=std::_List_unchecked_iterator<std::_List_val<std::_List_simple_types<std::pair<const int,int>>>>
+                 ]
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\unordered_map(81) : see reference to class template instantiation 'std::_Hash<std::_Umap_traits<_Kty,_Ty,std::_Uhash_compare<_Kty,_Hasher,_Keyeq>,_Alloc,false>>' being compiled
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+         ,            _Hasher=std::hash<int>
+         ,            _Keyeq=std::equal_to<int>
+         ,            _Alloc=std::allocator<std::pair<const int,int>>
+                 ]
+                 c:\git\the-rights-machine\process\process\map.h(17) : see reference to class template instantiation 'std::unordered_map<int,int,std::hash<int>,std::equal_to<_Kty>,std::allocator<std::pair<const _Kty,_Ty>>>' being compiled
+                 with
+                 [
+                     _Kty=int
+         ,            _Ty=int
+                 ]
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(155): warning C4267: 'return' : conversion from 'size_t' to 'int', possible loss of data
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(148) : while compiling class template member function 'int thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::choose_group_size(int)'
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(289) : see reference to function template instantiation 'int thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::choose_group_size(int)' being compiled
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(228) : see reference to class template instantiation 'thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>' being compiled
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/async.inl(45) : see reference to class template instantiation 'thrust::system::cuda::detail::bulk_::detail::cuda_launcher<ExecutionGroup,Closure>' being compiled
+                 with
+                 [
+                     ExecutionGroup=thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>
+         ,            Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/async.inl(96) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::future<void> thrust::system::cuda::detail::bulk_::detail::async_in_stream<ExecutionAgent,Closure>(ExecutionGroup,Closure,cudaStream_t,cudaEvent_t)' being compiled
+                 with
+                 [
+                     ExecutionAgent=thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>
+         ,            Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+         ,            ExecutionGroup=thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/async.inl(157) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::future<void> thrust::system::cuda::detail::bulk_::detail::async<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>>(thrust::system::cuda::detail::bulk_::async_launch<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>>,Closure)' being compiled
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/reduce.inl(126) : see reference to function template instantiation 'thrust::system::cuda::detail::bulk_::future<void> thrust::system::cuda::detail::bulk_::async<thrust::system::cuda::detail::bulk_::async_launch<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>>,thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::system::cuda::detail::bulk_::detail::cursor<1>,InputIterator,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,OutputType,BinaryFunction>(ExecutionGroup,Function,Arg1,Arg2,Arg3,Arg4,Arg5,Arg6)' being compiled
+                 with
+                 [
+                     InputIterator=thrust::device_ptr<int>
+         ,            OutputType=InputType
+         ,            BinaryFunction=thrust::plus<int>
+         ,            ExecutionGroup=thrust::system::cuda::detail::bulk_::async_launch<thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>>
+         ,            Function=thrust::system::cuda::detail::reduce_detail::reduce_partitions
+         ,            Arg1=thrust::system::cuda::detail::bulk_::detail::cursor<1>
+         ,            Arg2=thrust::device_ptr<int>
+         ,            Arg3=thrust::system::cuda::detail::aligned_decomposition<__int64>
+         ,            Arg4=thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>
+         ,            Arg5=InputType
+         ,            Arg6=thrust::plus<int>
+                 ]
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(85): warning C4267: 'return' : conversion from 'size_t' to 'int', possible loss of data
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(84) : while compiling class template member function 'int thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::max_active_blocks_per_multiprocessor(const thrust::system::cuda::detail::bulk_::detail::device_properties_t &,const thrust::system::cuda::detail::bulk_::detail::function_attributes_t &,int,int)'
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(96) : see reference to function template instantiation 'int thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::max_active_blocks_per_multiprocessor(const thrust::system::cuda::detail::bulk_::detail::device_properties_t &,const thrust::system::cuda::detail::bulk_::detail::function_attributes_t &,int,int)' being compiled
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+     1>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/detail/pair.inl(46): warning C4267: 'initializing' : conversion from 'size_t' to 'int', possible loss of data
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(101) : see reference to function template instantiation 'thrust::pair<int,int>::pair<size_t,int>(const thrust::pair<size_t,int> &)' being compiled
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(101) : see reference to function template instantiation 'thrust::pair<int,int>::pair<size_t,int>(const thrust::pair<size_t,int> &)' being compiled
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(94) : while compiling class template member function 'thrust::pair<int,int> thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::dynamic_smem_occupancy_limit(const thrust::system::cuda::detail::bulk_::detail::device_properties_t &,const thrust::system::cuda::detail::bulk_::detail::function_attributes_t &,int,int)'
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
+                 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include\thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launcher.hpp(119) : see reference to function template instantiation 'thrust::pair<int,int> thrust::system::cuda::detail::bulk_::detail::cuda_launcher_base<128,thrust::system::cuda::detail::bulk_::parallel_group<thrust::system::cuda::detail::bulk_::concurrent_group<thrust::system::cuda::detail::bulk_::agent<0x07>,0x080>,0x00>,Closure>::dynamic_smem_occupancy_limit(const thrust::system::cuda::detail::bulk_::detail::device_properties_t &,const thrust::system::cuda::detail::bulk_::detail::function_attributes_t &,int,int)' being compiled
+                 with
+                 [
+                     Closure=thrust::system::cuda::detail::bulk_::detail::closure<thrust::system::cuda::detail::reduce_detail::reduce_partitions,thrust::tuple<thrust::system::cuda::detail::bulk_::detail::cursor<1>,thrust::device_ptr<int>,thrust::system::cuda::detail::aligned_decomposition<__int64>,thrust::detail::normal_iterator<thrust::pointer<int,thrust::system::cuda::detail::par_t,thrust::use_default,thrust::use_default>>,int,thrust::plus<int>,thrust::null_type,thrust::null_type,thrust::null_type,thrust::null_type>>
+                 ]
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt address.cpp allocator.cpp authentication.cpp chain.cpp charbuf.cpp crumbs.cpp database.cpp errors.cpp file.cpp guid.cpp header.cpp map.cpp memory.cpp messaging.cpp output.cpp parameter.cpp parameters.cpp pending.cpp record.cpp records.cpp request.cpp responses.cpp result.cpp results.cpp row.cpp starter.cpp storage.cpp user.cpp users.cpp watchdog.cpp zone.cpp comparison.cpp component.cpp components.cpp compute.cpp configuration.cpp console.cpp cpu.cpp databases.cpp datetime.cpp element.cpp elements.cpp error.cpp factory.cpp fifo.cpp gpu.cpp grid.cpp http.cpp item.cpp items.cpp line.cpp lines.cpp list.cpp manager.cpp message.cpp odbc.cpp log.cpp main.cpp mutex.cpp pair.cpp process.cpp queries.cpp query.cpp queue.cpp json.cpp response.cpp server.cpp ssl.cpp string.cpp task.cpp thread.cpp page.cpp wsock.cpp
-         wsock.cpp
-         page.cpp
-         thread.cpp
-         task.cpp
-         string.cpp
-         ssl.cpp
-         server.cpp
-         response.cpp
-         json.cpp
-         queue.cpp
-         query.cpp
-         queries.cpp
-         process.cpp
-         pair.cpp
-         mutex.cpp
-         main.cpp
-         log.cpp
-         odbc.cpp
-         message.cpp
-         manager.cpp
-         Generating Code...
-         Compiling...
-         list.cpp
-         lines.cpp
-         line.cpp
-         items.cpp
-         item.cpp
-         http.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"C:\Program Files (x86)\Visual Leak Detector\include" /I"C:\build-OpenSSL-VC64\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\include" /Zi /nologo /W3 /WX- /Od /D WIN32 /D WIN64 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt cpu.cpp gpu.cpp grid.cpp main.cpp starter.cpp
          grid.cpp
+         Generating Code...
+         Compiling...
          gpu.cpp
-         fifo.cpp
-         factory.cpp
-         error.cpp
-         elements.cpp
-         element.cpp
-         datetime.cpp
-         databases.cpp
-         cpu.cpp
-         console.cpp
-         configuration.cpp
-         compute.cpp
-         components.cpp
          Generating Code...
-         Compiling...
-         component.cpp
-         comparison.cpp
-         zone.cpp
-         watchdog.cpp
-         users.cpp
-         user.cpp
-         storage.cpp
+         Skipping... (no relevant changes detected)
          starter.cpp
-         row.cpp
-         results.cpp
-         result.cpp
-         responses.cpp
-         request.cpp
-         records.cpp
-         record.cpp
-         pending.cpp
-         parameters.cpp
-         parameter.cpp
-         output.cpp
-         messaging.cpp
-         Generating Code...
-         Compiling...
-         memory.cpp
-         map.cpp
-         header.cpp
-         guid.cpp
-         file.cpp
-         errors.cpp
-         database.cpp
-         crumbs.cpp
-         charbuf.cpp
-         chain.cpp
-         authentication.cpp
-         allocator.cpp
-         address.cpp
-         Generating Code...
+         main.cpp
+         cpu.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\grid.cu.obj
-         x64\Debug\kernel.cu.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Git\the-rights-machine\process\x64\Debug\process.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\build-OpenSSL-VC64\lib" /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\lib\x64" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib wsock32.lib libeay32.lib ssleay32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Git\the-rights-machine\process\x64\Debug\process.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Git\the-rights-machine\process\x64\Debug\process.lib" /MACHINE:X64 x64\Debug\cuda.cu.obj
+         x64\Debug\grid.cu.obj
+         x64\Debug\row.cu.obj
          x64\Debug\address.obj
          x64\Debug\allocator.obj
          x64\Debug\authentication.obj
          x64\Debug\chain.obj
          x64\Debug\charbuf.obj
+         x64\Debug\common.obj
          x64\Debug\crumbs.obj
          x64\Debug\database.obj
          x64\Debug\errors.obj
@@ -197,8 +311,8 @@
          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart32_75.dll
          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v7.5\bin\cudart64_75.dll
                  2 file(s) copied.
-     1>Done Building Project "C:\Git\the-rights-machine\process\process\process.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Git\the-rights-machine\process\process\process.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:02:17.69
+Time Elapsed 00:00:32.09

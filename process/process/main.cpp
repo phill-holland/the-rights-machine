@@ -207,13 +207,13 @@ void test_rows()
 	unsigned long width = 255;
 	unsigned long height = 255;
 
-	compute::row **rows = new compute::row*[height];
+	compute::cpu::row **rows = new compute::cpu::row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
 
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
-		rows[i] = new compute::row(width);
+		rows[i] = new compute::cpu::row(width);
 		if (rows[i] == NULL) return;
 		if (!rows[i]->initalised()) return;
 	}

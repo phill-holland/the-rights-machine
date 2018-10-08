@@ -26,7 +26,7 @@ namespace compute
 			unsigned long input_ptr, output_ptr;
 			
 			grid *in, *out, *query;
-			row **rows;
+			::compute::common::row **rows;
 
 			data::line::line *inputs;
 			data::line::line *outputs;

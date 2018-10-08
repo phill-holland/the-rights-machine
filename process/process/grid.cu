@@ -1,4 +1,7 @@
 #include "grid.cuh"
+#include <thrust/reduce.h>
+#include <thrust/device_ptr.h>
+#include <thrust/execution_policy.h>
 #include "log.h"
 
 __global__ void minusKernel(int *a, const int *b)
@@ -13,6 +16,13 @@ __global__ void andKernel(int *a, const int *b)
 	int i = threadIdx.x;
 
 	a[i] = a[i] & b[i];
+}
+
+__global__ void compareKernel(const int *a, const int *b, int *result)
+{
+	int i = threadIdx.x;
+
+	result[i] = ((!(b[i] & 0x1)) & (a[i] & 0x1));
 }
 
 void compute::gpu::grid::reset(unsigned long width, unsigned long height)
@@ -35,6 +45,7 @@ void compute::gpu::grid::reset(unsigned long width, unsigned long height)
 	}
 
 	if (!cudaMalloc((void**)&data, width * height * sizeof(int))) return;
+	if (!cudaMalloc((void**)&temp, width * height * sizeof(int))) return;
 
 	clear();
 
@@ -44,7 +55,7 @@ void compute::gpu::grid::reset(unsigned long width, unsigned long height)
 void compute::gpu::grid::clear()
 {
 	write_ptr = 0UL;
-	memset(data, 0, sizeof(int) * width * height);
+	cudaMemset(data, 0, width * height * sizeof(int));
 	for (unsigned long i = 0UL; i < height; ++i) headers[i]->clear();
 }
 
@@ -70,33 +81,24 @@ void compute::gpu::grid::and(grid &right)
 
 bool compute::gpu::grid::compare(grid &right)
 {
-	// reduce kernel here, need temp???
-	//unsigned long offset = 0UL;
+	compareKernel<<<GRIDS, THREADS>>>(data, right.data, temp);
 
-	/*
-	for (unsigned long y = 0UL; y < height; ++y)
-	{
-		for (unsigned long x = 0UL; x < width; ++x)
-		{
-			if ((right.data[offset + x] == 1) && (data[offset + x] == 0)) return false;
-		}
+	thrust::device_ptr<int> t_ptr = thrust::device_pointer_cast(temp);
+	int result = thrust::reduce(thrust::device, t_ptr, t_ptr + (width * height));
 
-		offset += width;
-	}
-	*/
-	return true;
+	return result == 0;	
 }
 
-bool compute::gpu::grid::push(row &source)
+bool compute::gpu::grid::push(compute::common::row *source)
 {
-	if (source.length > width) return false;
+	if (source->count() > width) return false;
 	if (write_ptr >= height) return false;
 
 	unsigned long offset = (write_ptr * width);
 
-	*headers[write_ptr] = source.top;
+	*headers[write_ptr] = source->first();
 
-	if (cudaMemcpy(&data[offset], source.data, source.length * sizeof(int), cudaMemcpyKind::cudaMemcpyHostToDevice) != cudaSuccess) return false;
+	if (cudaMemcpy(&data[offset], source->raw(), source->count() * sizeof(int), cudaMemcpyKind::cudaMemcpyHostToDevice) != cudaSuccess) return false;
 
 	++write_ptr;
 
@@ -105,31 +107,40 @@ bool compute::gpu::grid::push(row &source)
 
 void compute::gpu::grid::output()
 {
-	for (unsigned long i = 0UL; i < height; ++i)
+	int *temp = new int[width * height];
+	if (temp == NULL) return;
+
+	if (cudaMemcpy(temp, data, width * height * sizeof(int), cudaMemcpyKind::cudaMemcpyDeviceToHost) != cudaSuccess)
 	{
-		if (!headers[i]->isempty())
+		for (unsigned long i = 0UL; i < height; ++i)
 		{
-			string result = headers[i]->serialize();
-
-			result += ",\"row\":{";
-			if (data[0] > 0) result += "\"0\":1";
-
-			for (unsigned long j = 1UL; j < width; ++j)
+			if (!headers[i]->isempty())
 			{
-				if (data[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
+				string result = headers[i]->serialize();
+
+				result += ",\"row\":{";
+				if (temp[0] > 0) result += "\"0\":1";
+
+				for (unsigned long j = 1UL; j < width; ++j)
+				{
+					if (temp[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
+				}
+
+				result += "}";
+
+				Log << result << "\r\n";
 			}
-
-			result += "}";
-
-			Log << result << "\r\n";
 		}
 	}
+
+	delete temp;
 }
 
 void compute::gpu::grid::makeNull()
 {
 	headers = NULL;
 	data = NULL;
+	temp = NULL;
 }
 
 void compute::gpu::grid::cleanup()
@@ -144,5 +155,6 @@ void compute::gpu::grid::cleanup()
 		delete headers;
 	}
 
+	if (temp != NULL) cudaFree(temp);
 	if (data != NULL) cudaFree(data);
 }

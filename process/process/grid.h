@@ -10,7 +10,7 @@ namespace compute
 {
 	namespace cpu
 	{
-		class grid
+		class grid : public ::compute::common::grid
 		{
 		protected:
 			const static unsigned long WIDTH = 255;
@@ -36,17 +36,11 @@ namespace compute
 
 			bool isempty();
 
-			void set(unsigned long x, unsigned long y)
-			{
-				if ((x >= width) || (y >= height)) return;
-				data[(y * height) + x] = 1;
-			}
-
 			void minus(grid &right);
 			void and(grid &right);
 			bool compare(grid &right);
 
-			bool push(row &source);
+			bool push(::compute::common::row *source);
 
 			void output();
 

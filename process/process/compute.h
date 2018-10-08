@@ -1,4 +1,3 @@
-#include "message.h"
 #include "queue.h"
 #include "task.h"
 
@@ -7,7 +6,6 @@
 
 namespace compute
 {
-	// class compute : public ::queue::in<::compute::task>, public ::queue::out<::data::response> { };
 	class compute : public ::queue::queue<::compute::task>
 	{
 	public:

@@ -6,7 +6,7 @@
 #include "components.h"
 #include "elements.h"
 #include "comparison.h"
-#include "row.h"
+#include "common.h"
 #include "file.h"
 #include <unordered_map>
 
@@ -58,7 +58,7 @@ namespace data
 			queue::base *findQ(string FQDN);
 			data::json::request::json *find(string FQDN);
 
-			void filter(compute::row **rows, unsigned long total, std::unordered_map<int, int> &map);
+			void filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map);
 
 			bool load(file::file<data::item::item> *source);
 			bool load(file::file<data::query::query> *source);

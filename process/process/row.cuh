@@ -1,14 +1,17 @@
+#include "cuda_runtime.h"
+#include "device_launch_parameters.h"
+#include "cuda.cuh"
 #include "common.h"
 #include "header.h"
 
-#if !defined(__ROW)
-#define __ROW
+#if !defined(__CUDA_ROW)
+#define __CUDA_ROW
 
 namespace compute
 {
-	namespace cpu
+	namespace gpu
 	{
-		class row : public common::row
+		class row : public common::row, public cuda::cuda
 		{
 		protected:
 			static const unsigned long LENGTH = 255L;

@@ -22,15 +22,17 @@ void compute::gpu::processor::reset(unsigned long width, unsigned long height)
 	if (query == NULL) return;
 	if (!query->initalised()) return;
 
-	rows = new row*[height];
+	rows = new ::compute::common::row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
 
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
-		rows[i] = new row(width);
-		if (rows[i] == NULL) return;
-		if (!rows[i]->initalised()) return;
+		::compute::gpu::row *temp = new ::compute::gpu::row(width);
+		if (temp == NULL) return;
+		if (!temp->initalised()) return;
+
+		rows[i] = temp;
 	}
 
 	inputs = new data::line::line[width];
@@ -122,7 +124,7 @@ void compute::gpu::processor::push(::compute::task &task)
 		task.message.filter(rows, height, in_map);
 		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
 		{
-			in->push(*rows[i]);
+			in->push(rows[i]);
 		}
 
 		if (out_ptr > 0)
@@ -138,7 +140,7 @@ void compute::gpu::processor::push(::compute::task &task)
 				{
 					for (unsigned long i = 0UL; i < (unsigned long)task.message.components.maximum(); ++i)
 					{
-						out->push(*rows[offset + i]);
+						out->push(rows[offset + i]);
 					}
 				}
 
@@ -163,7 +165,7 @@ void compute::gpu::processor::push(::compute::task &task)
 			{
 				for (unsigned long k = 0UL; k < (unsigned long)task.message.components.maximum(); ++k)
 				{
-					query->push(*rows[offset + k]);
+					query->push(rows[offset + k]);
 				}
 			}
 

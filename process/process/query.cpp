@@ -39,7 +39,7 @@ bool data::query::query::add(custom::pair &source)
 	return false;
 }
 
-void data::query::query::filter(compute::row **rows, unsigned long total, unsigned long lines)
+void data::query::query::filter(compute::common::row **rows, unsigned long total, unsigned long lines)
 {
 	int max_components = components.maximum();
 

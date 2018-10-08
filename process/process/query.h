@@ -4,8 +4,8 @@
 #include "zone.h"
 #include "components.h"
 #include "elements.h"
-#include "row.h"
 #include "file.h"
+#include "common.h"
 
 #if !defined(__QUERY)
 #define __QUERY
@@ -41,7 +41,7 @@ namespace data
 
 			void clear();
 
-			void filter(compute::row **rows, unsigned long total, unsigned long lines);
+			void filter(compute::common::row **rows, unsigned long total, unsigned long lines);
 			
 			bool load(file::file<data::component::query::component> *source);
 			bool load(file::file<data::element::element> *source);

@@ -1,18 +1,19 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
+#include "cuda.cuh"
+#include "row.cuh"
 #include "item.h"
 #include "header.h"
-#include "row.h"
 #include "result.h"
 
-#if !defined(__GPU_GRID)
-#define __GPU_GRID
+#if !defined(__CUDA_GRID)
+#define __CUDA_GRID
 
 namespace compute
 {
 	namespace gpu
 	{
-		class grid
+		class grid : public cuda::cuda
 		{
 		protected:
 			const static unsigned long GRIDS = 255;
@@ -26,7 +27,7 @@ namespace compute
 			unsigned long write_ptr;
 
 			header **headers;			
-			int *data;
+			int *data, *temp;
 
 			bool init;
 
@@ -41,17 +42,11 @@ namespace compute
 
 			bool isempty();
 
-			void set(unsigned long x, unsigned long y)
-			{
-				if ((x >= width) || (y >= height)) return;
-				data[(y * height) + x] = 1;
-			}
-
 			void minus(grid &right);
 			void and(grid &right);
 			bool compare(grid &right);
 
-			bool push(row &source);
+			bool push(::compute::common::row *source);
 
 			void output();
 

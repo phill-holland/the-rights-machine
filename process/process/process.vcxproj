@@ -155,8 +155,9 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CudaCompile Include="cuda.cu" />
     <CudaCompile Include="grid.cu" />
-    <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="row.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="address.h" />
@@ -164,7 +165,9 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="authentication.h" />
     <ClInclude Include="chain.h" />
     <ClInclude Include="charbuf.h" />
+    <ClInclude Include="common.h" />
     <ClInclude Include="crumbs.h" />
+    <ClInclude Include="cuda.cuh" />
     <ClInclude Include="database.h" />
     <ClInclude Include="errors.h" />
     <ClInclude Include="file.h" />
@@ -184,6 +187,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="responses.h" />
     <ClInclude Include="result.h" />
     <ClInclude Include="results.h" />
+    <ClInclude Include="row.cuh" />
     <ClInclude Include="row.h" />
     <ClInclude Include="starter.h" />
     <ClInclude Include="storage.h" />
@@ -239,6 +243,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="authentication.cpp" />
     <ClCompile Include="chain.cpp" />
     <ClCompile Include="charbuf.cpp" />
+    <ClCompile Include="common.cpp" />
     <ClCompile Include="crumbs.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="errors.cpp" />

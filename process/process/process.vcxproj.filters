@@ -276,6 +276,15 @@
     <ClInclude Include="grid.cuh">
       <Filter>Cuda Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="row.cuh">
+      <Filter>Cuda Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda.cuh">
+      <Filter>Cuda Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files\Compute</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -497,12 +506,18 @@
     <ClCompile Include="messaging.cpp">
       <Filter>Source Files\Server</Filter>
     </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>Source Files\Compute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CudaCompile Include="kernel.cu">
+    <CudaCompile Include="grid.cu">
       <Filter>Cuda Source Files</Filter>
     </CudaCompile>
-    <CudaCompile Include="grid.cu">
+    <CudaCompile Include="row.cu">
+      <Filter>Cuda Source Files</Filter>
+    </CudaCompile>
+    <CudaCompile Include="cuda.cu">
       <Filter>Cuda Source Files</Filter>
     </CudaCompile>
   </ItemGroup>
