@@ -1,7 +1,23 @@
 #include "error.h"
 #include <stdlib.h>
 
-void error::type::types::reset()
+unsigned long error::type::type::pairs()
+{
+	return 3UL;
+}
+
+custom::pair error::type::type::pull(unsigned long index)
+{
+	custom::pair result;
+
+	if (index == 0UL) result = custom::pair(string("code"), string::fromLong(code));
+	else if (index == 1UL) result = custom::pair(string("name"), name);
+	else if (index == 2UL) result = custom::pair(string("description"), description);
+
+	return result;
+}
+
+void error::type::types::reset(queue::out<::error::type::type> *source)
 {
 	init = false; cleanup();
 
@@ -17,6 +33,15 @@ void error::type::types::reset()
 		if (errors[i] == NULL) return;
 	}
 	
+	if (source != NULL)
+	{
+		::error::type::type temp;
+		while (source->get(temp))
+		{
+			push(temp);
+		}
+	}
+
 	init = true;
 }
 
@@ -36,7 +61,8 @@ bool error::type::types::push(type &t)
 error::type::type error::type::types::lookup(::error::error &error)
 {
 	::error::type::type result;
-	
+	result.name = error.name;
+
 	if (reverse.find(error.name) == reverse.end())  return result;
 
 	long code = reverse[error.name] - 1L;

@@ -3,9 +3,6 @@
 
 DWORD WINAPI error::errors::background(thread *bt)
 {
-	//Sleep(10);
-	//return (DWORD)0;
-
 	Sleep(200);
 	++counter;
 	
@@ -20,7 +17,7 @@ DWORD WINAPI error::errors::background(thread *bt)
 	return (DWORD)0;
 }
 
-void error::errors::reset(::queue::in<::error::type::type> *destination)//::queue::in<::error::error> *destination)
+void error::errors::reset(::queue::in<::error::type::type> *destination)
 {
 	init = false; cleanup();
 
@@ -35,6 +32,7 @@ void error::errors::reset(::queue::in<::error::type::type> *destination)//::queu
 		data[i] = new ::error::error();
 		if (data[i] == NULL) return;
 	}
+
 
 	clear();
 
@@ -53,7 +51,6 @@ bool error::errors::set(::error::error &source)
 	mutex lock(token);
 
 	if (length >= MAX) return false;
-	//queue.push_back(source);
 
 	*data[length++] = source;
 
@@ -62,13 +59,10 @@ bool error::errors::set(::error::error &source)
 
 bool error::errors::flush()
 {
-	if (destination != NULL) //&& (data != NULL))
+	if (destination != NULL)
 	{
-		//mutex lock(token);
-
-		for (long i = 0L; i < length; ++i)// (long)queue.size(); ++i)
+		for (long i = 0L; i < length; ++i)
 		{
-			//if (!destination->set(queue[i])) return false;
 			if (!destination->set(lookup(*data[i]))) return false;
 		}
 
@@ -80,7 +74,6 @@ bool error::errors::flush()
 
 void error::errors::reset()
 {
-	//queue.clear();
 	length = 0L;
 	counter = 0L;
 }

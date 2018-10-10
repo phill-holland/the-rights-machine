@@ -349,7 +349,6 @@ DWORD WINAPI server::listener::background(thread *bt)
 				if (get() != MODE::NONE)
 				{
 					goodbye();
-					//Log << "Client terminated connection, expected\r\n";
 				}
 			}
 			else error(string("READ"));
@@ -445,11 +444,14 @@ void server::listener::goodbye()
 
 void server::listener::error(string &error)
 {
-	// output error via JSON/response
-	//Log << "erroring " << error << "\r\n";
-	//c->configuration.errors->set(::error::error(error));
-	//c->makeError(client::ERRORS::Read);
-	c->makeError(::error::error(error));
+	::error::error err(error);
+	c->makeError(err);
+
+	outputter.clear();
+	::error::type::type type = c->configuration.errors->lookup(err);
+	outputter.set(&type);
+	c->write(outputter.get(), 0);
+
 	clear();
 }
 
@@ -678,7 +680,7 @@ bool server::client::isError()
 	return isInError;
 }
 
-void server::client::makeError(::error::error &error)//ERRORS code)
+void server::client::makeError(::error::error &error)
 {
 	configuration.errors->set(error);
 	lastErrorCode = error;
@@ -688,7 +690,7 @@ void server::client::makeError(::error::error &error)//ERRORS code)
 void server::client::resetError()
 {
 	isInError = false;
-	lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
+	lastErrorCode = ::error::error(string("NONE"));
 }
 
 void server::client::shutdown()

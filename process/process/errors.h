@@ -9,20 +9,14 @@
 
 namespace error
 {
-	// have option, output to console, or database
-	// both respond to queue (or log class!!)
-
-	/*public ::error::type::types,*/
-	class errors : public thread, public ::error::type::types, public queue::in<::error::error>//, public allocator::allocator<::error::error, 10L>
+	class errors : public thread, public ::error::type::types, public queue::in<::error::error>
 	{
 		static const long EXPIRATION = 20L;
 		static const long THRESHOLD = 10L;
 		static const long MAX = 20L;
 
 	private:
-		//queue::in<::error::error> *destination;
 		queue::in<::error::type::type> *destination;
-		//std::vector<::error::error> queue;
 
 		::error::error **data;
 		long length;
@@ -37,12 +31,10 @@ namespace error
 		DWORD WINAPI background(thread *bt);
 
 	public:
-		//errors(::queue::in<::error::error> *destination) { makeNull(); reset(destination); }
 		errors(::queue::in<::error::type::type> *destination) { makeNull(); reset(destination); }
 		~errors() { cleanup(); }
 
 		bool initalised() { return init; }
-		//void reset(::queue::in<::error::error> *destination);
 		void reset(::queue::in<::error::type::type> *destination);
 
 		void clear();
@@ -62,7 +54,6 @@ namespace error
 
 	namespace console
 	{
-		//class errors : public queue::in<::error::error>, public ::console::console
 		class errors : public queue::in<::error::type::type>, public ::console::console
 		{
 		public:

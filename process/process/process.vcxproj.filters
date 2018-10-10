@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Server\Queues">
       <UniqueIdentifier>{19d95370-5ad5-47f9-86a4-d6ade47c5964}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Errors">
+      <UniqueIdentifier>{de803b5b-59c4-4060-9e8a-c997f67f3d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Errors">
+      <UniqueIdentifier>{7a9819f9-eb6b-44bf-befa-dea54f8acd43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="log.h">
@@ -144,9 +150,6 @@
     <ClInclude Include="factory.h">
       <Filter>Header Files\Server</Filter>
     </ClInclude>
-    <ClInclude Include="error.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -173,9 +176,6 @@
     </ClInclude>
     <ClInclude Include="result.h">
       <Filter>Header Files\Compute</Filter>
-    </ClInclude>
-    <ClInclude Include="errors.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ssl.h">
       <Filter>Header Files\Http</Filter>
@@ -285,6 +285,15 @@
     <ClInclude Include="common.h">
       <Filter>Header Files\Compute</Filter>
     </ClInclude>
+    <ClInclude Include="error.h">
+      <Filter>Header Files\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="errors.h">
+      <Filter>Header Files\Errors</Filter>
+    </ClInclude>
+    <ClInclude Include="codes.h">
+      <Filter>Header Files\Errors</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -377,9 +386,6 @@
     <ClCompile Include="factory.cpp">
       <Filter>Source Files\Server</Filter>
     </ClCompile>
-    <ClCompile Include="error.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -406,9 +412,6 @@
     </ClCompile>
     <ClCompile Include="results.cpp">
       <Filter>Source Files\Compute</Filter>
-    </ClCompile>
-    <ClCompile Include="errors.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ssl.cpp">
       <Filter>Source Files\Http</Filter>
@@ -508,6 +511,15 @@
     </ClCompile>
     <ClCompile Include="common.cpp">
       <Filter>Source Files\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Source Files\Errors</Filter>
+    </ClCompile>
+    <ClCompile Include="errors.cpp">
+      <Filter>Source Files\Errors</Filter>
+    </ClCompile>
+    <ClCompile Include="codes.cpp">
+      <Filter>Source Files\Errors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

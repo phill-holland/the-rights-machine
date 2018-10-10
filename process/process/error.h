@@ -1,3 +1,4 @@
+#include "json.h"
 #include "string.h"
 #include "comparison.h"
 #include <unordered_map>
@@ -7,20 +8,10 @@
 
 namespace error
 {
-	/*
-	namespace type
-	{
-		class type;
-	};
-	*/
 	class error
 	{
-		//enum CODE { NONE = 0, ALLOCATION = 1, OTHER = 2, UNKNOWN = 3 };
-
 	public:
 		string name;
-		//CODE code;
-		//string description;
 
 	public:
 		error(string name = "") { reset(name); }
@@ -28,36 +19,14 @@ namespace error
 		void reset(string name = "")
 		{
 			this->name = name;
-			//code = CODE::NONE;
-			//description = "";
 		}
-
-		//string to()
-		//{
-			//const string map[] = { string("NONE"), string("ALLOCATION"), string("OTHER"), string("UNKNOWN") };
-
-			//string result = map[(int)code];
-			//result += ":";
-			//result += description;
-			
-			//return result;
-
-			//return name;
-		//}
-
-		//string to(::error::type::type &t)
-		//{
-		//}
-
-	//public:
-	//	operator string() { return to(); }
 	};
 
 	namespace type
 	{
 		class types;
 
-		class type
+		class type : public data::json::response::json
 		{
 			friend class types;
 
@@ -82,6 +51,12 @@ namespace error
 			}
 
 		public:
+			string identifier() { return string("error"); }
+
+			unsigned long pairs();
+			custom::pair pull(unsigned long index);
+
+		public:
 			operator string() { return get(); }
 		};
 
@@ -99,14 +74,14 @@ namespace error
 			bool init;
 
 		public:
-			types() { makeNull(); reset(); }
+			types(queue::out<::error::type::type> *source = NULL) { makeNull(); reset(source); }
 			~types() { cleanup(); }
-
+			
 			bool initalised() { return init; }
-			void reset();
+			void reset(queue::out<::error::type::type> *source = NULL);
 
 			bool push(type &t);
-			
+						
 			type lookup(::error::error &error);
 
 		protected:
