@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClInclude Include="component.h" />
     <ClInclude Include="element.h" />
+    <ClInclude Include="error.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="line.h" />
     <ClInclude Include="message.h" />
@@ -141,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="component.cpp" />
     <ClCompile Include="element.cpp" />
+    <ClCompile Include="error.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="line.cpp" />
     <ClCompile Include="message.cpp" />
