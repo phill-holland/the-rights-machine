@@ -16,3 +16,4 @@ C:\Git\the-rights-machine\process\database\obj\Debug\postdeploy.sql
 C:\Git\the-rights-machine\process\database\obj\Debug\predeploy.sql
 C:\Git\the-rights-machine\process\database\obj\Debug\database.dll
 C:\Git\the-rights-machine\process\database\obj\Debug\database.pdb
+C:\Git\the-rights-machine\process\database\obj\Debug\database.sqlprojAssemblyReference.cache
