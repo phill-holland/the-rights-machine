@@ -30,7 +30,7 @@ bool manager::manager::set(compute::task &source)
 		if (read >= (long)nodes.size()) read = 0L;
 		result = nodes[read++]->set(source);
 		++count;
-	} while ((!result) && (count < nodes.size()));
+	} while ((!result) && (count < (long)nodes.size()));
 
 	return result;
 }

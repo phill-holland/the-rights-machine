@@ -1,131 +1,84 @@
-﻿  Compiling CUDA source file cuda.cu...
-  Compiling CUDA source file grid.cu...
-  
-  C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64" -x cu  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Fdx64\Debug\vc120.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\cuda.cu.obj "C:\Git\the-rights-machine\process\process\cuda.cu" 
-  
-  C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64" -x cu  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Fdx64\Debug\vc120.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\grid.cu.obj "C:\Git\the-rights-machine\process\process\grid.cu" 
-  Compiling CUDA source file row.cu...
-  
-  C:\Git\the-rights-machine\process\process>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\nvcc.exe" -gencode=arch=compute_35,code=\"sm_35,compute_35\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64" -x cu  -I"C:\Program Files (x86)\Visual Leak Detector\include" -I"C:\build-OpenSSL-VC64\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include"  -G   --keep-dir x64\Debug -maxrregcount=0  --machine 64 --compile -cudart static  -g   -DWIN32 -DWIN64 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /Fdx64\Debug\vc120.pdb /FS /Zi /RTC1 /MDd " -o x64\Debug\row.cu.obj "C:\Git\the-rights-machine\process\process\row.cu" 
-  cuda.cu
-  row.cu
-  grid.cu
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/system/cuda/detail/reduce.h(944): warning C4244: 'argument' : conversion from 'size_type' to 'int', possible loss of data
-          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/system/cuda/detail/reduce.h(1019) : see reference to function template instantiation 'T thrust::cuda_cub::reduce_n<thrust::cuda_cub::par_t,InputIt,size_type,T,BinaryOp>(thrust::cuda_cub::execution_policy<thrust::cuda_cub::par_t> &,InputIt,Size,T,BinaryOp)' being compiled
-          with
-          [
-              T=value_type
-  ,            InputIt=thrust::device_ptr<int>
-  ,            BinaryOp=thrust::plus<int>
-  ,            Size=size_type
-          ]
-          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/system/cuda/detail/reduce.h(1031) : see reference to function template instantiation 'T thrust::cuda_cub::reduce<thrust::cuda_cub::par_t,InputIt,T,thrust::plus<T>>(thrust::cuda_cub::execution_policy<thrust::cuda_cub::par_t> &,InputIt,InputIt,T,BinaryOp)' being compiled
-          with
-          [
-              T=value_type
-  ,            InputIt=thrust::device_ptr<int>
-  ,            BinaryOp=thrust::plus<int>
-          ]
-          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/system/cuda/detail/reduce.h(1042) : see reference to function template instantiation 'T thrust::cuda_cub::reduce<thrust::cuda_cub::par_t,InputIt,value_type>(thrust::cuda_cub::execution_policy<thrust::cuda_cub::par_t> &,InputIt,InputIt,T)' being compiled
-          with
-          [
-              T=value_type
-  ,            InputIt=thrust::device_ptr<int>
-          ]
-          C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/detail/reduce.inl(41) : see reference to function template instantiation 'int thrust::cuda_cub::reduce<thrust::cuda_cub::par_t,InputIterator>(thrust::cuda_cub::execution_policy<thrust::cuda_cub::par_t> &,InputIt,InputIt)' being compiled
-          with
-          [
-              InputIterator=thrust::device_ptr<int>
-  ,            InputIt=thrust::device_ptr<int>
-          ]
-          C:/Git/the-rights-machine/process/process/grid.cu(87) : see reference to function template instantiation 'int thrust::reduce<DerivedPolicy,thrust::device_ptr<int>>(const thrust::detail::execution_policy_base<DerivedPolicy> &,InputIterator,InputIterator)' being compiled
-          with
-          [
-              DerivedPolicy=thrust::cuda_cub::par_t
-  ,            InputIterator=thrust::device_ptr<int>
-          ]
-C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\include\thrust/system/cuda/detail/reduce.h(973): warning C4244: 'argument' : conversion from 'size_type' to 'int', possible loss of data
-  wsock.cpp
-  page.cpp
-  thread.cpp
-  task.cpp
-  string.cpp
-  ssl.cpp
-  server.cpp
-  response.cpp
-  json.cpp
-  queue.cpp
-  query.cpp
-  queries.cpp
-  process.cpp
-  pair.cpp
-  mutex.cpp
-  main.cpp
-  log.cpp
-  odbc.cpp
-  message.cpp
-  manager.cpp
-  Generating Code...
-  Compiling...
-  list.cpp
-  lines.cpp
-  line.cpp
-  items.cpp
-  item.cpp
-  http.cpp
-  grid.cpp
-  gpu.cpp
-  fifo.cpp
-  factory.cpp
-  error.cpp
-  elements.cpp
-  element.cpp
-  datetime.cpp
-  databases.cpp
-  cpu.cpp
-  console.cpp
-  configuration.cpp
-  compute.cpp
-  components.cpp
-  Generating Code...
-  Compiling...
-  component.cpp
-  comparison.cpp
-  zone.cpp
-  watchdog.cpp
-  users.cpp
-  user.cpp
-  storage.cpp
-  starter.cpp
-  row.cpp
-  results.cpp
-  result.cpp
-  responses.cpp
-  request.cpp
-  records.cpp
-  record.cpp
-  pending.cpp
-  parameters.cpp
-  parameter.cpp
-  output.cpp
-  messaging.cpp
-  Generating Code...
-  Compiling...
-  memory.cpp
-  map.cpp
-  header.cpp
-  guid.cpp
-  file.cpp
-  errors.cpp
-  database.cpp
-  crumbs.cpp
-  common.cpp
-  codes.cpp
-  charbuf.cpp
-  chain.cpp
-  authentication.cpp
+﻿  address.cpp
   allocator.cpp
-  address.cpp
+  authentication.cpp
+  chain.cpp
+  charbuf.cpp
+  codes.cpp
+  common.cpp
+  crumbs.cpp
+  database.cpp
+  errors.cpp
+  file.cpp
+  guid.cpp
+  header.cpp
+  map.cpp
+  memory.cpp
+  messaging.cpp
+  output.cpp
+  parameter.cpp
+  parameters.cpp
+  pending.cpp
+  Generating Code...
+  Compiling...
+  record.cpp
+  records.cpp
+  request.cpp
+  responses.cpp
+  result.cpp
+  results.cpp
+  row.cpp
+  starter.cpp
+  storage.cpp
+  user.cpp
+  users.cpp
+  watchdog.cpp
+  zone.cpp
+  comparison.cpp
+  component.cpp
+  components.cpp
+  compute.cpp
+  configuration.cpp
+  console.cpp
+  cpu.cpp
+  Generating Code...
+  Compiling...
+  databases.cpp
+  datetime.cpp
+  element.cpp
+  elements.cpp
+  error.cpp
+  factory.cpp
+  fifo.cpp
+  gpu.cpp
+  grid.cpp
+  http.cpp
+  item.cpp
+  items.cpp
+  line.cpp
+  lines.cpp
+  list.cpp
+  manager.cpp
+  message.cpp
+  odbc.cpp
+  log.cpp
+  main.cpp
+  Generating Code...
+  Compiling...
+  mutex.cpp
+  pair.cpp
+  process.cpp
+  queries.cpp
+  query.cpp
+  queue.cpp
+  json.cpp
+  response.cpp
+  server.cpp
+  ssl.cpp
+  string.cpp
+  task.cpp
+  thread.cpp
+  page.cpp
+  wsock.cpp
   Generating Code...
   process.vcxproj -> C:\Git\the-rights-machine\process\x64\Debug\process.exe
   copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin\cudart*.dll" "C:\Git\the-rights-machine\process\x64\Debug\"

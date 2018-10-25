@@ -96,7 +96,7 @@ void compute::cpu::processor::push(::compute::task &task)
 						if (output.typeID == (int)data::line::line::TYPE::out)
 						{
 							std::vector<zone::zone> result = source.split(output);
-							for (long l = 0L; l < result.size(); ++l)
+							for (long l = 0L; l < (long)result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
 							}

@@ -2,6 +2,7 @@
 #include <thrust/reduce.h>
 #include <thrust/device_ptr.h>
 #include <thrust/execution_policy.h>
+#include "string.h"
 #include "log.h"
 
 __global__ void minusKernel(int *a, const int *b)
@@ -128,7 +129,7 @@ void compute::gpu::grid::output()
 
 				result += "}";
 
-				Log << result << "\r\n";
+				Log << result << string("\r\n");
 			}
 		}
 	}
