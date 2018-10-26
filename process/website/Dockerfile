@@ -35,7 +35,7 @@ RUN setx SSDTPath $env:DATATOOLS_PATH /M
 WORKDIR /installer
 #ADD https://developer.nvidia.com/compute/cuda/10.0/Prod/network_installers/cuda_10.0.130_win10_network toolkit.exe
 ADD http://127.0.0.1/support/cuda_10.0.130_411.31_win10.exe toolkit.exe
-RUN Start-Process 'c:\installer\toolkit.exe' '-s nvcc_10.0' -PassThru | Wait-Process;
+RUN Start-Process 'c:\installer\toolkit.exe' '-s nvcc_10.0 cudart_10.0' -PassThru | Wait-Process;
 RUN choco install 7zip.install -y
 ENV ZIP_PATH="C:\Program Files\7-Zip"
 RUN $env:PATH = $env:ZIP_PATH + ';' + $env:PATH; `
