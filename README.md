@@ -1,12 +1,14 @@
 <b>The Rights Machine</b>
 
 Google Test Framework
+https://google.github.io/googletest/quickstart-cmake.html
 
 Cuda 11
 
 Inlude Cmake
 
 Ensure OpenSSL server (freeSSL service)
+https://letsencrypt.org/
 
 Double check streaming input and output,
 stream in real-time, output streamed even if whole
@@ -17,6 +19,7 @@ json not finished inputted yet
 Excel Integration
 
 Nuget package (.net version>>)
+for api calling
 
 Authentication
 
