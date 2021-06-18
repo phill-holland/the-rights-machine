@@ -63,7 +63,7 @@ bool odbc::recordset::GetBool(long index)
 	return result;
 }
 
-bool odbc::recordset::BindLong(long index, int &data)
+bool odbc::recordset::BindLong(long index, long &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
@@ -720,50 +720,50 @@ void database::odbc::factory::connection::reset()
 
 	init = true;
 }
-
-database::connection *database::odbc::factory::connection::get()
+*/
+odbc::connection *odbc::factory::connection::get()
 {
-	database::odbc::connection *result = new database::odbc::connection();
+	odbc::connection *result = new odbc::connection();
 	if(result != NULL) connections.push_back(result);
 	return result;
 }
 
-void database::odbc::factory::connection::makeNull()
+void odbc::factory::connection::makeNull()
 {
 }
 
-void database::odbc::factory::connection::cleanup()
+void odbc::factory::connection::cleanup()
 {
 	for (long i = (long)connections.size() - 1L; i >= 0L; i--)
 	{
-		database::odbc::connection *temp = connections[i];
+		odbc::connection *temp = connections[i];
 		if (temp != NULL) delete temp;
 	}
 }
 
-void database::odbc::factory::recordset::reset()
+void odbc::factory::recordset::reset()
 {
 	init = false; cleanup();
 
 	init = true;
 }
 
-database::recordset *database::odbc::factory::recordset::get()
+odbc::recordset *odbc::factory::recordset::get()
 {
-	database::odbc::recordset *result = new database::odbc::recordset();
+	odbc::recordset *result = new odbc::recordset();
 	if (result != NULL) recordsets.push_back(result);
 	return result;
 }
 
-void database::odbc::factory::recordset::makeNull()
+void odbc::factory::recordset::makeNull()
 {
 }
 
-void database::odbc::factory::recordset::cleanup()
+void odbc::factory::recordset::cleanup()
 {
 	for (long i = (long)recordsets.size() - 1L; i >= 0L; i--)
 	{
-		database::odbc::recordset *temp = recordsets[i];
+		odbc::recordset *temp = recordsets[i];
 		if (temp != NULL) delete temp;
 	}
-}*/
+}

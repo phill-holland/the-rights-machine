@@ -7,11 +7,11 @@ void server::starter::reset(messaging::common::messaging *messaging)
 
 	string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
 
-	connections = new database::odbc::factory::connection();
+	connections = new odbc::factory::connection();
 	if (connections == NULL) return;
 	if (!connections->initalised()) return;
 
-	recordsets = new database::odbc::factory::recordset();
+	recordsets = new odbc::factory::recordset();
 	if (recordsets == NULL) return;
 	if (!recordsets->initalised()) return;
 

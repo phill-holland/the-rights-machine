@@ -35,7 +35,7 @@ void test()
 	if (!errors.start()) return;
 
 
-	server::configuration::configuration configuration(&manager, &errors);
+	configuration::server::configuration configuration(&manager, nullptr, &errors);
 	server::server *server = new server::server(&configuration);
 
 	if (server == NULL) return;

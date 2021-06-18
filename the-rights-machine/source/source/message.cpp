@@ -97,8 +97,9 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 			unsigned long offset = (map[lineID] * max_components) + componentID;
 			if (offset < total)
 			{
+				#warning argh
 				rows[offset]->set(elements.map(element.value));
-				rows[offset]->set(compute::header(messageID, itemID, lineID, componentID));
+				//rows[offset]->set(compute::header(messageID, itemID, lineID, componentID));
 			}
 		}
 	}
