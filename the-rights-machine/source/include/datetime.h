@@ -1,5 +1,5 @@
 #include "string.h"
-#include <Windows.h>
+
 #include <sqltypes.h>
 
 #if !defined(__DATETIME)
@@ -19,7 +19,7 @@ namespace global
 		datetime(time_t const &source)
 		{
 			tm l;
-			localtime_s(&l, &source);
+			localtime_r(&source, &l);
 
 			year = l.tm_year + 1900;
 			month = l.tm_mon + 1;

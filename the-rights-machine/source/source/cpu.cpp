@@ -219,9 +219,9 @@ void compute::cpu::processor::cleanup()
 	if (in != NULL) delete in;
 }
 
-DWORD WINAPI compute::cpu::cpu::background(thread *bt)
+void compute::cpu::cpu::background(thread *bt)
 {
-	Sleep(100);
+	sleep(100);
 
 	::compute::task task;
 	if (get(task))
@@ -230,10 +230,10 @@ DWORD WINAPI compute::cpu::cpu::background(thread *bt)
 	}
 	else
 	{
-		Sleep(5000);
+		sleep(5000);
 	}
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void compute::cpu::cpu::reset(::queue::factory<::compute::task> *factory)

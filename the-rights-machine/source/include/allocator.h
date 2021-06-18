@@ -1,4 +1,6 @@
 #include "queue.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #if !defined(__ALLOCATOR)
 #define __ALLOCATOR
@@ -6,143 +8,148 @@
 namespace allocator
 {
 	// THIS NEEDS MUTEX LOCKS
+	template <class X, long Y> class block
+	{
+	public:
+		block *next, *previous;
+		X **data;
+
+	private:
+		long write;// , read;
+
+		bool init;
+
+	public:
+		block() { makeNull(); reset(); }
+		block(block const &source) { clear(); copy(source); }
+		~block() { cleanup(); }
+
+		bool initalised() { return init; }
+
+		void reset()
+		{
+			init = false; cleanup();
+
+			write = 0L; //read = 0L;
+			next = nullptr; previous = nullptr;
+
+			data = new X*[Y];
+			for (long i = 0L; i < Y; ++i) data[i] = nullptr;
+
+			for (long i = 0L; i < Y; ++i)
+			{
+				data[i] = new X();
+				if (data[i] == nullptr) return;
+			}
+
+			init = true;
+		}
+
+		void clear() 
+		{ 
+			write = 0L;
+			next = nullptr; previous = nullptr;
+		}
+
+		long count() { return write; }
+
+		bool isfull()
+		{
+			return (write >= Y);
+		}
+
+		//bool isempty()
+		//{
+		//	return (read == write);
+		//}
+
+		bool set(X &source)
+		{
+			if (write >= Y) return false;
+			*data[write++] = source;
+
+			return true;
+		}
+
+		//bool get(X &destination) { return false; }
+		/*{
+			if (read >= Y) return false;
+			destination = *data[read++];
+
+			return true;
+		}*/
+
+		X get(long index)
+		{
+			if ((index < 0) || (index >= Y)) return X();
+			return *data[index];
+		}
+
+		virtual bool flush() { return true; }
+
+		void copy(block const &source)
+		{
+			if ((initalised()) && (source.initialised()))
+			{
+				for (long i = 0L; i < Y; ++i)
+				{
+					*data[i] = *(source.data[i]);
+				}
+
+				//read = 0L;
+				write = source.write;
+			}
+		}
+
+	public:
+		block& operator=(const block& source)
+		{
+			this->copy((block&)source);
+			return *this;
+		}
+
+		X operator[](int index)
+		{
+			return get((long)index);
+		}
+
+	protected:
+		void makeNull()
+		{
+			data = nullptr;
+		}
+
+		void cleanup()
+		{
+			if (data != nullptr)
+			{
+				for (long i = Y - 1L; i >= 0L; i--)
+				{
+					if (data[i] != nullptr) delete data[i];
+				}
+
+				delete data;
+			}
+		}
+	};
+
+	template <class X, long Y> class cursor
+	{
+	public:
+		block<X, Y> *current;
+		long index, normalised;
+
+	public:
+		cursor()
+		{
+			current = nullptr;
+			index = 0;
+			normalised = 0;
+		}
+	};
 
 	template <class X, long Y> class allocator : public queue::in<X>, public queue::base//queue<X>
 	{
-		template <class X, long Y> class block
-		{
-		public:
-			block *next, *previous;
-			X **data;
-
-		private:					
-			long write;// , read;
-
-			bool init;
-
-		public:
-			block() { makeNull(); reset(); }
-			block(block const &source) { clear(); copy(source); }
-			~block() { cleanup(); }
-
-			bool initalised() { return init; }
-
-			void reset()
-			{
-				init = false; cleanup();
-
-				write = 0L; //read = 0L;
-				next = NULL; previous = NULL;
-
-				data = new X*[Y];
-				for (long i = 0L; i < Y; ++i) data[i] = NULL;
-
-				for (long i = 0L; i < Y; ++i)
-				{
-					data[i] = new X();
-					if (data[i] == NULL) return;
-				}
-
-				init = true;
-			}
-
-			long count() { return write; }
-
-			bool isfull()
-			{
-				return (write >= Y);
-			}
-
-			//bool isempty()
-			//{
-			//	return (read == write);
-			//}
-
-			bool set(X &source)
-			{
-				if (write >= Y) return false;
-				*data[write++] = source;
-
-				return true;
-			}
-
-			//bool get(X &destination) { return false; }
-			/*{
-				if (read >= Y) return false;
-				destination = *data[read++];
-
-				return true;
-			}*/
-
-			X get(long index)
-			{
-				if ((index < 0) || (index >= Y)) return X();
-				return *data[index];
-			}
-
-			virtual bool flush() { return true; }
-		
-			void copy(block const &source)
-			{
-				if ((initalised()) && (source.initialised()))
-				{
-					for (long i = 0L; i < Y; ++i)
-					{
-						*data[i] = *(source.data[i]);
-					}
-
-					//read = 0L;
-					write = source.write;
-				}
-			}
-
-		public:
-			block& operator=(const block& source)
-			{
-				this->copy((block&)source);
-				return *this;
-			}
-
-			X operator[](int index)
-			{
-				return get((long)index);
-			}
-
-		protected:
-			void makeNull()
-			{
-				data = NULL;
-			}
-
-			void cleanup()
-			{
-				if (data != NULL)
-				{
-					for (long i = Y - 1L; i >= 0L; i--)
-					{
-						if (data[i] != NULL) delete data[i];
-					}
-
-					delete data;
-				}
-			}
-		};
-
-		template <class X, long Y> class cursor
-		{
-		public:
-			block<X, Y> *current;
-			long index, normalised;
-
-		public:
-			cursor()
-			{
-				current = NULL;
-				index = 0;
-				normalised = 0;
-			}
-		};
-
 		block<X, Y> *head, *tail;// , *read;
 
 		cursor<X, Y> accessor;
@@ -159,11 +166,17 @@ namespace allocator
 
 		bool initalised() { return init; }
 
+		void clear()
+		{
+			head = nullptr; tail = nullptr;// read = nullptr;
+			elements = 0L;
+		}
+
 		void reset()
 		{
 			init = false; cleanup();
 
-			head = NULL; tail = NULL;// read = NULL;
+			head = nullptr; tail = nullptr;// read = nullptr;
 			elements = 0L;
 
 			init = true;
@@ -174,10 +187,10 @@ namespace allocator
 		//bool get(X &destination) { return false; }
 		/*
 		{
-			if (read == NULL) return false;
+			if (read == nullptr) return false;
 
 			if ((read->isempty()) && (read->isfull())) read = read->next;
-			if (read == NULL) return false;
+			if (read == nullptr) return false;
 
 			return read->get(destination);
 		}
@@ -188,7 +201,7 @@ namespace allocator
 		{
 			if ((index < 0L) || (index >= elements)) return X();
 
-			if ((accessor.current == NULL) || (accessor.index + 1L != index))
+			if ((accessor.current == nullptr) || (accessor.index + 1L != index))
 			{
 				//if ((index >= 0) && (index < elements))
 				//{
@@ -196,13 +209,13 @@ namespace allocator
 
 					int counter = 0;
 					block<X, Y> *src = head;
-					while ((src != NULL) && (counter < t.quot))
+					while ((src != nullptr) && (counter < t.quot))
 					{
 						src = src->next;
 						++counter;
 					};
 
-					if (src != NULL)
+					if (src != nullptr)
 					{
 						accessor.index = t.quot + t.rem;
 						accessor.normalised = t.rem;
@@ -223,7 +236,7 @@ namespace allocator
 						accessor.current = accessor.current->next;
 					}
 
-					if (accessor.current != NULL)
+					if (accessor.current != nullptr)
 					{
 						//block<X, Y> *c = accessor.current;
 						return (*accessor.current)[accessor.normalised];
@@ -237,10 +250,10 @@ namespace allocator
 
 		bool set(X &source)
 		{
-			if (head == NULL)
+			if (head == nullptr)
 			{
 				head = new block<X, Y>();
-				if (head == NULL) return false;
+				if (head == nullptr) return false;
 				if (!head->initalised()) return false;
 
 				tail = head; //read = head;
@@ -249,15 +262,15 @@ namespace allocator
 			if (tail->isfull())
 			{
 				tail->next = new block<X, Y>();
-				if (tail->next == NULL) return false;
+				if (tail->next == nullptr) return false;
 				if (!tail->next->initalised()) return false;
 
 				tail->next->previous = tail;
 				tail = tail->next;
 			}
-			
+
 			if (!tail->set(source)) return false;
-			
+
 			++elements;
 
 			return true;
@@ -270,7 +283,7 @@ namespace allocator
 			reset();
 
 			block<X, Y> *src = source.head;
-			while (src != NULL)
+			while (src != nullptr)
 			{
 				for (long i = 0L; i < src->count(); ++i)
 				{
@@ -297,18 +310,18 @@ namespace allocator
 	protected:
 		void makeNull()
 		{
-			head = NULL;
-			tail = NULL;
+			head = nullptr;
+			tail = nullptr;
 		}
 
 		void cleanup()
 		{
-			while (tail != NULL)
+			while (tail != nullptr)
 			{
 				block<X, Y> *temp = tail->previous;
 				delete tail;
 				tail = temp;
-			}				
+			}
 		}
 	};
 };

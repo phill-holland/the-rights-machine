@@ -33,7 +33,7 @@ namespace data
 		bool init;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		users(database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }

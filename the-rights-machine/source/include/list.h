@@ -3,6 +3,8 @@
 #if !defined(__LIST)
 #define __LIST
 
+#warning delete me
+
 namespace custom
 {
 	template <class X> class list

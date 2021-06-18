@@ -1,6 +1,6 @@
 #include "database.h"
 
-DWORD WINAPI queues::database::incoming::queue::background(thread *bt)
+void queues::database::incoming::queue::background(thread *bt)
 {
 	if (counter > interval)
 	{
@@ -14,7 +14,7 @@ DWORD WINAPI queues::database::incoming::queue::background(thread *bt)
 
 	Sleep(1000);
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void queues::database::incoming::queue::reset(::database::settings &settings, unsigned long interval)
@@ -165,7 +165,7 @@ void queues::database::incoming::factory::cleanup()
 	}
 }
 
-DWORD WINAPI queues::database::outgoing::queue::background(thread *bt)
+void queues::database::outgoing::queue::background(thread *bt)
 {
 	if (counter > interval)
 	{
@@ -179,7 +179,7 @@ DWORD WINAPI queues::database::outgoing::queue::background(thread *bt)
 
 	Sleep(1000);
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void queues::database::outgoing::queue::reset(::database::settings &settings, unsigned long interval)

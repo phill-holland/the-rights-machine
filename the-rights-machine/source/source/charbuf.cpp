@@ -1,4 +1,5 @@
 #include "charbuf.h"
+//#include <cstring>
 
 void global::charbuf::reset(unsigned long length)
 {
@@ -16,7 +17,8 @@ void global::charbuf::reset(unsigned long length)
 void global::charbuf::clear()
 {
 	items = 0UL;
-	memset(buffer, 0, length);
+	for(int i=0; i < length; ++i) buffer[i] = 0;
+	//std::memset(buffer, 0, length);
 }
 
 bool global::charbuf::push(char value)

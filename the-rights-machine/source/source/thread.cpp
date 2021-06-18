@@ -1,5 +1,7 @@
 #include "thread.h"
 
+std::chrono::milliseconds thread::milliseconds = std::chrono::milliseconds(100);
+
 thread::thread()
 {
 	init = false;
@@ -8,13 +10,26 @@ thread::thread()
 
 	running = false; stopped = false;
 	paused = false; iampaused = false;
+	requestedstop = false;
 
 	neverstarted = true;
 }
 
 void thread::stop()
 {
-	if (running) running = false;
+	if (running)
+	{
+		if (!requestedstop)
+		{
+			requestedstop = true;
+		}
+
+		int error = 0;
+		while ((!stopped) && (error < 100)) { sleep(50); ++error; }
+
+		if(handle->joinable()) 
+			handle->join();
+	}
 	else if (neverstarted) stopped = true;
 }
 
@@ -30,31 +45,14 @@ bool thread::pauseAndWait(bool value, long time, long max)
 	if ((value) && (running))
 	{
 		long error = 0L;
-		while ((!isPaused()) && (error<max))
+		while ((!isPaused()) && (error < max))
 		{
-			Sleep(time);
+			std::this_thread::sleep_for(std::chrono::milliseconds(time));
 			++error;
 		}
 
 		if (error >= max) return false;
-
 	}
-
-	return true;
-}
-
-bool thread::stopAndWait(long time, long max)
-{
-	stop();
-
-	long error = 0L;
-	while ((!stopped) && (error < max))
-	{
-		Sleep(time);
-		++error;
-	}
-
-	if (error >= max) return false;
 
 	return true;
 }
@@ -67,36 +65,31 @@ bool thread::WaitLongTimeWithInteruption(long time)
 
 	while (!isPaused() && isRunning() && (counter < loops))
 	{
-		Sleep(wait);
+		std::this_thread::sleep_for(std::chrono::milliseconds(wait));
 		++counter;
 	}
 
 	return counter == loops;
 }
 
-void thread::destroy()
-{
-	running = false;
-	if (tHandle != NULL) TerminateThread(tHandle, 0);
-	tHandle = NULL;
-}
-
 bool thread::create()
 {
 	running = true; stopped = false;
 	paused = false; iampaused = false;
+	requestedstop = false;
 
-	tHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)interrupt, this, 0, NULL);
-	if (tHandle == NULL) return false;
+	handle = new std::thread(thread::interrupt, this);
+	if (handle == NULL) return false;
 
 	return true;
 }
 
 void thread::cleanup()
 {
-	if (stopAndWait())
+	if (handle != NULL)
 	{
-		if (tHandle != NULL) CloseHandle(tHandle);
+		stop();
+
+		delete handle;
 	}
-	else destroy();
 }

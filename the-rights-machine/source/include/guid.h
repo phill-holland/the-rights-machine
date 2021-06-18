@@ -1,4 +1,4 @@
-#include <windows.h>
+
 #include "string.h"
 
 #if !defined(__GUID)
@@ -6,6 +6,7 @@
 
 namespace guid
 {
+	/*
 	class guid
 	{
 		GUID value;
@@ -26,6 +27,7 @@ namespace guid
 		operator string() { return get(); }
 		operator GUID() { return value; }
 	};
+	*/
 };
 
 #endif

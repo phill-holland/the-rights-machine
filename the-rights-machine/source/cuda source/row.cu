@@ -1,5 +1,5 @@
 #include "row.cuh"
-#include <windows.h>
+
 #include "log.h"
 
 void compute::gpu::row::reset(unsigned long length)

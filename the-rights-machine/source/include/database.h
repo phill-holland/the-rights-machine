@@ -10,6 +10,8 @@
 #include "responses.h"
 #include "thread.h"
 #include "storage.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #if !defined(__DATABASE)
 #define __DATABASE
@@ -44,7 +46,7 @@ namespace queues
 				bool init;
 
 			public:
-				DWORD WINAPI background(thread *bt);
+				void background(thread *bt);
 
 			public:
 				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
@@ -119,7 +121,7 @@ namespace queues
 				bool init;
 
 			public:
-				DWORD WINAPI background(thread *bt);
+				void background(thread *bt);
 
 			public:
 				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }

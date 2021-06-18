@@ -1,7 +1,7 @@
 #include "errors.h"
 #include "log.h"
 
-DWORD WINAPI error::errors::background(thread *bt)
+void error::errors::background(thread *bt)
 {
 	Sleep(200);
 	++counter;
@@ -14,7 +14,7 @@ DWORD WINAPI error::errors::background(thread *bt)
 	}
 	else Sleep(1000);
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void error::errors::reset(::queue::in<::error::type::type> *destination)

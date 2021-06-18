@@ -1,5 +1,5 @@
 #include "row.h"
-#include <windows.h>
+
 #include "log.h"
 
 void compute::cpu::row::reset(unsigned long length)

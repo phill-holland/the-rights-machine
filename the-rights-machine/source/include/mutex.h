@@ -1,10 +1,9 @@
-#include <windows.h>
 #include <mutex>
 
-#if !defined(__MUTEX)
-#define __MUTEX
+#ifndef _MUTEX
+#define _MUTEX
 
-#if !defined(__MUTEX_WINDOWS)
+#ifndef _MUTEX_WINDOWS
 
 class mutex : public std::lock_guard<std::mutex>
 {
@@ -21,6 +20,8 @@ public:
 };
 
 #else
+
+#include <windows.h>
 
 class mutex
 {

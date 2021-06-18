@@ -1,41 +1,49 @@
-#include <windows.h>
+#include <thread>
+#include <chrono>
 #include "mutex.h"
 
-#if !defined(__THREAD)
-#define __THREAD
+#ifndef _THREAD
+#define _THREAD
 
 class thread
 {
-	HANDLE tHandle;
-	bool init;
-
 protected:
 	volatile bool running;
 	volatile bool paused;
 	volatile bool iampaused;
 	volatile bool stopped;
 	volatile bool neverstarted;
+	volatile bool requestedstop;
+
+	static std::chrono::milliseconds milliseconds;
 
 public:
-	static DWORD WINAPI interrupt(thread *bt)
+	static void interrupt(thread *bt)
 	{
-		while (bt->running == true)
+		while(!bt->requestedstop)
 		{
 			bt->neverstarted = false;
-			if (bt->paused) { bt->iampaused = true; Sleep(100); }
+			if (bt->paused)
+			{
+				bt->iampaused = true; std::this_thread::sleep_for(milliseconds);
+			}
 			else
 			{
 				bt->iampaused = false;
 				bt->background(bt);
 			}
-		}
+		};
 
 		bt->stopped = true;
-
-		return (DWORD)0;
+		bt->running = false;
 	}
 
-	virtual DWORD WINAPI background(thread *bt) = 0;
+	virtual void background(thread *bt) = 0;
+
+private:
+	std::thread *handle;
+
+	bool init;
 
 public:
 	thread();
@@ -54,19 +62,22 @@ public:
 	bool pauseAndWait(bool value) { return pauseAndWait(value, 500L); }
 	bool pauseAndWait(bool value, long time) { return pauseAndWait(value, time, 30L); }
 
-	bool stopAndWait(long time, long max);
+	bool stopAndWait(long time, long max) { stop(); return true; }
 	bool stopAndWait(long time) { return stopAndWait(time, 30L); }
 	bool stopAndWait() { return stopAndWait(500L); }
 
 	bool WaitLongTimeWithInteruption(long time);
 
-	void destroy();
+	void sleep(int ms)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+	}
 
 private:
 	bool create();
 
 private:
-	void makeNull() { tHandle = NULL; }
+	void makeNull() { handle = NULL; }
 	void cleanup();
 };
 

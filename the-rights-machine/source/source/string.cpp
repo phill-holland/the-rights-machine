@@ -1,7 +1,7 @@
 #include "string.h"
 #include <stdio.h>
+#include <memory.h>
 #include <random>
-#include "log.h"
 
 char base64[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" };
 
@@ -130,7 +130,7 @@ string string::randBase64()
 	return string::fromInt(dist(generator)).toBase64();
 }
 
-long string::split(char find, string *destination, long elements)
+long string::split(char find, string *destination, long elements) const
 {
 	long element = 0L;
 
@@ -154,7 +154,7 @@ long string::split(char find, string *destination, long elements)
 	return element;
 }
 
-bool string::icompare(string &a)
+bool string::icompare(string a)
 {
 	auto upper = [](char source)
 	{
@@ -176,7 +176,7 @@ bool string::icompare(string &a)
 	return true;
 }
 
-float string::match(string &source)
+float string::match(string source)
 {
 	auto upper = [](char source)
 	{
@@ -260,7 +260,7 @@ float string::match(string &source)
 	return score / (float)(max * 2L);
 }
 
-float string::match(string &source, int *offsets, long len, long scope)
+float string::match(string source, int *offsets, long len, long scope)
 {
 	auto upper = [](char source)
 	{
@@ -635,7 +635,7 @@ string string::fromFloat(float source)
 {
 	char temp[15]; memset(temp, 0, 15);
 
-	sprintf_s((char*)temp, 15, "%2.8f", source);
+	snprintf((char*)temp, 15, "%2.8f", source);
 
 	return string(temp);
 }
@@ -644,7 +644,7 @@ string string::fromLong(long source)
 {
 	char temp[15]; memset(temp, 0, 15);
 
-	_ltoa_s(source, (char*)temp, 15, 10);
+	snprintf((char*)temp, 15, "%ld", source);
 
 	return string(temp);
 }
@@ -653,7 +653,7 @@ string string::fromInt(int source)
 {
 	char temp[15]; memset(temp, 0, 15);
 
-	_itoa_s(source, (char*)temp, 15, 10);
+	snprintf((char*)temp, 15, "%d", source);
 
 	return string(temp);
 }
@@ -662,7 +662,7 @@ string string::fromBool(bool source)
 {
 	char temp[15]; memset(temp, 0, 15);
 
-	_itoa_s((int)source, (char*)temp, 15, 10);
+	snprintf((char*)temp, 15, "%d", (int)source);
 
 	return string(temp);
 }
@@ -672,24 +672,69 @@ string string::fromTime(time_t source)
 	string result;
 	tm now;
 
+#ifdef WIN32
 	localtime_s(&now, &source);
+#elif defined __linux__
+	localtime_r(&source, &now);
+#endif
 
-	if (now.tm_mday<10) result.concat("0");
+	if (now.tm_mday<10) result.concat(string("0"));
 	result.concat(string::fromInt(now.tm_mday));
-	result.concat("/");
-	if ((now.tm_mon + 1) < 10) result.concat("0");
+	result.concat(string("/"));
+	if ((now.tm_mon + 1) < 10) result.concat(string("0"));
 	result.concat(string::fromInt(now.tm_mon + 1));
-	result.concat("/");
+	result.concat(string("/"));
 	result.concat(string::fromInt(now.tm_year + 1900));
-	result.concat(" ");
-	if (now.tm_hour<10) result.concat("0");
+	result.concat(string(" "));
+	if (now.tm_hour<10) result.concat(string("0"));
 	result.concat(string::fromInt(now.tm_hour));
-	result.concat(":");
-	if (now.tm_min<10) result.concat("0");
+	result.concat(string(":"));
+	if (now.tm_min<10) result.concat(string("0"));
 	result.concat(string::fromInt(now.tm_min));
-	result.concat(":");
-	if (now.tm_sec<10) result.concat("0");
+	result.concat(string(":"));
+	if (now.tm_sec<10) result.concat(string("0"));
 	result.concat(string::fromInt(now.tm_sec));
 
 	return result;
+}
+
+bool string::operator==(const string &source)
+{
+	return compare(source) == 0;
+}
+
+string string::operator<<(string &source)
+{
+	this->concat(source);
+	return *this;
+}
+
+string string::operator<<(char *source)
+{
+	this->concat(source);
+	return *this;
+}
+
+string string::operator<<(float source)
+{
+	this->concat(string::fromFloat(source));
+	return *this;
+}
+
+string string::operator<<(long source)
+{
+	this->concat(string::fromLong(source));
+	return *this;
+}
+
+string string::operator<<(int source)
+{
+	this->concat(string::fromInt(source));
+	return *this;
+}
+
+string string::operator<<(bool source)
+{
+	this->concat(string::fromBool(source));
+	return *this;
 }

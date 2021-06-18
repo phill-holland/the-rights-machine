@@ -1,5 +1,5 @@
 #include "wsock.h"
-#include <windows.h>
+
 #include "configuration.h"
 #include "manager.h"
 #include "memory.h"

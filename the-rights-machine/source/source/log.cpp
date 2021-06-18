@@ -1,15 +1,16 @@
 #include "log.h"
+#include <memory.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-#if defined(__LDEBUG)
+#ifdef _LDEBUG
 
 long logger::constructed = 0L;
-HANDLE logger::FileHandle;
+std::ofstream logger::handle;
 
 logger::logger()
 {
-	if (constructed == 0UL) reset("log.txt");
+	if(constructed==0UL) reset("log.txt");
 
 	++constructed;
 }
@@ -71,51 +72,49 @@ void logger::add(string &line)
 	write(line.c_str());
 }
 
-void logger::reset(char *filename)
+void logger::reset(const char *filename)
 {
-	FileHandle = CreateFile(filename, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	handle.open(filename, std::ios::out | std::ios::trunc | std::ios::binary);
 }
 
 void logger::write(const char *line)
 {
-	DWORD BytesWritten = (DWORD)0;
+	semaphore lock(token);
 
-	mutex lock(token);
-
-	WriteFile(FileHandle, line, (DWORD)strlen(line), &BytesWritten, NULL);
-	FlushFileBuffers(FileHandle);
+	handle.write(line, strlen(line));
+	handle.flush();
 }
 
 void logger::floatToStr(char *temp, float number)
 {
 	memset(temp, 0, size);
-	sprintf_s(temp, size, "%2.8f", number);
+	snprintf(temp, size, "%2.8f", number);
 }
 
 void logger::intToStr(char *temp, int number)
 {
 	memset(temp, 0, size);
-	_itoa_s(number, temp, size, 10);
-
+	snprintf((char*)temp, 10, "%d", number);
 }
 
 void logger::longToStr(char *temp, long number)
 {
 	memset(temp, 0, size);
-	_ltoa_s(number, temp, size, 10);
+	snprintf((char*)temp, 10, "%ld", number);
 }
 
 void logger::longHexToStr(char *temp, long number)
 {
 	memset(temp, 0, size);
-	sprintf_s(temp, size, "0x%2x", number);
+	snprintf(temp, size, "0x%2x", (unsigned int)number);
 }
 
-void logger::boolToStr(char * temp, bool value)
+void logger::boolToStr(char *temp, bool value)
 {
 	memset(temp, 0, size);
-	if (value) strcpy_s(temp, size, "true");
-	else strcpy_s(temp, size, "false");
+
+	if (value) memcpy(temp, "true\0", 5);
+	else memcpy(temp, "false\0", 6);
 }
 
 #endif

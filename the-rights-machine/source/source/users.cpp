@@ -3,7 +3,7 @@
 
 using namespace comparison;
 
-DWORD WINAPI data::users::background(thread *bt)
+void data::users::background(thread *bt)
 {
 	if (counter > interval)
 	{
@@ -14,7 +14,7 @@ DWORD WINAPI data::users::background(thread *bt)
 
 	Sleep(1000);
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void data::users::reset(database::settings &settings, unsigned long interval)

@@ -2,7 +2,7 @@
 #include "datetime.h"
 #include "log.h"
 
-DWORD WINAPI data::response::responses::background(thread *bt)
+void data::response::responses::background(thread *bt)
 {
 	// check created date 
 	Sleep(10000);
@@ -26,7 +26,7 @@ DWORD WINAPI data::response::responses::background(thread *bt)
 		remove(erase[i]);
 	}
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void data::response::responses::reset(unsigned long total)

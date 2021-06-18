@@ -3,7 +3,7 @@
 #include "guid.h"
 #include "log.h"
 
-DWORD WINAPI server::listener::background(thread *bt)
+void server::listener::background(thread *bt)
 {
 	Sleep(10);
 	
@@ -355,7 +355,7 @@ DWORD WINAPI server::listener::background(thread *bt)
 		}
 	}
 	
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void server::listener::reset(client *source)
@@ -709,7 +709,7 @@ void server::client::cleanup()
 	if (listen != NULL) delete listen;
 }
 
-DWORD WINAPI server::wait::background(thread *bt)
+void server::wait::background(thread *bt)
 {
 	Sleep(250);
 
@@ -722,10 +722,10 @@ DWORD WINAPI server::wait::background(thread *bt)
 		}
 	}
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
-DWORD WINAPI server::watchdog::background(thread *bt)
+void server::watchdog::background(thread *bt)
 {
 	Sleep(250);
 
@@ -751,7 +751,7 @@ DWORD WINAPI server::watchdog::background(thread *bt)
 		}
 	}
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void server::server::reset(configuration::server::configuration *settings)

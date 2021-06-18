@@ -24,11 +24,11 @@ namespace error
 		mutex::token token;
 
 		long counter;
-		
+
 		bool init;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		errors(::queue::in<::error::type::type> *destination) { makeNull(); reset(destination); }
@@ -59,7 +59,9 @@ namespace error
 		public:
 			bool set(::error::type::type &source)
 			{
-				return console::set((string)source);
+				string temp(source);
+				#warning dumb
+				return console::set(temp);
 			}
 		};
 	};

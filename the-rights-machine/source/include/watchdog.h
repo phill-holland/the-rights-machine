@@ -19,7 +19,7 @@ namespace watchdog
 		bool init;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		watchdog(database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }

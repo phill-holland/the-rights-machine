@@ -1,5 +1,6 @@
 #include "guid.h"
 
+/*
 guid::guid::guid(string &source)
 {
 	sscanf_s(source.c_str(), "%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX",
@@ -30,3 +31,4 @@ string guid::guid::get()
 			  
 	return string(result);
 }
+*/

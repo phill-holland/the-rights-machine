@@ -33,7 +33,7 @@ namespace error
 		protected:
 			long code;
 
-		public:			
+		public:
 			string name;
 			string description;
 
@@ -76,19 +76,19 @@ namespace error
 		public:
 			types(queue::out<::error::type::type> *source = NULL) { makeNull(); reset(source); }
 			~types() { cleanup(); }
-			
+
 			bool initalised() { return init; }
 			void reset(queue::out<::error::type::type> *source = NULL);
 
 			bool push(type &t);
-						
+
 			type lookup(::error::error &error);
 
 		protected:
 			void makeNull();
 			void cleanup();
 		};
-	};	
+	};
 };
 
 #endif

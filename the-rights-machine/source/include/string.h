@@ -1,8 +1,8 @@
 #include <time.h>
 #include <string>
 
-#if !defined(__STRING)
-#define __STRING
+#ifndef _PSTRING
+#define _PSTRING
 
 class string : public std::string
 {
@@ -18,11 +18,11 @@ public:
 
 	void reset() { (*this) = std::string(); }
 
-	void concat(string &source) { *this += source; }
+	void concat(string source) { *this += source; }
 	void concat(char *source) { *this += source; }
 	void concat(char *source, long len) { append(source, len); }
 
-	long count() { return (long)this->length(); }
+	long count() const { return (long)this->length(); }
 
 	bool toChar(char *destination, long length);
 
@@ -48,16 +48,16 @@ public:
 
 	static string randBase64();
 
-	bool isIn(string &source) { return indexOf(source) != string::npos; }
-	long indexOf(string &source) { return (long)find(source); }
+	bool isIn(string source) { return indexOf(source) != string::npos; }
+	long indexOf(string source) { return (long)find(source); }
 
-	long split(char find, string *destination, long elements);
+	long split(char find, string *destination, long elements) const;
 	string subString(long index, long len) { return std::string::substr(index, len); }
-	
-	bool icompare(string &a);
 
-	float match(string &source);
-	float match(string &source, int *offsets, long len, long scope = SCOPE);
+	bool icompare(string a);
+
+	float match(string source);
+	float match(string source, int *offsets, long len, long scope = SCOPE);
 
 	float toFloat();
 	double toDouble();
@@ -80,15 +80,15 @@ public:
 	static string fromTime(time_t source);
 
 public:
-	bool operator==(const string &source) { return compare(source) == 0; }
+	bool operator==(const string &source);
 
-	string operator<<(string &source) { this->concat(source); return *this; }
-	string operator<<(char *source) { this->concat(source); return *this; }
-	string operator<<(float source) { this->concat(string::fromFloat(source)); return *this; }
-	string operator<<(long source) { this->concat(string::fromLong(source)); return *this; }
-	string operator<<(int source) { this->concat(string::fromInt(source)); return *this; }
-	string operator<<(bool source) { this->concat(string::fromBool(source)); return *this; }
-	string operator<<(time_t source) { this->concat(string::fromTime(source)); return *this; }
+public:
+	string operator<<(string &source);
+	string operator<<(char *source);
+	string operator<<(float source);
+	string operator<<(long source);
+	string operator<<(int source);
+	string operator<<(bool source);
 };
 
 #endif

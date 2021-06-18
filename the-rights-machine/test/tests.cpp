@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "../process/wsock.h"
-#include <windows.h>
+
 #include "element.h"
 #include "component.h"
 #include "line.h"

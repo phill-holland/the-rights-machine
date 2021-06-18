@@ -1,138 +1,108 @@
 #include <array>
-#include "thread.h"
-#include "mutex.h"
+#include <atomic>
+//#include "data.h"
 #include "string.h"
-#include "queue.h"
 
-#if !defined(__FIFO)
-#define __FIFO
+#ifndef _FIFO
+#define _FIFO
 
-namespace custom
+template <class X, long Y> class fifo //: public data::fifo::bidirectional<X>
 {
-	template <class X, long Y> class fifo : public queue::queue<X>
+	bool init;
+
+	std::array<X, Y> items;
+	std::atomic<int> lpwrite;
+	std::atomic<int> lpread;
+
+public:
+	fifo() { makeNull(); reset(); }
+	~fifo() { cleanup(); }
+	bool initalised() { return init; }
+	void reset();
+
+	unsigned long entries()
 	{
-		bool init;
+		int r = lpread.load(std::memory_order_relaxed);
+		int w = lpwrite.load(std::memory_order_relaxed);
 
-		mutex::token token;
+		if (w < r) return (Y - r) + w;
 
-		std::array<X, Y> items;
-		long lpread, lpwrite, elements;
-
-	public:
-		fifo() { makeNull(); reset(); }
-		fifo(fifo const &source) { makeNull(); reset(); copy(source); }
-		~fifo() { cleanup(); }
-
-		bool initalised() { return init; }
-		void reset();
-
-		unsigned long entries() { mutex lock(token); return elements; }
-
-		bool isfull() { mutex lock(token); return _isfull(); }
-		bool isempty() { mutex lock(token); return _isempty(); }
-
-		long size() { return Y; }
-
-		void empty()
-		{
-			mutex lock(token);
-
-			elements = 0L; lpread = 0L; lpwrite = 0L;
-		}
-
-		bool get(X &destination);
-		bool set(X &source);
-
-		virtual bool flush() { return true; }
-
-		string identifier() { return string("fifo"); }
-
-		void copy(fifo const &source)
-		{
-			mutex a_lock(token);
-			mutex b_lock((mutex::token&)source.token);
-
-			elements = source.elements;
-			lpread = source.lpread;
-			lpwrite = source.lpwrite;
-
-			items = source.items;
-		}
-
-	public:
-		fifo& operator=(const fifo &source)
-		{
-			this->copy((fifo&)source);
-			return *this;
-		}
-
-	protected:
-		bool _isfull() { if (elements >= Y - 1L) return true; return false; }
-		bool _isempty() { if (elements <= 0L) return true;  return false; }
-
-	protected:
-		long inc(long src)
-		{
-			long temp = src;
-			++temp;
-			if (temp >= Y) temp = 0L;
-			return temp;
-		}
-
-	private:
-		void cleanup() { }
-		void makeNull() { }
-	};
-
-	template <class X, long Y> void fifo<X, Y>::reset()
-	{
-		mutex lock(token);
-
-		init = false; cleanup();
-
-		lpread = 0L;
-		lpwrite = 0L;
-		elements = 0L;
-
-		init = true;
+		return w - r;
 	}
 
-	template <class X, long Y> inline bool fifo<X, Y>::get(X &destination)
+	bool isfull()
 	{
-		bool result = false;
+		int r = lpread.load(std::memory_order_relaxed);
+		int w = lpwrite.load(std::memory_order_relaxed);
 
-		mutex lock(token);
-
-		if (!_isempty())
-		{
-			--elements;
-
-			destination = X(items[lpread]);
-			lpread = inc(lpread);
-			result = true;
-		}
-
-		return result;
+		return (w - 1) == r;
 	}
 
-	template <class X, long Y> inline bool fifo<X, Y>::set(X &source)
+	bool isempty()
 	{
-		bool result = false;
+		int r = lpread.load(std::memory_order_relaxed);
+		int w = lpwrite.load(std::memory_order_relaxed);
 
-		mutex lock(token);
-
-		if (!_isfull())
-		{
-
-			++elements;
-			items[lpwrite] = source;
-			lpwrite = inc(lpwrite);
-
-			result = true;
-		}
-
-		return result;
+		return (r == w);
 	}
+
+	long size() { return Y; }
+
+	void empty()
+	{
+		do
+		{
+			lpwrite.store(0);
+			lpread.store(0);
+		} while ((lpwrite != 0) || (lpread != 0));
+	}
+
+	bool get(X &destination);
+	bool set(X &source);
+
+	string identifier() { return string("fifo"); }
+
+private:
+	void cleanup() { }
+	void makeNull() { }
 };
+
+template <class X, long Y> void fifo<X, Y>::reset()
+{
+	init = false; cleanup();
+
+	empty();
+
+	init = true;
+}
+
+template <class X, long Y> inline bool fifo<X, Y>::get(X &destination)
+{
+	if(lpread == lpwrite) return false;
+
+	int a = lpread.load();
+	int b = a + 1;
+	if (b >= Y) b = 0;
+
+	if (lpread.compare_exchange_weak(a, b, std::memory_order_release, std::memory_order_relaxed))
+	{
+		destination = X(items[a]);
+		return true;
+	}
+
+	return false;
+}
+
+
+template <class X, long Y> inline bool fifo<X, Y>::set(X &source)
+{
+	int a = lpwrite.load();
+	items[a] = source;
+	int b = a + 1;
+	if (b >= Y) b = 0;
+	if (b == lpread) return false;
+
+	return lpwrite.compare_exchange_weak(a, b, std::memory_order_release, std::memory_order_relaxed);
+}
 
 #endif

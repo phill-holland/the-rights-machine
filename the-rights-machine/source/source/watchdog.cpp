@@ -2,7 +2,7 @@
 #include "guid.h"
 #include "datetime.h"
 
-DWORD WINAPI watchdog::watchdog::background(thread *bt)
+void watchdog::watchdog::background(thread *bt)
 {
 	if (counter > interval)
 	{
@@ -11,7 +11,7 @@ DWORD WINAPI watchdog::watchdog::background(thread *bt)
 
 	++counter;
 
-	Sleep(1000);
+	//Sleep(1000);
 
 	return (DWORD)0;
 }
@@ -38,6 +38,7 @@ void watchdog::watchdog::reset(database::settings &settings, unsigned long inter
 
 void watchdog::watchdog::refresh()
 {
+	/*
 	if (connection->open(location))
 	{
 		GUID unique = (GUID)guid::guid();
@@ -64,6 +65,7 @@ void watchdog::watchdog::refresh()
 		recordset->close();
 		connection->close();
 	}
+	*/
 }
 
 void watchdog::watchdog::makeNull()

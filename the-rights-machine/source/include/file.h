@@ -17,10 +17,11 @@ namespace file
 		virtual bool write(T &source) = 0;
 
 	public:
+	/*
 		GUID generate()
 		{
 			return (GUID)guid::guid();
-		}
+		}*/
 	};
 };
 

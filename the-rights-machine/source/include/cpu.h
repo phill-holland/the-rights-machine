@@ -57,7 +57,7 @@ namespace compute
 			bool init;
 
 		public:
-			DWORD WINAPI background(thread *bt);
+			void background(thread *bt);
 
 		public:
 			cpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }

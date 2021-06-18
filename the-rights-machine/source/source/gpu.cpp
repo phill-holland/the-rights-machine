@@ -219,7 +219,7 @@ void compute::gpu::processor::cleanup()
 	if (in != NULL) delete in;
 }
 
-DWORD WINAPI compute::gpu::gpu::background(thread *bt)
+void compute::gpu::gpu::background(thread *bt)
 {
 	Sleep(100);
 
@@ -233,7 +233,7 @@ DWORD WINAPI compute::gpu::gpu::background(thread *bt)
 		Sleep(5000);
 	}
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void compute::gpu::gpu::reset(::queue::factory<::compute::task> *factory)

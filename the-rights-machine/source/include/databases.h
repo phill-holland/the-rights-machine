@@ -26,7 +26,7 @@ namespace database
 		virtual double GetDouble(long index) = 0;
 		virtual bool GetBool(long index) = 0;
 		virtual TIMESTAMP_STRUCT GetTimeStamp(long index) = 0;
-		virtual GUID GetGUID(long index) = 0;
+		//virtual GUID GetGUID(long index) = 0;
 
 		virtual bool BindLong(long index, long &data) = 0;
 		virtual bool BindString(long index, unsigned char *data) = 0;
@@ -34,7 +34,7 @@ namespace database
 		virtual bool BindDouble(long index, double &data) = 0;
 		virtual bool BindBool(long index, bool &data) = 0;
 		virtual bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data) = 0;
-		virtual bool BindGUID(long index, GUID &data) = 0;
+		//virtual bool BindGUID(long index, GUID &data) = 0;
 
 		virtual bool Execute() = 0;
 

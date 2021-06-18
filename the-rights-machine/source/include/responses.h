@@ -32,7 +32,7 @@ namespace data
 			static const unsigned long MAX = 255L;
 
 		protected:
-			DWORD WINAPI background(thread *bt);
+			void background(thread *bt);
 
 		private:
 			data::response::response **data;

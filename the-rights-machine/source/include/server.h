@@ -1,5 +1,5 @@
 #include "wsock.h"
-#include <windows.h>
+
 #include "thread.h"
 #include "message.h"
 #include "fifo.h"
@@ -15,37 +15,11 @@
 #include "error.h"
 #include "output.h"
 
-// need error class, to create response error json/or message
-
-// upon connection, create GUID for message return
-
-// http  functions, two one for post, one to get results
-// JSON post /input
-// JSON GET // wait for result in response queue, per items
-
-// need item limit depending on userID account
-
-// need timeout, for inactivity on connection
-
-// COUNT LINES IN JSON, RETURN LINE NUMBER IF ERROR
-
-// check http headers
-// check content-length
-
-// PRE DECLARE GIANT ARRAY OF COMPONENTS
-// AND HAVE FIFOS WITH POINTERS ONLY
-// COMPONENT MEMORY MANAGER ..??
-
-// NEED LOCKS FOR THAT -- WELL JUST FOR THE LAST PTR
-
-// HAVE SMALLER QUEUE BUFFER FOR SERVER,
-// ONE MESSAGE CAN BE SPLIT OVER MANY QUEUE INSERTS, PER ITEM
-
 #if !defined(__SERVER)
 #define __SERVER
 
 namespace server
-{	
+{
 	class client;
 
 	class listener : public thread
@@ -55,7 +29,7 @@ namespace server
 		static const long RECEIVING = 16384L;
 		static const long ERRORS = 5L;
 
-		char receiving[RECEIVING];	
+		char receiving[RECEIVING];
 
 		long errors;
 
@@ -66,13 +40,13 @@ namespace server
 		bool left;
 
 		long brackets, squares;
-	
+
 		bool header, request;// , validate; // turn into state int
 		int h_index;
 
 		charbuf command, label, value;
 
-		compute::task task;		
+		compute::task task;
 		::data::request::request requested;
 
 		long content_length;
@@ -85,7 +59,7 @@ namespace server
 		bool init;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		listener(client *source) { reset(source); }
@@ -104,7 +78,7 @@ namespace server
 		void goodbye();
 		void error(string &error);
 	};
-		
+
 	class client : public ::wsock::client
 	{
 		/*
@@ -233,7 +207,7 @@ namespace server
 		server *s;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		wait(server *source) { s = source; }
@@ -244,7 +218,7 @@ namespace server
 		server *s;
 
 	public:
-		DWORD WINAPI background(thread *bt);
+		void background(thread *bt);
 
 	public:
 		watchdog(server *source) { s = source; }
@@ -263,7 +237,7 @@ namespace server
 
 		::server::wait *waiter;
 		::server::watchdog *watcher;
-		
+
 		long counter, iterations;
 
 		mutex::token token;

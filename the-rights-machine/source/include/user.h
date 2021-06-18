@@ -13,8 +13,8 @@ namespace data
 		int userID;
 		string username;
 		string email;
-		GUID apikey;
-		GUID guid; // rename, user identity key
+		//GUID apikey;
+		//GUID guid; // rename, user identity key
 		bool active;
 		bool banned;
 		bool verified;

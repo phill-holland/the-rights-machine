@@ -1,11 +1,10 @@
-#include <windows.h>
 #include <openssl/rand.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include "string.h"
 
-#if !defined(__SSL)
-#define __SSL
+#ifndef _SSL
+#define _SSL
 
 class ssl
 {
@@ -22,7 +21,7 @@ public:
 
 	bool initalised() { return init; }
 
-	bool open(SOCKET _socket);
+	bool open(int _socket);
 
 	int read(char *buffer, long length);
 	int write(string &data);

@@ -1,6 +1,364 @@
 #include "odbc.h"
 #include "string.h"
 #include "log.h"
+#include <cstring>
+
+bool database::recordset::create(SQLHANDLE &lpConnection)
+{
+	cleanup();
+
+	SQLRETURN result = SQLAllocHandle(SQL_HANDLE_STMT, lpConnection, &lpStatement);
+	if (result != SQL_ERROR) return true;
+
+	lpStatement = NULL;
+
+	return false;
+}
+
+bool database::recordset::MoveNext()
+{
+	if (lpStatement == NULL) return false;
+	SQLRETURN result = SQLFetch(lpStatement);
+	bool ok = ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
+	if (!ok)
+	{
+		if (SQLFreeHandle(SQL_HANDLE_STMT, lpStatement) == SQL_SUCCESS)
+			lpStatement = NULL;
+	}
+	return ok;
+}
+
+long database::recordset::GetLong(long index)
+{
+	int result = -1;
+	SQLRETURN re = SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_LONG, &result, 0, NULL);
+	return (long)result;
+}
+
+string database::recordset::GetString(long index)
+{
+	char buffer[100];
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_CHAR, buffer, 100, NULL);
+	return string(buffer);
+}
+
+float database::recordset::GetFloat(long index)
+{
+	float result = 0.0f;
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_FLOAT, &result, 0, NULL);
+	return result;
+}
+
+double database::recordset::GetDouble(long index)
+{
+	double result = 0.0;
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_DOUBLE, &result, 0, NULL);
+	return result;
+}
+
+bool database::recordset::GetBool(long index)
+{
+	bool result = false;
+	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_BIT, &result, 0, NULL);
+	return result;
+}
+
+bool database::recordset::BindLong(long index, int &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+
+	return false;
+}
+
+bool database::recordset::BindString(long index, SQLCHAR *data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, strlen((char*)data), 0, data, strlen((char*)data), NULL) == SQL_SUCCESS)
+		return true;
+
+	return false;
+}
+
+bool database::recordset::BindFloat(long index, float &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+	return false;
+}
+
+bool database::recordset::BindDouble(long index, double &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+	return false;
+}
+
+bool database::recordset::BindBool(long index, bool &data)
+{
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
+		return true;
+	return false;
+}
+
+bool database::recordset::BindLongColumn(long index, int *source, long length)
+{
+  	SQLLEN len = (SQLLEN)length;
+
+	if (SQLSetStmtAttr(lpStatement, SQL_ATTR_PARAM_BIND_TYPE, SQL_PARAM_BIND_BY_COLUMN, 0) != SQL_SUCCESS) return false;
+
+  	if (SQLSetStmtAttr(lpStatement, SQL_ATTR_PARAMSET_SIZE, (void *)len, 0) != SQL_SUCCESS)  return false;
+
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, source, 0, 0) != SQL_SUCCESS) return false;
+
+	return true;
+}
+
+bool database::recordset::BindFloatColumn(long index, float *source, long length)
+{
+  	SQLLEN len = (SQLLEN)length;
+
+	if (SQLSetStmtAttr(lpStatement, SQL_ATTR_PARAM_BIND_TYPE, SQL_PARAM_BIND_BY_COLUMN, 0) != SQL_SUCCESS) return false;
+
+  	if (SQLSetStmtAttr(lpStatement, SQL_ATTR_PARAMSET_SIZE, (void *)len, 0) != SQL_SUCCESS)  return false;
+
+	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, 0, 0, source, 0, 0) != SQL_SUCCESS) return false;
+
+	return true;
+}
+
+bool database::recordset::Execute()
+{
+	if (lpStatement == NULL) return false;
+	SQLRETURN result = SQLExecute(lpStatement);
+
+	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
+}
+
+string database::recordset::getStatementError()
+{
+	SQLCHAR SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
+	SQLINTEGER NativeError;
+	SQLSMALLINT i = 1, MsgLen;
+
+	string result;
+
+	while (SQLGetDiagRec(SQL_HANDLE_STMT, lpStatement, i, SqlState, &NativeError, Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA)
+	{
+		result.concat(string((char*)SqlState));
+		result.concat(string((char*)Msg));
+		result.concat(string("\n"));
+
+		i++;
+	}
+
+	return result;
+}
+
+bool database::recordset::Execute(string sql)
+{
+	if (lpStatement == NULL) return false;
+	SQLRETURN result = SQLExecDirect(lpStatement, (SQLCHAR*)sql.c_str(), SQL_NTS);
+	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
+}
+
+bool database::recordset::Prepare(string sql)
+{
+	if (lpStatement == NULL) return false;
+
+	const char *temp = sql.c_str();
+	SQLRETURN result = SQLPrepare(lpStatement, (SQLCHAR*)temp, (SQLINTEGER)strlen(temp));
+
+	return result != SQL_ERROR;
+}
+
+void database::recordset::cleanup()
+{
+	if (lpStatement != NULL)
+	{
+		try
+		{
+			SQLFreeHandle(SQL_HANDLE_STMT, lpStatement);
+		}
+		catch(...)
+		{
+			Log << string("database::recordset::cleanup SEH Error\r\n");
+		}
+
+		lpStatement = NULL;
+	}
+}
+
+void database::connection::reset()
+{
+	isopen = false; init = false; cleanup();
+
+	if (SQLAllocHandle(SQL_HANDLE_ENV, SQL_NULL_HANDLE, &lpEnvironment) == SQL_ERROR) return;
+	if (SQLSetEnvAttr(lpEnvironment, SQL_ATTR_ODBC_VERSION, (SQLPOINTER)SQL_OV_ODBC3, 0) != SQL_SUCCESS) return;
+	if (SQLAllocHandle(SQL_HANDLE_DBC, lpEnvironment, &lpConnection) != SQL_SUCCESS) return;
+
+	SQLSetConnectAttr(lpConnection, SQL_LOGIN_TIMEOUT, (SQLPOINTER)120, 0);
+
+	init = true;
+}
+
+bool database::connection::open(string &connection)
+{
+	return open(connection.c_str());
+}
+
+bool database::connection::open(const char *connection)
+{
+	SQLCHAR out[255];
+	SQLSMALLINT len;
+
+	SQLRETURN result = SQLDriverConnect(lpConnection, NULL, (SQLCHAR*)connection, SQL_NTS, out, 255, &len, SQL_DRIVER_NOPROMPT);
+
+	if (result == SQL_SUCCESS || result == SQL_SUCCESS_WITH_INFO)
+	{
+		isopen = true;
+		return true;
+	}
+
+	return false;
+}
+
+bool database::connection::close()
+{
+	if (!isopen) return false;
+	bool result = true;
+
+	if (lpConnection != NULL)
+	{
+		SQLRETURN sqlret = SQLDisconnect(lpConnection);
+		if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO)) result = false;
+		if (SQLFreeHandle(SQL_HANDLE_DBC, lpConnection) != SQL_SUCCESS) result = false;
+	}
+
+	if (lpEnvironment != NULL) if (SQLFreeHandle(SQL_HANDLE_ENV, lpEnvironment) != SQL_SUCCESS) result = false;
+
+	isopen = false;
+	return result;
+}
+
+bool database::connection::executeNoResults(string sql)
+{
+	if (!isopen) return false;
+	bool result = false;
+
+	try
+	{
+		SQLHANDLE lpStatement = NULL;
+		if (SQLAllocHandle(SQL_HANDLE_STMT, lpConnection, &lpStatement) == SQL_ERROR) return false;
+		if (SQLExecDirect(lpStatement, (SQLCHAR*)sql.c_str(), SQL_NTS) != SQL_ERROR) result = true;
+		if (SQLFreeHandle(SQL_HANDLE_STMT, lpStatement) != SQL_SUCCESS) result = false;
+	}
+	catch (...) { return false; }
+
+	return result;
+}
+
+bool database::connection::executeNoResults(string sql, string &error)
+{
+	if (!isopen) return false;
+	bool result = false;
+
+	error.clear();
+
+	try
+	{
+		recordset temp;
+		if(temp.create(lpConnection))
+		{
+			result = temp.Execute(sql);
+			if(!result) error = temp.getStatementError();
+		}
+	}
+	catch (...) { return false; }
+
+	return result;
+}
+
+bool database::connection::executeWithResults(string sql, recordset &result)
+{
+	if(result.create(lpConnection))
+	{
+		return result.Execute(sql);
+	}
+
+	return false;
+}
+
+long database::connection::executeScalar(string sql)
+{
+	long result = -1L;
+	if (!isopen) return result;
+
+	try
+	{
+		SQLHANDLE lpStatement = NULL;
+		if (SQLAllocHandle(SQL_HANDLE_STMT, lpConnection, &lpStatement) == SQL_ERROR) return result;
+		if (SQLExecDirect(lpStatement, (SQLCHAR*)sql.c_str(), SQL_NTS) != SQL_ERROR)
+		{
+			if (SQLFetch(lpStatement) == SQL_SUCCESS)
+			{
+				SQLINTEGER temp = 0;
+				SQLGetData(lpStatement, 1, SQL_C_LONG, &temp, 0, NULL);
+				result = (long)temp;
+			}
+		}
+		if (SQLFreeHandle(SQL_HANDLE_STMT, lpStatement) != SQL_SUCCESS) result = -1L;
+	}
+	catch (...) { return -1L; }
+
+	return result;
+}
+
+bool database::connection::Prepare(string sql, recordset &result)
+{
+	if(result.create(lpConnection))
+	{
+		return result.Prepare(sql);
+	}
+
+	return false;
+}
+
+string database::connection::getConnectionError()
+{
+	SQLCHAR SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
+	SQLINTEGER NativeError;
+	SQLSMALLINT i = 1, MsgLen;
+
+	string result;
+
+	while (SQLGetDiagRec(SQL_HANDLE_DBC, lpConnection, i, SqlState, &NativeError, Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA)
+	{
+		result.concat(string((char*)SqlState));
+		result.concat(string((char*)Msg));
+		result.concat(string("\n"));
+
+		i++;
+	}
+
+	return result;
+}
+
+
+void database::connection::makeNull()
+{
+	lpConnection = NULL;
+	lpEnvironment = NULL;
+}
+
+void database::connection::cleanup()
+{
+	if (isopen) close();
+}
+
+/*
+#include "odbc.h"
+#include "string.h"
+#include "log.h"
 
 bool database::odbc::recordset::create(void *source)
 {
@@ -68,7 +426,7 @@ TIMESTAMP_STRUCT database::odbc::recordset::GetTimeStamp(long index)
 	TIMESTAMP_STRUCT ts = { 0 };
 
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_TIMESTAMP, &ts, 0, NULL);
-	
+
 	return ts;
 }
 
@@ -77,7 +435,7 @@ GUID database::odbc::recordset::GetGUID(long index)
 	GUID result;
 
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_GUID, &result, 0, NULL);
-	
+
 	return result;
 }
 
@@ -408,4 +766,4 @@ void database::odbc::factory::recordset::cleanup()
 		database::odbc::recordset *temp = recordsets[i];
 		if (temp != NULL) delete temp;
 	}
-}
+}*/

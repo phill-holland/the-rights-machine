@@ -1,4 +1,107 @@
+#if defined(WIN32) 
 #include <windows.h>
+#endif
+#include <sql.h>
+#include <sqlext.h>
+#include "string.h"
+
+#ifndef _DATABASE
+#define _DATABASE
+
+namespace database
+{
+	class connection;
+
+	class recordset
+	{
+		friend class connection;
+
+		SQLHANDLE lpStatement;
+
+	private:
+		bool create(SQLHANDLE &lpConnection);
+
+	public:
+		recordset() { lpStatement = NULL; }
+		~recordset() { cleanup(); }
+
+		bool IsInitalised() { return lpStatement != NULL; }
+
+		bool MoveNext();
+
+		long GetLong(long index);
+		string GetString(long index);
+		float GetFloat(long index);
+		double GetDouble(long index);
+		bool GetBool(long index);
+
+		bool BindLong(long index, int &data);
+		bool BindString(long index, SQLCHAR *data);
+		bool BindFloat(long index, float &data);
+		bool BindDouble(long index, double &data);
+		bool BindBool(long index, bool &data);
+
+		bool BindLongColumn(long index, int *source, long length);
+		bool BindFloatColumn(long index, float *source, long length);
+
+		bool Execute();
+
+		void close() { cleanup(); }
+
+		string getStatementError();
+
+	protected:
+		bool Execute(string sql);
+		bool Prepare(string sql);
+
+	protected:
+		void cleanup();
+
+	public:
+		recordset operator=(const recordset &src)
+		{
+			cleanup(); lpStatement = src.lpStatement;
+			return *this;
+		}
+	};
+
+	class connection
+	{
+		SQLHANDLE lpEnvironment;
+		SQLHANDLE lpConnection;
+
+		bool init, isopen;
+
+	public:
+		connection() { makeNull(); reset(); };
+		~connection() { cleanup(); }
+
+		bool initalised() { return init; }
+
+		void reset();
+
+		bool open(string &connection);
+		bool open(const char *connection);
+
+		bool close();
+
+		bool executeNoResults(string sql);
+		bool executeNoResults(string sql, string &error);
+
+		bool executeWithResults(string sql, recordset &result);
+		long executeScalar(string sql);
+		bool Prepare(string sql, recordset &result);
+
+		string getConnectionError();
+
+	protected:
+		void makeNull();
+		void cleanup();
+	};
+};
+
+#endif
+/*
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -127,10 +230,7 @@ namespace database
 				bool initalised() { return init; }
 				void reset();
 
-				database::connection *get();
-
-			protected:
-				void makeNull();
+				database::connection *get();#include "pstring
 				void cleanup();
 			};
 
@@ -148,7 +248,7 @@ namespace database
 				void reset();
 
 				database::recordset *get();
-				
+
 			protected:
 				void makeNull();
 				void cleanup();
@@ -158,3 +258,5 @@ namespace database
 };
 
 #endif
+
+*/

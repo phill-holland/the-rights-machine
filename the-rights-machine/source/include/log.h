@@ -1,13 +1,16 @@
-#include <windows.h>
+#include <stdio.h>
+#include <iostream>
+#include <fstream>
 #include "string.h"
 #include "thread.h"
+#include "semaphore.h"
 
-#if !defined(__LOG)
-#define __LOG
+#ifndef _LOG
+#define _LOG
 
-#define __LDEBUG
+#define _LDEBUG
 
-#if !defined(__LDEBUG)
+#ifndef _LDEBUG
 
 class logger
 {
@@ -17,9 +20,9 @@ public:
 	static char CRLF[3];
 
 public:
-	logger() { }
-	logger(char *destination) { }
-	void addln(char *line) { }
+    logger() { }
+    logger(char *destination) { }
+    void addln(char *line) { }
 	void addln(float number) { }
 	void addln(int number) { }
 	void addln(long number) { }
@@ -40,10 +43,10 @@ public:
 	logger operator>>(long number) { return *this; }
 
 protected:
-	static char *floatToStr(float number) { memset(tempString, 0, sizeof(tempString); return tempString; }
-	static char *intToStr(int number) { memset(tempString, 0, sizeof(tempString); return tempString; }
-	static char *longToStr(long number) { memset(tempString, 0, sizeof(tempString); return tempString; }
-	static char *longHexToStr(long number) { memset(tempString, 0, sizeof(tempString); return tempString; }
+	static char *floatToStr(float number) { memset(tempString,0,sizeof(tempString); return tempString; }
+	static char *intToStr(int number) { memset(tempString,0,sizeof(tempString); return tempString; }
+	static char *longToStr(long number) { memset(tempString,0,sizeof(tempString); return tempString; }
+	static char *longHexToStr(long number) { memset(tempString,0,sizeof(tempString); return tempString; }
 };
 
 extern logger Log;
@@ -53,18 +56,18 @@ extern logger Log;
 class logger
 {
 	static long constructed;
-	static HANDLE FileHandle;
+	static std::ofstream handle;
 
 	static const long size = 25L;
 	static const long buffer = 2048L;
 
-	mutex::token token;
+	semaphore::token token;
 
 public:
 
 	logger();
-	logger(char *destination);
-	~logger() { if (constructed == -1L) CloseHandle(FileHandle); --constructed; }
+    logger(char *destination);
+	~logger() { if(constructed==-1L) handle.close(); --constructed; }
 
 	void add(char *line);
 	void add(unsigned char *line);
@@ -76,7 +79,7 @@ public:
 	void add(string &line);
 
 private:
-	void reset(char *filename);
+    void reset(const char *filename);
 	void write(const char *line);
 
 public:
@@ -90,7 +93,7 @@ public:
 	logger operator<<(bool value) { add(value); return logger(); }
 	logger operator<<(string line) { add(line); return logger(); }
 
-	logger operator>>(char *line) { add(line); return logger(); }
+    logger operator>>(char *line) { add(line); return logger(); }
 	logger operator>>(unsigned char *line) { add(line); return logger(); }
 	logger operator>>(float number) { add(number); return logger(); }
 	logger operator>>(double number) { add((float)number); return logger(); }
