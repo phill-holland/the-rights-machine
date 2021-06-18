@@ -1,9 +1,9 @@
 #include "odbc.h"
-#include "string.h"
+#include "custom/string.h"
 #include "log.h"
 #include <cstring>
 
-bool database::recordset::create(SQLHANDLE &lpConnection)
+bool odbc::recordset::create(SQLHANDLE &lpConnection)
 {
 	cleanup();
 
@@ -15,7 +15,7 @@ bool database::recordset::create(SQLHANDLE &lpConnection)
 	return false;
 }
 
-bool database::recordset::MoveNext()
+bool odbc::recordset::MoveNext()
 {
 	if (lpStatement == NULL) return false;
 	SQLRETURN result = SQLFetch(lpStatement);
@@ -28,42 +28,42 @@ bool database::recordset::MoveNext()
 	return ok;
 }
 
-long database::recordset::GetLong(long index)
+long odbc::recordset::GetLong(long index)
 {
 	int result = -1;
 	SQLRETURN re = SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_LONG, &result, 0, NULL);
 	return (long)result;
 }
 
-string database::recordset::GetString(long index)
+string odbc::recordset::GetString(long index)
 {
 	char buffer[100];
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_CHAR, buffer, 100, NULL);
 	return string(buffer);
 }
 
-float database::recordset::GetFloat(long index)
+float odbc::recordset::GetFloat(long index)
 {
 	float result = 0.0f;
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_FLOAT, &result, 0, NULL);
 	return result;
 }
 
-double database::recordset::GetDouble(long index)
+double odbc::recordset::GetDouble(long index)
 {
 	double result = 0.0;
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_DOUBLE, &result, 0, NULL);
 	return result;
 }
 
-bool database::recordset::GetBool(long index)
+bool odbc::recordset::GetBool(long index)
 {
 	bool result = false;
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_BIT, &result, 0, NULL);
 	return result;
 }
 
-bool database::recordset::BindLong(long index, int &data)
+bool odbc::recordset::BindLong(long index, int &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_LONG, SQL_INTEGER, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
@@ -71,7 +71,7 @@ bool database::recordset::BindLong(long index, int &data)
 	return false;
 }
 
-bool database::recordset::BindString(long index, SQLCHAR *data)
+bool odbc::recordset::BindString(long index, SQLCHAR *data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_LONGVARCHAR, strlen((char*)data), 0, data, strlen((char*)data), NULL) == SQL_SUCCESS)
 		return true;
@@ -79,28 +79,28 @@ bool database::recordset::BindString(long index, SQLCHAR *data)
 	return false;
 }
 
-bool database::recordset::BindFloat(long index, float &data)
+bool odbc::recordset::BindFloat(long index, float &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
 }
 
-bool database::recordset::BindDouble(long index, double &data)
+bool odbc::recordset::BindDouble(long index, double &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
 }
 
-bool database::recordset::BindBool(long index, bool &data)
+bool odbc::recordset::BindBool(long index, bool &data)
 {
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_BIT, SQL_BIT, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
 }
 
-bool database::recordset::BindLongColumn(long index, int *source, long length)
+bool odbc::recordset::BindLongColumn(long index, int *source, long length)
 {
   	SQLLEN len = (SQLLEN)length;
 
@@ -113,7 +113,7 @@ bool database::recordset::BindLongColumn(long index, int *source, long length)
 	return true;
 }
 
-bool database::recordset::BindFloatColumn(long index, float *source, long length)
+bool odbc::recordset::BindFloatColumn(long index, float *source, long length)
 {
   	SQLLEN len = (SQLLEN)length;
 
@@ -126,7 +126,7 @@ bool database::recordset::BindFloatColumn(long index, float *source, long length
 	return true;
 }
 
-bool database::recordset::Execute()
+bool odbc::recordset::Execute()
 {
 	if (lpStatement == NULL) return false;
 	SQLRETURN result = SQLExecute(lpStatement);
@@ -134,7 +134,7 @@ bool database::recordset::Execute()
 	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
 }
 
-string database::recordset::getStatementError()
+string odbc::recordset::getStatementError()
 {
 	SQLCHAR SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
 	SQLINTEGER NativeError;
@@ -154,14 +154,14 @@ string database::recordset::getStatementError()
 	return result;
 }
 
-bool database::recordset::Execute(string sql)
+bool odbc::recordset::Execute(string sql)
 {
 	if (lpStatement == NULL) return false;
 	SQLRETURN result = SQLExecDirect(lpStatement, (SQLCHAR*)sql.c_str(), SQL_NTS);
 	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
 }
 
-bool database::recordset::Prepare(string sql)
+bool odbc::recordset::Prepare(string sql)
 {
 	if (lpStatement == NULL) return false;
 
@@ -171,7 +171,7 @@ bool database::recordset::Prepare(string sql)
 	return result != SQL_ERROR;
 }
 
-void database::recordset::cleanup()
+void odbc::recordset::cleanup()
 {
 	if (lpStatement != NULL)
 	{
@@ -181,14 +181,14 @@ void database::recordset::cleanup()
 		}
 		catch(...)
 		{
-			Log << string("database::recordset::cleanup SEH Error\r\n");
+			Log << string("odbc::recordset::cleanup SEH Error\r\n");
 		}
 
 		lpStatement = NULL;
 	}
 }
 
-void database::connection::reset()
+void odbc::connection::reset()
 {
 	isopen = false; init = false; cleanup();
 
@@ -201,12 +201,12 @@ void database::connection::reset()
 	init = true;
 }
 
-bool database::connection::open(string &connection)
+bool odbc::connection::open(string connection)
 {
 	return open(connection.c_str());
 }
 
-bool database::connection::open(const char *connection)
+bool odbc::connection::open(const char *connection)
 {
 	SQLCHAR out[255];
 	SQLSMALLINT len;
@@ -222,7 +222,7 @@ bool database::connection::open(const char *connection)
 	return false;
 }
 
-bool database::connection::close()
+bool odbc::connection::close()
 {
 	if (!isopen) return false;
 	bool result = true;
@@ -240,7 +240,7 @@ bool database::connection::close()
 	return result;
 }
 
-bool database::connection::executeNoResults(string sql)
+bool odbc::connection::executeNoResults(string sql)
 {
 	if (!isopen) return false;
 	bool result = false;
@@ -257,7 +257,7 @@ bool database::connection::executeNoResults(string sql)
 	return result;
 }
 
-bool database::connection::executeNoResults(string sql, string &error)
+bool odbc::connection::executeNoResults(string sql, string &error)
 {
 	if (!isopen) return false;
 	bool result = false;
@@ -278,7 +278,7 @@ bool database::connection::executeNoResults(string sql, string &error)
 	return result;
 }
 
-bool database::connection::executeWithResults(string sql, recordset &result)
+bool odbc::connection::executeWithResults(string sql, recordset &result)
 {
 	if(result.create(lpConnection))
 	{
@@ -288,7 +288,7 @@ bool database::connection::executeWithResults(string sql, recordset &result)
 	return false;
 }
 
-long database::connection::executeScalar(string sql)
+long odbc::connection::executeScalar(string sql)
 {
 	long result = -1L;
 	if (!isopen) return result;
@@ -313,7 +313,7 @@ long database::connection::executeScalar(string sql)
 	return result;
 }
 
-bool database::connection::Prepare(string sql, recordset &result)
+bool odbc::connection::Prepare(string sql, recordset &result)
 {
 	if(result.create(lpConnection))
 	{
@@ -323,7 +323,7 @@ bool database::connection::Prepare(string sql, recordset &result)
 	return false;
 }
 
-string database::connection::getConnectionError()
+string odbc::connection::getConnectionError()
 {
 	SQLCHAR SqlState[6], Msg[SQL_MAX_MESSAGE_LENGTH];
 	SQLINTEGER NativeError;
@@ -344,20 +344,20 @@ string database::connection::getConnectionError()
 }
 
 
-void database::connection::makeNull()
+void odbc::connection::makeNull()
 {
 	lpConnection = NULL;
 	lpEnvironment = NULL;
 }
 
-void database::connection::cleanup()
+void odbc::connection::cleanup()
 {
 	if (isopen) close();
 }
 
 /*
 #include "odbc.h"
-#include "string.h"
+#include "custom/string.h"
 #include "log.h"
 
 bool database::odbc::recordset::create(void *source)
@@ -545,7 +545,7 @@ void database::odbc::recordset::cleanup()
 		}
 		catch (...)
 		{
-			Log << "database::recordset::cleanup SEH Error\r\n";
+			Log << "odbc::recordset::cleanup SEH Error\r\n";
 		}
 
 		lpStatement = NULL;

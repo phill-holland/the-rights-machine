@@ -32,12 +32,12 @@ namespace web
 
 		void clear();
 
-		bool add(parameter &source);
+		bool add(parameter source);
 
-		bool exists(string &name);
+		bool exists(string name);
 
 		parameter& get(unsigned long index);
-		string get(string &name);
+		string get(string name);
 
 		long count();
 

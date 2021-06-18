@@ -11,7 +11,7 @@ tests::data::response::response()
 	}
 }
 
-bool tests::data::response::add(custom::pair &source)
+bool tests::data::response::add(custom::pair source)
 {
 	if (string("guid").icompare(source.name))
 	{

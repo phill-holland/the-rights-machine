@@ -33,8 +33,8 @@ namespace queues
 				const static unsigned long OUTPUT = 15L;
 
 			private:
-				custom::fifo<compute::task, LENGTH> *incoming;
-				custom::fifo<compute::task, LENGTH> *outgoing;
+				fifo<compute::task, LENGTH> *incoming;
+				fifo<compute::task, LENGTH> *outgoing;
 
 				mutex::token polling, flushing;
 
@@ -108,8 +108,8 @@ namespace queues
 				const static unsigned long OUTPUT = 15L;
 
 			private:
-				custom::fifo<data::response::response, LENGTH> *incoming;
-				custom::fifo<data::response::response, LENGTH> *outgoing;
+				fifo<data::response::response, LENGTH> *incoming;
+				fifo<data::response::response, LENGTH> *outgoing;
 
 				mutex::token polling, flushing;
 

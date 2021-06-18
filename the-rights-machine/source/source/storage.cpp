@@ -64,7 +64,7 @@ bool database::storage::request::write(data::request::request &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.requestID = unique;
 
 		bound.bind(recordset);
@@ -83,7 +83,7 @@ bool database::storage::request::load()
 
 	if (!recordset->IsInitalised())
 	{
-		GUID tagged = this->generate();
+		guid::guid tagged = this->generate();
 		if (!tag(tagged)) return false;
 
 		string order = "";
@@ -126,7 +126,7 @@ bool database::storage::request::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::request::tag(GUID &tagged)
+bool database::storage::request::tag(guid::guid &tagged)
 {
 	string sql = "UPDATE tRequest SET Tag=? WHERE tRequest.RequestID IN (SELECT TOP ";
 	sql.concat(string::fromLong(TOP));
@@ -139,7 +139,7 @@ bool database::storage::request::tag(GUID &tagged)
 	return connection->executeNoResults(sql);
 }
 
-bool database::storage::request::erase(GUID &tagged)
+bool database::storage::request::erase(guid::guid &tagged)
 {
 	string sql = "DELETE FROM tRequest WHERE Tag=?;";
 
@@ -218,7 +218,7 @@ bool database::storage::response::write(data::response::response &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.responseID = unique;
 
 		bound.bind(recordset);
@@ -343,7 +343,7 @@ bool database::storage::common::line::element::write(data::element::element &sou
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
 
@@ -495,7 +495,7 @@ bool database::storage::common::line::component::write(data::component::line::co
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.lineID = lineID;
 		bound.componentID = unique;
 
@@ -629,7 +629,7 @@ bool database::storage::common::query::element::write(data::element::element &so
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
 
@@ -779,7 +779,7 @@ bool database::storage::common::query::component::write(data::component::query::
 
 	if ((recordset->IsInitalised()) && (prepared))
 	{
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.queryID = queryID;
 		bound.componentID = unique;
 
@@ -937,7 +937,7 @@ bool database::storage::line::write(data::line::line &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.itemID = itemID;
 		bound.lineID = unique;
 
@@ -1093,7 +1093,7 @@ bool database::storage::query::write(data::query::query &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.messageID = messageID;
 		bound.queryID = unique;
 
@@ -1246,7 +1246,7 @@ bool database::storage::item::write(data::item::item &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.messageID = messageID;
 		bound.itemID = unique;
 
@@ -1408,7 +1408,7 @@ bool database::storage::message::write(data::message::message &source)
 	{
 		bound.set(source);
 
-		GUID unique = this->generate();
+		guid::guid unique = this->generate();
 		bound.messageID = unique;
 
 		bound.bind(recordset);
@@ -1435,7 +1435,7 @@ bool database::storage::message::load()
 
 	if (!recordset->IsInitalised())
 	{
-		GUID tagged = this->generate();		
+		guid::guid tagged = this->generate();		
 		if (!tag(tagged)) return false;
 
 		string order = "";
@@ -1479,7 +1479,7 @@ bool database::storage::message::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::message::tag(GUID &tagged)
+bool database::storage::message::tag(guid::guid &tagged)
 {	
 	string sql = "UPDATE tMessage SET Tag=? WHERE tMessage.MessageID IN (SELECT TOP ";
 	sql.concat(string::fromLong(TOP));
@@ -1492,7 +1492,7 @@ bool database::storage::message::tag(GUID &tagged)
 	return connection->executeNoResults(sql);
 }
 
-bool database::storage::message::erase(GUID &tagged)
+bool database::storage::message::erase(guid::guid &tagged)
 {
 	string sql = "EXEC dbo.pEraseMessagesWithTag ?;";
 

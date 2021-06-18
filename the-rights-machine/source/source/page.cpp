@@ -21,12 +21,12 @@ void web::page::clear()
 	parameters.clear();
 }
 
-bool web::page::set(string &name, string &value)
+bool web::page::set(string name, string value)
 {
 	return parameters.add(parameter(name, value));
 }
 
-string web::page::get(string &name)
+string web::page::get(string name)
 {
 	for (long i = 0L; i < (long)parameters.count(); ++i)
 	{

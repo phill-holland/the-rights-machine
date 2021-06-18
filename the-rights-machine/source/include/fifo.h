@@ -1,7 +1,7 @@
 #include <array>
 #include <atomic>
 //#include "data.h"
-#include "string.h"
+#include "custom/string.h"
 
 #ifndef _FIFO
 #define _FIFO

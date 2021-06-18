@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "string.h"
+#include "custom/string.h"
 #include "thread.h"
 #include "semaphore.h"
 

@@ -1,7 +1,7 @@
 #include <openssl/rand.h>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
-#include "string.h"
+#include "custom/string.h"
 
 #ifndef _SSL
 #define _SSL

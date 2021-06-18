@@ -1,6 +1,6 @@
 #include "fifo.h"
 #include "components.h"
-#include "string.h"
+#include "custom/string.h"
 #include "datetime.h"
 #include "zone.h"
 
@@ -43,7 +43,7 @@ namespace data
 
 		public:
 			string identifier() { return string("LINE"); }
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 		public:
 			line& operator=(const line& source)

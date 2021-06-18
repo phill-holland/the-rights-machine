@@ -1,5 +1,5 @@
 #include "cpu.h"
-#include "string.h"
+#include "custom/string.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -169,7 +169,7 @@ void compute::cpu::processor::push(::compute::task &task)
 				}
 			}
 
-			in->and(*query);
+			in->AND(*query);
 			bool result = in->compare(*query);
 
 			data::response::response response;

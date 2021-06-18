@@ -22,7 +22,7 @@ void data::query::query::clear()
 	elements.clear();
 }
 
-bool data::query::query::add(custom::pair &source)
+bool data::query::query::add(custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{

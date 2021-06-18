@@ -43,7 +43,7 @@ namespace compute
 			bool isempty();
 
 			void minus(grid &right);
-			void and(grid &right);
+			void AND(grid &right);
 			bool compare(grid &right);
 
 			bool push(::compute::common::row *source);
@@ -59,7 +59,7 @@ namespace compute
 
 			grid& operator&(const grid& source)
 			{
-				this->and((grid&)source);
+				this->AND((grid&)source);
 				return *this;
 			}
 

@@ -28,7 +28,7 @@ void data::item::item::output()
 	Log << result;
 }
 
-bool data::item::item::add(custom::pair &source)
+bool data::item::item::add(custom::pair source)
 {
 	if (string("name").icompare(source.name))
 	{

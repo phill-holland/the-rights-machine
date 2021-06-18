@@ -28,7 +28,7 @@ void web::parameters::clear()
 	//return headers.clear(); 
 }
 
-bool web::parameters::add(parameter &source)
+bool web::parameters::add(parameter source)
 {
 	if (count() >= MAX) return false;
 
@@ -41,7 +41,7 @@ bool web::parameters::add(parameter &source)
 	return true;
 }
 
-bool web::parameters::exists(string &name)
+bool web::parameters::exists(string name)
 {
 	return (map.find(name) != map.end());
 }
@@ -51,7 +51,7 @@ web::parameter& web::parameters::get(unsigned long index)
 	return *headers[index];
 }
 
-string web::parameters::get(string &name)
+string web::parameters::get(string name)
 {
 	if (map.find(name) != map.end()) return headers[map[name]]->value;
 

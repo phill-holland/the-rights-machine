@@ -1,5 +1,6 @@
 #include "grid.h"
 #include "log.h"
+#include <cstring>
 
 void compute::cpu::grid::reset(unsigned long width, unsigned long height)
 {
@@ -60,7 +61,7 @@ void compute::cpu::grid::minus(grid &right)
 	}
 }
 
-void compute::cpu::grid::and(grid &right)
+void compute::cpu::grid::AND(grid &right)
 {
 	unsigned long offset = 0UL;
 

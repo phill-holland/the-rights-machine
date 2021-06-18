@@ -33,7 +33,7 @@ namespace http
 			bool head(web::page *destination);			
 
 		protected:
-			bool issue(string &command, web::address &addr, web::page *destination, web::page *source, web::parameter *parameters, long count);
+			bool issue(string command, web::address &addr, web::page *destination, web::page *source, web::parameter *parameters, long count);
 		};
 	};
 };

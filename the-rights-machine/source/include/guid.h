@@ -1,21 +1,20 @@
 
-#include "string.h"
+#include "custom/string.h"
 
 #if !defined(__GUID)
 #define __GUID
 
 namespace guid
 {
-	/*
 	class guid
 	{
-		GUID value;
+		//GUID value;
 
 		bool init;
 
 	public:
 		guid() { reset(); }
-		guid(GUID &unique) { value = unique; init = true; }
+		guid(guid &unique) {/* value = unique;*/ init = true; }
 		guid(string &source);
 
 		bool initalised() { return init; }
@@ -25,9 +24,8 @@ namespace guid
 
 	public:
 		operator string() { return get(); }
-		operator GUID() { return value; }
+		//operator GUID() { return value; }
 	};
-	*/
 };
 
 #endif

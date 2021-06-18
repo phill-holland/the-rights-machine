@@ -1,5 +1,5 @@
 #include "gpu.h"
-#include "string.h"
+#include "custom/string.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -169,7 +169,7 @@ void compute::gpu::processor::push(::compute::task &task)
 				}
 			}
 
-			in->and(*query);
+			in->AND(*query);
 			bool result = in->compare(*query);
 
 			data::response::response response;
@@ -221,7 +221,7 @@ void compute::gpu::processor::cleanup()
 
 void compute::gpu::gpu::background(thread *bt)
 {
-	Sleep(100);
+	sleep(100);
 
 	::compute::task task;
 	if (get(task))
@@ -230,7 +230,7 @@ void compute::gpu::gpu::background(thread *bt)
 	}
 	else
 	{
-		Sleep(5000);
+		sleep(5000);
 	}
 
 	//return (DWORD)0;

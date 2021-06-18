@@ -11,7 +11,7 @@ tests::data::error::error()
 	}
 }
 
-bool tests::data::error::add(custom::pair &source)
+bool tests::data::error::add(custom::pair source)
 {
 	if (string("code").icompare(source.name))
 	{

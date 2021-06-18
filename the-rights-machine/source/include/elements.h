@@ -1,6 +1,6 @@
 #include "element.h"
 #include "allocator.h"
-#include "string.h"
+#include "custom/string.h"
 #include "map.h"
 
 #if !defined(__ELEMENTS)
@@ -49,7 +49,7 @@ namespace data
 
 			string identifier() { return string("ELEMENTS"); }
 
-			bool add(custom::pair &source)
+			bool add(custom::pair source)
 			{
 				return temp.add(source);
 			}

@@ -65,7 +65,7 @@ namespace console
 #elif defined __linux__
 
 //#include "data.h"
-#include "string.h"
+#include "custom/string.h"
 #include "thread.h"
 #include "semaphore.h"
 #include <stdio.h>

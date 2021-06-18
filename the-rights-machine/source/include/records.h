@@ -19,11 +19,12 @@ namespace database
 		class message : public record::record<data::message::message>
 		{
 		public:
+		/*
 			GUID messageID;
 			GUID user;
 			GUID apikey;
 			GUID guid;
-			GUID tag;
+			GUID tag;*/
 			TIMESTAMP_STRUCT created;
 			
 		public:
@@ -41,8 +42,8 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			GUID itemID;
-			GUID messageID;
+			//GUID itemID;
+			//GUID messageID;
 			char name[MAX];
 
 		public:
@@ -57,8 +58,8 @@ namespace database
 		class query : public record::record<data::query::query>
 		{
 		public:
-			GUID queryID;
-			GUID messageID;
+			//GUID queryID;
+			//GUID messageID;
 
 		public:
 			query() { clear(); }
@@ -72,8 +73,8 @@ namespace database
 		class line : public record::record<data::line::line>
 		{
 		public:
-			GUID lineID;
-			GUID itemID;
+			//GUID lineID;
+			//GUID itemID;
 			TIMESTAMP_STRUCT start;
 			TIMESTAMP_STRUCT end;
 			long exclusivityID;
@@ -99,8 +100,8 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					GUID componentID;
-					GUID lineID;
+					//GUID componentID;
+					//GUID lineID;
 					long type;
 					char name[MAX];
 
@@ -123,8 +124,8 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					GUID componentID;
-					GUID queryID;
+					//GUID componentID;
+					//GUID queryID;
 					long type;
 					char name[MAX];
 
@@ -145,8 +146,8 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			GUID elementID;
-			GUID componentID;
+			//GUID elementID;
+			//GUID componentID;
 			char value[MAX];
 
 		public:
@@ -161,10 +162,10 @@ namespace database
 		class request : public record::record <data::request::request>
 		{
 		public:
-			GUID requestID;
-			GUID guid;
-			GUID user;
-			GUID tag;
+			//GUID requestID;
+			//GUID guid;
+			//GUID user;
+			//GUID tag;
 			TIMESTAMP_STRUCT created;
 
 		public:
@@ -179,9 +180,9 @@ namespace database
 		class response : public record::record <data::response::response>
 		{
 		public:
-			GUID responseID;
-			GUID guid;
-			GUID user;
+			//GUID responseID;
+			//GUID guid;
+			//GUID user;
 			long status;
 			TIMESTAMP_STRUCT created;
 			bool available;

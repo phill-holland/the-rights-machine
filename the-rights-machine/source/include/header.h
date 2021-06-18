@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 
 #if !defined(__HEADER)
 #define __HEADER

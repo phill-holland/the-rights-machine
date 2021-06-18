@@ -50,7 +50,7 @@ namespace data
 
 			string identifier() { return string("LINES"); }
 
-			bool add(custom::pair &source)
+			bool add(custom::pair source)
 			{
 				return temp.add(source);
 			}

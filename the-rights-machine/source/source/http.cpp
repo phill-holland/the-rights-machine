@@ -44,7 +44,7 @@ bool http::client::client::head(web::page *destination)
 	return issue(string("HEAD"), addr, destination, NULL, NULL, 0L);
 }
 
-bool http::client::client::issue(string &command,
+bool http::client::client::issue(string command,
 								 web::address &addr,
 								 web::page *destination,
 								 web::page *source,
@@ -117,7 +117,8 @@ bool http::client::client::issue(string &command,
 	}
 	else
 	{
-		if (::wsock::client::write(request, 0) == SOCKET_ERROR) ok = false;
+		//if (::wsock::client::write(request, 0) == SOCKET_ERROR) ok = false;
+		if (::wsock::client::write(request, 0) == 0) ok = false;
 	}
 
 	if (ok)

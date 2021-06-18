@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "list.h"
 #include "parameter.h"
 #include "parameters.h"
@@ -50,8 +50,8 @@ namespace web
 
 		void clear();
 
-		bool set(string &name, string &value);
-		string get(string &name);
+		bool set(string name, string value);
+		string get(string name);
 
 		void data(string &source) { *body = source; }
 		string data() { return *body; }

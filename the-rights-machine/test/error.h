@@ -27,7 +27,7 @@ namespace tests
 			error();
 
 		public:
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 			int identity() { return 0; }
 			void clear()  { }

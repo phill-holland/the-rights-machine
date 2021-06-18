@@ -39,7 +39,7 @@ void data::request::request::output()
 	Log << result;
 }
 
-bool data::request::request::add(custom::pair &source)
+bool data::request::request::add(custom::pair source)
 {
 	if (string("user").icompare(source.name))
 	{

@@ -7,6 +7,7 @@
 #include "response.h"
 #include "comparison.h"
 #include "file.h"
+#include "guid.h"
 #include <vector>
 #include <unordered_map>
 
@@ -59,8 +60,8 @@ namespace database
 			bool load();
 
 		protected:
-			bool tag(GUID &tagged);
-			bool erase(GUID &tagged);
+			bool tag(guid::guid &tagged);
+			bool erase(guid::guid &tagged);
 		};
 
 		class response : public file::file<data::response::response>
@@ -119,7 +120,7 @@ namespace database
 				public:
 					data::message::message *parent;
 					std::vector<string> identities;
-					GUID componentID;
+					guid::guid componentID;
 
 				public:
 					element()
@@ -148,14 +149,14 @@ namespace database
 					database::connection *connection;
 					database::recordset *recordset;
 
-					element element;
+					element t_element;
 
 					std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality> data;
 
 				public:
 					data::message::message *parent;
 					std::vector<string> identities;
-					GUID lineID;
+					guid::guid lineID;
 
 				public:
 					component()
@@ -171,7 +172,7 @@ namespace database
 					bool read(data::component::line::component &destination);
 					bool write(data::component::line::component &source);
 
-					void clear() { data.clear(); element.clear(); identities.clear(); }
+					void clear() { data.clear(); t_element.clear(); identities.clear(); }
 
 				protected:
 					bool load();
@@ -192,7 +193,7 @@ namespace database
 				public:
 					data::query::query *parent;
 					std::vector<string> identities;
-					GUID componentID;
+					guid::guid componentID;
 
 				public:
 					element()
@@ -221,14 +222,14 @@ namespace database
 					database::connection *connection;
 					database::recordset *recordset;
 
-					element element;
+					element t_element;
 
 					std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality> data;
 
 				public:
 					data::query::query *parent;
 					std::vector<string> identities;
-					GUID queryID;
+					guid::guid queryID;
 
 				public:
 					component()
@@ -244,7 +245,7 @@ namespace database
 					bool read(data::component::query::component &destination);
 					bool write(data::component::query::component &source);
 
-					void clear() { data.clear(); element.clear(); identities.clear(); }
+					void clear() { data.clear(); t_element.clear(); identities.clear(); }
 
 				protected:
 					bool load();
@@ -266,7 +267,7 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			GUID itemID;
+			guid::guid itemID;
 
 		public:
 			line()
@@ -302,7 +303,7 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			GUID messageID;
+			guid::guid messageID;
 
 		public:
 			query()
@@ -332,14 +333,14 @@ namespace database
 			database::connection *connection;
 			database::recordset *recordset;
 
-			line line;
+			line t_line;
 
 			std::unordered_map<string, std::vector<database::records::item>, hasher, equality> data;
 
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			GUID messageID;
+			guid::guid messageID;
 			
 		public:
 			item()
@@ -355,7 +356,7 @@ namespace database
 			bool read(data::item::item &destination);
 			bool write(data::item::item &source);
 
-			void clear() { data.clear(); line.clear(); identities.clear(); }
+			void clear() { data.clear(); t_line.clear(); identities.clear(); }
 
 		protected:
 			bool load();
@@ -372,8 +373,8 @@ namespace database
 			database::connection *connection;
 			database::recordset *recordset;
 
-			item item;
-			query query;
+			item t_item;
+			query t_query;
 
 			std::vector<database::records::message> data;
 			std::vector<string> identities;
@@ -396,14 +397,14 @@ namespace database
 			bool read(data::message::message &destination);
 			bool write(data::message::message &source);
 
-			void clear() { data.clear(); item.clear(); identities.clear(); }
+			void clear() { data.clear(); t_item.clear(); identities.clear(); }
 
 		public:
 			bool load();
 
 		protected:
-			bool tag(GUID &tagged);
-			bool erase(GUID &tagged);
+			bool tag(guid::guid &tagged);
+			bool erase(guid::guid &tagged);
 		};
 	};
 };

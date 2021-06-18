@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "elements.h"
 #include "json.h"
 
@@ -33,7 +33,7 @@ namespace data
 
 			public:
 				string identifier() { return string("COMPONENT"); }
-				bool add(custom::pair &source);
+				bool add(custom::pair source);
 
 			public:
 				component& operator=(const component& source)
@@ -68,7 +68,7 @@ namespace data
 
 			public:
 				string identifier() { return string("COMPONENT"); }
-				bool add(custom::pair &source);
+				bool add(custom::pair source);
 
 			public:
 				component& operator=(const component& source)

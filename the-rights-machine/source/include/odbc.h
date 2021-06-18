@@ -3,12 +3,12 @@
 #endif
 #include <sql.h>
 #include <sqlext.h>
-#include "string.h"
+#include "custom/string.h"
 
-#ifndef _DATABASE
-#define _DATABASE
+#ifndef _ODBC
+#define _ODBC
 
-namespace database
+namespace odbc
 {
 	class connection;
 
@@ -80,7 +80,7 @@ namespace database
 
 		void reset();
 
-		bool open(string &connection);
+		bool open(string connection);
 		bool open(const char *connection);
 
 		bool close();
@@ -106,7 +106,7 @@ namespace database
 #include <sql.h>
 #include <sqlext.h>
 #include "databases.h"
-#include "string.h"
+#include "custom/string.h"
 #include "datetime.h"
 #include <vector>
 

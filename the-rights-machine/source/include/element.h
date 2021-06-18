@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "json.h"
 
 #if !defined(__ELEMENT)
@@ -25,7 +25,7 @@ namespace data
 			void clear();
 
 			string identifier() { return string("ELEMENT"); }
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 			void copy(element const &source);
 

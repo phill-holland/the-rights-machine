@@ -17,7 +17,7 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public custom::fifo<compute::task, 10L> { };
+			class queue : public fifo<compute::task, 10L> { };
 
 			class factory : public ::queue::factory<compute::task>
 			{

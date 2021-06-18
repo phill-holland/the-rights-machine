@@ -301,7 +301,7 @@ void data::message::message::output()
 	Log << "}\r\n";
 }
 
-bool data::message::message::add(custom::pair &source)
+bool data::message::message::add(custom::pair source)
 {
 	if (string("user").icompare(source.name))
 	{

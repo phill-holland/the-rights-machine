@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "lines.h"
 
 #if !defined(__ITEM)
@@ -30,7 +30,7 @@ namespace data
 
 		public:
 			string identifier() { return string("ITEM"); }
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 		public:
 			item& operator=(const item& source)

@@ -3,7 +3,7 @@
 
 void error::errors::background(thread *bt)
 {
-	Sleep(200);
+	sleep(200);
 	++counter;
 	
 	if ((counter >= EXPIRATION) || (length >= THRESHOLD))
@@ -12,7 +12,7 @@ void error::errors::background(thread *bt)
 
 		flush();
 	}
-	else Sleep(1000);
+	else sleep(1000);
 
 	//return (DWORD)0;
 }
@@ -63,7 +63,8 @@ bool error::errors::flush()
 	{
 		for (long i = 0L; i < length; ++i)
 		{
-			if (!destination->set(lookup(*data[i]))) return false;
+			::error::type::type temp = lookup(*data[i]);
+			if (!destination->set(temp)) return false;
 		}
 
 		reset();

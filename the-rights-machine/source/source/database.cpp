@@ -12,7 +12,7 @@ void queues::database::incoming::queue::background(thread *bt)
 
 	++counter;
 
-	Sleep(1000);
+	sleep(1000);
 
 	//return (DWORD)0;
 }
@@ -26,16 +26,16 @@ void queues::database::incoming::queue::reset(::database::settings &settings, un
 	this->settings = &settings;
 	this->interval = interval;
 
-	incoming = new custom::fifo<compute::task, LENGTH>();
-	if (incoming == NULL) return;
+	incoming = new fifo<compute::task, LENGTH>();
+	if (incoming == nullptr) return;
 	if (!incoming->initalised()) return;
 
-	outgoing = new custom::fifo<compute::task, LENGTH>();
-	if (outgoing == NULL) return;
+	outgoing = new fifo<compute::task, LENGTH>();
+	if (outgoing == nullptr) return;
 	if (!outgoing->initalised()) return;
 
 	message = new ::database::storage::message();
-	if (message == NULL) return;
+	if (message == nullptr) return;
 
 	init = true;
 }
@@ -107,16 +107,16 @@ bool queues::database::incoming::queue::poll()
 
 void queues::database::incoming::queue::makeNull()
 {
-	incoming = NULL;
-	outgoing = NULL;
-	message = NULL;
+	incoming = nullptr;
+	outgoing = nullptr;
+	message = nullptr;
 }
 
 void queues::database::incoming::queue::cleanup()
 {
-	if (message != NULL) delete message;
-	if (outgoing != NULL) delete outgoing;
-	if (incoming != NULL) delete incoming;
+	if (message != nullptr) delete message;
+	if (outgoing != nullptr) delete outgoing;
+	if (incoming != nullptr) delete incoming;
 }
 
 void queues::database::incoming::factory::reset(::database::settings &settings, unsigned long total)
@@ -128,18 +128,18 @@ void queues::database::incoming::factory::reset(::database::settings &settings, 
 	length = 0UL;
 
 	queues = new ::queue::queue<compute::task>*[total];
-	if (queues == NULL) return;
-	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
+	if (queues == nullptr) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = nullptr;
 
 	init = true;
 }
 
 ::queue::queue<compute::task> *queues::database::incoming::factory::get()
 {
-	if (length >= MAX) return NULL;
+	if (length >= MAX) return nullptr;
 
 	queue *result = new queues::database::incoming::queue(*settings);
-	if (result != NULL)
+	if (result != nullptr)
 	{
 		queues[length++] = result;
 	}
@@ -149,16 +149,16 @@ void queues::database::incoming::factory::reset(::database::settings &settings, 
 
 void queues::database::incoming::factory::makeNull()
 {
-	queues = NULL;
+	queues = nullptr;
 }
 
 void queues::database::incoming::factory::cleanup()
 {
-	if (queues != NULL)
+	if (queues != nullptr)
 	{
 		for (long i = (total - 1L); i >= 0L; i--)
 		{
-			if (queues[i] != NULL) delete queues[i];
+			if (queues[i] != nullptr) delete queues[i];
 		}
 
 		delete queues;
@@ -177,7 +177,7 @@ void queues::database::outgoing::queue::background(thread *bt)
 
 	++counter;
 
-	Sleep(1000);
+	sleep(1000);
 
 	//return (DWORD)0;
 }
@@ -191,16 +191,16 @@ void queues::database::outgoing::queue::reset(::database::settings &settings, un
 	this->settings = &settings;
 	this->interval = interval;
 
-	incoming = new custom::fifo<data::response::response, LENGTH>();
-	if (incoming == NULL) return;
+	incoming = new fifo<data::response::response, LENGTH>();
+	if (incoming == nullptr) return;
 	if (!incoming->initalised()) return;
 
-	outgoing = new custom::fifo<data::response::response, LENGTH>();
-	if (outgoing == NULL) return;
+	outgoing = new fifo<data::response::response, LENGTH>();
+	if (outgoing == nullptr) return;
 	if (!outgoing->initalised()) return;
 
 	response = new ::database::storage::response();
-	if (response == NULL) return;
+	if (response == nullptr) return;
 
 	init = true;
 }
@@ -272,16 +272,16 @@ bool queues::database::outgoing::queue::poll()
 
 void queues::database::outgoing::queue::makeNull()
 {
-	incoming = NULL;
-	outgoing = NULL;
-	response = NULL;
+	incoming = nullptr;
+	outgoing = nullptr;
+	response = nullptr;
 }
 
 void queues::database::outgoing::queue::cleanup()
 {
-	if (response != NULL) delete response;
-	if (outgoing != NULL) delete outgoing;
-	if (incoming != NULL) delete incoming;
+	if (response != nullptr) delete response;
+	if (outgoing != nullptr) delete outgoing;
+	if (incoming != nullptr) delete incoming;
 }
 
 void queues::database::outgoing::factory::reset(::database::settings &settings, unsigned long total)
@@ -292,18 +292,18 @@ void queues::database::outgoing::factory::reset(::database::settings &settings, 
 	length = 0UL;
 
 	queues = new data::response::responses*[total];
-	if (queues == NULL) return;
-	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
+	if (queues == nullptr) return;
+	for (unsigned long i = 0UL; i < total; ++i) queues[i] = nullptr;
 
 	init = true;
 }
 
 ::custom::chain<data::response::response> *queues::database::outgoing::factory::get()
 {
-	if (length >= MAX) return NULL;
+	if (length >= MAX) return nullptr;
 
 	data::response::responses *result = new data::response::responses();
-	if (result != NULL)
+	if (result != nullptr)
 	{
 		queues[length++] = result;
 	}
@@ -313,16 +313,16 @@ void queues::database::outgoing::factory::reset(::database::settings &settings, 
 
 void queues::database::outgoing::factory::makeNull()
 {
-	queues = NULL;
+	queues = nullptr;
 }
 
 void queues::database::outgoing::factory::cleanup()
 {
-	if (queues != NULL)
+	if (queues != nullptr)
 	{
 		for (long i = (total - 1L); i >= 0L; i--)
 		{
-			if (queues[i] != NULL)
+			if (queues[i] != nullptr)
 			{
 				delete queues[i];
 			}

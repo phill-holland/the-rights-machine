@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "datetime.h"
 #include "queries.h"
 #include "items.h"
@@ -79,7 +79,7 @@ namespace data
 
 		public:
 			string identifier() { return string("MESSAGE"); }
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 		public:
 			message& operator=(const message& source)

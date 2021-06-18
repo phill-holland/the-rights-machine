@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.10)
 
 project(gtesttest)
 
+set(CMAKE_CUDA_COMPILER "/usr/local/cuda/bin/nvcc")
+set(CMAKE_CUDA_COMPILER_ENV_VAR "")
+set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Wno-deprecated-gpu-targets")
+
 set(CMAKE_CXX_STANDARD 20)
+
+enable_language(CUDA)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
@@ -18,7 +24,9 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-include_directories(source/include)
+include_directories("source/include")
+include_directories("/usr/local/cuda/include")
+include_directories("source/cuda include")
 
 add_subdirectory(source)
 add_subdirectory(test)

@@ -6,7 +6,7 @@
 #include <winsock2.h>
 #include <windows.h>
 #include <stdio.h>
-#include "string.h"
+#include "custom/string.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 
@@ -84,7 +84,7 @@ namespace wsock
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
+#include "custom/string.h"
 
 namespace wsock
 {

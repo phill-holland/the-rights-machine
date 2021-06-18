@@ -1,4 +1,4 @@
-#include "string.h"
+#include "custom/string.h"
 #include "datetime.h"
 #include "json.h"
 #include "zone.h"
@@ -56,7 +56,7 @@ namespace data
 
 		public:
 			string identifier() { return string("QUERY"); }
-			bool add(custom::pair &source);
+			bool add(custom::pair source);
 
 		public:
 			query& operator=(const query& source)

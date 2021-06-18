@@ -52,7 +52,7 @@ data::line::line data::line::line::spawn(datetime &start, datetime &end)
 	return result;
 }
 
-bool data::line::line::add(custom::pair &source)
+bool data::line::line::add(custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{

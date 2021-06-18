@@ -8,7 +8,7 @@ void data::component::line::component::clear()
 	name = string("");
 }
 
-bool data::component::line::component::add(custom::pair &source)
+bool data::component::line::component::add(custom::pair source)
 {
 	if (string("name").icompare(source.name))
 	{
@@ -46,7 +46,7 @@ void data::component::query::component::clear()
 	name = string("");
 }
 
-bool data::component::query::component::add(custom::pair &source)
+bool data::component::query::component::add(custom::pair source)
 {
 	if (string("name").icompare(source.name))
 	{

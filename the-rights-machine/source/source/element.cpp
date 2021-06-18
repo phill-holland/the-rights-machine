@@ -8,7 +8,7 @@ void data::element::element::clear()
 	value = string("");
 }
 
-bool data::element::element::add(custom::pair &source)
+bool data::element::element::add(custom::pair source)
 {
 	if (string("value").icompare(source.name))
 	{

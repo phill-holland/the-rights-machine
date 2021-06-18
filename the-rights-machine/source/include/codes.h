@@ -1,6 +1,6 @@
 #include "error.h"
 #include "queue.h"
-#include "string.h"
+#include "custom/string.h"
 #include "thread.h"
 #include "mutex.h"
 #include "databases.h"
