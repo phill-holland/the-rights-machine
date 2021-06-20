@@ -4,11 +4,6 @@ file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp *.cuh *.cu)
 
 set(SOURCES ${SOURCES})
 
-#include_directories("include")
-#include_directories("/usr/local/cuda/include")
-#include_directories("cuda include")
-
-
 link_directories("/usr/local/cuda/lib64")
 
 add_executable(${BINARY} ${SOURCES})
@@ -23,3 +18,4 @@ target_link_libraries(${PROJECT_NAME} OpenSSL::SSL)
 target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
 target_link_libraries(${PROJECT_NAME} X11)
 target_link_libraries(${PROJECT_NAME} odbc)
+target_link_libraries(${PROJECT_NAME} uuid)

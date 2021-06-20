@@ -1,0 +1,96 @@
+{
+	"message" :
+	{
+		"userID" : 1,		
+		"APIKey" : 1,
+		"queries" :
+		[
+			{
+				"start" : "2018-01-01",
+				"end" : "2019-01-01",
+				"components" :
+				[
+					{
+						"name" : "country",
+						"elements" :
+						[
+							{ "value" : "england" },
+							{ "value" : "france" }
+						]
+					}
+					,							
+					{
+						"name" : "language",
+						"elements" :
+						[
+							{ "value" : "english" },
+							{ "value" : "french" }
+						]
+					}
+				]
+			}
+		],
+		"items":
+		[
+			{
+				"name" : "myitem",
+				"lines" :
+				[
+					{			
+						"start" : "2018-01-01",
+						"end" : "2019-01-01",
+						"exclusivity" : 0,
+						"type" : 0,
+						"components" :
+						[
+							{
+								"name" : "country",
+								"elements" :
+								[
+									{ "value" : "england" },
+									{ "value" : "france" }
+								]
+							}
+							,							
+							{
+								"name" : "language",
+								"elements" :
+								[
+									{ "value" : "english" },
+									{ "value" : "french" }
+								]
+							}
+						]
+					}
+					,
+					{			
+						"start" : "2018-06-01",
+						"end" : "2019-08-01",
+						"exclusivity" : "non-exclusive",
+						"type" : 1,
+						"components" :
+						[
+							{
+								"name" : "country",
+								"elements" :
+								[
+									{ "value" : "england" },
+									{ "value" : "france" }
+								]
+							}
+							,
+							{
+								"name" : "language",
+								"elements" :
+								[
+									{ "value" : "english" },
+									{ "value" : "french" }
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

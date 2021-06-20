@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(gtesttest)
+project(the-rights-machine)
 
 set(CMAKE_CUDA_COMPILER "/usr/local/cuda/bin/nvcc")
 set(CMAKE_CUDA_COMPILER_ENV_VAR "")
@@ -31,4 +31,3 @@ include_directories("test/include")
 
 add_subdirectory(source)
 add_subdirectory(test)
-#add_subdirectory(lib/googletest)

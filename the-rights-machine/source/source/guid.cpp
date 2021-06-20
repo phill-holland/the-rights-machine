@@ -1,7 +1,8 @@
 #include "guid.h"
 
-guid::guid::guid(string &source)
+guid::guid::guid(const string &source)
 {
+	uuid_parse(source.c_str(), value);
 	/*
 	sscanf_s(source.c_str(), "%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX",
 			 &value.Data1, &value.Data2, &value.Data3,
@@ -14,6 +15,8 @@ guid::guid::guid(string &source)
 
 void guid::guid::reset()
 {
+	uuid_generate(value);
+	init = true;
 	/*
 	init = false;
 
@@ -26,6 +29,8 @@ void guid::guid::reset()
 string guid::guid::get()
 {
 	char result[37];
+
+	uuid_unparse(value, result);
 /*	
 	sprintf_s(result,"%08lX-%04hX-%04hX-%02hhX%02hhX-%02hhX%02hhX%02hhX%02hhX%02hhX%02hhX",
 			  value.Data1,    value.Data2,    value.Data3,
