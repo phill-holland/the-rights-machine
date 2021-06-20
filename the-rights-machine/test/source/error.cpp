@@ -1,4 +1,4 @@
-#include "tests/error.h"
+#include "test/error.h"
 
 tests::data::error::error()
 {

@@ -1,4 +1,4 @@
-#include "tests/message.h"
+#include "test/message.h"
 
 string tests::data::message::json()
 {

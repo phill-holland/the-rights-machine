@@ -1,8 +1,8 @@
-#include "../process/json.h"
-#include "../process/pair.h"
+#include "json.h"
+#include "pair.h"
 #include "custom/string.h"
-#include "../process/datetime.h"
-#include "../process/comparison.h"
+#include "datetime.h"
+#include "comparison.h"
 #include <unordered_map>
 
 #if !defined(__TEST_RESULT)

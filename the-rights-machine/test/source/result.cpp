@@ -1,4 +1,4 @@
-#include "result.h"
+#include "test/result.h"
 
 tests::data::result::result()
 {

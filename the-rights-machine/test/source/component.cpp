@@ -1,4 +1,4 @@
-#include "component.h"
+#include "test/component.h"
 
 string tests::data::component::json()
 {

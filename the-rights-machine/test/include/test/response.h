@@ -1,6 +1,6 @@
-#include "../process/json.h"
+#include "json.h"
 #include "custom/string.h"
-#include "../process/comparison.h"
+#include "comparison.h"
 #include <unordered_map>
 
 #if !defined(__TEST_RESPONSE)
