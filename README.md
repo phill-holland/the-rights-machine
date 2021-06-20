@@ -1,5 +1,14 @@
 <b>The Rights Machine</b>
 
+Get CPU code working with simple query
+write test
+stream out result during request connection
+implement SSL
+*disable database*
+implement rest API query in excel spreadsheet
+NUGET package
+create react/material UI website
+
 Google Test Framework
 https://google.github.io/googletest/quickstart-cmake.html
 

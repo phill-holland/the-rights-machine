@@ -17,8 +17,8 @@ namespace server
 {
 	class starter
 	{
-		odbc::factory::connection *connections;
-		odbc::factory::recordset *recordsets;
+		database::odbc::factory::connection *connections;
+		database::odbc::factory::recordset *recordsets;
 
 		compute::cpu::cpu *cpu;
 

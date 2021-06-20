@@ -6,6 +6,7 @@
 #include "component.h"
 #include "request.h"
 #include "response.h"
+#include "guid.h"
 
 #if !defined(__RECORDS)
 #define __RECORDS
@@ -19,16 +20,16 @@ namespace database
 		class message : public record::record<data::message::message>
 		{
 		public:
-		/*
-			GUID messageID;
-			GUID user;
-			GUID apikey;
-			GUID guid;
-			GUID tag;*/
+			guid::guid messageID;
+			guid::guid user;
+			guid::guid apikey;
+			guid::guid guid;
+			guid::guid tag;
 			TIMESTAMP_STRUCT created;
 			
 		public:
 			message() { clear(); }
+			message(const message &source) { }
 
 			void clear();
 
@@ -42,12 +43,13 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			//GUID itemID;
-			//GUID messageID;
+			guid::guid itemID;
+			guid::guid messageID;
 			char name[MAX];
 
 		public:
 			item() { clear(); }
+			item(const item &source) { }
 			
 			void clear();
 
@@ -58,11 +60,12 @@ namespace database
 		class query : public record::record<data::query::query>
 		{
 		public:
-			//GUID queryID;
-			//GUID messageID;
+			guid::guid queryID;
+			guid::guid messageID;
 
 		public:
 			query() { clear(); }
+			query(const query &source) { }
 
 			void clear();
 
@@ -73,8 +76,8 @@ namespace database
 		class line : public record::record<data::line::line>
 		{
 		public:
-			//GUID lineID;
-			//GUID itemID;
+			guid::guid lineID;
+			guid::guid itemID;
 			TIMESTAMP_STRUCT start;
 			TIMESTAMP_STRUCT end;
 			long exclusivityID;
@@ -82,6 +85,7 @@ namespace database
 
 		public:
 			line() { clear(); }
+			line(const line &source) { }
 
 			void clear();
 
@@ -100,13 +104,14 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					//GUID componentID;
-					//GUID lineID;
+					guid::guid componentID;
+					guid::guid lineID;
 					long type;
 					char name[MAX];
 
 				public:
 					component() { clear(); }
+					component(const component &source) { }
 
 					void clear();
 
@@ -124,14 +129,15 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					//GUID componentID;
-					//GUID queryID;
+					guid::guid componentID;
+					guid::guid queryID;
 					long type;
 					char name[MAX];
 
 				public:
 					component() { clear(); }
-					
+					component(const component &source) { }
+
 					void clear();
 
 					bool bind(database::recordset *recordset);
@@ -146,12 +152,13 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			//GUID elementID;
-			//GUID componentID;
+			guid::guid elementID;
+			guid::guid componentID;
 			char value[MAX];
 
 		public:
 			element() { clear(); }
+			element(const element &source) { }
 			
 			void clear();
 			
@@ -162,14 +169,15 @@ namespace database
 		class request : public record::record <data::request::request>
 		{
 		public:
-			//GUID requestID;
-			//GUID guid;
-			//GUID user;
-			//GUID tag;
+			guid::guid requestID;
+			guid::guid guid;
+			guid::guid user;
+			guid::guid tag;
 			TIMESTAMP_STRUCT created;
 
 		public:
 			request() { clear(); }
+			request(const request &source) { }
 
 			void clear();
 
@@ -180,15 +188,16 @@ namespace database
 		class response : public record::record <data::response::response>
 		{
 		public:
-			//GUID responseID;
-			//GUID guid;
-			//GUID user;
+			guid::guid responseID;
+			guid::guid guid;
+			guid::guid user;
 			long status;
 			TIMESTAMP_STRUCT created;
 			bool available;
 
 		public:
 			response() { clear(); }
+			response(const response &source) { }
 
 			void clear();
 

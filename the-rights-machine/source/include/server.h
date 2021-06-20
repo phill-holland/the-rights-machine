@@ -76,7 +76,7 @@ namespace server
 
 	protected:
 		void goodbye();
-		void error(string &error);
+		void error(string error);
 	};
 
 	class client : public ::wsock::client
@@ -269,7 +269,7 @@ namespace server
 		client *findCompletedClient(long &index);
 
 	protected:
-		void output(string &source);
+		void output(string source);
 
 	protected:
 		void makeNull();

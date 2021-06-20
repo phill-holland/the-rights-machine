@@ -2,11 +2,25 @@
 #include "custom/string.h"
 #include "log.h"
 #include <cstring>
-
+/*
 bool odbc::recordset::create(SQLHANDLE &lpConnection)
 {
 	cleanup();
 
+	SQLRETURN result = SQLAllocHandle(SQL_HANDLE_STMT, lpConnection, &lpStatement);
+	if (result != SQL_ERROR) return true;
+
+	lpStatement = NULL;
+
+	return false;
+}
+*/
+/*
+bool odbc::recordset::create(void *source)
+{
+	cleanup();
+
+	SQLHANDLE lpConnection = (SQLHANDLE *)source;
 	SQLRETURN result = SQLAllocHandle(SQL_HANDLE_STMT, lpConnection, &lpStatement);
 	if (result != SQL_ERROR) return true;
 
@@ -278,11 +292,11 @@ bool odbc::connection::executeNoResults(string sql, string &error)
 	return result;
 }
 
-bool odbc::connection::executeWithResults(string sql, recordset &result)
+bool odbc::connection::executeWithResults(string sql, database::recordset *result)
 {
-	if(result.create(lpConnection))
+	if(result->create(lpConnection))
 	{
-		return result.Execute(sql);
+		return result->Execute(sql);
 	}
 
 	return false;
@@ -313,11 +327,11 @@ long odbc::connection::executeScalar(string sql)
 	return result;
 }
 
-bool odbc::connection::Prepare(string sql, recordset &result)
+bool odbc::connection::Prepare(string sql, database::recordset *result)
 {
-	if(result.create(lpConnection))
+	if(result->create(lpConnection))
 	{
-		return result.Prepare(sql);
+		return result->Prepare(sql);
 	}
 
 	return false;
@@ -354,8 +368,8 @@ void odbc::connection::cleanup()
 {
 	if (isopen) close();
 }
+*/
 
-/*
 #include "odbc.h"
 #include "custom/string.h"
 #include "log.h"
@@ -430,10 +444,10 @@ TIMESTAMP_STRUCT database::odbc::recordset::GetTimeStamp(long index)
 	return ts;
 }
 
-GUID database::odbc::recordset::GetGUID(long index)
+guid::guid database::odbc::recordset::GetGUID(long index)
 {
-	GUID result;
-
+	guid::guid result;
+#warning this is totaly going to break
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_GUID, &result, 0, NULL);
 
 	return result;
@@ -481,8 +495,9 @@ bool database::odbc::recordset::BindTimeStamp(long index, TIMESTAMP_STRUCT &data
 	return false;
 }
 
-bool database::odbc::recordset::BindGUID(long index, GUID &data)
+bool database::odbc::recordset::BindGUID(long index, guid::guid &data)
 {
+#warning breaky breaky
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_GUID, SQL_GUID, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;
@@ -511,7 +526,7 @@ int database::odbc::recordset::logStatementError()
 	return (int)(i - 1);
 }
 
-bool database::odbc::recordset::Execute(string &sql)
+bool database::odbc::recordset::Execute(string sql)
 {
 	return Execute(sql.c_str());
 }
@@ -523,7 +538,7 @@ bool database::odbc::recordset::Execute(const char *sql)
 	return ((result == SQL_SUCCESS) || (result == SQL_SUCCESS_WITH_INFO));
 }
 
-bool database::odbc::recordset::Prepare(string &sql)
+bool database::odbc::recordset::Prepare(string sql)
 {
 	return Prepare(sql.c_str());
 }
@@ -605,23 +620,23 @@ bool database::odbc::connection::close()
 	return result;
 }
 
-bool database::odbc::connection::executeNoResults(string &sql)
+bool database::odbc::connection::executeNoResults(string sql)
 {
 	return executeNoResults(sql.c_str());
 }
 
 
-bool database::odbc::connection::executeWithResults(string &sql, database::recordset *result)
+bool database::odbc::connection::executeWithResults(string sql, database::recordset *result)
 {
 	return executeWithResults(sql.c_str(), result);
 }
 
-long database::odbc::connection::executeScalar(string &sql)
+long database::odbc::connection::executeScalar(string sql)
 {
 	return executeScalar(sql.c_str());
 }
 
-bool database::odbc::connection::Prepare(string &sql, database::recordset *result)
+bool database::odbc::connection::Prepare(string sql, database::recordset *result)
 {
 	return Prepare(sql.c_str(), result);
 }
@@ -719,51 +734,4 @@ void database::odbc::factory::connection::reset()
 	init = false; cleanup();
 
 	init = true;
-}
-*/
-odbc::connection *odbc::factory::connection::get()
-{
-	odbc::connection *result = new odbc::connection();
-	if(result != NULL) connections.push_back(result);
-	return result;
-}
-
-void odbc::factory::connection::makeNull()
-{
-}
-
-void odbc::factory::connection::cleanup()
-{
-	for (long i = (long)connections.size() - 1L; i >= 0L; i--)
-	{
-		odbc::connection *temp = connections[i];
-		if (temp != NULL) delete temp;
-	}
-}
-
-void odbc::factory::recordset::reset()
-{
-	init = false; cleanup();
-
-	init = true;
-}
-
-odbc::recordset *odbc::factory::recordset::get()
-{
-	odbc::recordset *result = new odbc::recordset();
-	if (result != NULL) recordsets.push_back(result);
-	return result;
-}
-
-void odbc::factory::recordset::makeNull()
-{
-}
-
-void odbc::factory::recordset::cleanup()
-{
-	for (long i = (long)recordsets.size() - 1L; i >= 0L; i--)
-	{
-		odbc::recordset *temp = recordsets[i];
-		if (temp != NULL) delete temp;
-	}
 }

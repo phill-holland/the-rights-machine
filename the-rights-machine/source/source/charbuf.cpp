@@ -29,7 +29,7 @@ bool global::charbuf::push(char value)
 	return true;
 }
 
-bool global::charbuf::compare(string &value)
+bool global::charbuf::compare(string value)
 {
 	if (value.count() > (long)items) return false;
 

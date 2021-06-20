@@ -31,7 +31,7 @@ namespace global
 
 		unsigned long count() { return items; }
 
-		bool compare(string &value);
+		bool compare(string value);
 
 		void copy(charbuf const &source);
 

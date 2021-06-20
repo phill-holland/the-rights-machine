@@ -17,10 +17,13 @@ namespace guid
 		guid(guid &unique) {/* value = unique;*/ init = true; }
 		guid(string &source);
 
+		void clear() { }
+
 		bool initalised() { return init; }
 		void reset();
 
 		string get();
+		void generate() { }
 
 	public:
 		operator string() { return get(); }

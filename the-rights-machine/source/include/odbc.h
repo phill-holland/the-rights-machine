@@ -1,3 +1,4 @@
+/*
 #if defined(WIN32) 
 #include <windows.h>
 #endif
@@ -20,11 +21,12 @@ namespace odbc
 
 		SQLHANDLE lpStatement;
 
-	private:
-		bool create(SQLHANDLE &lpConnection);
+	//private:
+	//
+	//	bool create(SQLHANDLE &lpConnection);
 
 	private:
-		bool create(void *source) { return false; }
+		bool create(void *source);
 
 	public:
 		recordset() { lpStatement = NULL; }
@@ -97,9 +99,15 @@ namespace odbc
 		bool executeNoResults(string sql);
 		bool executeNoResults(string sql, string &error);
 
-		bool executeWithResults(string sql, recordset &result);
+		bool executeWithResults(string sql, database::recordset *result);
 		long executeScalar(string sql);
-		bool Prepare(string sql, recordset &result);
+		bool Prepare(string sql, database::recordset *result);
+
+
+//virtual bool executeNoResults(string sql) = 0;
+		//virtual bool executeWithResults(string sql, recordset &result) = 0;
+		//virtual long executeScalar(string sql) = 0;
+		//virtual bool Prepare(string sql, recordset &result) = 0;
 
 		string getConnectionError();
 
@@ -153,7 +161,8 @@ namespace odbc
 };
 
 #endif
-/*
+*/
+
 #include <sqltypes.h>
 #include <sql.h>
 #include <sqlext.h>
@@ -196,7 +205,7 @@ namespace database
 			double GetDouble(long index);
 			bool GetBool(long index);
 			TIMESTAMP_STRUCT GetTimeStamp(long index);
-			GUID GetGUID(long index);
+			guid::guid GetGUID(long index);
 
 			bool BindLong(long index, long &data);
 			bool BindString(long index, SQLCHAR *data);
@@ -204,7 +213,7 @@ namespace database
 			bool BindDouble(long index, double &data);
 			bool BindBool(long index, bool &data);
 			bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data);
-			bool BindGUID(long index, GUID &data);
+			bool BindGUID(long index, guid::guid &data);
 
 			bool Execute();
 
@@ -213,10 +222,10 @@ namespace database
 			int logStatementError();
 
 		protected:
-			bool Execute(string &sql);
+			bool Execute(string sql);
 			bool Execute(const char *sql);
 
-			bool Prepare(string &sql);
+			bool Prepare(string sql);
 			bool Prepare(const char *sql);
 
 		protected:
@@ -250,10 +259,10 @@ namespace database
 
 			bool close();
 
-			bool executeNoResults(string &sql);
-			bool executeWithResults(string &sql, database::recordset *result);
-			long executeScalar(string &sql);
-			bool Prepare(string &sql, database::recordset *result);
+			bool executeNoResults(string sql);
+			bool executeWithResults(string sql, database::recordset *result);
+			long executeScalar(string sql);
+			bool Prepare(string sql, database::recordset *result);
 
 			bool executeNoResults(const char *sql);
 			bool executeWithResults(const char *sql, database::recordset *result);
@@ -283,6 +292,9 @@ namespace database
 				void reset();
 
 				database::connection *get();
+
+			protected:
+				void makeNull();
 				void cleanup();
 			};
 
@@ -311,4 +323,3 @@ namespace database
 
 #endif
 
-*/

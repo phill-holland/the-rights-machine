@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <random>
+#include <cstring>
 
 char base64[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" };
 

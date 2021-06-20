@@ -5,7 +5,7 @@
 void data::response::responses::background(thread *bt)
 {
 	// check created date 
-	Sleep(10000);
+	sleep(10000);
 	
 	mutex lock(token);
 
@@ -105,8 +105,10 @@ data::response::response data::response::responses::find(string &identity)
 bool data::response::responses::remove(string &identity)
 {
 	mutex lock(token);
-
-	auto &it = map.find(identity);
+//string moo;
+//map.find(moo);
+//std::unordered_map<string, unsigned long, hasher, equality>::iterator iit = map.find(identity);
+	auto it = map.find(identity);//(identity);
 	if (it != map.end())
 	{
 		data[map[identity]]->clear();

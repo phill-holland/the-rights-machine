@@ -5,7 +5,7 @@
 
 void server::listener::background(thread *bt)
 {
-	Sleep(10);
+	sleep(10);
 	
 	if ((c->isopen()) && (!c->isError()))
 	{
@@ -85,7 +85,8 @@ void server::listener::background(thread *bt)
 				// need to check for double \r\n
 				if (read_counter++ >= content_length - 2)
 				{
-					c->write(outputter.get(), 0);
+					string temp = outputter.get();
+					c->write(temp, 0);
 					
 					// send response
 					// kill connection
@@ -184,7 +185,8 @@ void server::listener::background(thread *bt)
 											{
 												if (c->configuration.requested != NULL)
 												{
-													if (!c->configuration.requested->remove(::pending::waiting(requested.guid, requested.user))) error(string("NOT_IN_PENDING"));
+													::pending::waiting temp(requested.guid, requested.user);
+													if (!c->configuration.requested->remove(temp)) error(string("NOT_IN_PENDING"));
 												}
 
 												outputter.set(&result);
@@ -195,7 +197,8 @@ void server::listener::background(thread *bt)
 
 												if (c->configuration.requested != NULL)
 												{
-													if (c->configuration.requested->contains(::pending::waiting(requested.guid, requested.user))) status = data::response::response::STATUS::PENDING;
+													::pending::waiting temp(requested.guid, requested.user);
+													if (c->configuration.requested->contains(temp)) status = data::response::response::STATUS::PENDING;
 													else error(string("NOT_IN_PENDING"));
 												}
 
@@ -442,7 +445,7 @@ void server::listener::goodbye()
 	clear();
 }
 
-void server::listener::error(string &error)
+void server::listener::error(string error)
 {
 	::error::error err(error);
 	c->makeError(err);
@@ -450,7 +453,8 @@ void server::listener::error(string &error)
 	outputter.clear();
 	::error::type::type type = c->configuration.errors->lookup(err);
 	outputter.set(&type);
-	c->write(outputter.get(), 0);
+	string temp = outputter.get();
+	c->write(temp, 0);
 
 	clear();
 }
@@ -711,7 +715,7 @@ void server::client::cleanup()
 
 void server::wait::background(thread *bt)
 {
-	Sleep(250);
+	sleep(250);
 
 	client *c = s->findUnconnectedClient();
 	if (c != NULL)
@@ -727,7 +731,7 @@ void server::wait::background(thread *bt)
 
 void server::watchdog::background(thread *bt)
 {
-	Sleep(250);
+	sleep(250);
 
 	mutex lock(s->token);
 
@@ -929,7 +933,7 @@ server::client *server::server::findCompletedClient(long &index)
 	return NULL;
 }
 
-void server::server::output(string &source)
+void server::server::output(string source)
 {
 	//if (!config.headless) terminal->set(source);
 	//else Log << source << "\r\n";

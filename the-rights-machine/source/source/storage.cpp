@@ -64,7 +64,8 @@ bool database::storage::request::write(data::request::request &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.requestID = unique;
 
 		bound.bind(recordset);
@@ -83,7 +84,8 @@ bool database::storage::request::load()
 
 	if (!recordset->IsInitalised())
 	{
-		guid::guid tagged = this->generate();
+		guid::guid tagged;// = this->generate();
+		tagged.generate();
 		if (!tag(tagged)) return false;
 
 		string order = "";
@@ -115,7 +117,7 @@ bool database::storage::request::load()
 				temp.tag = recordset->GetGUID(4L);
 				temp.created = recordset->GetTimeStamp(5L);
 
-				data.push_back(temp);
+				//data.push_back(temp);
 				identities.push_back((string)guid::guid(temp.requestID));
 			};
 		}
@@ -218,7 +220,8 @@ bool database::storage::response::write(data::response::response &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;
+		unique.generate();
 		bound.responseID = unique;
 
 		bound.bind(recordset);
@@ -265,7 +268,7 @@ bool database::storage::response::load()
 				temp.created = recordset->GetTimeStamp(5L);
 				temp.available = recordset->GetBool(6L);
 
-				data.push_back(temp);
+				//data.push_back(temp);
 				identities.push_back((string)guid::guid(temp.responseID));
 			};
 		}
@@ -343,7 +346,8 @@ bool database::storage::common::line::element::write(data::element::element &sou
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;
+		unique.generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
 
@@ -419,7 +423,7 @@ bool database::storage::common::line::component::open(database::settings &settin
 		return false;
 	}
 
-	if (!element.open(settings))
+	if (!t_element.open(settings))
 	{
 		recordset->close();
 		connection->close();
@@ -436,7 +440,7 @@ bool database::storage::common::line::component::close()
 
 	recordset->close();
 
-	if (!element.close()) ++index;
+	if (!t_element.close()) ++index;
 	if (!connection->close()) ++index;
 
 	return index == 0;
@@ -451,7 +455,7 @@ bool database::storage::common::line::component::read(data::component::line::com
 	{
 		if (!load()) return false;
 
-		element.identities = identities;
+		t_element.identities = identities;
 	}
 
 	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator j = data.find(key);
@@ -468,9 +472,9 @@ bool database::storage::common::line::component::read(data::component::line::com
 
 		if (parent != NULL)
 		{
-			element.componentID = temp.componentID;
-			element.parent = parent;
-			if (!parent->load(&element)) return false;
+			t_element.componentID = temp.componentID;
+			t_element.parent = parent;
+			if (!parent->load(&t_element)) return false;
 		}
 
 		return true;
@@ -495,7 +499,8 @@ bool database::storage::common::line::component::write(data::component::line::co
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.lineID = lineID;
 		bound.componentID = unique;
 
@@ -505,9 +510,9 @@ bool database::storage::common::line::component::write(data::component::line::co
 
 		if (parent != NULL)
 		{
-			element.componentID = unique;
-			element.parent = parent;
-			if (!parent->save(&element)) return false;
+			t_element.componentID = unique;
+			t_element.parent = parent;
+			if (!parent->save(&t_element)) return false;
 		}
 
 		return true;
@@ -629,7 +634,8 @@ bool database::storage::common::query::element::write(data::element::element &so
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
 
@@ -705,7 +711,7 @@ bool database::storage::common::query::component::open(database::settings &setti
 		return false;
 	}
 
-	if (!element.open(settings))
+	if (!t_element.open(settings))
 	{
 		recordset->close();
 		connection->close();
@@ -722,7 +728,7 @@ bool database::storage::common::query::component::close()
 
 	recordset->close();
 
-	if (!element.close()) ++index;
+	if (!t_element.close()) ++index;
 	if (!connection->close()) ++index;
 
 	return index == 0;
@@ -737,7 +743,7 @@ bool database::storage::common::query::component::read(data::component::query::c
 	{
 		if (!load()) return false;
 
-		element.identities = identities;
+		t_element.identities = identities;
 	}
 
 	std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality>::iterator j = data.find(key);
@@ -754,9 +760,9 @@ bool database::storage::common::query::component::read(data::component::query::c
 
 		if (parent != NULL)
 		{
-			element.componentID = temp.componentID;
-			element.parent = parent;
-			if (!parent->load(&element)) return false;
+			t_element.componentID = temp.componentID;
+			t_element.parent = parent;
+			if (!parent->load(&t_element)) return false;
 		}
 
 		return true;
@@ -779,7 +785,8 @@ bool database::storage::common::query::component::write(data::component::query::
 
 	if ((recordset->IsInitalised()) && (prepared))
 	{
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.queryID = queryID;
 		bound.componentID = unique;
 
@@ -789,9 +796,9 @@ bool database::storage::common::query::component::write(data::component::query::
 
 		if (parent != NULL)
 		{
-			element.componentID = unique;
-			element.parent = parent;
-			if (!parent->save(&element)) return false;
+			t_element.componentID = unique;
+			t_element.parent = parent;
+			if (!parent->save(&t_element)) return false;
 		}
 
 		return true;
@@ -937,7 +944,8 @@ bool database::storage::line::write(data::line::line &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.itemID = itemID;
 		bound.lineID = unique;
 
@@ -1093,7 +1101,8 @@ bool database::storage::query::write(data::query::query &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.messageID = messageID;
 		bound.queryID = unique;
 
@@ -1171,7 +1180,7 @@ bool database::storage::item::open(database::settings &settings)
 		return false;
 	}
 
-	if (!line.open(settings))
+	if (!t_line.open(settings))
 	{
 		recordset->close();
 		connection->close();
@@ -1188,7 +1197,7 @@ bool database::storage::item::close()
 
 	recordset->close();
 
-	if (!line.close()) ++index;
+	if (!t_line.close()) ++index;
 	if (!connection->close()) ++index;
 
 	return index == 0;
@@ -1203,7 +1212,7 @@ bool database::storage::item::read(data::item::item &destination)
 	{
 		if (!load()) return false;
 
-		line.identities = identities;
+		t_line.identities = identities;
 	}
 
 	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator j = data.find(key);
@@ -1219,9 +1228,9 @@ bool database::storage::item::read(data::item::item &destination)
 
 		if (parent != NULL)
 		{
-			line.itemID = temp.itemID;
-			line.parent = parent;
-			if (!parent->load(&line)) return false;
+			t_line.itemID = temp.itemID;
+			t_line.parent = parent;
+			if (!parent->load(&t_line)) return false;
 		}
 
 		return true;
@@ -1246,7 +1255,8 @@ bool database::storage::item::write(data::item::item &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.messageID = messageID;
 		bound.itemID = unique;
 
@@ -1256,9 +1266,9 @@ bool database::storage::item::write(data::item::item &source)
 
 		if (parent != NULL)
 		{
-			line.itemID = unique;
-			line.parent = parent;
-			if (!parent->save(&line)) return false;
+			t_line.itemID = unique;
+			t_line.parent = parent;
+			if (!parent->save(&t_line)) return false;
 		}
 
 		return true;
@@ -1325,7 +1335,7 @@ bool database::storage::message::open(database::settings &settings)
 		return false; 
 	}
 
-	if (!item.open(settings))
+	if (!t_item.open(settings))
 	{
 		recordset->close();
 		connection->close();
@@ -1333,9 +1343,9 @@ bool database::storage::message::open(database::settings &settings)
 		return false;
 	}
 
-	if (!query.open(settings))
+	if (!t_query.open(settings))
 	{
-		item.close();
+		t_item.close();
 		recordset->close();
 		connection->close();
 
@@ -1351,8 +1361,8 @@ bool database::storage::message::close()
 
 	recordset->close();
 
-	if (!query.close()) ++index;
-	if (!item.close()) ++index;
+	if (!t_query.close()) ++index;
+	if (!t_item.close()) ++index;
 	if (!connection->close()) ++index;
 
 	return index == 0;
@@ -1364,7 +1374,7 @@ bool database::storage::message::read(data::message::message &destination)
 	{		
 		if (!load()) return false;
 
-		item.identities = identities;		
+		t_item.identities = identities;		
 	}
 
 	if (data.size() > 0)
@@ -1377,13 +1387,13 @@ bool database::storage::message::read(data::message::message &destination)
 		destination.apikey = (string)guid::guid(temp.apikey);
 		destination.created = (datetime)temp.created;
 		
-		item.messageID = temp.messageID;		
-		item.parent = &destination;
-		if (!destination.load(&item)) return false;
+		t_item.messageID = temp.messageID;		
+		t_item.parent = &destination;
+		if (!destination.load(&t_item)) return false;
 
-		query.messageID = temp.messageID;
-		item.parent = &destination;
-		if (!destination.load(&query)) return false;
+		t_query.messageID = temp.messageID;
+		t_item.parent = &destination;
+		if (!destination.load(&t_query)) return false;
 
 		return true;
 	}
@@ -1408,20 +1418,21 @@ bool database::storage::message::write(data::message::message &source)
 	{
 		bound.set(source);
 
-		guid::guid unique = this->generate();
+		guid::guid unique;// = this->generate();
+		unique.generate();
 		bound.messageID = unique;
 
 		bound.bind(recordset);
 
 		if (!recordset->Execute()) return false;
 
-		item.messageID = unique;
-		item.parent = &source;
-		if (!source.save(&item)) return false;
+		t_item.messageID = unique;
+		t_item.parent = &source;
+		if (!source.save(&t_item)) return false;
 
-		query.messageID = unique;
-		item.parent = &source;
-		if (!source.save(&query)) return false;
+		t_query.messageID = unique;
+		t_item.parent = &source;
+		if (!source.save(&t_query)) return false;
 
 		return true;
 	}
@@ -1435,7 +1446,8 @@ bool database::storage::message::load()
 
 	if (!recordset->IsInitalised())
 	{
-		guid::guid tagged = this->generate();		
+		guid::guid tagged;// = this->generate();		
+		tagged.generate();
 		if (!tag(tagged)) return false;
 
 		string order = "";
@@ -1468,7 +1480,7 @@ bool database::storage::message::load()
 				temp.tag = recordset->GetGUID(5L);
 				temp.created = recordset->GetTimeStamp(6L);
 
-				data.push_back(temp);
+				//data.push_back(temp);
 				identities.push_back((string)guid::guid(temp.messageID));
 			};
 		}

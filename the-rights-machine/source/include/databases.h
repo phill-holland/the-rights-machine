@@ -54,20 +54,22 @@ namespace database
 	public:
 		virtual bool initalised() = 0;
 
-		virtual bool open(string &connection) = 0;
+		virtual bool open(string connection) = 0;
 		virtual bool open(const char *connection) = 0;
 
 		virtual bool close() = 0;
 
-		virtual bool executeNoResults(string &sql) = 0;
-		virtual bool executeWithResults(string &sql, recordset *result) = 0;
-		virtual long executeScalar(string &sql) = 0;
-		virtual bool Prepare(string &sql, recordset *result) = 0;
+		virtual bool executeNoResults(string sql) = 0;
+		virtual bool executeWithResults(string sql, recordset *result) = 0;
+		virtual long executeScalar(string sql) = 0;
+		virtual bool Prepare(string sql, recordset *result) = 0;
 
+/*
 		virtual bool executeNoResults(const char *sql) = 0;
 		virtual bool executeWithResults(const char *sql, recordset *result) = 0;
 		virtual long executeScalar(const char *sql) = 0;
 		virtual bool Prepare(const char *sql, recordset *result) = 0;
+		*/
 	};
 
 	namespace factory
