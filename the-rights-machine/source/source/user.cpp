@@ -7,8 +7,10 @@ void data::user::reset()
 	userID = 0;
 	username = "";
 	email = "";
-	memset(&apikey, 0, sizeof(GUID));
-	memset(&guid, 0, sizeof(GUID));
+	apikey.clear();
+	guid.clear();
+	//memset(&apikey, 0, sizeof(GUID));
+	//memset(&guid, 0, sizeof(GUID));
 	active = false;
 	banned = true;
 	verified = false;
@@ -32,8 +34,10 @@ void data::user::copy(user const &source)
 	userID = source.userID;
 	username = source.username;
 	email = source.email;
-	memcpy(&apikey, &source.apikey, sizeof(GUID));
-	memcpy(&guid, &source.guid, sizeof(GUID));
+	apikey = source.apikey;
+	guid = source.guid;
+	//memcpy(&apikey, &source.apikey, sizeof(GUID));
+	//memcpy(&guid, &source.guid, sizeof(GUID));
 	active = source.active;
 	banned = source.banned;
 	verified = source.verified;

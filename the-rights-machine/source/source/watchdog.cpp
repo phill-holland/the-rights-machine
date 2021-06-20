@@ -11,9 +11,9 @@ void watchdog::watchdog::background(thread *bt)
 
 	++counter;
 
-	//Sleep(1000);
+	sleep(1000);
 
-	return (DWORD)0;
+	//return (DWORD)0;
 }
 
 void watchdog::watchdog::reset(database::settings &settings, unsigned long interval)

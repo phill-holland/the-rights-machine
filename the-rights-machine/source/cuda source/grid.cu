@@ -5,6 +5,12 @@
 #include "custom/string.h"
 #include "log.h"
 
+unsigned long compute::gpu::grid::GRIDS = 255;
+unsigned long compute::gpu::grid::THREADS = 255;
+
+unsigned long compute::gpu::grid::WIDTH = 255;
+unsigned long compute::gpu::grid::HEIGHT = 255;
+
 __global__ void minusKernel(int *a, const int *b)
 {
 	int i = threadIdx.x;
@@ -75,7 +81,7 @@ void compute::gpu::grid::minus(grid &right)
 	minusKernel<<<GRIDS, THREADS>>>(data, right.data);
 }
 
-void compute::gpu::grid::and(grid &right)
+void compute::gpu::grid::AND(grid &right)
 {
 	andKernel<<<GRIDS, THREADS>>>(data, right.data);
 }

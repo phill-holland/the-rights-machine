@@ -16,11 +16,11 @@ namespace compute
 		class grid : public cuda::cuda
 		{
 		protected:
-			const static unsigned long GRIDS = 255;
-			const static unsigned long THREADS = 255;
+			static unsigned long GRIDS;// = 255;
+			static unsigned long THREADS;// = 255;
 
-			const static unsigned long WIDTH = 255;
-			const static unsigned long HEIGHT = 255;
+			static unsigned long WIDTH;// = 255;
+			static unsigned long HEIGHT;// = 255;
 
 		private:
 			unsigned long width, height;
@@ -69,5 +69,5 @@ namespace compute
 		};
 	};
 };
-
+ 
 #endif

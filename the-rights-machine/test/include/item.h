@@ -1,6 +1,6 @@
 #include "line.h"
 #include <vector>
-#include "../process/string.h"
+#include "custom/string.h"
 
 #if !defined(__TEST_ITEM)
 #define __TEST_ITEM

@@ -1,4 +1,4 @@
-#include "../process/string.h"
+#include "custom/string.h"
 
 #if !defined(__TEST_ELEMENT)
 #define __TEST_ELEMENT

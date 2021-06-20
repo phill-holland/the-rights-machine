@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "component.h"
 
 string tests::data::component::json()

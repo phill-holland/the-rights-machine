@@ -1,7 +1,5 @@
-#include "stdafx.h"
-#include "CppUnitTest.h"
-#include "../process/wsock.h"
-
+//#include "CppUnitTest.h"
+#include "wsock.h"
 #include "element.h"
 #include "component.h"
 #include "line.h"
@@ -10,16 +8,17 @@
 #include "response.h"
 #include "request.h"
 #include "result.h"
-#include "../process/starter.h"
-#include "../process/string.h"
-#include "../process/http.h"
-#include "../process/page.h"
-#include "../process/message.h"
-#include "../process/storage.h"
-#include "../process/log.h"
+#include "starter.h"
+#include "custom/string.h"
+#include "http.h"
+#include "page.h"
+#include "message.h"
+#include "storage.h"
+#include "log.h"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+//using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+/*
 namespace tests
 {		
 	// to do
@@ -231,3 +230,4 @@ namespace tests
 		}
 	};
 };
+*/

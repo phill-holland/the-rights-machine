@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include "message.h"
+#include "tests/message.h"
 
 string tests::data::message::json()
 {

@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include "line.h"
+#include "tests/line.h"
 
 string tests::data::line::json()
 {

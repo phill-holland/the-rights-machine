@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "result.h"
 
 tests::data::result::result()

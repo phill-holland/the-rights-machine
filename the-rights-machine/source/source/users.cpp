@@ -12,7 +12,7 @@ void data::users::background(thread *bt)
 
 	++counter;
 
-	Sleep(1000);
+	sleep(1000);
 
 	//return (DWORD)0;
 }

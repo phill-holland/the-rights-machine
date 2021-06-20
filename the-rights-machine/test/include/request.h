@@ -1,35 +1,35 @@
 #include "line.h"
 #include "item.h"
 #include <vector>
-#include "../process/string.h"
+#include "custom/string.h"
 
-#if !defined(__TEST_MESSAGE)
-#define __TEST_MESSAGE
+#if !defined(__TEST_REQUEST)
+#define __TEST_REQUEST
 
 namespace tests
 {
 	namespace data
 	{
-		class message
+		class request
 		{
 		public:
 			string user;
 			string APIKey;
-
-			std::vector<line> queries;
-			std::vector<item> items;
+			string GUID;
 
 		public:
-			message()
+			request()
 			{
 				user = "1";
 				APIKey = "1";
+				GUID = "1";
 			}
 
-			message(string user, string APIKey)
+			request(string user, string APIKey, string GUID)
 			{
 				this->user = user;
 				this->APIKey = APIKey;
+				this->GUID = GUID;
 			}
 
 			string json();

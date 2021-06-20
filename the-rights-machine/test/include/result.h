@@ -1,6 +1,6 @@
 #include "../process/json.h"
 #include "../process/pair.h"
-#include "../process/string.h"
+#include "custom/string.h"
 #include "../process/datetime.h"
 #include "../process/comparison.h"
 #include <unordered_map>

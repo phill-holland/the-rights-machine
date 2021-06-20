@@ -289,13 +289,21 @@ namespace database
 				~connection() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset();
+				void reset()
+				{
+					init = false; cleanup();
 
-				database::connection *get();
+					init = true;
+				}
+
+				database::connection *get()
+				{
+					return NULL;
+				}
 
 			protected:
-				void makeNull();
-				void cleanup();
+				void makeNull() { }
+				void cleanup() { }
 			};
 
 			class recordset : public database::factory::recordset
@@ -309,13 +317,21 @@ namespace database
 				~recordset() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset();
+				void reset()
+				{
+					init = false; cleanup();
 
-				database::recordset *get();
+					init = true;
+				}
+
+				database::recordset *get()
+				{
+					return NULL;
+				}
 
 			protected:
-				void makeNull();
-				void cleanup();
+				void makeNull() { }
+				void cleanup() { }
 			};
 		};
 	};

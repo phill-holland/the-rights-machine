@@ -4,6 +4,8 @@ file(GLOB_RECURSE TEST_SOURCES LIST_DIRECTORIES false *.h *.cpp)
 
 set(SOURCES ${TEST_SOURCES})
 
+#include_directories("include")
+
 enable_testing()
 
 add_executable(${BINARY} ${TEST_SOURCES})

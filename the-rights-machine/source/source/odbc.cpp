@@ -729,9 +729,20 @@ void database::odbc::connection::cleanup()
 	if (isopen) close();
 }
 
+/*
 void database::odbc::factory::connection::reset()
 {
 	init = false; cleanup();
 
 	init = true;
 }
+*/
+/*
+void database::odbc::factory::connection::makeNull()
+{
+}
+
+void database::odbc::factory::connection::cleanup()
+{
+	#warning this function needs something?
+}*/

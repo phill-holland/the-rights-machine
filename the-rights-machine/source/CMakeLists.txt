@@ -1,8 +1,13 @@
 set(BINARY ${CMAKE_PROJECT_NAME})
 
-file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp)
+file(GLOB_RECURSE SOURCES LIST_DIRECTORIES true *.h *.cpp *.cuh *.cu)
 
 set(SOURCES ${SOURCES})
+
+#include_directories("include")
+#include_directories("/usr/local/cuda/include")
+#include_directories("cuda include")
+
 
 link_directories("/usr/local/cuda/lib64")
 
@@ -17,3 +22,4 @@ target_link_libraries(${PROJECT_NAME} "${CMAKE_THREAD_LIBS_INIT}")
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL)
 target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
 target_link_libraries(${PROJECT_NAME} X11)
+target_link_libraries(${PROJECT_NAME} odbc)

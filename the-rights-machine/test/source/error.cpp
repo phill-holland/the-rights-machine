@@ -1,5 +1,4 @@
-#include "stdafx.h"
-#include "error.h"
+#include "tests/error.h"
 
 tests::data::error::error()
 {

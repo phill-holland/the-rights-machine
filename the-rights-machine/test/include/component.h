@@ -1,6 +1,6 @@
 #include "element.h"
 #include <vector>
-#include "../process/string.h"
+#include "custom/string.h"
 
 #if !defined(__TEST_COMPONENT)
 #define __TEST_COMPONENT

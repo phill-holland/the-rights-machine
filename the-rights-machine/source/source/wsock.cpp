@@ -1,6 +1,7 @@
 #include "wsock.h"
 #include "log.h"
 #include <memory.h>
+#include <cstring>
 
 #ifdef WIN32
 

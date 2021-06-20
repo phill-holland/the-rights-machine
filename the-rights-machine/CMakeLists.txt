@@ -27,6 +27,7 @@ FetchContent_MakeAvailable(googletest)
 include_directories("source/include")
 include_directories("/usr/local/cuda/include")
 include_directories("source/cuda include")
+include_directories("test/include")
 
 add_subdirectory(source)
 add_subdirectory(test)

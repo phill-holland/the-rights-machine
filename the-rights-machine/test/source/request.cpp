@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "request.h"
 
 string tests::data::request::json()
