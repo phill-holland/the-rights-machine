@@ -1,10 +1,10 @@
-﻿CREATE TABLE [dbo].[tLine] (
-    [LineID]        UNIQUEIDENTIFIER NOT NULL,
-    [ItemID]        UNIQUEIDENTIFIER      NULL,
-    [StartDate]     DATETIME NULL,
-    [EndDate]       DATETIME NULL,
-    [ExclusivityID] INT      NULL,
-    [TypeID]        INT      NULL,
-    CONSTRAINT [PK_tLine] PRIMARY KEY CLUSTERED ([LineID] ASC)
-);
+﻿CREATE TABLE `tLine` (
+  `LineID` NVARCHAR(37) NOT NULL,
+  `ItemID` NVARCHAR(37) NOT NULL,
+  `StartDate` DATETIME NOT NULL,
+  `EndDate` DATETIME NOT NULL,
+  `ExclusivityID` INT NOT NULL,
+  `TypeID` INT NOT NULL,
+  PRIMARY KEY (`LineID`)
+  );
 

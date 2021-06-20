@@ -1,8 +1,9 @@
-﻿CREATE TABLE [dbo].[tError]
-(
-	[ErrorID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [Code] INT NOT NULL, 
-    [Name] NCHAR(50) NOT NULL,
-	[Description] NVARCHAR(200) NOT NULL, 
-    [Created] DATETIME NOT NULL DEFAULT (getdate())    
-)
+﻿CREATE TABLE `tError` (
+  `ErrorID` NVARCHAR(37) NOT NULL,
+  `Code` INT NOT NULL,
+  `Name` NVARCHAR(50) NOT NULL,
+  `Description` NVARCHAR(200) NOT NULL,
+  `Created` DATETIME NOT NULL
+  PRIMARY KEY (`ErrorID`)
+  );
+

@@ -1,13 +1,14 @@
-﻿CREATE TABLE [dbo].[tUser]
-(
-	[userID] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [username] NVARCHAR(50) NOT NULL, 
-    [email] NVARCHAR(1024) NOT NULL, 
-	[apikey] UNIQUEIDENTIFIER NULL,
-	[guid] UNIQUEIDENTIFIER NULL,
-    [banned] BIT NOT NULL DEFAULT 0, 
-    [active] BIT NOT NULL DEFAULT 0, 
-    [verified] BIT NOT NULL DEFAULT 0,      
-    [created] DATETIME NOT NULL DEFAULT (getdate()), 
-    [updated] DATETIME NULL,    
-)
+﻿CREATE TABLE `tUser` (
+  `UserID` NVARCHAR(37) NOT NULL,
+  `Username` NVARCHAR(37) NOT NULL,
+  `Email` NVARCHAR(1024) NOT NULL,
+  `APIKey` NVARCHAR(37) NOT NULL,
+  `GUID` NVARCHAR(37) NOT NULL,
+  `Banned` BOOLEAN NOT NULL DEFAULT false,
+  `Active` BOOLEAN NOT NULL DEFAULT false,
+  `Verified` BOOLEAN NOT NULL DEFAULT false,
+  `Created` DATETIME NOT NULL, 
+  `Updated` DATETIME NULL, 
+   PRIMARY KEY (`UserID`)
+);
+

@@ -1,9 +1,8 @@
-﻿CREATE TABLE [dbo].[tComponent] (
-    [ComponentID] UNIQUEIDENTIFIER NOT NULL,
-    [ID]      UNIQUEIDENTIFIER             NOT NULL,
-    [Type] INT NOT NULL DEFAULT 1, 
-	[Name]        NVARCHAR (128) NOT NULL
-    
-    CONSTRAINT [PK_tComponent] PRIMARY KEY CLUSTERED ([ComponentID] ASC)
-);
+﻿CREATE TABLE `tComponent` (
+  `ComponentID` NVARCHAR(37) NOT NULL,
+  `ID` NVARCHAR(37) NOT NULL,
+  `Type` INT NOT NULL DEFAULT 1,
+  `Name` NVARCHAR(128) NOT NULL,
+  PRIMARY KEY (`ComponentID`)
+  );
 

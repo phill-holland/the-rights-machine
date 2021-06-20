@@ -1,5 +1,5 @@
-﻿CREATE TABLE [dbo].[tWatchdog]
-(
-	[WatchdogID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [Updated] DATETIME NOT NULL
-)
+﻿CREATE TABLE `tWatchdog` (
+  `WatchdogID` INT NOT NULL AUTO_INCREMENT,
+  `Updated` DATETIME NOT NULL
+   PRIMARY KEY (`WatchdogID`)
+);

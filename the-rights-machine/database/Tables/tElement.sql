@@ -1,6 +1,7 @@
-﻿CREATE TABLE [dbo].[tElement]
-(
-	[ElementID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
-    [ComponentID] UNIQUEIDENTIFIER NOT NULL, 
-    [Value] NVARCHAR(128) NOT NULL
-)
+﻿CREATE TABLE `tElement` (
+  `ElementID` NVARCHAR(37) NOT NULL,
+  `ComponentID` NVARCHAR(37) NOT NULL,
+  `Value` NVARCHAR(128) NOT NULL,
+  PRIMARY KEY (`ElementID`)
+  );
+

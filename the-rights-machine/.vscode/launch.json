@@ -23,55 +23,13 @@
             ],
             "preLaunchTask": "make",
             "miDebuggerPath": "/usr/bin/gdb"
-        },
-        {
-            "name": "g++ build and debug CORE dump",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceRoot}/build/the-rights-machine",
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "make",
-            "miDebuggerPath": "/usr/bin/gdb",
-            "coreDumpPath": "/tmp/core-learning.1196400.Phill-AI.1605737709"
-        },
+        },        
         {
             "name": "g++ build and debug tests",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/the-rights-machine",
+            "program": "${workspaceRoot}/build/test/the-rights-machine_test",
             "args": [ "test", "0" ],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "make",
-            "miDebuggerPath": "/usr/bin/gdb"
-        },
-        {
-            "name": "g++ build and debug server",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceRoot}/build/the-rights-machine",
-            "args": [ "server" ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

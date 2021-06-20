@@ -1,7 +1,7 @@
-﻿CREATE TABLE [dbo].[tItem] (
-    [ItemID]    UNIQUEIDENTIFIER NOT NULL,
-    [MessageID] UNIQUEIDENTIFIER             NULL,
-    [Name]      NVARCHAR (128) NULL,
-    CONSTRAINT [PK_tItem] PRIMARY KEY CLUSTERED ([ItemID] ASC)
-);
+﻿CREATE TABLE `tItem` (
+  `ItemID` NVARCHAR(37) NOT NULL,
+  `MessageID` NVARCHAR(37) NOT NULL,
+  `Name` NVARCHAR(128) NOT NULL,
+  PRIMARY KEY (`ItemID`)
+  );
 
