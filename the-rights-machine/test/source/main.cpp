@@ -14,19 +14,26 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	// guid create on ubuntu SORT OF OK
 	// add error responses to log file (during reset() stages)
 	// need a thread safe std::vector
+	// return errors to web client
+
+	long port = 5454;
 
 	test::client client(string("test/data/body.json"));
 	EXPECT_TRUE(client.initalised());
 
 	messaging::memory::memory messaging;
-	server::settings setup(&messaging, 5454);
+	server::settings setup(&messaging, port);
 	server::starter starter(setup);
 
 	EXPECT_TRUE(starter.initalised());
 	EXPECT_TRUE(starter.start());
 	// sleep here??
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
-	client.post("https://localhost", 5555);
+	client.post("http://127.0.0.1", port);
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(15000));
+
 	// load body file
 	// issue http query
 }

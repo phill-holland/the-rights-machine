@@ -3,6 +3,8 @@
 #include <fstream>
 #include <cstring>
 
+//#include <iostream>
+
 void test::client::reset(string filename)
 {
     init = false; cleanup();
@@ -29,12 +31,15 @@ bool test::client::post(string url, long port)
     string temp(buffer);
 
     page.data(temp);
-    page.url = url;
-    page.port = port;
 
     web::page destination;
+    destination.url = url;
+    destination.port = port;
+    
+    bool result = cli.post(&destination, &page);
 
-    return cli.post(&destination, &page);
+    //std::cout << destination.data();
+    return result;
 }
 
 void test::client::makeNull()
