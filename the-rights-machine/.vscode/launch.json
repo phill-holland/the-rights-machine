@@ -23,13 +23,12 @@
             ],
             "preLaunchTask": "make",
             "miDebuggerPath": "/usr/bin/gdb"
-        },        
+        },
         {
             "name": "g++ build and debug tests",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/build/test/the-rights-machine_test",
-            "args": [ "test", "0" ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

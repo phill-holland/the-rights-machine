@@ -16,19 +16,15 @@ void queues::memory::incoming::factory::reset(unsigned long total)
 
 ::queue::queue<compute::task> *queues::memory::incoming::factory::get()
 {
-	#warning erm..
 	if (length >= MAX) return NULL;
 
-	queue *result = new queues::memory::incoming::queue();
-	compute::task temp;
-	//temp.response->set()
+	::queue::queue<compute::task> *result = new queues::memory::incoming::queue();
 	if (result != NULL)
 	{
-		//queues[length++] = result;
+		queues[length++] = result;
 	}
 
-	return nullptr;
-	//return result;
+	return result;
 }
 
 void queues::memory::incoming::factory::makeNull()

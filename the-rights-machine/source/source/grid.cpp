@@ -18,9 +18,9 @@ void compute::cpu::grid::reset(unsigned long width, unsigned long height)
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		headers[i] = new header();
-		if (headers[i] == NULL) return;			
+		if (headers[i] == NULL) return;
 	}
-	
+
 	data = new int[width * height];
 	if (data == NULL) return;
 
@@ -119,7 +119,7 @@ void compute::cpu::grid::output()
 		if (!headers[i]->isempty())
 		{
 			string result = headers[i]->serialize();
-			
+
 			result += ",\"row\":{";
 			if (data[0] > 0) result += "\"0\":1";
 
@@ -127,7 +127,7 @@ void compute::cpu::grid::output()
 			{
 				if (data[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
 			}
-			
+
 			result += "}";
 
 			Log << result << "\r\n";

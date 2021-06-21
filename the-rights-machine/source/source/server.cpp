@@ -6,7 +6,7 @@
 void server::listener::background(thread *bt)
 {
 	sleep(10);
-	
+
 	if ((c->isopen()) && (!c->isError()))
 	{
 		int bytes = c->read(receiving, RECEIVING, 0);
@@ -70,13 +70,13 @@ void server::listener::background(thread *bt)
 				if (receiving[i] == 13) ++h_index;
 				else if ((receiving[i] == 10) && (h_index == 1)) ++h_index;
 				else if ((receiving[i] == 13) && (h_index == 2)) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 3)) 
-				{ 
+				else if ((receiving[i] == 10) && (h_index == 3))
+				{
 					// ****
 					validate();
 					// ****
 
-					header = false; 
+					header = false;
 				}
 				else h_index = 0;
 			}
@@ -87,7 +87,7 @@ void server::listener::background(thread *bt)
 				{
 					string temp = outputter.get();
 					c->write(temp, 0);
-					
+
 					// send response
 					// kill connection
 				}
@@ -162,7 +162,7 @@ void server::listener::background(thread *bt)
 
 												outputter.set(&response);
 											}
-										} 
+										}
 										else error(string("INVALID_APIKEY"));
 
 									}
@@ -180,7 +180,7 @@ void server::listener::background(thread *bt)
 									{
 										if (requested.guid.count() > 0L)
 										{
-											data::response::response result = task.response->find(requested.guid);											
+											data::response::response result = task.response->find(requested.guid);
 											if(result.validate(requested))
 											{
 												if (c->configuration.requested != NULL)
@@ -207,7 +207,7 @@ void server::listener::background(thread *bt)
 												result.guid = requested.guid;
 												result.user = requested.user;
 												result.status = status;
-												
+
 												outputter.set(&result);
 												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
 
@@ -265,7 +265,7 @@ void server::listener::background(thread *bt)
 							++squares;
 						}
 						else if (receiving[i] == ']')
-						{	
+						{
 							left = true;
 
 							label.clear();
@@ -357,7 +357,7 @@ void server::listener::background(thread *bt)
 			else error(string("READ"));
 		}
 	}
-	
+
 	//return (DWORD)0;
 }
 
@@ -365,7 +365,7 @@ void server::listener::reset(client *source)
 {
 	init = false;
 
-	c = source; 
+	c = source;
 
 	task.response = c->configuration.responses;
 	if (task.response == NULL) return;
@@ -392,7 +392,7 @@ void server::listener::clear()
 	brackets = 0L;
 	squares = 0L;
 
-	label.clear(); 
+	label.clear();
 	value.clear();
 	command.clear();
 
@@ -403,9 +403,9 @@ void server::listener::clear()
 	// clear data classes - lines/items/components/elements/queries etc..
 }
 
-server::listener::MODE server::listener::get() 
-{ 
-	if(command.compare(string("POST"))) return MODE::POST; 
+server::listener::MODE server::listener::get()
+{
+	if(command.compare(string("POST"))) return MODE::POST;
 	else if (command.compare(string("GET"))) return MODE::GET;
 
 	return MODE::NONE;
@@ -435,7 +435,7 @@ void server::listener::validate()
 	left = true;
 
 	outputter.clear();
-	
+
 	//validate = false;
 }
 
@@ -616,7 +616,7 @@ void server::client::reset(configuration::server::client::configuration &configu
 
 	//isInExit = false;
 
-	//isInError = false;	
+	//isInError = false;
 	//lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
 
 	listen = new listener(this);
@@ -781,7 +781,7 @@ void server::server::reset(configuration::server::configuration *settings)
 		if (clients[i] == NULL) return;
 		if (!clients[i]->initalised()) return;
 	}
-	
+
 	waiter = new ::server::wait(this);
 	if (waiter == NULL) return;
 
@@ -954,7 +954,7 @@ void server::server::cleanup()
 	shutdown();
 
 	if (watcher != NULL) delete watcher;
-	if (waiter != NULL) delete waiter;	
+	if (waiter != NULL) delete waiter;
 	if (clients != NULL)
 	{
 		for (long i = (configuration.clients - 1L); i >= 0L; i--)

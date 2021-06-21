@@ -60,12 +60,12 @@ void data::users::refresh()
 	if (connection->open(location))
 	{
 		string sql("SELECT userID, username, email, apikey, GUID, banned, verified, active FROM tUser WHERE (1=1)");
-		if (!first) sql.concat(" AND userID IN (SELECT userID FROM tUserChange)");
+		if (!first) sql.concat(string(" AND userID IN (SELECT userID FROM tUserChange)"));
 
 		if (connection->executeWithResults(sql, recordset))
 		{
 			first = false;
-		
+
 			recordset->MoveNext();
 
 			while (recordset->IsInitalised())
@@ -87,7 +87,7 @@ void data::users::refresh()
 			}
 
 			recordset->close();
-			
+
 			connection->executeNoResults("DELETE FROM tUserChange");
 		}
 

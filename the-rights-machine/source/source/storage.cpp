@@ -54,7 +54,7 @@ bool database::storage::request::write(data::request::request &source)
 	if (!recordset->IsInitalised())
 	{
 		string sql = "INSERT INTO tRequest (requestID, [user], [GUID], created)";
-		sql.concat(" VALUES(?,?,?,?);");
+		sql.concat(string(" VALUES(?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -93,13 +93,13 @@ bool database::storage::request::load()
 		string sql("SELECT");
 		if (max > 0L)
 		{
-			sql.concat(" TOP ");
+			sql.concat(string(" TOP "));
 			sql.concat(string::fromLong(max));
 
-			order = " ORDER BY created DESC";
+			order = string(" ORDER BY created DESC");
 		}
 
-		sql.concat(" requestID, [User], [GUID], Tag, Created FROM tRequest WHERE Tag=?");
+		sql.concat(string(" requestID, [User], [GUID], Tag, Created FROM tRequest WHERE Tag=?"));
 		if (order.length() > 0) sql.concat(order);
 		sql.concat(string(";"));
 
@@ -130,9 +130,9 @@ bool database::storage::request::load()
 
 bool database::storage::request::tag(guid::guid &tagged)
 {
-	string sql = "UPDATE tRequest SET Tag=? WHERE tRequest.RequestID IN (SELECT TOP ";
+	string sql("UPDATE tRequest SET Tag=? WHERE tRequest.RequestID IN (SELECT TOP ");
 	sql.concat(string::fromLong(TOP));
-	sql.concat(" rqst.requestID FROM tRequest AS rqst WHERE rqst.Tag IS NULL ORDER BY rqst.Created);");
+	sql.concat(string(" rqst.requestID FROM tRequest AS rqst WHERE rqst.Tag IS NULL ORDER BY rqst.Created);"));
 
 	if (!connection->Prepare(sql, recordset)) return false;
 
@@ -143,7 +143,7 @@ bool database::storage::request::tag(guid::guid &tagged)
 
 bool database::storage::request::erase(guid::guid &tagged)
 {
-	string sql = "DELETE FROM tRequest WHERE Tag=?;";
+	string sql("DELETE FROM tRequest WHERE Tag=?;");
 
 	if (!connection->Prepare(sql, recordset)) return false;
 
@@ -209,8 +209,8 @@ bool database::storage::response::write(data::response::response &source)
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tResponse (responseID, [guid], [user], status, created, available)";
-		sql.concat(" VALUES(?,?,?,?,?,?);");
+		string sql("INSERT INTO tResponse (responseID, [guid], [user], status, created, available)");
+		sql.concat(string(" VALUES(?,?,?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -245,13 +245,13 @@ bool database::storage::response::load()
 		string sql("SELECT");
 		if (max > 0L)
 		{
-			sql.concat(" TOP ");
+			sql.concat(string(" TOP "));
 			sql.concat(string::fromLong(max));
 
-			order = " ORDER BY created DESC";
+			order = string(" ORDER BY created DESC");
 		}
 
-		sql.concat(" responseID, [Guid], [User], Status, Created, Available FROM tResponse WHERE (1=1)");
+		sql.concat(string(" responseID, [Guid], [User], Status, Created, Available FROM tResponse WHERE (1=1)"));
 		if (order.length() > 0) sql.concat(order);
 		sql.concat(string(";"));
 
@@ -293,7 +293,7 @@ bool database::storage::common::line::element::open(database::settings &settings
 
 		return false;
 	}
-	
+
 	return true;
 }
 
@@ -337,7 +337,7 @@ bool database::storage::common::line::element::write(data::element::element &sou
 	if (!recordset->IsInitalised())
 	{
 		string sql = "INSERT INTO tElement (elementID, componentID, value)";
-		sql.concat(" VALUES(?,?,?);");
+		sql.concat(string(" VALUES(?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -368,23 +368,23 @@ bool database::storage::common::line::element::load()
 	if (!recordset->IsInitalised())
 	{
 		string sql("SELECT elementID, componentID, value FROM tElement ");
-		sql.concat("LEFT JOIN tComponent ON tElement.componentID = tComponent.componentID ");
-		sql.concat("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID ");
-		sql.concat("LEFT jOIN tItem ON tLine.itemID = tItem.itemID ");
-		sql.concat("WHERE 1=1");
-		
+		sql.concat(string("LEFT JOIN tComponent ON tElement.componentID = tComponent.componentID "));
+		sql.concat(string("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID "));
+		sql.concat(string("LEFT jOIN tItem ON tLine.itemID = tItem.itemID "));
+		sql.concat(string("WHERE 1=1"));
+
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("tItem.messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("tItem.messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -489,8 +489,8 @@ bool database::storage::common::line::component::write(data::component::line::co
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tComponent (componentID, [ID], [Type], name)";
-		sql.concat(" VALUES(?,?,?,?);");
+		string sql("INSERT INTO tComponent (componentID, [ID], [Type], name)");
+		sql.concat(string(" VALUES(?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -528,22 +528,22 @@ bool database::storage::common::line::component::load()
 	if (!recordset->IsInitalised())
 	{
 		string sql("SELECT componentID, [ID], name FROM tComponent ");
-		sql.concat("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID ");
-		sql.concat("LEFT jOIN tItem ON tLine.itemID = tItem.itemID ");
-		sql.concat("WHERE tComponent.Type=1");
+		sql.concat(string("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID "));
+		sql.concat(string("LEFT jOIN tItem ON tLine.itemID = tItem.itemID "));
+		sql.concat(string("WHERE tComponent.Type=1"));
 
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("tItem.messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("tItem.messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -624,8 +624,8 @@ bool database::storage::common::query::element::write(data::element::element &so
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tElement (elementID, componentID, value)";
-		sql.concat(" VALUES(?,?,?);");
+		string sql("INSERT INTO tElement (elementID, componentID, value)");
+		sql.concat(string(" VALUES(?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -656,23 +656,23 @@ bool database::storage::common::query::element::load()
 	if (!recordset->IsInitalised())
 	{
 		string sql("SELECT elementID, componentID, value FROM tElement ");
-		sql.concat("LEFT JOIN tComponent ON tElement.componentID = tComponent.componentID ");
-		sql.concat("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID ");
-		sql.concat("LEFT jOIN tItem ON tLine.itemID = tItem.itemID ");
-		sql.concat("WHERE 1=1");
+		sql.concat(string("LEFT JOIN tComponent ON tElement.componentID = tComponent.componentID "));
+		sql.concat(string("LEFT JOIN tLine ON tComponent.lineID = tLine.lineID "));
+		sql.concat(string("LEFT jOIN tItem ON tLine.itemID = tItem.itemID "));
+		sql.concat(string("WHERE 1=1"));
 
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("tItem.messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("tItem.messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -777,8 +777,8 @@ bool database::storage::common::query::component::write(data::component::query::
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tComponent (componentID, [ID], [Type], name)";
-		sql.concat(" VALUES(?,?,?,?);");
+		string sql("INSERT INTO tComponent (componentID, [ID], [Type], name)");
+		sql.concat(string(" VALUES(?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -814,21 +814,21 @@ bool database::storage::common::query::component::load()
 	if (!recordset->IsInitalised())
 	{
 		string sql("SELECT componentID, [ID], name FROM tComponent ");
-		sql.concat("LEFT JOIN tQuery ON tComponent.ID = tQuery.ID ");
-		sql.concat("WHERE tComponent.Type=2");
+		sql.concat(string("LEFT JOIN tQuery ON tComponent.ID = tQuery.ID "));
+		sql.concat(string("WHERE tComponent.Type=2"));
 
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("tQuery.messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("tQuery.messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -934,8 +934,8 @@ bool database::storage::line::write(data::line::line &source)
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tLine (lineID, itemID, startDate, endDate, exclusivityID, typeID)";
-		sql.concat(" VALUES(?,?,?,?,?,?);");
+		string sql("INSERT INTO tLine (lineID, itemID, startDate, endDate, exclusivityID, typeID)");
+		sql.concat(string(" VALUES(?,?,?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -973,20 +973,20 @@ bool database::storage::line::load()
 	if (!recordset->IsInitalised())
 	{
 		string sql("SELECT lineID, itemID, startDate, endDate, exclusivityID, typeID FROM tLine ");
-		sql.concat(" LEFT JOIN tItem ON tLine.itemID = tItem.itemID WHERE 1=1");
+		sql.concat(string(" LEFT JOIN tItem ON tLine.itemID = tItem.itemID WHERE 1=1"));
 
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("tItem.messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("tItem.messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -1091,8 +1091,8 @@ bool database::storage::query::write(data::query::query &source)
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tQuery (queryID, messageID)";
-		sql.concat(" VALUES(?,?);");
+		string sql("INSERT INTO tQuery (queryID, messageID)");
+		sql.concat(string(" VALUES(?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -1133,16 +1133,16 @@ bool database::storage::query::load()
 
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -1176,7 +1176,7 @@ bool database::storage::item::open(database::settings &settings)
 	if (recordset == NULL)
 	{
 		connection->close();
-		
+
 		return false;
 	}
 
@@ -1245,8 +1245,8 @@ bool database::storage::item::write(data::item::item &source)
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tItem (itemID, messageID, name)";
-		sql.concat(" VALUES(?,?,?);");
+		string sql("INSERT INTO tItem (itemID, messageID, name)");
+		sql.concat(string(" VALUES(?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -1283,20 +1283,20 @@ bool database::storage::item::load()
 
 	if (!recordset->IsInitalised())
 	{
-		string sql("SELECT itemID, messageID, name FROM tItem WHERE 1=1");
-		
+		string sql(string("SELECT itemID, messageID, name FROM tItem WHERE 1=1"));
+
 		if (identities.size() > 0UL)
 		{
-			sql.concat(" AND (");
+			sql.concat(string(" AND ("));
 			for (unsigned long i = 0UL; i < identities.size(); ++i)
 			{
 				string temp = identities[i];
-				if (i > 0UL) sql.concat(" OR ");
-				sql.concat("messageID='");
+				if (i > 0UL) sql.concat(string(" OR "));
+				sql.concat(string("messageID='"));
 				sql.concat(temp);
-				sql.concat("'");
+				sql.concat(string("'"));
 			}
-			sql.concat(")");
+			sql.concat(string(")"));
 		}
 
 		sql.concat(string(";"));
@@ -1306,7 +1306,7 @@ bool database::storage::item::load()
 			while (recordset->MoveNext())
 			{
 				records::item temp;
-				
+
 				temp.itemID = recordset->GetGUID(1L);
 				temp.messageID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, records::item::MAX);
@@ -1328,11 +1328,11 @@ bool database::storage::message::open(database::settings &settings)
 	if (!connection->open(settings.getLocation())) return false;
 
 	recordset = settings.getRecordSets()->get();
-	if (recordset == NULL) 
-	{ 
-		connection->close(); 
+	if (recordset == NULL)
+	{
+		connection->close();
 
-		return false; 
+		return false;
 	}
 
 	if (!t_item.open(settings))
@@ -1371,14 +1371,14 @@ bool database::storage::message::close()
 bool database::storage::message::read(data::message::message &destination)
 {
 	if (data.size() == 0)
-	{		
+	{
 		if (!load()) return false;
 
-		t_item.identities = identities;		
+		t_item.identities = identities;
 	}
 
 	if (data.size() > 0)
-	{		
+	{
 		records::message temp = data.back();
 		data.pop_back();
 
@@ -1386,8 +1386,8 @@ bool database::storage::message::read(data::message::message &destination)
 		destination.guid = (string)guid::guid(temp.guid);
 		destination.apikey = (string)guid::guid(temp.apikey);
 		destination.created = (datetime)temp.created;
-		
-		t_item.messageID = temp.messageID;		
+
+		t_item.messageID = temp.messageID;
 		t_item.parent = &destination;
 		if (!destination.load(&t_item)) return false;
 
@@ -1407,8 +1407,8 @@ bool database::storage::message::write(data::message::message &source)
 
 	if (!recordset->IsInitalised())
 	{
-		string sql = "INSERT INTO tMessage (messageID, [user], [GUID], APIKey, created, finished)";
-		sql.concat(" VALUES(?,?,?,?,?,?);");
+		string sql("INSERT INTO tMessage (messageID, [user], [GUID], APIKey, created, finished)");
+		sql.concat(string(" VALUES(?,?,?,?,?,?);"));
 
 		if (!connection->Prepare(sql, recordset)) prepared = false;
 	}
@@ -1441,27 +1441,27 @@ bool database::storage::message::write(data::message::message &source)
 }
 
 bool database::storage::message::load()
-{	
+{
 	clear();
 
 	if (!recordset->IsInitalised())
 	{
-		guid::guid tagged;// = this->generate();		
+		guid::guid tagged;// = this->generate();
 		tagged.generate();
 		if (!tag(tagged)) return false;
 
-		string order = "";
+		string order("");
 
 		string sql("SELECT");
 		if (max > 0L)
 		{
-			sql.concat(" TOP ");
+			sql.concat(string(" TOP "));
 			sql.concat(string::fromLong(max));
 
-			order = " ORDER BY created DESC";
+			order = string(" ORDER BY created DESC");
 		}
 
-		sql.concat(" messageID, [User], [GUID], APIKey, Tag, Created FROM tMessage WHERE Tag=?");
+		sql.concat(string(" messageID, [User], [GUID], APIKey, Tag, Created FROM tMessage WHERE Tag=?"));
 		if (order.length() > 0) sql.concat(order);
 		sql.concat(string(";"));
 
@@ -1492,10 +1492,10 @@ bool database::storage::message::load()
 }
 
 bool database::storage::message::tag(guid::guid &tagged)
-{	
-	string sql = "UPDATE tMessage SET Tag=? WHERE tMessage.MessageID IN (SELECT TOP ";
+{
+	string sql("UPDATE tMessage SET Tag=? WHERE tMessage.MessageID IN (SELECT TOP ");
 	sql.concat(string::fromLong(TOP));
-	sql.concat(" msg.MessageID FROM tMessage AS msg WHERE msg.Tag IS NULL ORDER BY msg.Created);");
+	sql.concat(string(" msg.MessageID FROM tMessage AS msg WHERE msg.Tag IS NULL ORDER BY msg.Created);"));
 
 	if (!connection->Prepare(sql, recordset)) return false;
 
@@ -1506,7 +1506,7 @@ bool database::storage::message::tag(guid::guid &tagged)
 
 bool database::storage::message::erase(guid::guid &tagged)
 {
-	string sql = "EXEC dbo.pEraseMessagesWithTag ?;";
+	string sql("EXEC dbo.pEraseMessagesWithTag ?;");
 
 	if (!connection->Prepare(sql, recordset)) return false;
 

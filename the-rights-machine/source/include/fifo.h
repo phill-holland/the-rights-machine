@@ -1,12 +1,14 @@
 #include <array>
 #include <atomic>
 //#include "data.h"
+#include "queue.h"
 #include "custom/string.h"
 
 #ifndef _FIFO
 #define _FIFO
 
-template <class X, long Y> class fifo //: public data::fifo::bidirectional<X>
+template <class X, long Y> class fifo : public queue::queue<X>
+//: public data::fifo::bidirectional<X>
 {
 	bool init;
 
@@ -59,6 +61,8 @@ public:
 
 	bool get(X &destination);
 	bool set(X &source);
+
+	bool flush() { return true; }
 
 	string identifier() { return string("fifo"); }
 

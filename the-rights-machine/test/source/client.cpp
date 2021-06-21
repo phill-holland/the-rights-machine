@@ -20,21 +20,21 @@ void test::client::reset(string filename)
 
     in.read(buffer, end);
     in.close();
-    
+
     init = true;
 }
 
 bool test::client::post(string url, long port)
 {
     string temp(buffer);
-    
+
     page.data(temp);
     page.url = url;
     page.port = port;
 
     web::page destination;
-    
-    return cli.post(&destination, &page);			
+
+    return cli.post(&destination, &page);
 }
 
 void test::client::makeNull()

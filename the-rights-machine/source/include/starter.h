@@ -1,5 +1,4 @@
 #include "wsock.h"
-
 #include "configuration.h"
 #include "manager.h"
 #include "memory.h"
@@ -9,6 +8,7 @@
 #include "odbc.h"
 #include "users.h"
 #include "messaging.h"
+#include "settings.h"
 
 #if !defined(__STARTER)
 #define __STARTER
@@ -26,7 +26,7 @@ namespace server
 
 		error::console::errors *console;
 		error::errors *errors;
-			
+
 		::configuration::server::configuration *configuration;
 		::server::server *server;
 
@@ -35,11 +35,11 @@ namespace server
 		bool init;
 
 	public:
-		starter(messaging::common::messaging *messaging) { makeNull(); reset(messaging); }
+		starter(settings &setup) { makeNull(); reset(setup); }
 		~starter() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(messaging::common::messaging *messaging);
+		void reset(settings &setup);
 
 		bool start();
 		void stop();

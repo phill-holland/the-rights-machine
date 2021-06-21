@@ -1,20 +1,27 @@
 #include <gtest/gtest.h>
 #include "test/client.h"
 #include "messaging.h"
+#include "settings.h"
 #include "starter.h"
 
 TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 {
-	// add to launch.json for debugging breakpoints
-	// set CWD so that data is loaded correctly
+	// add to launch.json for debugging breakpoints OK
+	// set CWD so that data is loaded correctly OK
 	// create configuration.json
 	// copy debugger.cpp into project
 	// add database SQL to project
-	// guid create on ubuntu
-	test::client client(string("data/body.json"));
+	// guid create on ubuntu SORT OF OK
+	// add error responses to log file (during reset() stages)
+	// need a thread safe std::vector
+
+	test::client client(string("test/data/body.json"));
+	EXPECT_TRUE(client.initalised());
+
 	messaging::memory::memory messaging;
-	server::starter starter(&messaging);
-	
+	server::settings setup(&messaging, 5454);
+	server::starter starter(setup);
+
 	EXPECT_TRUE(starter.initalised());
 	EXPECT_TRUE(starter.start());
 	// sleep here??
@@ -25,7 +32,7 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 }
 
 /*
-TEST(DateComparionsTests, BasicAssertions) 
+TEST(DateComparionsTests, BasicAssertions)
 {
 	global::datetime a(2018, 10, 2);
 	global::datetime b(2017, 10, 2);

@@ -1,11 +1,9 @@
 #include "starter.h"
 #include "log.h"
 
-void server::starter::reset(messaging::common::messaging *messaging)
+void server::starter::reset(settings &setup)
 {
 	init = false; cleanup();
-
-	string location = "DRIVER=SQL Server Native Client 11.0;SERVER=DESKTOP-DHP798L;UID=sa;PWD=Funjuice97?;WSID=MSSQLSERVER;DATABASE=Process;";
 
 	connections = new database::odbc::factory::connection();
 	if (connections == NULL) return;
@@ -15,11 +13,11 @@ void server::starter::reset(messaging::common::messaging *messaging)
 	if (recordsets == NULL) return;
 	if (!recordsets->initalised()) return;
 
-	cpu = new compute::cpu::cpu(messaging->getMessageQueue());
+	cpu = new compute::cpu::cpu(setup.messaging->getMessageQueue());
 	if (cpu == NULL) return;
 	if (!cpu->initalised()) return;
-	
-	manager = new manager::manager(messaging->getResponsesQueue());
+
+	manager = new manager::manager(setup.messaging->getResponsesQueue());
 	if (manager == NULL) return;
 	if (!manager->initalised()) return;
 	manager->add(cpu);
@@ -32,7 +30,7 @@ void server::starter::reset(messaging::common::messaging *messaging)
 	if (errors == NULL) return;
 	if (!errors->initalised()) return;
 
-	database::settings settings(location, connections, recordsets);
+	database::settings settings(setup.connection, connections, recordsets);
 	if (!settings.initalised()) return;
 
 	users = new data::users(settings);
@@ -41,6 +39,9 @@ void server::starter::reset(messaging::common::messaging *messaging)
 
 	configuration = new ::configuration::server::configuration(manager, users, errors);
 	if (configuration == NULL) return;
+
+	configuration->port = setup.port;
+	configuration->clients = setup.clients;
 
 	server = new ::server::server(configuration);
 	if (server == NULL) return;

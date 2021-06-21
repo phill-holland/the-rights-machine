@@ -1,5 +1,5 @@
 /*
-#if defined(WIN32) 
+#if defined(WIN32)
 #include <windows.h>
 #endif
 #include <sql.h>
@@ -157,7 +157,7 @@ namespace odbc
 			void makeNull();
 			void cleanup();
 		};
-	};	
+	};
 };
 
 #endif
@@ -254,7 +254,7 @@ namespace database
 
 			void reset();
 
-			bool open(string &connection);
+			bool open(string connection);
 			bool open(const char *connection);
 
 			bool close();
@@ -293,17 +293,34 @@ namespace database
 				{
 					init = false; cleanup();
 
+					connections.clear();
+
 					init = true;
 				}
 
 				database::connection *get()
 				{
-					return NULL;
+					database::odbc::connection *result = new ::database::odbc::connection();
+					if(result != NULL)
+					{
+						connections.push_back(result);
+					}
+
+					return result;
 				}
 
 			protected:
 				void makeNull() { }
-				void cleanup() { }
+				void cleanup()
+				{
+					if(connections.size() > 0)
+					{
+						for(int i = connections.size(); i >= 0; --i)
+						{
+							delete connections[i];
+						}
+					}
+				}
 			};
 
 			class recordset : public database::factory::recordset
@@ -326,12 +343,27 @@ namespace database
 
 				database::recordset *get()
 				{
-					return NULL;
+					database::odbc::recordset *result = new ::database::odbc::recordset();
+					if(result != NULL)
+					{
+						recordsets.push_back(result);
+					}
+
+					return result;
 				}
 
 			protected:
 				void makeNull() { }
-				void cleanup() { }
+				void cleanup()
+				{
+					if(recordsets.size() > 0)
+					{
+						for(int i = recordsets.size(); i >= 0; --i)
+						{
+							delete recordsets[i];
+						}
+					}
+				}
 			};
 		};
 	};

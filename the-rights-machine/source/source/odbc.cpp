@@ -519,7 +519,7 @@ int database::odbc::recordset::logStatementError()
 
 	while (SQLGetDiagRec(SQL_HANDLE_STMT, lpStatement, i, SqlState, &NativeError, Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA)
 	{
-		Log << (char*)SqlState << (char*)Msg << "\r\n";
+		Log << (char*)SqlState << (char*)Msg << string("\r\n");
 		i++;
 	}
 
@@ -560,7 +560,7 @@ void database::odbc::recordset::cleanup()
 		}
 		catch (...)
 		{
-			Log << "odbc::recordset::cleanup SEH Error\r\n";
+			Log << string("odbc::recordset::cleanup SEH Error\r\n");
 		}
 
 		lpStatement = NULL;
@@ -580,7 +580,7 @@ void database::odbc::connection::reset()
 	init = true;
 }
 
-bool database::odbc::connection::open(string &connection)
+bool database::odbc::connection::open(string connection)
 {
 	return open(connection.c_str());
 }
@@ -711,7 +711,7 @@ int database::odbc::connection::logConnectionError()
 
 	while (SQLGetDiagRec(SQL_HANDLE_DBC, lpConnection, i, SqlState, &NativeError, Msg, sizeof(Msg), &MsgLen) != SQL_NO_DATA)
 	{
-		Log << (char*)SqlState << (char*)Msg << "\r\n";
+		Log << (char*)SqlState << (char*)Msg << string("\r\n");
 		i++;
 	}
 

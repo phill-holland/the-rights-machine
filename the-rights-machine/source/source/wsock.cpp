@@ -246,7 +246,7 @@ bool wsock::server::open(long port)
 {
 	sockaddr_in details;
 
-_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (_socket == -1) return false;
 
 	memset((char*)&details, 0, sizeof(struct sockaddr));

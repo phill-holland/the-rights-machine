@@ -98,7 +98,7 @@ namespace database
 
 	public:
 		settings(string location, factory::connection *connections, factory::recordset *recordsets) { makeNull(); reset(location, connections, recordsets); }
-		
+
 		bool initalised() { return init; }
 
 		void reset(string location, factory::connection *connections, factory::recordset *recordsets)
@@ -113,7 +113,7 @@ namespace database
 		}
 
 		string getLocation() { return location; }
-		
+
 		factory::connection *getConnections() { return connections; }
 		factory::recordset *getRecordSets() { return recordsets; }
 
