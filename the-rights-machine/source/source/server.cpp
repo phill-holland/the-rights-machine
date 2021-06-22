@@ -92,9 +92,13 @@ void server::listener::background(thread *bt)
 					// kill connection
 				}
 
+				if (get() == MODE::POST)
+				{
+				// need to check POST method
 				// ***
-				parser->write(&receiving[i], 1, ec);
-				if(ec == boost::json::error::extra_data) ++errors;
+					parser->write(&receiving[i], 1, ec);
+					if(ec == boost::json::error::extra_data) ++errors;
+				}
 				// END STREAM BASED ON CONTENT_LENGTH
 				// OR IF ALL TASKS FINISHED
 				// ***
