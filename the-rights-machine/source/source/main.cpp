@@ -19,6 +19,8 @@
 #include "users.h"
 #include "odbc.h"
 
+//#include "bsttst.h"
+
 void test()
 {
 	queues::memory::incoming::factory messages;

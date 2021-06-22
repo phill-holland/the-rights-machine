@@ -21,3 +21,4 @@ target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib OpenSSL::Crypto
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib X11)
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib odbc)
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib uuid)
+target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib "${Boost_LIBRARIES}")

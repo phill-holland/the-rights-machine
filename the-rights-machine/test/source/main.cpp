@@ -1,9 +1,19 @@
+#include "bsttst.h"
+
 #include <gtest/gtest.h>
 #include "test/client.h"
 #include "messaging.h"
 #include "settings.h"
 #include "starter.h"
+//#include "bsttst.h"
 
+TEST(JsonCustomStream, BasicAssertions)
+{
+	bsttst::bsttst moo;
+
+	moo.go(string("test/data/body.json"));
+}
+/*
 TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 {
 	// add to launch.json for debugging breakpoints OK
@@ -37,7 +47,7 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	// load body file
 	// issue http query
 }
-
+*/
 /*
 TEST(DateComparionsTests, BasicAssertions)
 {

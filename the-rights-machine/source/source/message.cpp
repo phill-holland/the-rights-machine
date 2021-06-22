@@ -2,10 +2,12 @@
 #include "header.h"
 #include "log.h"
 
+#include <iostream>
+
 void data::message::message::reset()
 {
 	init = false; cleanup();
-	
+
 	items.json::parent(this);
 	queries.json::parent(this);
 
@@ -15,11 +17,11 @@ void data::message::message::reset()
 	lines.json::parent(&items);
 	components.json::parent(&lines);
 	elements.json::parent(&components);
-	
-	json *identifiers[] = { &elements.temp, &elements, 
-							&components.temp, &components, 
-							&lines.temp, &lines, 
-							&items.temp, &items, 
+
+	json *identifiers[] = { &elements.temp, &elements,
+							&components.temp, &components,
+							&lines.temp, &lines,
+							&items.temp, &items,
 							&queries.temp.elements.temp, &queries.temp.elements,
 							&queries.temp.components.temp, &queries.temp.components,
 							&queries.temp, &queries, this };
@@ -27,6 +29,7 @@ void data::message::message::reset()
 	for (long i = 0L; i < 15L; ++i)
 	{
 		hash[identifiers[i]->FQDN()] = identifiers[i];
+		std::cout << identifiers[i]->FQDN() << "\n";
 	}
 
 	queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
@@ -288,7 +291,7 @@ void data::message::message::copy(message const &source)
 	items = source.items;
 	lines = source.lines;
 	components = source.components;
-	elements = source.elements;	
+	elements = source.elements;
 }
 
 void data::message::message::output()

@@ -5,7 +5,7 @@ void crumbs::crumbs::reset()
 	init = false; cleanup();
 
 	//data.resize(DEPTH);
-	
+
 	data = new string*[DEPTH];
 	if (data == NULL) return;
 	for (unsigned long i = 0UL; i < DEPTH; ++i) data[i] = NULL;
@@ -29,7 +29,7 @@ void crumbs::crumbs::clear()
 bool crumbs::crumbs::push(string value)
 {
 	if (depth >= DEPTH) return false;
-	
+
 	//data.push_back(value);
 	//++depth;
 	*data[depth++] = value;
@@ -40,7 +40,7 @@ bool crumbs::crumbs::push(string value)
 bool crumbs::crumbs::pop()
 {
 	if (depth == 0UL) return false;
-	
+
 	//data.pop_back();
 	--depth;
 
@@ -52,7 +52,7 @@ string crumbs::crumbs::FQDN(string label)
 	string result = label;
 
 	long i = depth - 1L;
-	while (i > 0L)
+	while (i >= 0L)
 	{
 		if (data[i]->count() > 0L)
 		{

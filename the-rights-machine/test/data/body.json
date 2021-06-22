@@ -1,8 +1,8 @@
 {
 	"message" :
 	{
-		"userID" : 1,		
-		"APIKey" : 1,
+		"user" : 1,
+		"apikey" : 1,
 		"queries" :
 		[
 			{
@@ -18,7 +18,7 @@
 							{ "value" : "france" }
 						]
 					}
-					,							
+					,
 					{
 						"name" : "language",
 						"elements" :
@@ -36,7 +36,7 @@
 				"name" : "myitem",
 				"lines" :
 				[
-					{			
+					{
 						"start" : "2018-01-01",
 						"end" : "2019-01-01",
 						"exclusivity" : 0,
@@ -51,7 +51,7 @@
 									{ "value" : "france" }
 								]
 							}
-							,							
+							,
 							{
 								"name" : "language",
 								"elements" :
@@ -63,7 +63,7 @@
 						]
 					}
 					,
-					{			
+					{
 						"start" : "2018-06-01",
 						"end" : "2019-08-01",
 						"exclusivity" : "non-exclusive",
