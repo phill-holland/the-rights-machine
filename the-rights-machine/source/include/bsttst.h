@@ -32,6 +32,24 @@ namespace bsttst
 // upon end of query object, create event function, for pushing
 // query into engine, for output
 
+/*
+
+guid::guid g;
+											task.message.guid = g.get();
+											task.message.created = global::datetime::now();
+
+											if (!c->configuration.manager->set(task))
+											{
+												error(string("MESSAGE_PUSH"));
+											}
+
+// CLEAR TASK>MESSAGE AFTERWARD
+// NEW THREAD, FOR PUSHING OUT RESULTS WHEN DONE, INTO SAME STREAM..
+
+// PASS HTTP OUTPUT STREAM INTO CONFIGURATION MANAGER..??
+
+                                            */
+
     class bsttst
     {
         struct handler
