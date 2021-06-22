@@ -122,3 +122,273 @@ https://github.com/google/googletest
 
 // HAVE SMALLER QUEUE BUFFER FOR SERVER,
 // ONE MESSAGE CAN BE SPLIT OVER MANY QUEUE INSERTS, PER ITEM
+
+//#include "custom/string.h"
+
+/*
+void bsttst::bsttst::go(std::string filename)
+{
+    //std::string filename;
+
+     std::ifstream in(filename, std::ios::binary);
+    if(!in.is_open()) return;
+
+    in.seekg(0, std::ios::end);
+    std::streampos end = in.tellg();
+    in.seekg(0, std::ios::beg);
+
+    char *buffer = new char[end];
+    if(buffer == NULL) return;
+    memset(buffer, 0, end);
+
+    in.read(buffer, end);
+    in.close();
+
+// ****
+    boost::json::error_code ec;
+    write(buffer, end, ec);
+}
+*/
+
+if (get() == MODE::POST)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = task.message.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+								}
+
+								queue::base *b = task.message.findQ(parents.FQDN());
+								if (b != NULL) b->flush();
+
+								if (parents.FQDN().icompare(task.message.items.FQDN()))
+								{
+									//data::user user = c->configuration.users->get(task.message.user);
+									/*
+									if (!user.isempty())
+									{
+										if(user.validate(task.message))
+										{
+											guid::guid g;
+											task.message.guid = g.get();
+											task.message.created = global::datetime::now();
+
+											if (!c->configuration.manager->set(task))
+											{
+												error(string("MESSAGE_PUSH"));
+											}
+											else
+											{
+												if (c->configuration.requested != NULL)
+												{
+													
+													//if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
+													//{
+														//error(string("ALREADY_REQUESTED"));
+													//}
+												}
+
+												::data::response::response response;
+
+												response.guid = task.message.guid;
+												response.created = datetime::now();
+												response.available = false;
+
+												outputter.set(&response);
+											}
+										}
+										else error(string("INVALID_APIKEY"));
+
+									}
+									else error(string("INVALID_USER"));
+									*/
+								}
+							}
+							else if (get() == MODE::GET)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = requested.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+
+									if (parents.FQDN().icompare(requested.FQDN()))
+									{
+										if (requested.guid.count() > 0L)
+										{
+											data::response::response result = task.response->find(requested.guid);
+											if(result.validate(requested))
+											{
+												if (c->configuration.requested != NULL)
+												{
+													::pending::waiting temp(requested.guid, requested.user);
+													if (!c->configuration.requested->remove(temp)) error(string("NOT_IN_PENDING"));
+												}
+
+												outputter.set(&result);
+											}
+											else
+											{
+												data::response::response::STATUS status = data::response::response::STATUS::UNKNOWN;
+
+												if (c->configuration.requested != NULL)
+												{
+													::pending::waiting temp(requested.guid, requested.user);
+													if (c->configuration.requested->contains(temp)) status = data::response::response::STATUS::PENDING;
+													else error(string("NOT_IN_PENDING"));
+												}
+
+												result.clear();
+
+												result.guid = requested.guid;
+												result.user = requested.user;
+												result.status = status;
+
+												outputter.set(&result);
+												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
+
+												// push not found back to user (create hash lookup for valid GUI'IDs)
+												// check hash that GUI was pushed through to be processed
+
+												// create output queue for pointers for json::response *
+												// hmmm, but need to store the actual objects somewhere??
+											}
+										}
+										else
+										{
+											Log << "no guid found\r\n";
+										}
+										// need a special type of task queue
+										// push things onto queue, with key
+										// have find function to retreive item
+										// have queue item with datetime
+										// so that responses expire if not picked up
+
+										// validate request
+										// check task queue
+										// task.response
+									}
+								}
+							}
+
+							left = true;
+
+							label.clear();
+							value.clear();
+
+							if (!parents.pop())
+							{
+								error(string("BRACKET_MISMATCH"));
+							}
+
+							--brackets;
+							if (brackets < 0)
+							{
+								error(string("BRACKET_MISMATCH"));
+							}
+						}
+						else if (receiving[i] == '[')
+						{
+							if (!parents.push(label))
+							{
+								error(string("NESTING_TOO_DEEP"));
+							}
+
+							label.clear();
+							value.clear();
+
+							left = true;
+							++squares;
+						}
+						else if (receiving[i] == ']')
+						{
+							left = true;
+
+							label.clear();
+							value.clear();
+
+							if (!parents.pop())
+							{
+								error(string("BRACKET_MISMATCH"));
+							}
+
+							--squares;
+							if (squares < 0)
+							{
+								error(string("BRACKET_MISMATCH"));
+							}
+						}
+						else if (receiving[i] == ':')
+						{
+							left = false;
+						}
+						else if (receiving[i] == ',')
+						{
+							if (get() == MODE::POST)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = task.message.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+								}
+							}
+							else if (get() == MODE::GET)
+							{
+								if (!parents.isempty())
+								{
+									::data::json::request::json *current = requested.find(parents.FQDN());
+									if (current != NULL) current->add(custom::pair(label, value));
+								}
+							}
+
+							left = true;
+
+							label.clear();
+							value.clear();
+						}
+						else if ((receiving[i] >= '0') && (receiving[i] <= '9'))
+						{
+							if (!left)
+							{
+								if (!value.push(receiving[i]))
+								{
+									error(string("STRING_TOO_LONG"));
+								}
+							}
+						}
+					}
+					else
+					{
+						if (brackets >= 1)
+						{
+							if ((quotes && left))
+							{
+								if(!label.push(receiving[i]))
+								{
+									error(string("STRING_TOO_LONG"));
+								}
+							}
+							else if ((quotes && !left))
+							{
+								if(!value.push(receiving[i]))
+								{
+									error(string("STRING_TOO_LONG"));
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		if ((bytes <= 0) && (++errors >= ERRORS))
+		{
+			if (read_counter >= content_length - 2)
+			{
+				if (get() != MODE::NONE)
+				{
+					goodbye();
+				}
+			}
+			else error(string("READ"));
+		}
+	}

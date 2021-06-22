@@ -1,5 +1,5 @@
+#include "parser.h"
 #include "wsock.h"
-
 #include "thread.h"
 #include "message.h"
 #include "fifo.h"
@@ -34,19 +34,19 @@ namespace server
 		long errors;
 
 		web::parameters parameters;
-		crumbs::crumbs parents;
+		//crumbs::crumbs parents;
 
-		bool quotes;
+		//bool quotes;
 		bool left;
 
-		long brackets, squares;
+		//long brackets, squares;
 
 		bool header, request;// , validate; // turn into state int
 		int h_index;
 
 		charbuf command, label, value;
 
-		compute::task task;
+		//compute::task task;
 		::data::request::request requested;
 
 		long content_length;
@@ -54,7 +54,11 @@ namespace server
 
 		output::output outputter;
 
+		parser::parser *parser;
+
 		client *c;
+
+		boost::json::error_code ec;
 
 		bool init;
 
@@ -62,7 +66,8 @@ namespace server
 		void background(thread *bt);
 
 	public:
-		listener(client *source) { reset(source); }
+		listener(client *source) { makeNull(); reset(source); }
+		~listener() { cleanup(); }
 
 		bool initalised() { return init; }
 		void reset(client *source);
@@ -77,6 +82,10 @@ namespace server
 	protected:
 		void goodbye();
 		void error(string error);
+
+	protected:
+		void makeNull() { parser = NULL; }
+		void cleanup() { if (parser != NULL) delete parser; }
 	};
 
 	class client : public ::wsock::client

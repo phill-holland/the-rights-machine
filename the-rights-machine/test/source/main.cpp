@@ -1,4 +1,4 @@
-#include "bsttst.h"
+//#include "bsttst.h"
 
 #include <gtest/gtest.h>
 #include "test/client.h"
@@ -7,6 +7,7 @@
 #include "starter.h"
 //#include "bsttst.h"
 
+/*
 TEST(JsonCustomStream, BasicAssertions)
 {
 	bsttst::bsttst moo;
@@ -16,7 +17,8 @@ TEST(JsonCustomStream, BasicAssertions)
 	moo.output();
 
 }
-/*
+*/
+
 TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 {
 	// add to launch.json for debugging breakpoints OK
@@ -50,7 +52,7 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	// load body file
 	// issue http query
 }
-*/
+
 /*
 TEST(DateComparionsTests, BasicAssertions)
 {

@@ -92,259 +92,12 @@ void server::listener::background(thread *bt)
 					// kill connection
 				}
 
-				if (receiving[i] == '"')
-				{
-					quotes = !quotes;
-				}
-				else
-				{
-					if (!quotes)
-					{
-						if (receiving[i] == '{')
-						{
-							string t = (string)label;
-
-							if (!parents.push((string)label))
-							{
-								error(string("NESTING_TOO_DEEP"));
-							}
-
-							label.clear();
-							value.clear();
-
-							left = true;
-
-							++brackets;
-						}
-						else if (receiving[i] == '}')
-						{
-							if (get() == MODE::POST)
-							{
-								if (!parents.isempty())
-								{
-									::data::json::request::json *current = task.message.find(parents.FQDN());
-									if (current != NULL) current->add(custom::pair(label, value));
-								}
-
-								queue::base *b = task.message.findQ(parents.FQDN());
-								if (b != NULL) b->flush();
-
-								if (parents.FQDN().icompare(task.message.items.FQDN()))
-								{
-									//data::user user = c->configuration.users->get(task.message.user);
-									/*
-									if (!user.isempty())
-									{
-										if(user.validate(task.message))
-										{
-											guid::guid g;
-											task.message.guid = g.get();
-											task.message.created = global::datetime::now();
-
-											if (!c->configuration.manager->set(task))
-											{
-												error(string("MESSAGE_PUSH"));
-											}
-											else
-											{
-												if (c->configuration.requested != NULL)
-												{
-													
-													//if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
-													//{
-														//error(string("ALREADY_REQUESTED"));
-													//}
-												}
-
-												::data::response::response response;
-
-												response.guid = task.message.guid;
-												response.created = datetime::now();
-												response.available = false;
-
-												outputter.set(&response);
-											}
-										}
-										else error(string("INVALID_APIKEY"));
-
-									}
-									else error(string("INVALID_USER"));
-									*/
-								}
-							}
-							else if (get() == MODE::GET)
-							{
-								if (!parents.isempty())
-								{
-									::data::json::request::json *current = requested.find(parents.FQDN());
-									if (current != NULL) current->add(custom::pair(label, value));
-
-									if (parents.FQDN().icompare(requested.FQDN()))
-									{
-										if (requested.guid.count() > 0L)
-										{
-											data::response::response result = task.response->find(requested.guid);
-											if(result.validate(requested))
-											{
-												if (c->configuration.requested != NULL)
-												{
-													::pending::waiting temp(requested.guid, requested.user);
-													if (!c->configuration.requested->remove(temp)) error(string("NOT_IN_PENDING"));
-												}
-
-												outputter.set(&result);
-											}
-											else
-											{
-												data::response::response::STATUS status = data::response::response::STATUS::UNKNOWN;
-
-												if (c->configuration.requested != NULL)
-												{
-													::pending::waiting temp(requested.guid, requested.user);
-													if (c->configuration.requested->contains(temp)) status = data::response::response::STATUS::PENDING;
-													else error(string("NOT_IN_PENDING"));
-												}
-
-												result.clear();
-
-												result.guid = requested.guid;
-												result.user = requested.user;
-												result.status = status;
-
-												outputter.set(&result);
-												// NEED TO ADD STATUS PENDING, IF WAITING FOR OBJECT
-
-												// push not found back to user (create hash lookup for valid GUI'IDs)
-												// check hash that GUI was pushed through to be processed
-
-												// create output queue for pointers for json::response *
-												// hmmm, but need to store the actual objects somewhere??
-											}
-										}
-										else
-										{
-											Log << "no guid found\r\n";
-										}
-										// need a special type of task queue
-										// push things onto queue, with key
-										// have find function to retreive item
-										// have queue item with datetime
-										// so that responses expire if not picked up
-
-										// validate request
-										// check task queue
-										// task.response
-									}
-								}
-							}
-
-							left = true;
-
-							label.clear();
-							value.clear();
-
-							if (!parents.pop())
-							{
-								error(string("BRACKET_MISMATCH"));
-							}
-
-							--brackets;
-							if (brackets < 0)
-							{
-								error(string("BRACKET_MISMATCH"));
-							}
-						}
-						else if (receiving[i] == '[')
-						{
-							if (!parents.push(label))
-							{
-								error(string("NESTING_TOO_DEEP"));
-							}
-
-							label.clear();
-							value.clear();
-
-							left = true;
-							++squares;
-						}
-						else if (receiving[i] == ']')
-						{
-							left = true;
-
-							label.clear();
-							value.clear();
-
-							if (!parents.pop())
-							{
-								error(string("BRACKET_MISMATCH"));
-							}
-
-							--squares;
-							if (squares < 0)
-							{
-								error(string("BRACKET_MISMATCH"));
-							}
-						}
-						else if (receiving[i] == ':')
-						{
-							left = false;
-						}
-						else if (receiving[i] == ',')
-						{
-							if (get() == MODE::POST)
-							{
-								if (!parents.isempty())
-								{
-									::data::json::request::json *current = task.message.find(parents.FQDN());
-									if (current != NULL) current->add(custom::pair(label, value));
-								}
-							}
-							else if (get() == MODE::GET)
-							{
-								if (!parents.isempty())
-								{
-									::data::json::request::json *current = requested.find(parents.FQDN());
-									if (current != NULL) current->add(custom::pair(label, value));
-								}
-							}
-
-							left = true;
-
-							label.clear();
-							value.clear();
-						}
-						else if ((receiving[i] >= '0') && (receiving[i] <= '9'))
-						{
-							if (!left)
-							{
-								if (!value.push(receiving[i]))
-								{
-									error(string("STRING_TOO_LONG"));
-								}
-							}
-						}
-					}
-					else
-					{
-						if (brackets >= 1)
-						{
-							if ((quotes && left))
-							{
-								if(!label.push(receiving[i]))
-								{
-									error(string("STRING_TOO_LONG"));
-								}
-							}
-							else if ((quotes && !left))
-							{
-								if(!value.push(receiving[i]))
-								{
-									error(string("STRING_TOO_LONG"));
-								}
-							}
-						}
-					}
-				}
+				// ***
+				parser->write(&receiving[i], 1, ec);
+				if(ec == boost::json::error::extra_data) ++errors;
+				// END STREAM BASED ON CONTENT_LENGTH
+				// OR IF ALL TASKS FINISHED
+				// ***
 			}
 		}
 
@@ -366,13 +119,16 @@ void server::listener::background(thread *bt)
 
 void server::listener::reset(client *source)
 {
-	init = false;
+	cleanup(); init = false;
 
 	c = source;
 
-	task.response = c->configuration.responses;
-	if (task.response == NULL) return;
+	if(c->configuration.responses == NULL) return;
+	if(c->configuration.manager == NULL) return;
 
+	parser = new parser::parser(c->configuration.manager, c->configuration.responses);
+	if(parser == NULL) return;
+	
 	clear();
 
 	init = true;
@@ -381,6 +137,7 @@ void server::listener::reset(client *source)
 void server::listener::clear()
 {
 	parameters.clear();
+	parser->clear();
 
 	header = false;
 	request = true;
@@ -389,19 +146,13 @@ void server::listener::clear()
 
 	errors = 0L;
 
-	quotes = false;
 	left = true;
-
-	brackets = 0L;
-	squares = 0L;
 
 	label.clear();
 	value.clear();
 	command.clear();
 
 	memset(receiving, 0, RECEIVING);
-
-	parents.clear();
 
 	// clear data classes - lines/items/components/elements/queries etc..
 }
@@ -431,10 +182,6 @@ void server::listener::validate()
 	// check content_length isn't zero, isn't too big, isn't mismatch with the data
 	// check command is either POST or GET
 
-	brackets = 0;
-	squares = 0;
-
-	quotes = false;
 	left = true;
 
 	outputter.clear();

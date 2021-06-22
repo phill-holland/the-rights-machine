@@ -1,3 +1,4 @@
+#include "parser.h"
 #include "configuration.h"
 #include "manager.h"
 #include "memory.h"
