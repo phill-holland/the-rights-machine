@@ -27,8 +27,8 @@ namespace data
 
 		public:
 			int messageID;
-			string user; // call different name?
-			string apikey;
+			//string user; // call different name?
+			//string apikey;
 			string guid;
 			datetime created;
 			datetime finished;

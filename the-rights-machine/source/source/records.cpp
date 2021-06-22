@@ -34,8 +34,8 @@ void database::records::message::set(data::message::message &source)
 {
 	clear();
 
-	user = guid::guid(source.user);
-	apikey = guid::guid(source.apikey);
+	//user = guid::guid(source.user);
+	//apikey = guid::guid(source.apikey);
 	guid = guid::guid(source.guid);
 	created = (TIMESTAMP_STRUCT)source.created;
 }

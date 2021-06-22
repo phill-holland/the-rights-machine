@@ -11,10 +11,9 @@ void data::query::query::reset()
 
 void data::query::query::clear()
 {
-
 	queryID = 0;
 	messageID = 0;
-	
+
 	start.clear();
 	end.clear();
 
@@ -149,7 +148,7 @@ void data::query::query::copy(query const &source)
 
 void data::query::query::output()
 {
-	Log << "\"query\" : {\r\n";	
+	Log << "\"query\" : {\r\n";
 	Log << "\"start\" : \"" << (string)start << "\",\r\n";
 	Log << "\"end\" : \"" << (string)end << "\",\r\n";
 	for (long i = 0L; i < components.count(); ++i) components[i].output();

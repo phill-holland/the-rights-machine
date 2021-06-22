@@ -11,7 +11,10 @@ TEST(JsonCustomStream, BasicAssertions)
 {
 	bsttst::bsttst moo;
 
+// convert read json back into JSON, and then compare with input JSON file!
 	moo.go(string("test/data/body.json"));
+	moo.output();
+
 }
 /*
 TEST(BasicQueryWithInMemoryQueue, BasicAssertions)

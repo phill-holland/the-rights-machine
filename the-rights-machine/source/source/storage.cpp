@@ -1382,9 +1382,9 @@ bool database::storage::message::read(data::message::message &destination)
 		records::message temp = data.back();
 		data.pop_back();
 
-		destination.user = (string)guid::guid(temp.user);
+		//destination.user = (string)guid::guid(temp.user);
 		destination.guid = (string)guid::guid(temp.guid);
-		destination.apikey = (string)guid::guid(temp.apikey);
+		//destination.apikey = (string)guid::guid(temp.apikey);
 		destination.created = (datetime)temp.created;
 
 		t_item.messageID = temp.messageID;

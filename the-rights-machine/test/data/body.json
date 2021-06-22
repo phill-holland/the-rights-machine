@@ -1,8 +1,6 @@
 {
 	"message" :
 	{
-		"user" : 1,
-		"apikey" : 1,
 		"queries" :
 		[
 			{
@@ -39,7 +37,7 @@
 					{
 						"start" : "2018-01-01",
 						"end" : "2019-01-01",
-						"exclusivity" : 0,
+						"exclusivity" : "exclusive",
 						"type" : 0,
 						"components" :
 						[

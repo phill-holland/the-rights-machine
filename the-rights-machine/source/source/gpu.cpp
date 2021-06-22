@@ -175,7 +175,7 @@ void compute::gpu::processor::push(::compute::task &task)
 			data::response::response response;
 			//response.queryID = q.queryID;
 			response.guid = task.message.guid;
-			response.user = task.message.user;
+			//response.user = task.message.user;
 			response.available = result;
 			response.created = datetime::now();
 

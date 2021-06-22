@@ -48,8 +48,8 @@ void data::message::message::reset()
 void data::message::message::clear()
 {
 	messageID = 0;
-	user = string("");
-	apikey = string("");
+	//user = string("");
+	//apikey = string("");
 	guid = string("");
 
 	created.clear();
@@ -281,8 +281,8 @@ bool data::message::message::save(file::file<data::element::element> *destinatio
 void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;
-	user = source.user;
-	apikey = source.apikey;
+	//user = source.user;
+	//apikey = source.apikey;
 	guid = source.guid;
 	created = source.created;
 	finished = source.finished;
@@ -307,6 +307,7 @@ void data::message::message::output()
 
 bool data::message::message::add(custom::pair source)
 {
+	/*
 	if (string("user").icompare(source.name))
 	{
 		user = source.value;
@@ -317,6 +318,7 @@ bool data::message::message::add(custom::pair source)
 		apikey = source.value;
 		return true;
 	}
+	*/
 
 	return false;
 }

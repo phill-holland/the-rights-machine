@@ -33,7 +33,7 @@ namespace data
 				bool result = ::allocator::allocator<query::query, Y>::set(temp);
 
 				temp.clear();
-				
+
 				return result;
 			}
 

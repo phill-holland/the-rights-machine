@@ -23,8 +23,8 @@ bool data::user::validate()
 
 bool data::user::validate(::data::message::message &message)
 {
-	if (!((string)guid::guid(apikey)).icompare(message.apikey)) return false;
-	if (!((string)guid::guid(guid)).icompare(message.user)) return false;
+	//if (!((string)guid::guid(apikey)).icompare(message.apikey)) return false;
+	//if (!((string)guid::guid(guid)).icompare(message.user)) return false;
 
 	return true;
 }

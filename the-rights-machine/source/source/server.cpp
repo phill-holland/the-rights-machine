@@ -131,7 +131,8 @@ void server::listener::background(thread *bt)
 
 								if (parents.FQDN().icompare(task.message.items.FQDN()))
 								{
-									data::user user = c->configuration.users->get(task.message.user);
+									//data::user user = c->configuration.users->get(task.message.user);
+									/*
 									if (!user.isempty())
 									{
 										if(user.validate(task.message))
@@ -148,10 +149,11 @@ void server::listener::background(thread *bt)
 											{
 												if (c->configuration.requested != NULL)
 												{
-													if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
-													{
-														error(string("ALREADY_REQUESTED"));
-													}
+													
+													//if (!c->configuration.requested->add(::pending::waiting(task.message.guid, task.message.user)))
+													//{
+														//error(string("ALREADY_REQUESTED"));
+													//}
 												}
 
 												::data::response::response response;
@@ -167,6 +169,7 @@ void server::listener::background(thread *bt)
 
 									}
 									else error(string("INVALID_USER"));
+									*/
 								}
 							}
 							else if (get() == MODE::GET)
