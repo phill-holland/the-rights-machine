@@ -77,7 +77,9 @@ namespace server
 
 	protected:
 		MODE get();
-		void validate();
+		bool validate();
+		bool intent(char *source, int length, int &index);
+		bool heading(char *source, int length, int &index);
 
 	protected:
 		void goodbye();

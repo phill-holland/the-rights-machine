@@ -10,99 +10,36 @@ void server::listener::background(thread *bt)
 	if ((c->isopen()) && (!c->isError()))
 	{
 		int bytes = c->read(receiving, RECEIVING, 0);
-		for (int i = 0; i < bytes; ++i)
+		int index = 0, temp = 0;
+
+		if(request)
 		{
-			errors = 0L;
+			request = intent(receiving, bytes, index);
+			if(!request) header = true;
+		}
 
-			if (request)
+		if(header) 
+		{
+			header = heading(&receiving[index], bytes - index - 1, temp);
+			if(!header) 
 			{
-				if(!command.push(receiving[i]))
-				{
-					error(string("STRING_TOO_LONG"));
-				}
+				read_counter = 0;
+				outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
+				// PASS THIS INTO compute::Task
+				if(!validate()) error(string("HEADER"));
 
-				if (receiving[i] == 13) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 1))
-				{
-					h_index = 0;
-
-					request = false;
-					header = true;
-				}
+				// TASK.RESPONSE, overload with different type of output!!
+				// i.e. as a wrapper for outputter
 			}
-			else if (header)
-			{
-				if (receiving[i] == ':')
-				{
-					left = false;
-				}
-				else if ((receiving[i] != 13) && (receiving[i] != 10) && (receiving[i] != ' '))
-				{
-					if (left)
-					{
-						if(!label.push(receiving[i]))
-						{
-							error(string("STRING_TOO_LONG"));
-						}
-					}
-					else
-					{
-						if(!value.push(receiving[i]))
-						{
-							error(string("STRING_TOO_LONG"));
-						}
-					}
-				}
+			index += temp;
+		}
 
-				if ((receiving[i] == 13) || (receiving[i] == 10))
-				{
-					if(!label.isempty() || !value.isempty())
-					{
-						parameters.add(web::parameter((string)label, (string)value));
-					}
-
-					left = true;
-
-					label.clear();
-					value.clear();
-				}
-
-				if (receiving[i] == 13) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 1)) ++h_index;
-				else if ((receiving[i] == 13) && (h_index == 2)) ++h_index;
-				else if ((receiving[i] == 10) && (h_index == 3))
-				{
-					// ****
-					validate();
-					// ****
-
-					header = false;
-				}
-				else h_index = 0;
-			}
-			else
-			{
-				// need to check for double \r\n
-				if (read_counter++ >= content_length - 2)
-				{
-					string temp = outputter.get();
-					c->write(temp, 0);
-
-					// send response
-					// kill connection
-				}
-
-				if (get() == MODE::POST)
-				{
-				// need to check POST method
-				// ***
-					parser->write(&receiving[i], 1, ec);
-					if(ec == boost::json::error::extra_data) ++errors;
-				}
-				// END STREAM BASED ON CONTENT_LENGTH
-				// OR IF ALL TASKS FINISHED
-				// ***
-			}
+		if((!header)&&(!request))
+		{
+			int read = bytes - index - 1;			
+			int n = parser->write(&receiving[index], read, ec);
+			read_counter += n;
+			if(n != read) ++errors;
 		}
 
 		if ((bytes <= 0) && (++errors >= ERRORS))
@@ -111,14 +48,13 @@ void server::listener::background(thread *bt)
 			{
 				if (get() != MODE::NONE)
 				{
+					// GOODBYE STATE IS NOW WHEN FULL RESULTS RETURNED
 					goodbye();
 				}
 			}
 			else error(string("READ"));
 		}
 	}
-
-	//return (DWORD)0;
 }
 
 void server::listener::reset(client *source)
@@ -169,7 +105,7 @@ server::listener::MODE server::listener::get()
 	return MODE::NONE;
 }
 
-void server::listener::validate()
+bool server::listener::validate()
 {
 	//get first line of HTTP GET function - to determine which function was called
 	//determine if get or post!!!
@@ -181,16 +117,106 @@ void server::listener::validate()
 
 	string length = parameters.get(string("Content-Length"));
 	content_length = length.toLong();
-	read_counter = 0L;
+	//read_counter = 0L;
 
 	// check content_length isn't zero, isn't too big, isn't mismatch with the data
 	// check command is either POST or GET
 
 	left = true;
+//	outputter.clear();
 
-	outputter.clear();
+	if(get()==MODE::NONE) return false;
+
+	return content_length > 0;
 
 	//validate = false;
+}
+
+bool server::listener::intent(char *source, int length, int &index)
+{
+	errors = 0L;
+	for (int i = 0; i < length; ++i)
+	{
+		//errors = 0L;
+
+		if (request)
+		{
+			if(!command.push(receiving[i]))
+			{
+				error(string("STRING_TOO_LONG"));
+			}
+
+			if (receiving[i] == 13) ++h_index;
+			else if ((receiving[i] == 10) && (h_index == 1))
+			{
+				h_index = 0;
+				index = i + 1;
+				return false;
+				//request = false;
+				//header = true;
+			}
+		}
+	}
+
+	return true;
+}
+
+bool server::listener::heading(char *source, int length, int &index)
+{
+	errors = 0L;
+	for (int i = 0; i < length; ++i)
+	{
+		//errors = 0L;
+		char in = source[i];
+
+		if (in== ':')
+		{
+			left = false;
+		}
+		else if ((in != 13) && (in != 10) && (in != ' '))
+		{
+			if (left)
+			{
+				if(!label.push(in))
+				{
+					error(string("STRING_TOO_LONG"));
+				}
+			}
+			else
+			{
+				if(!value.push(in))
+				{
+					error(string("STRING_TOO_LONG"));
+				}
+			}
+		}
+
+		if ((in == 13) || (in == 10))
+		{
+			if(!label.isempty() || !value.isempty())
+			{
+				parameters.add(web::parameter((string)label, (string)value));
+			}
+
+			left = true;
+
+			label.clear();
+			value.clear();
+		}
+
+		if (in == 13) ++h_index;
+		else if ((in == 10) && (h_index == 1)) ++h_index;
+		else if ((in == 13) && (h_index == 2)) ++h_index;
+		else if ((in == 10) && (h_index == 3))
+		{
+			//validate();
+			index = i + 1;		
+			return false;
+		}
+		else h_index = 0;
+	}
+
+	return true;
 }
 
 void server::listener::goodbye()

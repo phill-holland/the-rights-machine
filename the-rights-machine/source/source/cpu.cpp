@@ -77,6 +77,7 @@ void compute::cpu::processor::push(::compute::task &task)
 	{
 		data::line::line source = task.message.lines[i];
 
+//source.output();
 		// ***
 		// if no query generate ERROR, somewhere
 		// ***
@@ -99,6 +100,7 @@ void compute::cpu::processor::push(::compute::task &task)
 							for (long l = 0L; l < (long)result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
+								inputs[input_ptr-1].output();
 							}
 						}
 					}

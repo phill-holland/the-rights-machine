@@ -1,6 +1,7 @@
 #include "line.h"
 #include "log.h"
 #include <tuple>
+#include <iostream>
 
 void data::line::line::clear()
 {
@@ -39,6 +40,7 @@ void data::line::line::output()
 	result += string::fromInt(exclusivityID);
 	result += "}\r\n";
 
+	std::cout << result;
 	Log << result;
 }
 

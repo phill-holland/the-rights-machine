@@ -2,7 +2,7 @@
 #include "header.h"
 #include "log.h"
 
-#include <iostream>
+//#include <iostream>
 
 void data::message::message::reset()
 {
@@ -29,7 +29,7 @@ void data::message::message::reset()
 	for (long i = 0L; i < 15L; ++i)
 	{
 		hash[identifiers[i]->FQDN()] = identifiers[i];
-		std::cout << identifiers[i]->FQDN() << "\n";
+		//std::cout << identifiers[i]->FQDN() << "\n";
 	}
 
 	queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
@@ -100,9 +100,10 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 			unsigned long offset = (map[lineID] * max_components) + componentID;
 			if (offset < total)
 			{
-				#warning argh
+				//#warning argh
 				rows[offset]->set(elements.map(element.value));
-				//rows[offset]->set(compute::header(messageID, itemID, lineID, componentID));
+				compute::header temp(messageID, itemID, lineID, componentID);
+				rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
 			}
 		}
 	}

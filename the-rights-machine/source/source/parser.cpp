@@ -15,7 +15,7 @@ bool parser::parser::handler::on_object_begin(boost::json::error_code&)
 bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code&)
 { 
     params->key.clear();
-
+    std::cout << "end " << params->parents.FQDN() << "\n";
     queue::base *b = params->task.message.findQ(params->parents.FQDN());
     if (b != NULL) b->flush();
 
@@ -85,7 +85,7 @@ bool parser::parser::handler::on_int64(std::int64_t value, boost::json::string_v
 
 std::size_t parser::parser::write(char const* data, std::size_t size, boost::json::error_code& ec)
 {
-    auto const n = p.write_some( false, data, size, ec );
+    auto const n = p.write_some(true, data, size, ec );
     if(! ec && n < size)
     {
         ec = boost::json::error::extra_data;

@@ -37,7 +37,7 @@
 					{
 						"start" : "2018-01-01",
 						"end" : "2019-01-01",
-						"exclusivity" : "exclusive",
+						"exclusivity" : 0,
 						"type" : 0,
 						"components" :
 						[
@@ -64,7 +64,7 @@
 					{
 						"start" : "2018-06-01",
 						"end" : "2019-08-01",
-						"exclusivity" : "non-exclusive",
+						"exclusivity" : 0,
 						"type" : 1,
 						"components" :
 						[
