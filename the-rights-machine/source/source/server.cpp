@@ -24,7 +24,7 @@ void server::listener::background(thread *bt)
 			if(!header) 
 			{
 				read_counter = 0;
-				outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
+				//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
 				// PASS THIS INTO compute::Task
 				if(!validate()) error(string("HEADER"));
 
@@ -66,7 +66,7 @@ void server::listener::reset(client *source)
 	if(c->configuration.responses == NULL) return;
 	if(c->configuration.manager == NULL) return;
 
-	parser = new parser::parser(c->configuration.manager, c->configuration.responses);
+	parser = new parser::parser(c->configuration.manager, c->configuration.responses, c);
 	if(parser == NULL) return;
 	
 	clear();
@@ -230,11 +230,11 @@ void server::listener::error(string error)
 	::error::error err(error);
 	c->makeError(err);
 
-	outputter.clear();
-	::error::type::type type = c->configuration.errors->lookup(err);
-	outputter.set(&type);
-	string temp = outputter.get();
-	c->write(temp, 0);
+	//outputter.clear();
+	//::error::type::type type = c->configuration.errors->lookup(err);
+	//outputter.set(&type);
+	//string temp = outputter.get();
+	//c->write(temp, 0);
 
 	clear();
 }
@@ -481,6 +481,42 @@ void server::client::shutdown()
 {
 	stopAndWait();
 	close();
+}
+
+void server::client::notify_in(guid::guid identity)
+{
+// mutex lock
+// ++in;
+}
+
+void server::client::notify_out(guid::guid identity)
+{
+	// need to return JSON array, srround with [ ]
+
+	// count number of items sent to CPU;  add another "outNotificationEvent"
+	// only finish when output number matches input
+	if ((isopen()) && (!isError()))
+	{
+		if(configuration.responses != NULL)
+		{
+			string temp = identity.get();
+			data::response::response value = configuration.responses->find(temp);
+			if(value.guid == identity)
+			{
+				string data = value.extract();
+				
+				mutex lock(token);
+
+				if(write(data, 0) != data.length()) 
+				{ 
+					error::error err(string("WRITE"));
+					makeError(err);
+				}
+				// ++out;
+				configuration.responses->remove(temp);	
+			}
+		}		
+	}
 }
 
 void server::client::makeNull()

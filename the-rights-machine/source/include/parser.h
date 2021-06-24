@@ -8,6 +8,7 @@
 #include "pair.h"
 #include "crumbs.h"
 #include "task.h"
+#include "notification.h"
 #include "manager.h"
 
 #if !defined(__PARSER)
@@ -22,16 +23,20 @@ namespace parser
         public:
             manager::manager *manager;
             custom::chain<data::response::response> *responses;
+            notification::notification *notify;
             compute::task task;            
             crumbs::crumbs parents;
             
             string key;
 
         public:
-            parameters(manager::manager *manager, custom::chain<data::response::response> *responses)
+            parameters(manager::manager *manager, 
+                       custom::chain<data::response::response> *responses,
+                       notification::notification *notify)
             {
                 this->manager = manager;
                 this->responses = responses;
+                this->notify = notify;
 
                 clear();
             }
@@ -82,7 +87,9 @@ namespace parser
         parameters params;
 
     public:
-        parser(manager::manager *manager, custom::chain<data::response::response> *responses) : params(manager, responses), p(boost::json::parse_options(), &params) { }
+        parser(manager::manager *manager, 
+               custom::chain<data::response::response> *responses,
+               notification::notification *notify) : params(manager, responses, notify), p(boost::json::parse_options(), &params) { }
         ~parser() { }
 
         void clear() { params.clear(); }

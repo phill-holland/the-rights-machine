@@ -174,15 +174,20 @@ void compute::cpu::processor::push(::compute::task &task)
 			in->AND(*query);
 			bool result = in->compare(*query);
 
-			data::response::response response;
-			//response.queryID = q.queryID;
-			response.guid = task.message.guid;
-			//response.user = task.message.user;
-			response.available = result;
-			response.created = datetime::now();
+			if(task.response != NULL)
+			{
+				data::response::response response;
 
-			task.response->set(response);
+				//response.queryID = q.queryID;
+				response.guid = task.message.guid;
+				//response.user = task.message.user;
+				response.available = result;
+				response.created = datetime::now();
 
+				task.response->set(response);
+			}
+
+			if(task.notify != NULL) task.notify->notify_out(task.message.guid);
 			// need to validate query components is same as message.components.maximum()
 			offset += task.message.components.maximum();
 		}

@@ -14,6 +14,7 @@
 #include "pending.h"
 #include "error.h"
 #include "output.h"
+#include "notification.h"
 
 #if !defined(__SERVER)
 #define __SERVER
@@ -52,7 +53,7 @@ namespace server
 		long content_length;
 		long read_counter;
 
-		output::output outputter;
+		//output::output outputter;
 
 		parser::parser *parser;
 
@@ -90,7 +91,7 @@ namespace server
 		void cleanup() { if (parser != NULL) delete parser; }
 	};
 
-	class client : public ::wsock::client
+	class client : public ::wsock::client, notification::notification
 	{
 		/*
 	public:
@@ -199,6 +200,10 @@ namespace server
 		::error::error lastError() { return lastErrorCode; }
 
 		void shutdown();
+
+	public:
+		void notify_in(guid::guid identity);
+		void notify_out(guid::guid identity);
 
 	public:
 		string identifier() { return string("server::client"); }

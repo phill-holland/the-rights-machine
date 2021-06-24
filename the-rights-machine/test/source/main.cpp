@@ -21,6 +21,8 @@ TEST(JsonCustomStream, BasicAssertions)
 
 TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 {
+	// BODY.JSON should return not available.
+	
 	// add to launch.json for debugging breakpoints OK
 	// set CWD so that data is loaded correctly OK
 	// create configuration.json
@@ -52,6 +54,11 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	// load body file
 	// issue http query
 }
+
+// 15 component test
+// multiple programme test
+// not aviable first test
+// second available test
 
 /*
 TEST(DateComparionsTests, BasicAssertions)
