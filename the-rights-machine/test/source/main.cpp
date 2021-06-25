@@ -35,7 +35,7 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 
 	long port = 5454;
 
-	test::client client(string("test/data/body.json"));
+	test::client client(string("test/data/basicUnavailable.json"));
 	EXPECT_TRUE(client.initalised());
 
 	messaging::memory::memory messaging;
@@ -45,11 +45,11 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(starter.initalised());
 	EXPECT_TRUE(starter.start());
 	// sleep here??
-	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+	//std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
 	client.post("http://127.0.0.1", port);
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(15000));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(15000));
 
 	// load body file
 	// issue http query

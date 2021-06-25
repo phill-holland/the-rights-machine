@@ -4,6 +4,7 @@
 void data::response::response::clear()
 {
 	guid = string("");
+	//name = string("");
 	user = string("");
 	status = STATUS::OK;
 	//queryID = 0;
@@ -21,6 +22,7 @@ custom::pair data::response::response::pull(unsigned long index)
 	custom::pair result;
 
 	if (index == 0UL) result = custom::pair(string("GUID"), guid);
+	//else if (index == 1UL) result = custom::pair(string("name"), name);
 	else if (index == 1UL) result = custom::pair(string("status"), map(status));
 	else if (index == 2UL) result = custom::pair(string("available"), available == true ? string("true") : string("false"));
 	else if (index == 3UL) result = custom::pair(string("created"), (string)created);

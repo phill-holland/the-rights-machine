@@ -169,6 +169,8 @@ namespace server
 		::error::error lastErrorCode;
 		bool isInExit, isInError;
 
+		int in, out;
+		
 		bool init;
 
 	public:
@@ -209,7 +211,8 @@ namespace server
 
 	protected:
 		bool startResponse();
-		
+		bool endResponse();
+
 	//protected:
 	//	bool removeFromPending(long id);
 

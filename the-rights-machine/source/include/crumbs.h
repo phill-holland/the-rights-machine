@@ -32,6 +32,8 @@ namespace crumbs
 
 		string FQDN(string label = "");
 
+		unsigned long size() { return depth; }
+
 	protected:
 		void makeNull();
 		void cleanup();

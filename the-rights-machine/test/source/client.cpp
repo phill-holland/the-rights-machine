@@ -38,6 +38,11 @@ bool test::client::post(string url, long port)
     
     bool result = cli.post(&destination, &page);
 
+    std::cout << destination.data() << "\n";
+// decode destination page into responses
+// put into std::vector
+// streaming output!
+// cli.post(include parser for result)
     //std::cout << destination.data();
     return result;
 }

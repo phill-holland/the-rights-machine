@@ -73,6 +73,8 @@ void compute::cpu::processor::push(::compute::task &task)
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
 
+std::cout << task.message.lines.count() << " " << task.message.items.count() << "\n";
+std::cout << task.message.queries.count() << " " << task.message.components.count() << "\n";
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
 		data::line::line source = task.message.lines[i];
@@ -100,7 +102,7 @@ void compute::cpu::processor::push(::compute::task &task)
 							for (long l = 0L; l < (long)result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
-								inputs[input_ptr-1].output();
+								//inputs[input_ptr-1].output();
 							}
 						}
 					}
@@ -180,6 +182,7 @@ void compute::cpu::processor::push(::compute::task &task)
 
 				//response.queryID = q.queryID;
 				response.guid = task.message.guid;
+				//response.name = task.message.items[0].name;
 				//response.user = task.message.user;
 				response.available = result;
 				response.created = datetime::now();

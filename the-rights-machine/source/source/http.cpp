@@ -212,7 +212,10 @@ bool http::client::client::issue(string command,
 					bool data = false, finished = false;
 					char previous = 0;
 					long bytestoread = 0L;
+					//bool no_more_data = false;
 
+					//do
+					//{
 					do
 					{
 						string chunk;
@@ -241,30 +244,34 @@ bool http::client::client::issue(string command,
 							else ++error;
 						} while ((t > 0) && (error < 10) && (!finished));
 
-						bytestoread = chunk.toLongFromHex();
-
-						if (bytestoread > 0L)
+						if(t > 0)
 						{
-							running_total += bytestoread;
-							long remaining = bytestoread;
-							error = 0; t = 0;
-							do
+							bytestoread = chunk.toLongFromHex();
+
+							if (bytestoread > 0L)
 							{
-								long bufsize = receive_length;
-								if (remaining < receive_length) bufsize = remaining;
-
-								if (!addr.secure)t = ::wsock::client::read(receive, bufsize, 0);
-								else t = ssl::read(receive, bufsize);
-
-								if (t > 0)
+								running_total += bytestoread;
+								long remaining = bytestoread;
+								error = 0; t = 0;
+								do
 								{
-									actual_total += (long)t;
-									remaining -= (long)t;
-									destination->body->concat(receive, t);
-								}
-								else ++error;
-							} while ((t > 0) && (remaining > 0) && (error < 10));
+									long bufsize = receive_length;
+									if (remaining < receive_length) bufsize = remaining;
+
+									if (!addr.secure)t = ::wsock::client::read(receive, bufsize, 0);
+									else t = ssl::read(receive, bufsize);
+
+									if (t > 0)
+									{
+										actual_total += (long)t;
+										remaining -= (long)t;
+										destination->body->concat(receive, t);
+									}
+									else ++error;
+								} while ((t > 0) && (remaining > 0) && (error < 10));
+							}
 						}
+						
 					} while (bytestoread > 0L);
 				}
 			}

@@ -12,52 +12,60 @@ void server::listener::background(thread *bt)
 		int bytes = c->read(receiving, RECEIVING, 0);
 		int index = 0, temp = 0;
 
-		if(request)
+		if(bytes > 0)
 		{
-			request = intent(receiving, bytes, index);
-			if(!request) header = true;
-		}
-
-		if(header) 
-		{
-			header = heading(&receiving[index], bytes - index - 1, temp);
-			if(!header) 
+			if(request)
 			{
-				read_counter = 0;
-				//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
-				// PASS THIS INTO compute::Task
-				if(!validate()) error(string("HEADER"));
-				if(!c->startResponse()) error(string("RESPONSE"));
-
-				// TASK.RESPONSE, overload with different type of output!!
-				// i.e. as a wrapper for outputter
+				request = intent(receiving, bytes, index);
+				if(!request) header = true;
 			}
-			index += temp;
-		}
 
-		if((!header)&&(!request))
-		{
-			int read = bytes - index - 1;			
-			int n = parser->write(&receiving[index], read, ec);
-			read_counter += n;
-			if(n != read) ++errors;
-		}
-
-		if ((bytes <= 0) && (++errors >= ERRORS))
-		{
-			if (read_counter >= content_length - 2)
+			if(header) 
 			{
+				header = heading(&receiving[index], bytes - index - 1, temp);
+				if(!header) 
+				{
+					read_counter = 0;
+					//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
+					// PASS THIS INTO compute::Task
+					if(!validate()) error(string("HEADER"));
+					if(!c->startResponse()) error(string("RESPONSE"));
+
+					// TASK.RESPONSE, overload with different type of output!!
+					// i.e. as a wrapper for outputter
+				}
+				index += temp;
+			}
+
+			if((!header)&&(!request))
+			{
+				int read = bytes - index - 1;			
+				int n = parser->write(&receiving[index], read, ec);
+				read_counter += n;
+				if(n != read) ++errors;
+
+				if((read_counter >= content_length - 1)&&(c->in == c->out))
+				{
+					c->endResponse();
+					goodbye();
+				}
+			}
+		}
+		//if ((bytes <= 0) && (++errors >= ERRORS))
+		//{
+			//if (read_counter >= content_length - 2)
+			//{
 				// ***
 				// if(in==out)
 				// ***
 				//if (get() != MODE::NONE)
 				//{
 					// GOODBYE STATE IS NOW WHEN FULL RESULTS RETURNED
-					goodbye();
+					//goodbye();
 				//}
-			}
-			else error(string("READ"));
-		}
+			//}
+			//else error(string("READ"));
+		//}
 	}
 }
 
@@ -416,6 +424,9 @@ void server::client::clear()
 	statuses.reset();
 	resetError();
 	resetExit();
+
+	in = 0;
+	out = 0;
 }
 
 bool server::client::start()
@@ -489,12 +500,14 @@ void server::client::shutdown()
 
 void server::client::notifyIn(guid::guid identity)
 {
+	++in;
 // mutex lock
 // ++in;
 }
 
 void server::client::notifyOut(guid::guid identity)
 {
+	//++out;
 	// need to return JSON array, srround with [ ]
 
 	// count number of items sent to CPU;  add another "outNotificationEvent"
@@ -508,6 +521,8 @@ void server::client::notifyOut(guid::guid identity)
 			if(value.guid == identity)
 			{
 				string data = value.extract();
+				if(in != out + 1) data.concat(string(","));
+				data.concat(string("\r\n"));
 				string output = string::toHex(data.length());
 				output.concat(string("\r\n"));
 				output.concat(data);
@@ -519,7 +534,7 @@ void server::client::notifyOut(guid::guid identity)
 					error::error err(string("WRITE"));
 					makeError(err);
 				}
-				// ++out;
+				++out;
 				configuration.responses->remove(temp);	
 			}
 		}		
@@ -531,6 +546,26 @@ bool server::client::startResponse()
 	string result = "HTTP/1.1 200 OK\r\n";			
 	result += "Transfer-Encoding: chunked\r\n";
 	result += "Content-Type: application/json\r\n\r\n";
+	
+	string data("{\"responses\":[\r\n");
+
+	string length = string::toHex(data.length());
+	length.concat(string("\r\n"));
+	result.concat(length);
+	result.concat(data);
+
+	if(write(result, 0) != result.length()) return false;
+
+	return true;
+}
+
+bool server::client::endResponse()
+{
+	string data = "]}\r\n";
+	string result = string::toHex(data.length());
+	result.concat(string("\r\n"));
+	result.concat(data);
+	result.concat(string("0\r\n"));
 
 	if(write(result, 0) != result.length()) return false;
 
