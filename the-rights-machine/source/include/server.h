@@ -201,13 +201,15 @@ namespace server
 
 		void shutdown();
 
-	public:
-		void notify_in(guid::guid identity);
-		void notify_out(guid::guid identity);
-
-	public:
 		string identifier() { return string("server::client"); }
 
+	public:
+		void notifyIn(guid::guid identity);
+		void notifyOut(guid::guid identity);
+
+	protected:
+		bool startResponse();
+		
 	//protected:
 	//	bool removeFromPending(long id);
 

@@ -28,7 +28,7 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
         params->task.response = params->responses;
         params->task.notify = params->notify;
 
-        if (params->notify != NULL) params->notify->notify_in(g);
+        if (params->notify != NULL) params->notify->notifyIn(g);
         if (!params->manager->set(params->task)) return false;
 
         params->task.message.clear();

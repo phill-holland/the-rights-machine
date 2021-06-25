@@ -8,8 +8,8 @@ namespace notification
     class notification
     {
     public:
-        virtual void notify_in(guid::guid identity) = 0;
-        virtual void notify_out(guid::guid identity) = 0;
+        virtual void notifyIn(guid::guid identity) = 0;
+        virtual void notifyOut(guid::guid identity) = 0;
     };
 };
 

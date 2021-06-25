@@ -187,7 +187,7 @@ void compute::cpu::processor::push(::compute::task &task)
 				task.response->set(response);
 			}
 
-			if(task.notify != NULL) task.notify->notify_out(task.message.guid);
+			if(task.notify != NULL) task.notify->notifyOut(task.message.guid);
 			// need to validate query components is same as message.components.maximum()
 			offset += task.message.components.maximum();
 		}

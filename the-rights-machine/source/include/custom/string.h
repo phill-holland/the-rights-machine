@@ -78,6 +78,7 @@ public:
 	static string fromInt(int source);
 	static string fromBool(bool source);
 	static string fromTime(time_t source);
+	static string toHex(int source);
 
 public:
 	bool operator==(const string &source);

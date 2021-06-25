@@ -3,6 +3,7 @@
 #include <memory.h>
 #include <random>
 #include <cstring>
+#include <iomanip>
 
 char base64[] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" };
 
@@ -697,6 +698,13 @@ string string::fromTime(time_t source)
 	result.concat(string::fromInt(now.tm_sec));
 
 	return result;
+}
+
+string string::toHex(int source)
+{
+	std::stringstream stream;
+	stream << std::hex << source;
+	return string(stream.str());
 }
 
 bool string::operator==(const string &source)

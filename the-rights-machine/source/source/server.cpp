@@ -27,6 +27,7 @@ void server::listener::background(thread *bt)
 				//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
 				// PASS THIS INTO compute::Task
 				if(!validate()) error(string("HEADER"));
+				if(!c->startResponse()) error(string("RESPONSE"));
 
 				// TASK.RESPONSE, overload with different type of output!!
 				// i.e. as a wrapper for outputter
@@ -46,11 +47,14 @@ void server::listener::background(thread *bt)
 		{
 			if (read_counter >= content_length - 2)
 			{
-				if (get() != MODE::NONE)
-				{
+				// ***
+				// if(in==out)
+				// ***
+				//if (get() != MODE::NONE)
+				//{
 					// GOODBYE STATE IS NOW WHEN FULL RESULTS RETURNED
 					goodbye();
-				}
+				//}
 			}
 			else error(string("READ"));
 		}
@@ -483,13 +487,13 @@ void server::client::shutdown()
 	close();
 }
 
-void server::client::notify_in(guid::guid identity)
+void server::client::notifyIn(guid::guid identity)
 {
 // mutex lock
 // ++in;
 }
 
-void server::client::notify_out(guid::guid identity)
+void server::client::notifyOut(guid::guid identity)
 {
 	// need to return JSON array, srround with [ ]
 
@@ -504,10 +508,13 @@ void server::client::notify_out(guid::guid identity)
 			if(value.guid == identity)
 			{
 				string data = value.extract();
-				
+				string output = string::toHex(data.length());
+				output.concat(string("\r\n"));
+				output.concat(data);
+
 				mutex lock(token);
 
-				if(write(data, 0) != data.length()) 
+				if(write(output, 0) != output.length()) 
 				{ 
 					error::error err(string("WRITE"));
 					makeError(err);
@@ -517,6 +524,17 @@ void server::client::notify_out(guid::guid identity)
 			}
 		}		
 	}
+}
+
+bool server::client::startResponse()
+{
+	string result = "HTTP/1.1 200 OK\r\n";			
+	result += "Transfer-Encoding: chunked\r\n";
+	result += "Content-Type: application/json\r\n\r\n";
+
+	if(write(result, 0) != result.length()) return false;
+
+	return true;
 }
 
 void server::client::makeNull()
