@@ -1,6 +1,7 @@
 #include "grid.h"
 #include "log.h"
 #include <cstring>
+#include <iostream>
 
 void compute::cpu::grid::reset(unsigned long width, unsigned long height)
 {
@@ -112,27 +113,39 @@ bool compute::cpu::grid::push(::compute::common::row *source)
 	return true;
 }
 
-void compute::cpu::grid::output()
+string compute::cpu::grid::output()
 {
+	string result;
+
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
 		if (!headers[i]->isempty())
 		{
-			string result = headers[i]->serialize();
+			result.concat(headers[i]->serialize());
 
-			result += ",\"row\":{";
-			if (data[0] > 0) result += "\"0\":1";
+			result.concat(string(",\"row\":{"));
+			if (data[0] > 0) result.concat(string("\"0\":1"));
 
 			for (unsigned long j = 1UL; j < width; ++j)
 			{
-				if (data[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
+				if (data[j] > 0) 
+				{
+					result.concat(string(",\""));
+					result.concat(string::fromInt((int)j));
+					result.concat(string("\":1"));
+				}
 			}
 
-			result += "}";
+			//result += "}";
+			result.concat(string("}\r\n"));
 
-			Log << result << "\r\n";
+			//std::cout << result;
+
+			//Log << result << "\r\n";
 		}
 	}
+
+	return result;
 }
 
 void compute::cpu::grid::makeNull()

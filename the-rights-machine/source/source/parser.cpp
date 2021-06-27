@@ -16,16 +16,17 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
 { 
     params->key.clear();
     std::cout << "end " << params->parents.FQDN() << "\n";
-    std::cout << params->parents.size() << "\n";
+    //std::cout << params->parents.size() << "\n";
     queue::base *b = params->task.message.findQ(params->parents.FQDN());
     if (b != NULL) 
     {
-       // std::cout << "FLUSH\n";
+       std::cout << "FLUSH\n";
         b->flush();
     }
 
     if(params->parents.FQDN().icompare(params->task.message.items.FQDN()))
     {
+        params->task.message.output();
         guid::guid g;
         
         params->task.message.guid = g.get();
@@ -55,13 +56,13 @@ bool parser::parser::handler::on_array_end(std::size_t, boost::json::error_code&
 {
     params->key.clear();
 
-std::cout << "array end " << params->parents.FQDN() << "\n";
-std::cout << params->parents.size() << "\n";
-    queue::base *b = params->task.message.findQ(params->parents.FQDN());
-    if (b != NULL) 
-    {
+//std::cout << "array end " << params->parents.FQDN() << "\n";
+//std::cout << params->parents.size() << "\n";
+   // queue::base *b = params->task.message.findQ(params->parents.FQDN());
+    //if (b != NULL) 
+    //{
        // b->flush();
-    }
+    //}
 
     return params->parents.pop();
 }

@@ -2,15 +2,15 @@
 
 void compute::header::clear()
 {
-	messageID = 0;
-	itemID = 0;
-	lineID = 0;
-	componentID = 0;
+	messageID = -1;
+	itemID = -1;
+	lineID = -1;
+	componentID = -1;
 }
 
 bool compute::header::isempty()
 {
-	return ((messageID == 0) && (itemID == 0) && (lineID == 0) && (componentID == 0));
+	return ((messageID == -1) && (itemID == -1) && (lineID == -1) && (componentID == -1));
 }
 
 string compute::header::serialize()

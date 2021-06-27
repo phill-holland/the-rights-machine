@@ -154,7 +154,7 @@ namespace server
 			bool setPendingToFinished(long identity);
 			bool setFinishedToIdle(long identity);
 
-			void output();
+			string output();
 		};
 
 		friend class listener;

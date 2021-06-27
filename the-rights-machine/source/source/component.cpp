@@ -26,17 +26,18 @@ void data::component::line::component::copy(component const &source)
 	name = source.name;
 }
 
-void data::component::line::component::output()
+string data::component::line::component::output()
 {
-	string result = "\"component\" : {\"componentID\" : ";
-	result += string::fromInt(componentID);
-	result += ", \"lineID\" : ";
-	result += string::fromInt(lineID);
-	result += ", \"name\" : \"";
-	result += name;
-	result += "\"}\r\n";
+	string result("\"component\" : {\"componentID\" : ");
+	result.concat(string::fromInt(componentID));
+	result.concat(string(", \"lineID\" : "));
+	result.concat(string::fromInt(lineID));
+	result.concat(string(", \"name\" : \""));
+	result.concat(name);
+	result.concat(string("\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }
 
 void data::component::query::component::clear()
@@ -64,15 +65,16 @@ void data::component::query::component::copy(component const &source)
 	name = source.name;
 }
 
-void data::component::query::component::output()
+string data::component::query::component::output()
 {
-	string result = "\"component\" : {\"componentID\" : ";
-	result += string::fromInt(componentID);
-	result += ", \"queryID\" : ";
-	result += string::fromInt(queryID);
-	result += ", \"name\" : \"";
-	result += name;
-	result += "\"}\r\n";
+	string result("\"component\" : {\"componentID\" : ");
+	result.concat(string::fromInt(componentID));
+	result.concat(string(", \"queryID\" : "));
+	result.concat(string::fromInt(queryID));
+	result.concat(string(", \"name\" : \""));
+	result.concat(name);
+	result.concat(string("\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }

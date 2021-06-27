@@ -33,7 +33,7 @@ namespace data
 		void copy(user const &source);
 
 	public:
-		void output();
+		string output();
 
 	public:
 		user& operator=(const user& source)

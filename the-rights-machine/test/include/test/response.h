@@ -1,5 +1,5 @@
-#include "json.h"
 #include "custom/string.h"
+#include "datetime.h"
 #include "comparison.h"
 #include <unordered_map>
 
@@ -10,27 +10,20 @@ namespace tests
 {
 	namespace data
 	{
-		class response : public ::data::json::request::json
-		{
-			std::unordered_map<string, json *, comparison::hasher, comparison::equality> hash;
+		using namespace global;
 
+		class response
+		{
 		public:
 			string GUID;
-
+			string status;
+			string available;
+			datetime created;
+			
 		public:
-			response();
-
-		public:
-			bool add(custom::pair source);
-
-			int identity() { return 0; }
-			void clear()  { }
-			string identifier() { return string("response"); }
-
-		public:
-			json *find(string FQDN);
+			response() { }
 		};
-	};
+	};	
 };
 
 #endif

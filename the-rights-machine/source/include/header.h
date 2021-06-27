@@ -14,7 +14,7 @@ namespace compute
 		int componentID;
 
 	public:
-		header(int messageID = 0, int itemID = 0, int lineID = 0, int componentID = 0) 
+		header(int messageID = -1, int itemID = -1, int lineID = -1, int componentID = -1) 
 		{ 
 			this->messageID = messageID;
 			this->itemID = itemID;

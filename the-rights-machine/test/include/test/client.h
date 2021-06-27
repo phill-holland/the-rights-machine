@@ -6,7 +6,7 @@ namespace test
 {
     class client
     {
-        web::page page;
+        web::page source;
         http::client::client cli;
 
         char *buffer;
@@ -19,7 +19,7 @@ namespace test
         bool initalised() { return init; }
         void reset(string filename);
 
-        bool post(string url, long port);
+        bool post(string url, long port, web::page *destination);
 
     protected:
         void makeNull();

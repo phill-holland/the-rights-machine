@@ -26,15 +26,16 @@ void data::element::element::copy(element const &source)
 	value = source.value;
 }
 
-void data::element::element::output()
+string data::element::element::output()
 {
-	string result = "\"element\" : {\"elementID\" : ";
-	result += string::fromInt(elementID);
-	result += ", \"componentID\" : ";
-	result += string::fromInt(componentID);
-	result += ", \"value\" : \"";
-	result += value;
-	result += "\"}\r\n";
+	string result("\"element\" : {\"elementID\" : ");
+	result.concat(string::fromInt(elementID));
+	result.concat(string(", \"componentID\" : "));
+	result.concat(string::fromInt(componentID));
+	result.concat(string(", \"value\" : \""));
+	result.concat(value);
+	result.concat(string("\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }

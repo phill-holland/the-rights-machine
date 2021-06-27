@@ -52,7 +52,7 @@ namespace data
 			void copy(query const &source);
 
 		public:
-			void output();
+			string output();
 
 		public:
 			string identifier() { return string("QUERY"); }

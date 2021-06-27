@@ -34,7 +34,7 @@ namespace data
 			void copy(request const &source);
 
 		public:
-			void output();
+			string output();
 
 		public:
 			string identifier() { return string("REQUEST"); }

@@ -43,25 +43,26 @@ void data::user::copy(user const &source)
 	verified = source.verified;
 }
 
-void data::user::output()
+string data::user::output()
 {
-	string result = "\"user\" : {\"userID\" : ";
-	result += string::fromInt(userID);
-	result += ", \"username\" : ";
-	result += username;
-	result += ", \"email\" : \"";
-	result += email;
-	result += ", \"apikey\" : \"'";
-	result += (string)guid::guid(apikey);
-	result += "', \"guid\" : \"'";
-	result += (string)guid::guid(guid);
-	result += "', \"active\" : \"";
-	result += string::fromBool(active);
-	result += ", \"banned\" : \"";
-	result += string::fromBool(banned);
-	result += ", \"verified\" : \"";
-	result += string::fromBool(verified);
-	result += "\"}\r\n";
+	string result("\"user\" : {\"userID\" : ");
+	result.concat(string::fromInt(userID));
+	result.concat(string(", \"username\" : "));
+	result.concat(username);
+	result.concat(string(", \"email\" : \""));
+	result.concat(email);
+	result.concat(string(", \"apikey\" : \"'"));
+	result.concat((string)guid::guid(apikey));
+	result.concat(string("', \"guid\" : \"'"));
+	result.concat((string)guid::guid(guid));
+	result.concat(string("', \"active\" : \""));
+	result.concat(string::fromBool(active));
+	result.concat(string(", \"banned\" : \""));
+	result.concat(string::fromBool(banned));
+	result.concat(string(", \"verified\" : \""));
+	result.concat(string::fromBool(verified));
+	result.concat(string("\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }

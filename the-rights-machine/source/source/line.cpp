@@ -23,25 +23,26 @@ void data::line::line::copy(line const &source)
 	typeID = source.typeID;
 }
 
-void data::line::line::output()
+string data::line::line::output()
 {
-	string result = "\"line\" : {";
-	result += "\"start\" : \"";
-	result += (string)start;
-	result += "\", \"end\" : \"";
-	result += (string)end;
-	result += "\", \"lineID\" : ";
-	result += string::fromInt(lineID);
-	result += ", \"itemID\" : ";
-	result += string::fromInt(itemID);
-	result += ", \"typeID\" : ";
-	result += string::fromInt(typeID);
-	result += ", \"exclusivityID\" : ";
-	result += string::fromInt(exclusivityID);
-	result += "}\r\n";
+	string result("\"line\" : {");
+	result.concat(string("\"start\" : \""));
+	result.concat((string)start);
+	result.concat(string("\", \"end\" : \""));
+	result.concat((string)end);
+	result.concat(string("\", \"lineID\" : "));
+	result.concat(string::fromInt(lineID));
+	result.concat(string(", \"itemID\" : "));
+	result.concat(string::fromInt(itemID));
+	result.concat(string(", \"typeID\" : "));
+	result.concat(string::fromInt(typeID));
+	result.concat(string(", \"exclusivityID\" : "));
+	result.concat(string::fromInt(exclusivityID));
+	result.concat(string("}\r\n"));
 
-	std::cout << result;
-	Log << result;
+	return result;
+	//std::cout << result;
+	//Log << result;
 }
 
 data::line::line data::line::line::spawn(datetime &start, datetime &end)

@@ -43,12 +43,16 @@ void server::listener::background(thread *bt)
 				int n = parser->write(&receiving[index], read, ec);
 				read_counter += n;
 				if(n != read) ++errors;
+			}
+		}
 
-				if((read_counter >= content_length - 1)&&(c->in == c->out))
-				{
-					c->endResponse();
-					goodbye();
-				}
+		// ***
+		if((!header)&&(!request))
+		{			
+			if((read_counter >= content_length - 1)&&(c->in == c->out))
+			{
+				c->endResponse();
+				goodbye();
 			}
 		}
 		//if ((bytes <= 0) && (++errors >= ERRORS))
@@ -382,22 +386,24 @@ bool server::client::states::setFinishedToIdle(long identity)
 	return false;
 }
 
-void server::client::states::output()
+string server::client::states::output()
 {
-	string result = string("\r\nServer) ");
+	string result("\r\nServer) ");
 	for (long i = 0L; i < MAX; ++i)
 	{
-		result.concat("[(");
+		result.concat(string("[("));
 		result.concat(string::fromInt(i));
-		result.concat(") ");
-		if (children[i].isIdle()) result.concat("Idle");
-		else if (children[i].isPending()) result.concat("Pending");
-		else if (children[i].isReady()) result.concat("Ready");
-		else if (children[i].isFinished()) result.concat("Finished");
-		result.concat("]");
+		result.concat(string(") "));
+		if (children[i].isIdle()) result.concat(string("Idle"));
+		else if (children[i].isPending()) result.concat(string("Pending"));
+		else if (children[i].isReady()) result.concat(string("Ready"));
+		else if (children[i].isFinished()) result.concat(string("Finished"));
+		result.concat(string("]"));
 	}
-	result.concat("\r\n");
-	Log << result;
+	result.concat(string("\r\n"));
+
+	return result;
+	//Log << result;
 }
 
 void server::client::reset(configuration::server::client::configuration &configuration)
@@ -610,14 +616,27 @@ void server::watchdog::background(thread *bt)
 		{
 			::error::error lastError = s->clients[i]->lastError();
 
-			s->output(string("Server detected client [") << i << "] in error(" << (lastError.name) << "), shutting down");
+			string result("Server detected client [");
+			result.concat(string::fromLong(i));
+			result.concat(string("] in error("));
+			result.concat(lastError.name);
+			result.concat(string("), shutting down"));
+
+			s->output(result);
+			//s->output(string("Server detected client [") << i << "] in error(" << (lastError.name) << "), shutting down");
 
 			s->clients[i]->shutdown();
 			s->clients[i]->clear();
 		}
 		else if (s->clients[i]->isDeparting())
 		{
-			s->output(string("Server detected client [") << i << "] in graceful shutdown");
+			string result("Server detected client [");
+			result.concat(string::fromLong(i));
+			result.concat(string("] in graceful shutdown"));
+			
+			s->output(result);
+
+			//s->output(string("Server detected client [") << i << "] in graceful shutdown");
 
 			s->clients[i]->shutdown();
 			s->clients[i]->clear();
@@ -807,7 +826,7 @@ void server::server::output(string source)
 	//if (!config.headless) terminal->set(source);
 	//else Log << source << "\r\n";
 
-	Log << source << "\r\n";
+	Log << source << string("\r\n");
 }
 
 void server::server::makeNull()

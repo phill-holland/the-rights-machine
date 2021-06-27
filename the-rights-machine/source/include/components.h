@@ -31,6 +31,8 @@ namespace data
 					temp.componentID = index++;
 					temp.lineID = progenitor();
 
+					std::cout << "line component flush " << temp.name << " " << temp.componentID << "\n";
+
 					push(temp.name, temp.componentID, temp.lineID);
 
 					bool result = ::allocator::allocator<component::line::component, Y>::set(temp);
@@ -79,6 +81,7 @@ namespace data
 					temp.componentID = index++;
 					temp.queryID = progenitor();
 
+					std::cout << "flush " << temp.name << " " << temp.componentID << " " << temp.queryID << "\n";
 					push(temp.name, temp.componentID, temp.queryID);
 
 					bool result = ::allocator::allocator<component::query::component, Y>::set(temp);

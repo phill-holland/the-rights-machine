@@ -79,10 +79,11 @@ namespace allocator
 			return true;
 		}*/
 
-		X get(long index)
+		X *get(long index)
 		{
-			if ((index < 0) || (index >= Y)) return X();
-			return *data[index];
+			if ((index < 0) || (index >= Y)) return NULL;//X();
+			//return *data[index];
+			return data[index];
 		}
 
 		virtual bool flush() { return true; }
@@ -108,7 +109,7 @@ namespace allocator
 			return *this;
 		}
 
-		X operator[](int index)
+		X *operator[](int index)
 		{
 			return get((long)index);
 		}
@@ -197,9 +198,9 @@ namespace allocator
 		*/
 		long count() { return elements; }
 
-		X get(long index)
+		X *get(long index)
 		{
-			if ((index < 0L) || (index >= elements)) return X();
+			if ((index < 0L) || (index >= elements)) return NULL;//return X();
 
 			if ((accessor.current == nullptr) || (accessor.index + 1L != index))
 			{
@@ -245,7 +246,8 @@ namespace allocator
 				}
 			}
 
-			return X();
+			//return X();
+			return NULL;
 		}
 
 		bool set(X &source)
@@ -302,7 +304,7 @@ namespace allocator
 			return *this;
 		}
 
-		X operator[](int index)
+		X *operator[](int index)
 		{
 			return get((long)index);
 		}

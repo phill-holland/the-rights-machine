@@ -54,15 +54,24 @@ void data::query::query::filter(compute::common::row **rows, unsigned long total
 
 		if(queryID == this->queryID)
 		{
-			string component = components.map(element.componentID);
+			string component = components.name(element.componentID);
 
 			for (unsigned long i = 0UL; i < lines; ++i)
 			{
-				unsigned long offset = (i * max_components) + components.map(component);
-
-				if (offset < total)
+				int componentID = components.map(component);
+				if(componentID >= 0)
 				{
-					rows[offset]->set(elements.map(element.value));
+					unsigned long offset = (i * max_components) + ((unsigned long)componentID);//components.map(component);
+
+					if (offset < total)
+					{
+						string value = elements.name(element.elementID);
+						int e = elements.map(value);//element.value);
+						rows[offset]->set(e);
+						//compute::header temp(messageID, itemID, lineID, componentID);
+						compute::header temp(messageID, 0, 0, componentID);
+						rows[offset]->set(temp);
+					}
 				}
 			}
 		}
@@ -146,14 +155,19 @@ void data::query::query::copy(query const &source)
 	elements = source.elements;
 }
 
-void data::query::query::output()
+string data::query::query::output()
 {
-	Log << "\"query\" : {\r\n";
-	Log << "\"start\" : \"" << (string)start << "\",\r\n";
-	Log << "\"end\" : \"" << (string)end << "\",\r\n";
-	for (long i = 0L; i < components.count(); ++i) components[i].output();
-	for (long i = 0L; i < elements.count(); ++i) elements[i].output();
-	Log << "}\r\n";
+	string result("\"query\" : {\r\n");
+	result.concat(string("\"start\" : \""));
+	result.concat((string)start); //<< "\",\r\n";
+	result.concat(string("\",\r\n\"end\" : \""));
+	result.concat((string)end);
+	result.concat(string("\",\r\n"));
+	for (long i = 0L; i < components.count(); ++i) result.concat(components[i]->output());
+	for (long i = 0L; i < elements.count(); ++i) result.concat(elements[i]->output());
+	result.concat(string("}\r\n"));
+
+	return result;
 }
 
 void data::query::query::makeNull()

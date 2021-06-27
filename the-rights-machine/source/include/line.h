@@ -39,7 +39,7 @@ namespace data
 			void copy(line const &source);
 			
 		public:
-			void output();
+			string output();
 
 		public:
 			string identifier() { return string("LINE"); }

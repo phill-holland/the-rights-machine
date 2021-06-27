@@ -24,19 +24,20 @@ void data::request::request::copy(request const &source)
 	guid = source.guid;
 }
 
-void data::request::request::output()
+string data::request::request::output()
 {
-	string result = "\"request\" : {\"requestID\" : ";
-	result += string::fromInt(requestID);
-	result += ", \"user\" : ";
-	result += user;
-	result += ", \"APIKey\" : ";
-	result += apikey;
-	result += ", \"GUID\" : \"'";
-	result += guid;
-	result += "'\"}\r\n";
+	string result("\"request\" : {\"requestID\" : ");
+	result.concat(string::fromInt(requestID));
+	result.concat(string(", \"user\" : "));
+	result.concat(user);
+	result.concat(string(", \"APIKey\" : "));
+	result.concat(apikey);
+	result.concat(string(", \"GUID\" : \"'"));
+	result.concat(guid);
+	result.concat(string("'\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }
 
 bool data::request::request::add(custom::pair source)

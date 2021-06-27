@@ -26,7 +26,7 @@ namespace data
 			void copy(item const &source);
 
 		public:
-			void output();
+			string output();
 
 		public:
 			string identifier() { return string("ITEM"); }

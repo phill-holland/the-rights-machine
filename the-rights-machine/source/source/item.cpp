@@ -15,17 +15,18 @@ void data::item::item::copy(item const &source)
 	name = source.name;
 }
 
-void data::item::item::output()
+string data::item::item::output()
 {
-	string result = "\"item\" : {\"itemID\" : ";
-	result += string::fromInt(itemID);
-	result += ", \"messageID\" : ";
-	result += string::fromInt(messageID);
-	result += ", \"name\" : \"";
-	result += name;
-	result += "\"}\r\n";
+	string result("\"item\" : {\"itemID\" : ");
+	result.concat(string::fromInt(itemID));
+	result.concat(string(", \"messageID\" : "));
+	result.concat(string::fromInt(messageID));
+	result.concat(string(", \"name\" : \""));
+	result.concat(name);
+	result.concat(string("\"}\r\n"));
 
-	Log << result;
+	return result;
+	//Log << result;
 }
 
 bool data::item::item::add(custom::pair source)

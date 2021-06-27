@@ -70,14 +70,17 @@ void compute::cpu::processor::push(::compute::task &task)
 {
 	clear();
 
+std::cout << task.message.output();
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
 
-std::cout << task.message.lines.count() << " " << task.message.items.count() << "\n";
-std::cout << task.message.queries.count() << " " << task.message.components.count() << "\n";
+//std::cout << task.message.lines.count() << " " << task.message.items.count() << "\n";
+//std::cout << task.message.queries.count() << " " << task.message.components.count() << "\n";
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
-		data::line::line source = task.message.lines[i];
+		//data::line::line *source2 = task.message.lines[i];
+		data::line::line *source = task.message.lines[i];
+		
 
 //source.output();
 		// ***
@@ -86,30 +89,31 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 
 		for (long j = 0L; j < task.message.queries.count(); ++j)
 		{
-			data::query::query query = task.message.queries[j];
+			data::query::query *query = task.message.queries[j];
 
-			if (source.overlapped(query))
+			if (source->overlapped(*query))
 			{
-				if (source.typeID == (int)data::line::line::TYPE::in)
+				if (source->typeID == (int)data::line::line::TYPE::in)
 				{
-					in_map[source.lineID] = in_ptr++;
+					in_map[source->lineID] = in_ptr++;
 					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
-						data::line::line output = task.message.lines[k];
-						if (output.typeID == (int)data::line::line::TYPE::out)
+						data::line::line *output = task.message.lines[k];
+						if (output->typeID == (int)data::line::line::TYPE::out)
 						{
-							std::vector<zone::zone> result = source.split(output);
+							std::vector<zone::zone> result = source->split(*output);
 							for (long l = 0L; l < (long)result.size(); ++l)
 							{
-								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
+								inputs[input_ptr++] = source->spawn(result[l].start, result[l].end);
 								//inputs[input_ptr-1].output();
 							}
 						}
 					}
 				}
-				else if (source.typeID == (int)data::line::line::TYPE::out)
+				else if (source->typeID == (int)data::line::line::TYPE::out)
 				{
-					out_map[source.lineID] = out_ptr++;
+					std::cout << "line is OUT " << source->lineID << " " << out_ptr << "\n";
+					out_map[source->lineID] = out_ptr++;
 					outputs[output_ptr++].copy(source);
 				}
 			}
@@ -133,6 +137,7 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 
 		if(out_ptr > 0)
 		{
+			// filter wrong??
 			task.message.filter(rows, height, out_map);
 			
 			unsigned long offset = 0UL;
@@ -144,7 +149,11 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 				{					
 					for (unsigned long i = 0UL; i < (unsigned long)task.message.components.maximum(); ++i)
 					{
+						// rows have invalid header
 						out->push(rows[offset + i]);
+
+						std::cout << "outfgfgf\n";
+				std::cout << out->output();
 					}
 				}
 
@@ -152,7 +161,15 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 				// and check overlaps during minus
 				// or push?
 
+				std::cout << "in\n";
+				std::cout << in->output();
+				std::cout << "out\n";
+				std::cout << out->output();
+				
 				in->minus(*out);
+				std::cout << "in - out\n";
+				std::cout << in->output();
+				
 				offset += task.message.components.maximum();
 			}
 		}
@@ -160,9 +177,9 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 		unsigned long offset = 0UL;
 		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
 		{
-			data::query::query q = task.message.queries[i];
+			data::query::query *q = task.message.queries[i];
 
-			q.filter(rows, height, (unsigned long)in_map.size());
+			q->filter(rows, height, (unsigned long)in_map.size());
 
 			query->clear();
 			for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
@@ -172,6 +189,9 @@ std::cout << task.message.queries.count() << " " << task.message.components.coun
 					query->push(rows[offset + k]);
 				}
 			}
+
+			std::cout << "query\n";
+			std::cout << query->output();
 
 			in->AND(*query);
 			bool result = in->compare(*query);

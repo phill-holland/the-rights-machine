@@ -2,9 +2,12 @@
 
 #include <gtest/gtest.h>
 #include "test/client.h"
+#include "test/responses.h"
 #include "messaging.h"
 #include "settings.h"
 #include "starter.h"
+#include "page.h"
+
 //#include "bsttst.h"
 
 /*
@@ -41,14 +44,33 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	messaging::memory::memory messaging;
 	server::settings setup(&messaging, port);
 	server::starter starter(setup);
-
+	web::page destination;
+	
 	EXPECT_TRUE(starter.initalised());
 	EXPECT_TRUE(starter.start());
 	// sleep here??
 	//std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
-	client.post("http://127.0.0.1", port);
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
 
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+
+/*
+{"responses":[
+{
+"GUID" : "bcb4c695-65f1-4e8c-bb2e-4df26edce317",
+"status" : "OK",
+"available" : "false",
+"created" : "2021-6-27"
+}
+
+]}*/
 		//std::this_thread::sleep_for(std::chrono::milliseconds(15000));
 
 	// load body file

@@ -112,10 +112,12 @@ bool compute::gpu::grid::push(compute::common::row *source)
 	return true;
 }
 
-void compute::gpu::grid::output()
+string compute::gpu::grid::output()
 {
+	string result;
+
 	int *temp = new int[width * height];
-	if (temp == NULL) return;
+	if (temp == NULL) return result;
 
 	if (cudaMemcpy(temp, data, width * height * sizeof(int), cudaMemcpyKind::cudaMemcpyDeviceToHost) != cudaSuccess)
 	{
@@ -123,24 +125,31 @@ void compute::gpu::grid::output()
 		{
 			if (!headers[i]->isempty())
 			{
-				string result = headers[i]->serialize();
+				result.concat(headers[i]->serialize());
 
-				result += ",\"row\":{";
-				if (temp[0] > 0) result += "\"0\":1";
+				result.concat(string(",\"row\":{"));
+				if (temp[0] > 0) result.concat(string("\"0\":1"));
 
 				for (unsigned long j = 1UL; j < width; ++j)
 				{
-					if (temp[j] > 0) result += ",\"" + string::fromInt((int)j) + "\":1";
+					if (temp[j] > 0) 
+					{
+						result.concat(string(",\""));
+						result.concat(string::fromInt((int)j));
+						result.concat(string("\":1"));
+					}
 				}
 
-				result += "}";
+				result.concat(string("}\r\n"));
 
-				Log << result << string("\r\n");
+				//Log << result << string("\r\n");
 			}
 		}
 	}
 
 	delete temp;
+
+	return result;
 }
 
 void compute::gpu::grid::makeNull()

@@ -75,7 +75,7 @@ namespace data
 			void copy(message const &source);
 
 		public:
-			void output();
+			string output();
 
 		public:
 			string identifier() { return string("MESSAGE"); }

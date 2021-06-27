@@ -26,25 +26,25 @@ void test::client::reset(string filename)
     init = true;
 }
 
-bool test::client::post(string url, long port)
+bool test::client::post(string url, long port, web::page *destination)
 {
     string temp(buffer);
 
-    page.data(temp);
+    source.data(temp);
 
-    web::page destination;
-    destination.url = url;
-    destination.port = port;
+    //web::page destination;
+    destination->url = url;
+    destination->port = port;
     
-    bool result = cli.post(&destination, &page);
+    return cli.post(destination, &source);
 
-    std::cout << destination.data() << "\n";
+    //std::cout << destination.data() << "\n";
 // decode destination page into responses
 // put into std::vector
 // streaming output!
 // cli.post(include parser for result)
     //std::cout << destination.data();
-    return result;
+    //return result;
 }
 
 void test::client::makeNull()

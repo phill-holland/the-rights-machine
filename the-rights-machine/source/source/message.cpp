@@ -31,14 +31,18 @@ void data::message::message::reset()
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 		//std::cout << identifiers[i]->FQDN() << "\n";
 	}
-
+	
 	queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
 	json *id[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
 
 	for (long i = 0L; i < 7L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
+		std::cout << "moo " << id[i]->FQDN() << "\n";
 	}
+
+	//string moo = "MESSAGE\\ITEMS\\LINES\\COMPONENTS";
+	//queue_hash[moo] = &components;
 
 	clear();
 
@@ -88,22 +92,32 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 
 	for (long h = 0L; h < elements.count(); ++h)
 	{
-		data::element::element element = elements[h];
-		int lineID = components.mapper::parent(element.componentID);
-
+		data::element::element *element = elements[h];
+		int lineID = components.mapper::parent(element->componentID);
+		std::cout << "Line id " << lineID << "\n";
 		std::unordered_map<int, int>::iterator it = map.find(lineID);
 		if (it != map.end())
 		{
-			string component = components.map(element.componentID);
+			string component = components.name(element->componentID); // this mapping does
+			// not do this
 			int componentID = components.map(component);
-			int itemID = lines.mapper::parent(lineID);
-			unsigned long offset = (map[lineID] * max_components) + componentID;
-			if (offset < total)
+			std::cout << "component " << component << " " << componentID << "\n";
+			if(componentID >= 0)
 			{
-				//#warning argh
-				rows[offset]->set(elements.map(element.value));
-				compute::header temp(messageID, itemID, lineID, componentID);
-				rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+				// componentID is -1!!
+				// components.map, cannot find componentID !!!!
+				int itemID = lines.mapper::parent(lineID);
+
+				std::cout << "out_ptr should be ? " << it->second << "\n";
+				//unsigned long offset = (map[lineID] * max_components) + componentID;
+				unsigned long offset = (it->second * max_components) + componentID;
+				if (offset < total)
+				{
+					//#warning argh
+					rows[offset]->set(elements.map(element->value));
+					compute::header temp(messageID, itemID, lineID, componentID);
+					rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+				}
 			}
 		}
 	}
@@ -295,15 +309,18 @@ void data::message::message::copy(message const &source)
 	elements = source.elements;
 }
 
-void data::message::message::output()
+string data::message::message::output()
 {
-	Log << "\"message\" : {\r\n";
-	for (long i = 0L; i < queries.count(); ++i) queries[i].output();
-	for (long i = 0L; i < items.count(); ++i) items[i].output();
-	for (long i = 0L; i < lines.count(); ++i) lines[i].output();
-	for (long i = 0L; i < components.count(); ++i) components[i].output();
-	for (long i = 0L; i < elements.count(); ++i) elements[i].output();
-	Log << "}\r\n";
+	// array[i] indices are coping each time they're called!!!
+	string result("\"message\" : {\r\n");
+	for (long i = 0L; i < queries.count(); ++i) result.concat(queries[i]->output());
+	for (long i = 0L; i < items.count(); ++i) result.concat(items[i]->output());
+	for (long i = 0L; i < lines.count(); ++i) result.concat(lines[i]->output());
+	for (long i = 0L; i < components.count(); ++i) result.concat(components[i]->output());
+	for (long i = 0L; i < elements.count(); ++i) result.concat(elements[i]->output());
+	result.concat(string("}\r\n"));
+
+	return result;
 }
 
 bool data::message::message::add(custom::pair source)

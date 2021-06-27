@@ -30,7 +30,7 @@ namespace data
 			void copy(element const &source);
 
 		public:
-			void output();
+			string output();
 
 		public:
 			element& operator=(const element& source)

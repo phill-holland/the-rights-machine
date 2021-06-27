@@ -29,7 +29,7 @@ namespace data
 				void copy(component const &source);
 
 			public:
-				void output();
+				string output();
 
 			public:
 				string identifier() { return string("COMPONENT"); }
@@ -64,7 +64,7 @@ namespace data
 				void copy(component const &source);
 
 			public:
-				void output();
+				string output();
 
 			public:
 				string identifier() { return string("COMPONENT"); }

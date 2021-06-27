@@ -42,7 +42,7 @@ namespace compute
 
 			bool push(::compute::common::row *source);
 
-			void output();
+			string output();
 
 		public:
 			grid& operator-(const grid& source)

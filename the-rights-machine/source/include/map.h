@@ -14,6 +14,7 @@ namespace mapping
 	{
 		std::unordered_map<string, int, hasher, equality> forward;
 		std::unordered_map<int, string> reverse;
+		std::unordered_map<int, string> identities;
 		std::unordered_map<int, int> parents;
 
 		int index;
@@ -32,12 +33,18 @@ namespace mapping
 			forward.clear();
 			reverse.clear();
 			parents.clear();
+			identities.clear();
 
 			index = 0;
 		}
 
 		void push(string &name, int id, int parent)
 		{
+			if(identities.find(id) == identities.end())
+			{
+				identities[id] = name;
+			}
+
 			if (forward.find(name) == forward.end())
 			{
 				forward[name] = index;
@@ -58,6 +65,18 @@ namespace mapping
 			try
 			{
 				return reverse.at(idx);
+			}
+			catch (std::out_of_range)
+			{
+				return string("");
+			}
+		}
+
+		string name(int id)
+		{
+			try
+			{
+				return identities.at(id);
 			}
 			catch (std::out_of_range)
 			{
@@ -97,6 +116,7 @@ namespace mapping
 
 			forward = source.forward;
 			reverse = source.reverse;
+			identities = source.identities;
 			parents = source.parents;
 
 			index = source.index;
