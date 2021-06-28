@@ -38,7 +38,7 @@ void data::message::message::reset()
 	for (long i = 0L; i < 7L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
-		std::cout << "moo " << id[i]->FQDN() << "\n";
+		//std::cout << "moo " << id[i]->FQDN() << "\n";
 	}
 
 	//string moo = "MESSAGE\\ITEMS\\LINES\\COMPONENTS";
@@ -94,21 +94,21 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 	{
 		data::element::element *element = elements[h];
 		int lineID = components.mapper::parent(element->componentID);
-		std::cout << "Line id " << lineID << "\n";
+		//std::cout << "Line id " << lineID << "\n";
 		std::unordered_map<int, int>::iterator it = map.find(lineID);
 		if (it != map.end())
 		{
 			string component = components.name(element->componentID); // this mapping does
 			// not do this
 			int componentID = components.map(component);
-			std::cout << "component " << component << " " << componentID << "\n";
+			//std::cout << "component " << component << " " << componentID << "\n";
 			if(componentID >= 0)
 			{
 				// componentID is -1!!
 				// components.map, cannot find componentID !!!!
 				int itemID = lines.mapper::parent(lineID);
 
-				std::cout << "out_ptr should be ? " << it->second << "\n";
+				//std::cout << "out_ptr should be ? " << it->second << "\n";
 				//unsigned long offset = (map[lineID] * max_components) + componentID;
 				unsigned long offset = (it->second * max_components) + componentID;
 				if (offset < total)

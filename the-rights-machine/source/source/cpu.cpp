@@ -104,6 +104,7 @@ std::cout << task.message.output();
 							std::vector<zone::zone> result = source->split(*output);
 							for (long l = 0L; l < (long)result.size(); ++l)
 							{
+								// splits line up but then does nothing with it!
 								inputs[input_ptr++] = source->spawn(result[l].start, result[l].end);
 								//inputs[input_ptr-1].output();
 							}
@@ -217,7 +218,22 @@ std::cout << task.message.output();
 	}
 	else
 	{
+		std::cout << "nothing!\n";
 		// no acquired rights, throw error, not available here!!!
+
+		if(task.response != NULL)
+		{
+			data::response::response response;
+
+			response.guid = task.message.guid;
+			response.status = data::response::response::STATUS::ERR;
+			response.available = false;
+			response.created = datetime::now();
+
+			task.response->set(response);
+		}
+
+		if(task.notify != NULL) task.notify->notifyOut(task.message.guid);
 	}
 }
 

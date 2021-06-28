@@ -270,7 +270,7 @@ bool http::client::client::issue(string command,
 									else ++error;
 								} while ((t > 0) && (remaining > 0) && (error < 10));
 							}
-						}
+						} else bytestoread = 0L;
 						
 					} while (bytestoread > 0L);
 				}

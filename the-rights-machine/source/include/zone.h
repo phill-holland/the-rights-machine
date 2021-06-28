@@ -24,7 +24,11 @@ namespace zone
 
 		bool overlapped(zone &source)
 		{
-			return (!((start > source.end) || (source.start > end)));
+			return ((start <= source.end) || (end >= source.start));
+			//global::datetime min = start > end 
+			//if ((start > source.end) || (source.start > end)));
+			//if((start > source.start)&&(start < source.end)) return true;
+			//if((end > source.start)&&(end < source.end)) return true;
 		}
 
 		std::vector<zone> split(zone &source)

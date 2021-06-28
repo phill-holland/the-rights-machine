@@ -1,29 +1,16 @@
-//#include "bsttst.h"
-
 #include <gtest/gtest.h>
 #include "test/client.h"
 #include "test/responses.h"
-#include "messaging.h"
-#include "settings.h"
-#include "starter.h"
-#include "page.h"
+#include "test/environment.h"
 
-//#include "bsttst.h"
+// test three, merged first two files into third new file
+// test concurrent access
 
-/*
-TEST(JsonCustomStream, BasicAssertions)
-{
-	bsttst::bsttst moo;
+// test with two queries
+// two different times
 
-// convert read json back into JSON, and then compare with input JSON file!
-	moo.go(string("test/data/body.json"));
-	moo.output();
+// more than 10 components
 
-}
-*/
-
-TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
-{
 	// BODY.JSON should return not available.
 	
 	// add to launch.json for debugging breakpoints OK
@@ -36,20 +23,15 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	// need a thread safe std::vector
 	// return errors to web client
 
+/*
+TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
+{
 	long port = 5454;
 
 	test::client client(string("test/data/basicUnavailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	messaging::memory::memory messaging;
-	server::settings setup(&messaging, port);
-	server::starter starter(setup);
 	web::page destination;
-	
-	EXPECT_TRUE(starter.initalised());
-	EXPECT_TRUE(starter.start());
-	// sleep here??
-	//std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
 	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
 
@@ -60,23 +42,51 @@ TEST(BasicQueryWithInMemoryQueue, BasicAssertions)
 	tests::data::response response = responses.data.front();
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+}
+*/
+
+TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
+{
+	long port = 5454;
+
+	test::client client(string("test/data/basicAvailable.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+	
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("true")) == 0);
+}
+
 
 /*
-{"responses":[
+TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
-"GUID" : "bcb4c695-65f1-4e8c-bb2e-4df26edce317",
-"status" : "OK",
-"available" : "false",
-"created" : "2021-6-27"
+	long port = 5454;
+
+	test::client client(string("test/data/outOfRange.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-
-]}*/
-		//std::this_thread::sleep_for(std::chrono::milliseconds(15000));
-
-	// load body file
-	// issue http query
-}
-
+*/
 // 15 component test
 // multiple programme test
 // not aviable first test
@@ -117,5 +127,6 @@ TEST(HelloTest, BasicAssertions) {
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
+	::testing::AddGlobalTestEnvironment(new test::TestEnvironment);
     return RUN_ALL_TESTS();
 }

@@ -60,7 +60,7 @@ namespace error
 			bool set(::error::type::type &source)
 			{
 				string temp(source);
-				#warning dumb
+				//#warning dumb
 				return console::set(temp);
 			}
 		};
