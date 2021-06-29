@@ -90,39 +90,110 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 		rows[i]->clear();
 	}
 
+	//for (long h = 0L; h < elements.count(); ++h)
+	//{
+	//	data::element::element *element = elements[h];
+	//	int lineID = components.mapper::parent(element->componentID);
+
+		//bool carry_on = true;
+		//if((line >= 0) && (lineID != line)) carry_on = false;
+
+		//if(lineID == line)
+		//std::cout << "Line id " << lineID << "\n";
+		//if(carry_on)
+		//if((line < 0) || (lineID == line))
+		//{
+			//std::unordered_map<int, int>::iterator it = map.find(lineID);
+			//if (it != map.end())
+			for(std::unordered_map<int, int>::iterator it = map.begin(); it != map.end(); ++it)
+			{
+				int index = it->first;
+				int lineID = it->second;
+
+				for (long h = 0L; h < elements.count(); ++h)
+				{
+					data::element::element *element = elements[h];
+					if(components.mapper::parent(element->componentID) == lineID)
+					{
+					//int lineID = components.mapper::parent(element->componentID);
+
+				string component = components.name(element->componentID); // this mapping does
+				// not do this
+				int componentID = components.map(component);
+				//std::cout << "component " << component << " " << componentID << "\n";
+				if(componentID >= 0)
+				{
+					// componentID is -1!!
+					// components.map, cannot find componentID !!!!
+					int itemID = lines.mapper::parent(lineID);
+
+					//std::cout << "out_ptr should be ? " << it->second << "\n";
+					//unsigned long offset = (map[lineID] * max_components) + componentID;
+					unsigned long offset = (index * max_components) + componentID;
+					if (offset < total)
+					{
+						//#warning argh
+						rows[offset]->set(elements.map(element->value));
+						compute::header temp(messageID, itemID, lineID, componentID);
+						rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+					}
+				}
+					}
+			}
+		//}
+	}
+}
+/*
+void data::message::message::filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map)
+{
+	int max_components = components.maximum();
+	for (unsigned long i = 0UL; i < total; ++i)
+	{
+		rows[i]->clear();
+	}
+
 	for (long h = 0L; h < elements.count(); ++h)
 	{
 		data::element::element *element = elements[h];
 		int lineID = components.mapper::parent(element->componentID);
-		//std::cout << "Line id " << lineID << "\n";
-		std::unordered_map<int, int>::iterator it = map.find(lineID);
-		if (it != map.end())
-		{
-			string component = components.name(element->componentID); // this mapping does
-			// not do this
-			int componentID = components.map(component);
-			//std::cout << "component " << component << " " << componentID << "\n";
-			if(componentID >= 0)
-			{
-				// componentID is -1!!
-				// components.map, cannot find componentID !!!!
-				int itemID = lines.mapper::parent(lineID);
 
-				//std::cout << "out_ptr should be ? " << it->second << "\n";
-				//unsigned long offset = (map[lineID] * max_components) + componentID;
-				unsigned long offset = (it->second * max_components) + componentID;
-				if (offset < total)
+		//bool carry_on = true;
+		//if((line >= 0) && (lineID != line)) carry_on = false;
+
+		//if(lineID == line)
+		//std::cout << "Line id " << lineID << "\n";
+		//if(carry_on)
+		if((line < 0) || (lineID == line))
+		{
+			std::unordered_map<int, int>::iterator it = map.find(lineID);
+			if (it != map.end())
+			{
+				string component = components.name(element->componentID); // this mapping does
+				// not do this
+				int componentID = components.map(component);
+				//std::cout << "component " << component << " " << componentID << "\n";
+				if(componentID >= 0)
 				{
-					//#warning argh
-					rows[offset]->set(elements.map(element->value));
-					compute::header temp(messageID, itemID, lineID, componentID);
-					rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+					// componentID is -1!!
+					// components.map, cannot find componentID !!!!
+					int itemID = lines.mapper::parent(lineID);
+
+					//std::cout << "out_ptr should be ? " << it->second << "\n";
+					//unsigned long offset = (map[lineID] * max_components) + componentID;
+					unsigned long offset = (it->second * max_components) + componentID;
+					if (offset < total)
+					{
+						//#warning argh
+						rows[offset]->set(elements.map(element->value));
+						compute::header temp(messageID, itemID, lineID, componentID);
+						rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+					}
 				}
 			}
 		}
 	}
 }
-
+*/
 bool data::message::message::load(file::file<data::item::item> *source)
 {
 	bool valid = false;
