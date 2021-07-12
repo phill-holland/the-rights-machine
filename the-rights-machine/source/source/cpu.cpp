@@ -73,10 +73,11 @@ void compute::cpu::processor::push(::compute::task &task)
 std::cout << task.message.output();
 	std::unordered_map<int, int> in_map, out_map;
 	int in_ptr = 0, out_ptr = 0;
-	int max_lineID = 0;
+	//int max_lineID = 0;
 
 //std::cout << task.message.lines.count() << " " << task.message.items.count() << "\n";
 //std::cout << task.message.queries.count() << " " << task.message.components.count() << "\n";
+/*
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
 		data::line::line *source = task.message.lines[i];
@@ -84,6 +85,7 @@ std::cout << task.message.output();
 	}
 
 	++max_lineID;
+	*/
 // ****
 
 	for (long i = 0L; i < task.message.lines.count(); ++i)

@@ -127,6 +127,7 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 					// components.map, cannot find componentID !!!!
 					int itemID = lines.mapper::parent(lineID);
 
+data::line::line *current = lines.get(index);
 					//std::cout << "out_ptr should be ? " << it->second << "\n";
 					//unsigned long offset = (map[lineID] * max_components) + componentID;
 					unsigned long offset = (index * max_components) + componentID;
@@ -134,7 +135,12 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 					{
 						//#warning argh
 						rows[offset]->set(elements.map(element->value));
-						compute::header temp(messageID, itemID, lineID, componentID);
+						
+						// SET HEADER TO INCLDUE START AND END DATE
+						// IN GRID.MINUS/ADD CHECK DATE OVERLAPS!!
+						
+
+						compute::header temp(current->start, current->end, messageID, itemID, lineID, componentID);
 						rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
 					}
 				}

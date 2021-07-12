@@ -1,11 +1,13 @@
 #include "custom/string.h"
+#include "zone.h"
+#include "datetime.h"
 
 #if !defined(__HEADER)
 #define __HEADER
 
 namespace compute
 {
-	class header
+	class header : public zone::zone
 	{
 	public:
 		int messageID;
@@ -14,7 +16,9 @@ namespace compute
 		int componentID;
 
 	public:
-		header(int messageID = -1, int itemID = -1, int lineID = -1, int componentID = -1) 
+		header(global::datetime start = global::datetime(), global::datetime end = global::datetime(),
+			   int messageID = -1, int itemID = -1, 
+			   int lineID = -1, int componentID = -1) : zone(start, end)
 		{ 
 			this->messageID = messageID;
 			this->itemID = itemID;
@@ -22,7 +26,7 @@ namespace compute
 			this->componentID = componentID;
 		}
 
-		header(header const &source) { clear(); copy(source); }
+		header(header const &source) : zone(source) { clear(); copy(source); }
 		~header() { }
 
 		void clear();

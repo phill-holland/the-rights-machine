@@ -70,9 +70,9 @@ bool http::client::client::issue(string command,
 		for (long i = 0L; i < count; ++i)
 		{
 			request.concat(parameters[i].name);
-			request.concat(": ");
+			request.concat(string(": "));
 			request.concat(parameters[i].value);
-			request.concat("\r\n");
+			request.concat(string("\r\n"));
 		}
 	}
 
@@ -82,9 +82,9 @@ bool http::client::client::issue(string command,
 		auth.concat(string(":"));
 		auth.concat(destination->authorization.password);
 
-		request.concat("Authorization: Basic ");
+		request.concat(string("Authorization: Basic "));
 		request.concat(auth.toBase64());
-		request.concat("\r\n");
+		request.concat(string("\r\n"));
 	}
 
 	request.concat(string("Cache-Control: no-cache\r\n"));
@@ -94,9 +94,9 @@ bool http::client::client::issue(string command,
 		for (long i = 0L; i < source->parameters.count(); ++i)
 		{
 			request.concat(source->parameters[i].name);
-			request.concat(": ");
+			request.concat(string(": "));
 			request.concat(source->parameters[i].value);
-			request.concat("\r\n");
+			request.concat(string("\r\n"));
 		}
 
 		if (source->body->size() > 0L)
