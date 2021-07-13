@@ -23,6 +23,10 @@ string compute::header::serialize()
 	result += string::fromInt(lineID);
 	result += string(",\"c\":");
 	result += string::fromInt(componentID);
+	result += string(",");
+	result += start.to();
+	result += string(",");
+	result += end.to();
 	result += string("} }");
 
 	return result;

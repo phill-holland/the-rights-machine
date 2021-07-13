@@ -82,7 +82,85 @@ data::json::request::json *data::message::message::find(string FQDN)
 	return NULL;
 }
 
-void data::message::message::filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map)
+data::message::message data::message::message::split(mapping &destination)
+{
+	int in_ptr = 0, out_ptr = 0;
+
+	message result(*this);
+	result.lines.clear();
+
+	for (long i = 0L; i < lines.count(); ++i)
+	{
+		data::line::line *source = lines[i];
+
+		for (long j = 0L; j < queries.count(); ++j)
+		{
+			data::query::query *query = queries[j];
+
+			if (source->overlapped(*query))
+			{
+				if (source->typeID == (int)data::line::line::TYPE::in)
+				{
+					for (long k = 0L; k < lines.count(); ++k)
+					{
+						data::line::line *output = lines[k];
+						if (output->typeID == (int)data::line::line::TYPE::out)
+						{
+							bool splitted = false;
+							if(source->overlapped(*output))
+							{
+								std::vector<zone::zone> splits = source->split(*output);
+								for (long l = 0L; l < (long)splits.size(); ++l)
+								{
+									data::line::line temp = source->spawn(splits[l].start, splits[l].end);
+									temp.lineID = source->lineID;
+
+									data::message::mapping::map map;
+									map.index = result.lines.count();
+									map.lineID = source->lineID;
+
+									result.lines.set(temp);
+
+									destination.in[in_ptr] = map;
+									++in_ptr;
+
+									splitted = true;
+								}
+							}
+
+							if(splitted == false)
+							{
+								data::message::mapping::map map;
+								map.index = result.lines.count();
+								map.lineID = source->lineID;
+								
+								result.lines.set(*source);
+								
+								destination.in[in_ptr] = map;
+								++in_ptr;								
+							}
+						}
+					}
+				}
+				else if (source->typeID == (int)data::line::line::TYPE::out)
+				{
+					data::message::mapping::map map;
+					map.index = result.lines.count();
+					map.lineID = source->lineID;
+					
+					result.lines.set(*source);				
+					destination.out[out_ptr] = map;
+					++out_ptr;
+				}
+			}
+		}
+	}
+
+	return result;
+}
+			
+void data::message::message::filter(compute::common::row **rows, unsigned long total, 
+								    std::unordered_map<int, data::message::mapping::map> &map)
 {
 	int max_components = components.maximum();
 	for (unsigned long i = 0UL; i < total; ++i)
@@ -90,63 +168,35 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 		rows[i]->clear();
 	}
 
-	//for (long h = 0L; h < elements.count(); ++h)
-	//{
-	//	data::element::element *element = elements[h];
-	//	int lineID = components.mapper::parent(element->componentID);
+	for(std::unordered_map<int, mapping::map>::iterator it = map.begin(); it != map.end(); ++it)
+	{
+		int index = it->first;
+		mapping::map line = it->second;
 
-		//bool carry_on = true;
-		//if((line >= 0) && (lineID != line)) carry_on = false;
-
-		//if(lineID == line)
-		//std::cout << "Line id " << lineID << "\n";
-		//if(carry_on)
-		//if((line < 0) || (lineID == line))
-		//{
-			//std::unordered_map<int, int>::iterator it = map.find(lineID);
-			//if (it != map.end())
-			for(std::unordered_map<int, int>::iterator it = map.begin(); it != map.end(); ++it)
+		for (long h = 0L; h < elements.count(); ++h)
+		{
+			data::element::element *element = elements[h];
+			if(components.mapper::parent(element->componentID) == line.lineID)
 			{
-				int index = it->first;
-				int lineID = it->second;
-
-				for (long h = 0L; h < elements.count(); ++h)
-				{
-					data::element::element *element = elements[h];
-					if(components.mapper::parent(element->componentID) == lineID)
-					{
-					//int lineID = components.mapper::parent(element->componentID);
-
-				string component = components.name(element->componentID); // this mapping does
-				// not do this
+				string component = components.name(element->componentID);
 				int componentID = components.map(component);
-				//std::cout << "component " << component << " " << componentID << "\n";
 				if(componentID >= 0)
 				{
-					// componentID is -1!!
-					// components.map, cannot find componentID !!!!
-					int itemID = lines.mapper::parent(lineID);
+					int itemID = lines.mapper::parent(line.lineID);
 
-data::line::line *current = lines.get(index);
-					//std::cout << "out_ptr should be ? " << it->second << "\n";
-					//unsigned long offset = (map[lineID] * max_components) + componentID;
+					data::line::line *current = lines[line.index];
+
 					unsigned long offset = (index * max_components) + componentID;
 					if (offset < total)
 					{
-						//#warning argh
 						rows[offset]->set(elements.map(element->value));
 						
-						// SET HEADER TO INCLDUE START AND END DATE
-						// IN GRID.MINUS/ADD CHECK DATE OVERLAPS!!
-						
-
-						compute::header temp(current->start, current->end, messageID, itemID, lineID, componentID);
-						rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
+						compute::header temp(current->start, current->end, messageID, itemID, line.lineID, componentID);
+						rows[offset]->set(temp);
 					}
 				}
-					}
 			}
-		//}
+		}
 	}
 }
 /*

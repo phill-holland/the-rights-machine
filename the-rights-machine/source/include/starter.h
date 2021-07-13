@@ -10,6 +10,7 @@
 #include "users.h"
 #include "messaging.h"
 #include "settings.h"
+#include "debug.h"
 
 #if !defined(__STARTER)
 #define __STARTER
@@ -25,7 +26,8 @@ namespace server
 
 		manager::manager *manager;
 
-		error::console::errors *console;
+		//error::console::errors *console;
+		debug::debugger *debugging;
 		error::errors *errors;
 
 		::configuration::server::configuration *configuration;

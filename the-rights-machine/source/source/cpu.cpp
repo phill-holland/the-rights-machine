@@ -70,171 +70,43 @@ void compute::cpu::processor::push(::compute::task &task)
 {
 	clear();
 
-std::cout << task.message.output();
-	std::unordered_map<int, int> in_map, out_map;
-	int in_ptr = 0, out_ptr = 0;
-	//int max_lineID = 0;
+	data::message::mapping mappings;
+	data::message::message msg = task.message.split(mappings);
 
-//std::cout << task.message.lines.count() << " " << task.message.items.count() << "\n";
-//std::cout << task.message.queries.count() << " " << task.message.components.count() << "\n";
-/*
-	for (long i = 0L; i < task.message.lines.count(); ++i)
+	std::cout << task.message.output();
+	std::cout << msg.output();
+
+	//if(in_ptr > 0)
+	if(mappings.hasIn())
 	{
-		data::line::line *source = task.message.lines[i];
-		if(source->lineID > max_lineID) max_lineID = source->lineID;
-	}
-
-	++max_lineID;
-	*/
-// ****
-
-	for (long i = 0L; i < task.message.lines.count(); ++i)
-	{
-		//data::line::line *source2 = task.message.lines[i];
-		data::line::line *source = task.message.lines[i];
-
-
-//source.output();
-		// ***
-		// if no query generate ERROR, somewhere
-		// ***
-
-		for (long j = 0L; j < task.message.queries.count(); ++j)
-		{
-			data::query::query *query = task.message.queries[j];
-
-			if (source->overlapped(*query))
-			{
-				if (source->typeID == (int)data::line::line::TYPE::in)
-				{
-					//in_map[source->lineID] = in_ptr++;
-					for (long k = 0L; k < task.message.lines.count(); ++k)
-					{
-						data::line::line *output = task.message.lines[k];
-						if (output->typeID == (int)data::line::line::TYPE::out)
-						{
-							bool splitted = false;
-							if(source->overlapped(*output))
-							{
-								std::vector<zone::zone> result = source->split(*output);
-								for (long l = 0L; l < (long)result.size(); ++l)
-								{
-									// splits line up but then does nothing with it!
-									// ****
-									// need to ensure lineID is copied over too!!
-									// ****
-									//int source_lineID = source->lineID;
-									inputs[in_ptr] = source->spawn(result[l].start, result[l].end);
-									//inputs[input_ptr].lineID = max_lineID++;
-									//in_map[inputs[input_ptr].lineID] = input_ptr;
-									in_map[in_ptr] = source->lineID;
-									++in_ptr;
-
-									splitted = true;
-									//inputs[input_ptr-1].output();
-								}
-							}
-
-							if(splitted == false)
-							{
-								//in_map[source->lineID] = input_ptr;
-								in_map[in_ptr] = source->lineID;
-								inputs[in_ptr] = source;
-								++in_ptr;
-								//in_map[source->lineID] = in_ptr++;
-							}
-
-						}
-					}
-				}
-				else if (source->typeID == (int)data::line::line::TYPE::out)
-				{
-					std::cout << "line is OUT " << source->lineID << " " << out_ptr << "\n";
-					out_map[out_ptr] = source->lineID;
-					outputs[out_ptr].copy(source);
-					++out_ptr;
-					//out_map[source->lineID] = out_ptr++;
-					//outputs[output_ptr++].copy(source);
-				}
-			}
-		}
-	}
-
-	// check outputs overlap input dates
-
-	// push one acquired line, one excluded line and one query line
-	// at one time
-
-	// need to decode grid
-
-// ***
-/*
-	if((in_ptr > 0)&&(input_ptr > 0))
-	{
-		// loop on inputs -- for data ranges
-		// task.message.filter(rows, height, lineID);
-
-		for(unsigned long i = 0UL; i < input_ptr; ++i)
-		{
-			// looping for date range
-			// test with out!
-			in->clear();
-			//outputs[i].lineID
-			//if in->and(query) - then available
-			// and inputs[i] entirely inside query
-			// current start/end zone here
-
-			// ROWS>CLEAR()????
-			if(out_ptr > 0)
-			{
-				task.message.filter(rows, height, in_map, outputs[i].lineID);
-				for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
-				{
-					in->push(rows[i]);
-
-					for(unsigned long j = 0Ul;  j < output_ptr; ++j)
-					{
-						out->clear();
-
-						if(outputs[j].overlapped(inputs[i]))
-						{
-						}
-					}
-				}
-			}
-			// if outputs line, entirely overlaps in
-			// 
-		}
-
-	}*/
-// ***
-	if(in_ptr > 0)
-	{
-		task.message.filter(rows, height, in_map);
-		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
+		//task.message.filter(rows, height, in_map);
+		msg.filter(rows, height, mappings.in);
+		for (unsigned long i = 0UL; i < (mappings.in.size() * msg.components.maximum()); ++i)
 		{
 			in->push(rows[i]);
 		}
 
-		if(out_ptr > 0)
+		//if(out_ptr > 0)
+		if(mappings.hasOut())
 		{
 			// filter wrong??
-			task.message.filter(rows, height, out_map);
+			//task.message.filter(rows, height, out_map);
+			msg.filter(rows, height, mappings.out);
 
 			unsigned long offset = 0UL;
 
-			for (unsigned long k = 0UL; k < (unsigned long)out_map.size(); ++k)
+			for (unsigned long k = 0UL; k < (unsigned long)mappings.out.size(); ++k)
 			{
 				out->clear();
-				for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
+				for (unsigned long j = 0UL; j < (unsigned long)mappings.in.size(); ++j)
 				{
-					for (unsigned long i = 0UL; i < (unsigned long)task.message.components.maximum(); ++i)
+					for (unsigned long i = 0UL; i < (unsigned long)msg.components.maximum(); ++i)
 					{
 						// rows have invalid header
 						out->push(rows[offset + i]);
 
-						std::cout << "outfgfgf\n";
-				std::cout << out->output();
+						//std::cout << "outfgfgf\n";
+				//std::cout << out->output();
 					}
 				}
 
@@ -252,21 +124,21 @@ std::cout << task.message.output();
 				std::cout << "in - out\n";
 				std::cout << in->output();
 
-				offset += task.message.components.maximum();
+				offset += msg.components.maximum();
 			}
 		}
 
 		unsigned long offset = 0UL;
-		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
+		for (unsigned long i = 0UL; i < (unsigned long)msg.queries.count(); ++i)
 		{
-			data::query::query *q = task.message.queries[i];
+			data::query::query *q = msg.queries[i];
 
-			q->filter(rows, height, (unsigned long)in_map.size());
+			q->filter(rows, height, (unsigned long)mappings.in.size());
 
 			query->clear();
-			for (unsigned long j = 0UL; j < (unsigned long)in_map.size(); ++j)
+			for (unsigned long j = 0UL; j < (unsigned long)mappings.in.size(); ++j)
 			{
-				for (unsigned long k = 0UL; k < (unsigned long)task.message.components.maximum(); ++k)
+				for (unsigned long k = 0UL; k < (unsigned long)msg.components.maximum(); ++k)
 				{
 					query->push(rows[offset + k]);
 				}
@@ -283,7 +155,7 @@ std::cout << task.message.output();
 				data::response::response response;
 
 				//response.queryID = q.queryID;
-				response.guid = task.message.guid;
+				response.guid = msg.guid;
 				//response.name = task.message.items[0].name;
 				//response.user = task.message.user;
 				response.available = result;
@@ -292,9 +164,9 @@ std::cout << task.message.output();
 				task.response->set(response);
 			}
 
-			if(task.notify != NULL) task.notify->notifyOut(task.message.guid);
+			if(task.notify != NULL) task.notify->notifyOut(msg.guid);
 			// need to validate query components is same as message.components.maximum()
-			offset += task.message.components.maximum();
+			offset += msg.components.maximum();
 		}
 	}
 	else
@@ -306,7 +178,7 @@ std::cout << task.message.output();
 		{
 			data::response::response response;
 
-			response.guid = task.message.guid;
+			response.guid = msg.guid;
 			response.status = data::response::response::STATUS::ERR;
 			response.available = false;
 			response.created = datetime::now();
@@ -314,7 +186,7 @@ std::cout << task.message.output();
 			task.response->set(response);
 		}
 
-		if(task.notify != NULL) task.notify->notifyOut(task.message.guid);
+		if(task.notify != NULL) task.notify->notifyOut(msg.guid);
 	}
 }
 

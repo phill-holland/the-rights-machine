@@ -20,6 +20,36 @@ namespace data
 		using namespace global;
 		using namespace comparison;
 
+		class mapping
+		{
+		public:
+			class map
+			{
+			public:
+				int index;
+				int lineID;
+
+			public:
+				map(int _index = 0, int _lineID = 0) 
+				{ 
+					index = _index; 
+					lineID = _lineID; 
+				}
+			};
+
+		public:
+			std::unordered_map<int, map> in;
+			std::unordered_map<int, map> out;
+
+		public:
+			mapping() { clear(); }
+
+			void clear() { in.clear(); out.clear(); }
+
+			bool hasIn() { return in.size() > 0; }
+			bool hasOut() { return out.size() > 0; }
+		};
+
 		class message : public json::request::json
 		{
 			std::unordered_map<string, data::json::request::json *, hasher, equality> hash;
@@ -58,7 +88,10 @@ namespace data
 			queue::base *findQ(string FQDN);
 			data::json::request::json *find(string FQDN);
 
-			void filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map);
+			message split(mapping &destination);
+
+			void filter(compute::common::row **rows, unsigned long total, 
+						std::unordered_map<int, mapping::map> &map);
 
 			bool load(file::file<data::item::item> *source);
 			bool load(file::file<data::query::query> *source);

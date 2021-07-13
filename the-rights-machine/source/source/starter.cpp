@@ -22,11 +22,16 @@ void server::starter::reset(settings &setup)
 	if (!manager->initalised()) return;
 	manager->add(cpu);
 
+	debugging = new debug::debugger();
+	if(debugging == NULL) return;
+	if(!debugging->initalised()) return;
+
+/*
 	console = new error::console::errors();
 	if (console == NULL) return;
 	if (!console->initalised()) return;
-
-	errors = new error::errors(console);
+*/
+	errors = new error::errors(debugging);//console);
 	if (errors == NULL) return;
 	if (!errors->initalised()) return;
 
@@ -84,7 +89,8 @@ void server::starter::makeNull()
 	recordsets = NULL;
 	cpu = NULL;
 	manager = NULL;
-	console = NULL;
+	debugging = NULL;
+	//console = NULL;
 	errors = NULL;
 	users = NULL;
 	configuration = NULL;
@@ -97,7 +103,8 @@ void server::starter::cleanup()
 	if (configuration != NULL) delete configuration;
 	if (users != NULL) delete users;
 	if (errors != NULL) delete errors;
-	if (console != NULL) delete console;
+	if (debugging != NULL) delete debugging;
+	//if (console != NULL) delete console;
 	if (manager != NULL) delete manager;
 	if (cpu != NULL) delete cpu;
 	if (recordsets != NULL) delete recordsets;

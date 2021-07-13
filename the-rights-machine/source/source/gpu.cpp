@@ -121,7 +121,7 @@ void compute::gpu::processor::push(::compute::task &task)
 
 	if (in_ptr > 0)
 	{
-		task.message.filter(rows, height, in_map);
+		//task.message.filter(rows, height, in_map);
 		for (unsigned long i = 0UL; i < (in_map.size() * task.message.components.maximum()); ++i)
 		{
 			in->push(rows[i]);
@@ -129,7 +129,7 @@ void compute::gpu::processor::push(::compute::task &task)
 
 		if (out_ptr > 0)
 		{
-			task.message.filter(rows, height, out_map);
+			//task.message.filter(rows, height, out_map);
 
 			unsigned long offset = 0UL;
 
