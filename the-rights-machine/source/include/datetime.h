@@ -133,7 +133,15 @@ namespace global
 		}
 
 		bool operator<(const datetime& source)
-		{ 			
+		{ 	
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			time_t as = mktime(&a); 		
+			time_t bs = mktime(&b);
+
+			return as < bs;
+			/*
 			if (year < source.year) return true;
 			if ((year == source.year) && (month < source.month)) return true;
 			if ((month == source.month) && (day < source.day)) return true;
@@ -142,10 +150,19 @@ namespace global
 			if ((minute == source.minute) && (second < source.second)) return true;
 
 			return false;
+			*/
 		}
 
 		bool operator>(const datetime& source)
 		{ 
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			time_t as = mktime(&a); 		
+			time_t bs = mktime(&b);
+
+			return as > bs;
+			/*
 			if (year > source.year) return true;
 			if ((year == source.year) && (month > source.month)) return true;
 			if ((month == source.month) && (day > source.day)) return true;
@@ -154,10 +171,19 @@ namespace global
 			if ((minute == source.minute) && (second > source.second)) return true;
 
 			return false;
+			*/
 		}
 
 		bool operator<=(const datetime& source)
 		{ 
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			time_t as = mktime(&a); 		
+			time_t bs = mktime(&b);
+
+			return as <= bs;
+			/*
 			if (year < source.year) return true;
 			if ((year == source.year) && (month < source.month)) return true;
 			if ((month == source.month) && (day <= source.day)) return true;
@@ -166,10 +192,19 @@ namespace global
 			if ((minute == source.minute) && (second <= source.second)) return true;
 
 			return false;
+			*/
 		}
 
 		bool operator>=(const datetime& source)
 		{ 
+			tm a = (tm)*this;
+			tm b = (tm)(datetime)source;
+
+			time_t as = mktime(&a); 		
+			time_t bs = mktime(&b);
+
+			return as >= bs;
+			/*
 			if (year > source.year) return true;
 			if ((year == source.year) && (month > source.month)) return true;
 			if ((month == source.month) && (day >= source.day)) return true;
@@ -178,6 +213,7 @@ namespace global
 			if ((minute == source.minute) && (second >= source.second)) return true;
 
 			return false;
+			*/
 		}
 
 		datetime& operator+(const datetime& source)
@@ -212,6 +248,17 @@ namespace global
 
 			time_t c = mktime(&a);
 			this->copy((datetime)c);
+
+			return *this;
+		}
+
+		datetime& operator+(const int& days)
+		{
+			const time_t ONE_DAY = 24 * 60 * 60;
+
+			tm a = (tm)*this;
+			time_t date_seconds = mktime(&a) + (days * ONE_DAY);
+			this->copy((datetime)date_seconds);
 
 			return *this;
 		}

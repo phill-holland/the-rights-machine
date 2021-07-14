@@ -48,6 +48,15 @@ namespace data
 				::allocator::allocator<line::line, Y>::reset();
 			}
 
+			void clear(bool parents)
+			{
+				index = 0;
+
+				temp.clear();
+				mapper::empty(parents);
+				::allocator::allocator<line::line, Y>::reset();
+			}
+
 			string identifier() { return string("LINES"); }
 
 			bool add(custom::pair source)

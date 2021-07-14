@@ -38,4 +38,6 @@ void compute::header::copy(header const &source)
 	itemID = source.itemID;
 	lineID = source.lineID;
 	componentID = source.componentID;
+	
+	zone::copy(source);
 }

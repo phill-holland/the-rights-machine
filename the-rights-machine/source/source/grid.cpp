@@ -53,6 +53,8 @@ void compute::cpu::grid::minus(grid &right)
 
 	for (unsigned long y = 0UL; y < height; ++y)
 	{
+		if(!headers[y]->isempty())
+		{
 		if(headers[y]->overlapped(*right.headers[y]))
 		{
 			for (unsigned long x = 0UL; x < width; ++x)
@@ -60,7 +62,7 @@ void compute::cpu::grid::minus(grid &right)
 				if (data[offset + x] > 0) data[offset + x] -= right.data[offset + x];
 			}
 		}
-
+		}
 		offset += width;
 	}
 }

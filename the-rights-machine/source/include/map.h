@@ -10,7 +10,7 @@ namespace mapping
 {
 	using namespace comparison;
 
-	class mapper
+class mapper
 	{
 		std::unordered_map<string, int, hasher, equality> forward;
 		std::unordered_map<int, string> reverse;
@@ -28,11 +28,11 @@ namespace mapping
 			index = 0;
 		}
 
-		void empty()
+		void empty(bool _parents = true)
 		{
 			forward.clear();
 			reverse.clear();
-			parents.clear();
+			if(_parents) parents.clear();
 			identities.clear();
 
 			index = 0;

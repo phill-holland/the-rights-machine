@@ -87,7 +87,7 @@ data::message::message data::message::message::split(mapping &destination)
 	int in_ptr = 0, out_ptr = 0;
 
 	message result(*this);
-	result.lines.clear();
+	result.lines.clear(false);
 
 	for (long i = 0L; i < lines.count(); ++i)
 	{
