@@ -64,7 +64,7 @@ namespace parser
             constexpr static std::size_t max_string_size = std::size_t(-1);
 
             bool on_document_begin(boost::json::error_code&) { return true; }
-            bool on_document_end(boost::json::error_code&) { return true; }
+            bool on_document_end(boost::json::error_code&) { std::cout << "on_document_end\n"; return true; }
             bool on_object_begin(boost::json::error_code&);
             bool on_object_end(std::size_t, boost::json::error_code&);            
             bool on_array_begin(boost::json::error_code&);
@@ -93,6 +93,7 @@ namespace parser
         ~parser() { }
 
         void clear() { params.clear(); p.reset(); }
+        void done() { p.done(); }
 
         std::size_t write(char const* data, std::size_t size, boost::json::error_code& ec);
     };

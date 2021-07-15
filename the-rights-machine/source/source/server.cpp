@@ -16,16 +16,20 @@ void server::listener::background(thread *bt)
 		{
 			if(request)
 			{
+				//std::cout << "request bytes, index " << bytes << "," << index << "\n";
 				request = intent(receiving, bytes, index);
 				if(!request) header = true;
 			}
 
 			if(header) 
 			{
+				//std::cout << "header bytes, index " << bytes << "," << index << "\n";
 				header = heading(&receiving[index], bytes - index - 1, temp);
 				if(!header) 
 				{
 					read_counter = 0;
+					parser->clear();
+					//std::cout << "pp clear\n";
 					//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
 					// PASS THIS INTO compute::Task
 					if(!validate()) error(string("HEADER"));
@@ -39,7 +43,12 @@ void server::listener::background(thread *bt)
 
 			if((!header)&&(!request))
 			{
-				int read = bytes - index - 1;			
+				//std::cout << "reading bytes, index " << bytes << "," << index << "\n";
+				
+				int read = bytes - index - 1;	
+				//std::cout << "reading " << read << "\n";
+				//string moo(&receiving[index],read);
+				//std::cout << moo << "\n";		
 				int n = parser->write(&receiving[index], read, ec);
 				read_counter += n;
 				if(n != read) ++errors;
@@ -92,6 +101,7 @@ void server::listener::reset(client *source)
 
 void server::listener::clear()
 {
+	//std::cout << "listen clear\n";
 	parameters.clear();
 	parser->clear();
 
@@ -237,6 +247,8 @@ bool server::listener::heading(char *source, int length, int &index)
 
 void server::listener::goodbye()
 {
+	//std::cout << "goodbye\n";
+	parser->done();
 	c->goodbye();
 	clear();
 }
@@ -438,6 +450,7 @@ void server::client::clear()
 bool server::client::start()
 {
 	if (listen == NULL) return false;
+	listen->clear();
 	listen->start();
 	if (!listen->initalised()) return false;
 
@@ -500,8 +513,10 @@ void server::client::resetError()
 
 void server::client::shutdown()
 {
+	//std::cout << "shutdown\n";
 	stopAndWait();
 	close();
+	//listen->clear();
 }
 
 void server::client::notifyIn(guid::guid identity)

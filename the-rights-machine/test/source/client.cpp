@@ -8,19 +8,22 @@
 void test::client::reset(string filename)
 {
     init = false; cleanup();
+    length = 0;
 
     std::ifstream in(filename, std::ios::binary);
     if(!in.is_open()) return;
 
     in.seekg(0, std::ios::end);
-    std::streampos end = in.tellg();
+    //std::streampos end = in.tellg();
+    length = in.tellg();
+
     in.seekg(0, std::ios::beg);
 
-    buffer = new char[end];
+    buffer = new char[length];
     if(buffer == NULL) return;
-    memset(buffer, 0, end);
+    memset(buffer, 0, length);
 
-    in.read(buffer, end);
+    in.read(buffer, length);
     in.close();
 
     init = true;
@@ -28,9 +31,10 @@ void test::client::reset(string filename)
 
 bool test::client::post(string url, long port, web::page *destination)
 {
-    string temp(buffer);
+    string temp(buffer, length);
 
     source.data(temp);
+    //std::cout << "post\n" << temp << "\n";
 
     //web::page destination;
     destination->url = url;

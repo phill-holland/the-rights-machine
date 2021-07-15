@@ -152,6 +152,7 @@ void compute::cpu::processor::push(::compute::task &task)
 
 			if(task.response != NULL)
 			{
+				//std::cout << "send task something\n";
 				data::response::response response;
 
 				//response.queryID = q.queryID;
@@ -176,6 +177,7 @@ void compute::cpu::processor::push(::compute::task &task)
 
 		if(task.response != NULL)
 		{
+			//std::cout << "send task nothing\n";
 			data::response::response response;
 
 			response.guid = msg.guid;

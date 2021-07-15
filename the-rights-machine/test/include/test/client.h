@@ -9,6 +9,8 @@ namespace test
         web::page source;
         http::client::client cli;
 
+        long length;
+        
         char *buffer;
         bool init;
 
