@@ -13,18 +13,6 @@ namespace data
 {
 	namespace response
 	{
-		// ****
-
-		// this class also needs to be a thread
-		// to check expiration dates
-
-		// response class, need to add many children
-		// add error class to response
-		// turn this class into allocator
-		// inherit from response::json
-		// add find function
-		// overload set function
-
 		using namespace comparison;
 
 		class responses : public thread, public custom::chain<::data::response::response>
@@ -52,33 +40,12 @@ namespace data
 			bool initalised() { return init; }
 			void reset(unsigned long total);
 
-			void clear();// { return data.clear(); }
+			void clear();
 
 			bool set(data::response::response &source);
-			/*{
-				if (count() >= MAX) return false;
-
-				data.push_back(source);
-
-				return true;
-			}*/
-
 			data::response::response get(unsigned long index);
-			/*{
-				return data[index];
-			}*/
 
-			unsigned long count();// { return (unsigned long)data.size(); }
-
-			//string identifier() { return string("response"); }
-
-			//unsigned long pairs() { return 0UL; }
-			//custom::pair& pull(unsigned long index) { return custom::pair(); }
-
-			//virtual bool set(X &source) = 0;
-			//virtual bool get(X &destination) = 0;
-
-			//virtual X& get(unsigned long index) = 0;
+			unsigned long count();
 
 			data::response::response find(string &identity);
 

@@ -3,6 +3,7 @@
 
 bool zone::zone::overlapped(zone &source)
 {
+    /*
     bool a = start <= source.end;
     bool b = end >= source.start;
 
@@ -10,7 +11,7 @@ bool zone::zone::overlapped(zone &source)
     std::cout << source.start.to() << "," << source.end.to() << "\n";
     bool bob = ((start <= source.end) && (end >= source.start));
     std::cout << ((bob==true) ? string("true\n\n") : string("false\n\n"));
-   
+   */
     return ((start <= source.end) && (end >= source.start));
 }
 

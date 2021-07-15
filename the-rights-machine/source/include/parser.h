@@ -92,7 +92,7 @@ namespace parser
                notification::notification *notify) : params(manager, responses, notify), p(boost::json::parse_options(), &params) { }
         ~parser() { }
 
-        void clear() { params.clear(); }
+        void clear() { params.clear(); p.reset(); }
 
         std::size_t write(char const* data, std::size_t size, boost::json::error_code& ec);
     };

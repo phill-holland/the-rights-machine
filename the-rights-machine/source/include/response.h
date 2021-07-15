@@ -15,7 +15,11 @@ namespace data
 		class response : public data::json::response::json
 		{
 		public:
-			enum STATUS { ERR = 0, OK = 1, PENDING = 2, UNKNOWN = 3 };
+			enum STATUS { ERR = 0, 
+						  OK = 1, 
+						  PENDING = 2, 
+						  RANGE = 3,
+						  UNKNOWN = 4 };
 
 		public:
 			string guid;

@@ -15,12 +15,9 @@ bool parser::parser::handler::on_object_begin(boost::json::error_code&)
 bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code&)
 { 
     params->key.clear();
-    std::cout << "end " << params->parents.FQDN() << "\n";
-    //std::cout << params->parents.size() << "\n";
     queue::base *b = params->task.message.findQ(params->parents.FQDN());
     if (b != NULL) 
     {
-       std::cout << "FLUSH\n";
         b->flush();
     }
 
@@ -55,15 +52,6 @@ bool parser::parser::handler::on_array_begin(boost::json::error_code&)
 bool parser::parser::handler::on_array_end(std::size_t, boost::json::error_code&)
 {
     params->key.clear();
-
-//std::cout << "array end " << params->parents.FQDN() << "\n";
-//std::cout << params->parents.size() << "\n";
-   // queue::base *b = params->task.message.findQ(params->parents.FQDN());
-    //if (b != NULL) 
-    //{
-       // b->flush();
-    //}
-
     return params->parents.pop();
 }
 

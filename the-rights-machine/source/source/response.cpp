@@ -44,6 +44,8 @@ string data::response::response::map(STATUS source)
 {
 	if (source == STATUS::OK) return string("OK");
 	else if (source == STATUS::PENDING) return string("PENDING");
+	else if (source == STATUS::ERR) return string("ERR");
+	else if (source == STATUS::RANGE) return string("RANGE");
 	
 	return string("UNKNOWN");
 }

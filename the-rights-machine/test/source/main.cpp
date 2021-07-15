@@ -23,7 +23,16 @@
 	// need a thread safe std::vector
 	// return errors to web client
 
-/*
+// NEED TO TEST FOR BAD JSON
+// TEST WITH TWO CNOCURRENT REQUESTS,
+// TEST WITH TWO ITEMS, SINGLE QUERY
+// AVAILABLE and AVAILABLE, 
+// AVAILABLE and UNAVAILABLE, 
+// UNAVAILABLE and AVAILABLE, 
+// UNAVAILABLE and UNAVAILABLE
+// NO ACQUIRED RIGHTS TEST
+// 15 COMPONENTS TEST
+
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
@@ -43,7 +52,6 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-*/
 
 TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
@@ -65,9 +73,7 @@ TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.available.compare(string("true")) == 0);
 }
 
-
-/*
-TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
+TEST(BasicOutOfRangeQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
 
@@ -83,47 +89,34 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(responses.data.size() == 1);
 
 	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("RANGE")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+}
+
+
+/*
+// two items, same query, both available
+TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
+{
+	long port = 5454;
+
+	test::client client(string("test/data/twoItemsBothAvailable.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
 	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
 */
-// 15 component test
-// multiple programme test
-// not aviable first test
-// second available test
 
-/*
-TEST(DateComparionsTests, BasicAssertions)
-{
-	global::datetime a(2018, 10, 2);
-	global::datetime b(2017, 10, 2);
-	global::datetime c(2018, 9, 2);
-	global::datetime d(2018, 10, 1);
-	global::datetime e(2018, 10, 3);
-	global::datetime f(2018, 11, 2);
-	global::datetime g(2019, 9, 2);
-
-	EXPECT_FALSE(a < b);
-	EXPECT_TRUE(b < a);
-	EXPECT_FALSE(a < a);
-	EXPECT_TRUE(c < a);
-	EXPECT_TRUE(d < a);
-	EXPECT_FALSE(e < a);
-	EXPECT_FALSE(f < a);
-	EXPECT_FALSE(g < a);
-}
-*/
-/*
-#include <gtest/gtest.h>
-
-// Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions) {
-  // Expect two strings not to be equal.
-  EXPECT_STRNE("hello", "world");
-  // Expect equality.
-  EXPECT_EQ(7 * 6, 42);
-}
-*/
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

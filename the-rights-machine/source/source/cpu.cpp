@@ -73,8 +73,8 @@ void compute::cpu::processor::push(::compute::task &task)
 	data::message::mapping mappings;
 	data::message::message msg = task.message.split(mappings);
 
-	std::cout << task.message.output();
-	std::cout << msg.output();
+	//std::cout << task.message.output();
+	//std::cout << msg.output();
 
 	//if(in_ptr > 0)
 	if(mappings.hasIn())
@@ -114,15 +114,15 @@ void compute::cpu::processor::push(::compute::task &task)
 				// and check overlaps during minus
 				// or push?
 
-				std::cout << "in\n";
+				//std::cout << "in\n";
 
-				std::cout << in->output();
-				std::cout << "out\n";
-				std::cout << out->output();
+				//std::cout << in->output();
+				//std::cout << "out\n";
+				//std::cout << out->output();
 
 				in->minus(*out);
-				std::cout << "in - out\n";
-				std::cout << in->output();
+				//std::cout << "in - out\n";
+				//std::cout << in->output();
 
 				offset += msg.components.maximum();
 			}
@@ -144,8 +144,8 @@ void compute::cpu::processor::push(::compute::task &task)
 				}
 			}
 
-			std::cout << "query\n";
-			std::cout << query->output();
+			//std::cout << "query\n";
+			//std::cout << query->output();
 
 			in->AND(*query);
 			bool result = in->compare(*query);
@@ -171,7 +171,7 @@ void compute::cpu::processor::push(::compute::task &task)
 	}
 	else
 	{
-		std::cout << "nothing!\n";
+		//std::cout << "nothing!\n";
 		// no acquired rights, throw error, not available here!!!
 
 		if(task.response != NULL)
@@ -179,7 +179,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			data::response::response response;
 
 			response.guid = msg.guid;
-			response.status = data::response::response::STATUS::ERR;
+			response.status = data::response::response::STATUS::RANGE;
 			response.available = false;
 			response.created = datetime::now();
 
@@ -229,10 +229,8 @@ void compute::cpu::cpu::background(thread *bt)
 	}
 	else
 	{
-		sleep(5000);
+		sleep(500);
 	}
-
-	//return (DWORD)0;
 }
 
 void compute::cpu::cpu::reset(::queue::factory<::compute::task> *factory)

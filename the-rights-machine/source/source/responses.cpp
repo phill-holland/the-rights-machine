@@ -5,7 +5,7 @@
 void data::response::responses::background(thread *bt)
 {
 	// check created date 
-	sleep(10000);
+	sleep(1000);
 	
 	mutex lock(token);
 
