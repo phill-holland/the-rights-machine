@@ -210,8 +210,10 @@ namespace server
 		void notifyOut(guid::guid identity);
 
 	protected:
-		bool startResponse();
-		bool endResponse();
+		bool startResponses();
+		bool endResponses();
+
+		bool sendResponse(data::response::response response);
 
 	//protected:
 	//	bool removeFromPending(long id);

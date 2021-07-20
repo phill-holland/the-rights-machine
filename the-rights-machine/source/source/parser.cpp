@@ -3,6 +3,17 @@
 #include <fstream>
 #include <cstring>
 
+bool parser::parser::handler::on_document_begin(boost::json::error_code&) 
+{ 
+    return true; 
+}
+
+bool parser::parser::handler::on_document_end(boost::json::error_code&) 
+{ 
+    //std::cout << "on_document_end\n";
+    return true; 
+}
+
 bool parser::parser::handler::on_object_begin(boost::json::error_code&)
 {
     bool result = params->parents.push(params->key);
@@ -87,10 +98,16 @@ bool parser::parser::handler::on_int64(std::int64_t value, boost::json::string_v
 
 std::size_t parser::parser::write(char const* data, std::size_t size, boost::json::error_code& ec)
 {
-    auto const n = p.write_some(true, data, size, ec );
-    if(! ec && n < size)
+    try
     {
-        ec = boost::json::error::extra_data;
+        auto const n = p.write_some(true, data, size, ec);
+        if(!ec && n < size) ec = boost::json::error::extra_data;
+        
+        return n;
     }
-    return n;
+    catch(boost::exception const& ex)//b_ex, std::exception const& ex)
+    {   
+        //std::cout << "are you sure???\n";
+        return -1;
+    }
 }

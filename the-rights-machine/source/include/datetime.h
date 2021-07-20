@@ -62,6 +62,9 @@ namespace global
 
 		void copy(datetime const &source);
 
+	protected:
+		string padding(string source, long count);
+		
 	public:
 		operator time_t()
 		{

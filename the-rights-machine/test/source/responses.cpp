@@ -1,4 +1,5 @@
 #include "test/responses.h"
+#include <iostream>
 
 void tests::data::responses::reset(web::page &source)
 {
@@ -7,13 +8,21 @@ void tests::data::responses::reset(web::page &source)
     boost::json::stream_parser p;
     boost::json::error_code ec;
 
-    string data = source.data();
-    p.write(data.c_str(), data.length(), ec);
-    if(ec) return;
+    try
+    {
+        string data = source.data();
+        std::cout << data;
+        p.write(data.c_str(), data.length(), ec);
+        if(ec) return;
 
-    boost::json::value value = p.release();
+        boost::json::value value = p.release();
 
-    parse(value);
+        parse(value);
+    }
+    catch(boost::exception const& ex)
+	{
+        return;
+    }
 
     init = true;
 }

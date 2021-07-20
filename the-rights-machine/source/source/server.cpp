@@ -33,7 +33,7 @@ void server::listener::background(thread *bt)
 					//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
 					// PASS THIS INTO compute::Task
 					if(!validate()) error(string("HEADER"));
-					if(!c->startResponse()) error(string("RESPONSE"));
+					if(!c->startResponses()) error(string("RESPONSE"));
 
 					// TASK.RESPONSE, overload with different type of output!!
 					// i.e. as a wrapper for outputter
@@ -50,18 +50,33 @@ void server::listener::background(thread *bt)
 				//string moo(&receiving[index],read);
 				//std::cout << moo << "\n";		
 				int n = parser->write(&receiving[index], read, ec);
-				read_counter += n;
-				if(n != read) ++errors;
+				if((n < 0) || ( n != read))
+				{
+					c->sendResponse(data::response::response(data::response::response::ERR));
+					c->endResponses();
+					goodbye();
+					//std::cout << "JSON err\n";
+				}
+				else read_counter += n;
+/*
+				if(n != read) 
+				{
+					++errors;
+				}
+				*/
 			}
 		}
 
 		// ***
 		if((!header)&&(!request))
-		{			
-			if((read_counter >= content_length - 1)&&(c->in == c->out))
-			{
-				c->endResponse();
-				goodbye();
+		{		
+			if((c->in > 0)&&(c->out > 0))
+			{	
+				if((read_counter >= content_length - 1)&&(c->in == c->out))
+				{
+					c->endResponses();
+					goodbye();
+				}
 			}
 		}
 		//if ((bytes <= 0) && (++errors >= ERRORS))
@@ -562,7 +577,7 @@ void server::client::notifyOut(guid::guid identity)
 	}
 }
 
-bool server::client::startResponse()
+bool server::client::startResponses()
 {
 	string result = "HTTP/1.1 200 OK\r\n";			
 	result += "Transfer-Encoding: chunked\r\n";
@@ -575,12 +590,16 @@ bool server::client::startResponse()
 	result.concat(length);
 	result.concat(data);
 
+std::cout << "startResponse " << result;
+	
+	mutex lock(token);
+
 	if(write(result, 0) != result.length()) return false;
 
 	return true;
 }
 
-bool server::client::endResponse()
+bool server::client::endResponses()
 {
 	string data = "]}\r\n";
 	string result = string::toHex(data.length());
@@ -588,7 +607,30 @@ bool server::client::endResponse()
 	result.concat(data);
 	result.concat(string("0\r\n"));
 
+std::cout << "endResponse " << result;
+	
+	mutex lock(token);
+
 	if(write(result, 0) != result.length()) return false;
+
+	return true;
+}
+
+bool server::client::sendResponse(data::response::response response)
+{
+	string data = response.extract();
+	if(out > 0) data.concat(string(","));	
+	data.concat(string("\r\n"));
+
+	string output = string::toHex(data.length());
+	output.concat(string("\r\n"));
+	output.concat(data);
+
+	mutex lock(token);
+
+	std::cout << "sendResponse " << output;
+
+	if(write(output, 0) != output.length()) return false;
 
 	return true;
 }

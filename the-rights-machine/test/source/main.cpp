@@ -93,6 +93,25 @@ TEST(BasicOutOfRangeQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
 
+TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
+{
+	long port = 5454;
+
+	test::client client(string("test/data/invalidJson.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+}
 
 /*
 // two items, same query, both available

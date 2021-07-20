@@ -58,10 +58,30 @@ string global::datetime::to()
 {
 	string result = string::fromInt(year);
 	result += "-";
-	result += string::fromInt(month);
+	result += padding(string::fromInt(month), 2);
 	result += "-";
-	result += string::fromInt(day);
+	result += padding(string::fromInt(day), 2);
+	result += "T";
+	result += padding(string::fromInt(hour), 2);
+	result += ":";
+	result += padding(string::fromInt(minute), 2);
+	result += ":";
+	result += padding(string::fromInt(second), 2);
 
+	return result;
+}
+
+string global::datetime::padding(string source, long count)
+{
+	if(source.size() >= count) return source;
+	string result;
+
+	for(long i = 0L; i < count - source.size(); ++i)
+	{
+		result.concat(string("0"));
+	}
+
+	result.concat(source);
 	return result;
 }
 
