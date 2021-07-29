@@ -241,8 +241,13 @@ bool http::client::client::issue(string command,
 								}
 								else state = 0;
 							}
-							else ++error;
-						} while ((t > 0) && (error < 10) && (!finished));
+							else 
+							{
+								std::this_thread::sleep_for(std::chrono::milliseconds(50));
+								++error;
+							}
+						//} while ((t > 0) && (error < 10) && (!finished));
+						} while ((error < 10) && (!finished));
 
 						if(t > 0) //&& (character != 10) && (character != 13))
 						{
@@ -251,6 +256,7 @@ bool http::client::client::issue(string command,
 
 							//if(((character != 10) && character != 13))
 							//{
+								//std::cout << "chunk\n" << chunk << "\n";
 								bytestoread = chunk.toLongFromHex();
 								//std::cout << "bytses " << bytestoread << "\n";
 								//now read cr lf here, before reading the data
@@ -290,10 +296,16 @@ bool http::client::client::issue(string command,
 									//std::cout << "plop[" << string(receive,2) << "]\n";
 								}
 							//}
-						} else bytestoread = 0L;
+						} 
+						else 
+						{
+							//std::cout << "t<0\n";
+							bytestoread = 0L;
+						}
 						
 					} while (bytestoread > 0L);
 
+					//std::cout << "done!\n";
 					// trailer CRLF
 					//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
 					//else t = ssl::read(receive, 2L);
