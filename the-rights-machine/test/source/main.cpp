@@ -32,7 +32,7 @@
 // UNAVAILABLE and UNAVAILABLE
 // NO ACQUIRED RIGHTS TEST
 // 15 COMPONENTS TEST
-/*
+
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
@@ -112,7 +112,7 @@ TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-*/
+
 TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
@@ -136,7 +136,7 @@ TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("true")) == 0);
 }
-/*
+
 TEST(TwoItemsOneAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
@@ -180,7 +180,7 @@ TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-*/
+
 /* include name in response! */
 /* test database mode */
 /* create api thread key thing, loads keys from database

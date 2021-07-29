@@ -5,7 +5,7 @@
 
 bool parser::parser::handler::on_document_begin(boost::json::error_code&) 
 { 
-    std::cout << "document beGIN\n";
+    //std::cout << "document beGIN\n";
     params->task.inquiry.clear();
     params->task.message.clear();
     
@@ -53,7 +53,7 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
         if (!params->manager->set(params->task)) return false;
 
         //params->clear();
-        params->task.inquiry.clear();
+        //params->task.inquiry.clear();
         params->task.message.clear();
     }
                                     

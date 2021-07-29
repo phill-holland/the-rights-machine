@@ -74,8 +74,8 @@ void compute::cpu::processor::push(::compute::task &task)
 	data::message::message msg = task.message.split(task.inquiry, mappings);
 
 //std::cout << "push\n";
-	//std::cout << task.message.output();
-	//std::cout << "message " << msg.output() << "\n";
+//	std::cout << task.message.output();
+//	std::cout << "message " << msg.output() << "\n";
 	//std::cout << "query " << task.inquiry.queries[0]->output()<< "\n";
 	//if(in_ptr > 0)
 	if(mappings.hasIn())
