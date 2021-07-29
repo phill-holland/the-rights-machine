@@ -5,6 +5,10 @@
 
 bool parser::parser::handler::on_document_begin(boost::json::error_code&) 
 { 
+    std::cout << "document beGIN\n";
+    params->task.inquiry.clear();
+    params->task.message.clear();
+    
     return true; 
 }
 
@@ -25,10 +29,13 @@ bool parser::parser::handler::on_object_begin(boost::json::error_code&)
 
 bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code&)
 { 
+    //std::cout << params->parents.FQDN() << "\n";
+
     params->key.clear();
-    queue::base *b = params->task.message.findQ(params->parents.FQDN());
+    queue::base *b = params->task.findQ(params->parents.FQDN());
     if (b != NULL) 
     {
+        //std::cout << "found\n";
         b->flush();
     }
 
@@ -45,6 +52,8 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
         if (params->notify != NULL) params->notify->notifyIn(g);
         if (!params->manager->set(params->task)) return false;
 
+        //params->clear();
+        params->task.inquiry.clear();
         params->task.message.clear();
     }
                                     
@@ -74,7 +83,7 @@ bool parser::parser::handler::on_key(boost::json::string_view sv, std::size_t sz
 
 bool parser::parser::handler::on_string(boost::json::string_view sv, std::size_t sz, boost::json::error_code&) 
 { 
-    data::json::request::json *current = params->task.message.find(params->parents.FQDN());
+    data::json::request::json *current = params->task.find(params->parents.FQDN());
     if(current != NULL)
     {
         custom::pair pair(params->key, string(sv.data(), sz));
@@ -86,7 +95,7 @@ bool parser::parser::handler::on_string(boost::json::string_view sv, std::size_t
 
 bool parser::parser::handler::on_int64(std::int64_t value, boost::json::string_view, boost::json::error_code&) 
 {
-    data::json::request::json *current = params->task.message.find(params->parents.FQDN());
+    data::json::request::json *current = params->task.find(params->parents.FQDN());
     if(current != NULL)
     {
         custom::pair pair(params->key, string::fromInt(value));

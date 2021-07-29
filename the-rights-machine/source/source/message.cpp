@@ -9,10 +9,10 @@ void data::message::message::reset()
 	init = false; cleanup();
 
 	items.json::parent(this);
-	queries.json::parent(this);
+	//queries.json::parent(this);
 
-	queries.temp.components.json::parent(&queries);
-	queries.temp.elements.json::parent(&queries.temp.components);
+	//queries.temp.components.json::parent(&queries);
+	//queries.temp.elements.json::parent(&queries.temp.components);
 
 	lines.json::parent(&items);
 	components.json::parent(&lines);
@@ -22,20 +22,24 @@ void data::message::message::reset()
 							&components.temp, &components,
 							&lines.temp, &lines,
 							&items.temp, &items,
-							&queries.temp.elements.temp, &queries.temp.elements,
-							&queries.temp.components.temp, &queries.temp.components,
-							&queries.temp, &queries, this };
+							//&queries.temp.elements.temp, &queries.temp.elements,
+							//&queries.temp.components.temp, &queries.temp.components,
+							//&queries.temp, &queries, 
+							this };
 
-	for (long i = 0L; i < 15L; ++i)
+	for (long i = 0L; i < 9L; ++i)
 	{
 		hash[identifiers[i]->FQDN()] = identifiers[i];
 		//std::cout << identifiers[i]->FQDN() << "\n";
 	}
 	
-	queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
-	json *id[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
+	//queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
+	//json *id[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
 
-	for (long i = 0L; i < 7L; ++i)
+	queue::base *queues[] = { &elements, &components, &lines, &items };
+	json *id[] = { &elements, &components, &lines, &items };
+
+	for (long i = 0L; i < 4L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
 		//std::cout << "moo " << id[i]->FQDN() << "\n";
@@ -59,7 +63,7 @@ void data::message::message::clear()
 	created.clear();
 	finished.clear();
 
-	queries.clear();
+	//queries.clear();
 	items.clear();
 	lines.clear();
 	components.clear();
@@ -82,8 +86,9 @@ data::json::request::json *data::message::message::find(string FQDN)
 	return NULL;
 }
 
-data::message::message data::message::message::split(mapping &destination)
+data::message::message data::message::message::split(inquiry &inquiry, mapping &destination)
 {
+	//std::cout << "SPLIT " << lines.count() << "\n";
 	int in_ptr = 0, out_ptr = 0;
 
 	message result(*this);
@@ -93,14 +98,21 @@ data::message::message data::message::message::split(mapping &destination)
 	{
 		data::line::line *source = lines[i];
 
-		for (long j = 0L; j < queries.count(); ++j)
+		for (long j = 0L; j < inquiry.queries.count(); ++j)
 		{
-			data::query::query *query = queries[j];
-
+			data::query::query *query = inquiry.queries[j];
+//BUGGER QUERY NOT COPIED INTO SECOND MESSAGE!
+// leave queries in message
+// but move out json parse, into new query class
+			//std::cout << "query " << query->start.to() << " " << query->end.to() << "\n";
+			//std::cout << "source " << source->start.to() << " " << source->end.to() << "\n";
+			
 			if (source->overlapped(*query))
 			{
+				//std::cout << "overlap query\n";
 				if (source->typeID == (int)data::line::line::TYPE::in)
 				{
+					long out_count = 0L;
 					for (long k = 0L; k < lines.count(); ++k)
 					{
 						data::line::line *output = lines[k];
@@ -109,6 +121,7 @@ data::message::message data::message::message::split(mapping &destination)
 							bool splitted = false;
 							if(source->overlapped(*output))
 							{
+								++out_count;
 								std::vector<zone::zone> splits = source->split(*output);
 								for (long l = 0L; l < (long)splits.size(); ++l)
 								{
@@ -140,6 +153,18 @@ data::message::message data::message::message::split(mapping &destination)
 								++in_ptr;								
 							}
 						}
+					}
+
+					if(out_count == 0L)
+					{
+						data::message::mapping::map map;
+						map.index = result.lines.count();
+						map.lineID = source->lineID;
+						
+						result.lines.set(*source);
+						
+						destination.in[in_ptr] = map;
+						++in_ptr;
 					}
 				}
 				else if (source->typeID == (int)data::line::line::TYPE::out)
@@ -180,6 +205,8 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 			{
 				string component = components.name(element->componentID);
 				int componentID = components.map(component);
+
+				//std::cout << "comp " << component << " id " << componentID << "\n";
 				if(componentID >= 0)
 				{
 					int itemID = lines.mapper::parent(line.lineID);
@@ -266,6 +293,7 @@ bool data::message::message::load(file::file<data::item::item> *source)
 	return valid;
 }
 
+/*
 bool data::message::message::load(file::file<data::query::query> *source)
 {
 	bool valid = false;
@@ -281,7 +309,7 @@ bool data::message::message::load(file::file<data::query::query> *source)
 
 	return valid;
 }
-
+*/
 bool data::message::message::load(file::file<data::line::line> *source)
 {
 	bool valid = false;
@@ -348,6 +376,7 @@ bool data::message::message::save(file::file<data::item::item> *destination)
 	return valid;
 }
 
+/*
 bool data::message::message::save(file::file<data::query::query> *destination)
 {
 	bool valid = false;
@@ -365,6 +394,7 @@ bool data::message::message::save(file::file<data::query::query> *destination)
 
 	return valid;
 }
+*/
 
 bool data::message::message::save(file::file<data::line::line> *destination)
 {
@@ -429,7 +459,7 @@ void data::message::message::copy(message const &source)
 	created = source.created;
 	finished = source.finished;
 
-	queries = source.queries;
+	//queries = source.queries;
 	items = source.items;
 	lines = source.lines;
 	components = source.components;
@@ -440,7 +470,7 @@ string data::message::message::output()
 {
 	// array[i] indices are coping each time they're called!!!
 	string result("\"message\" : {\r\n");
-	for (long i = 0L; i < queries.count(); ++i) result.concat(queries[i]->output());
+	//for (long i = 0L; i < queries.count(); ++i) result.concat(queries[i]->output());
 	for (long i = 0L; i < items.count(); ++i) result.concat(items[i]->output());
 	for (long i = 0L; i < lines.count(); ++i) result.concat(lines[i]->output());
 	for (long i = 0L; i < components.count(); ++i) result.concat(components[i]->output());

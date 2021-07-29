@@ -1391,9 +1391,9 @@ bool database::storage::message::read(data::message::message &destination)
 		t_item.parent = &destination;
 		if (!destination.load(&t_item)) return false;
 
-		t_query.messageID = temp.messageID;
-		t_item.parent = &destination;
-		if (!destination.load(&t_query)) return false;
+		//t_query.messageID = temp.messageID;
+		//t_item.parent = &destination;
+		//if (!destination.load(&t_query)) return false;
 
 		return true;
 	}
@@ -1430,9 +1430,9 @@ bool database::storage::message::write(data::message::message &source)
 		t_item.parent = &source;
 		if (!source.save(&t_item)) return false;
 
-		t_query.messageID = unique;
-		t_item.parent = &source;
-		if (!source.save(&t_query)) return false;
+		//t_query.messageID = unique;
+		//t_item.parent = &source;
+		//if (!source.save(&t_query)) return false;
 
 		return true;
 	}

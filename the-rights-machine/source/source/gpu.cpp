@@ -81,9 +81,9 @@ void compute::gpu::processor::push(::compute::task &task)
 		// if no query generate ERROR, somewhere
 		// ***
 
-		for (long j = 0L; j < task.message.queries.count(); ++j)
+		for (long j = 0L; j < task.inquiry.queries.count(); ++j)
 		{
-			data::query::query query = task.message.queries[j];
+			data::query::query query = task.inquiry.queries[j];
 
 			if (source.overlapped(query))
 			{
@@ -154,9 +154,9 @@ void compute::gpu::processor::push(::compute::task &task)
 		}
 
 		unsigned long offset = 0UL;
-		for (unsigned long i = 0UL; i < (unsigned long)task.message.queries.count(); ++i)
+		for (unsigned long i = 0UL; i < (unsigned long)task.inquiry.queries.count(); ++i)
 		{
-			data::query::query q = task.message.queries[i];
+			data::query::query q = task.inquiry.queries[i];
 
 			q.filter(rows, height, (unsigned long)in_map.size());
 

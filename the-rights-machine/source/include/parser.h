@@ -45,6 +45,7 @@ namespace parser
             {
                 key.clear();
                 parents.clear();
+                task.inquiry.clear();
                 task.message.clear();
             }
         };

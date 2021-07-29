@@ -32,7 +32,7 @@
 // UNAVAILABLE and UNAVAILABLE
 // NO ACQUIRED RIGHTS TEST
 // 15 COMPONENTS TEST
-
+/*
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
@@ -112,10 +112,8 @@ TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-
-/*
-// two items, same query, both available
-TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
+*/
+TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
 	long port = 5454;
 
@@ -128,13 +126,65 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 2);
+
+	tests::data::response response = responses.data[0];
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("true")) == 0);
+
+	response = responses.data[1];
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("true")) == 0);
+}
+/*
+TEST(TwoItemsOneAvailableQueryWithInMemoryQueue, BasicAssertions)
+{
+	long port = 5454;
+
+	test::client client(string("test/data/twoItemsOneAvailable.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 2);
+
+	tests::data::response response = responses.data[0];
+	EXPECT_TRUE(response.status.compare(string("RANGE")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+
+	response = responses.data[1];
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("true")) == 0);
+}
+
+TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
+{
+	long port = 5454;
+
+	test::client client(string("test/data/basicUnavailableMinusComponent.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
 	EXPECT_TRUE(responses.data.size() == 1);
 
 	tests::data::response response = responses.data.front();
-	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
 */
+/* include name in response! */
+/* test database mode */
+/* create api thread key thing, loads keys from database
+periodically */
 
 int main(int argc, char **argv)
 {

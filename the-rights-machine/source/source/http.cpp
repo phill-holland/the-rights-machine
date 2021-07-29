@@ -281,6 +281,13 @@ bool http::client::client::issue(string command,
 										}
 										else ++error;
 									} while ((t > 0) && (remaining > 0) && (error < 10));
+
+									//std::cout << "t " << t << " remaining " << remaining << " eror " << error << "\n";
+									//std::cout << "receiv-leng " << receive_length << "\n";
+									//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
+									//else t = ssl::read(receive, 2L);
+
+									//std::cout << "plop[" << string(receive,2) << "]\n";
 								}
 							//}
 						} else bytestoread = 0L;
@@ -288,10 +295,10 @@ bool http::client::client::issue(string command,
 					} while (bytestoread > 0L);
 
 					// trailer CRLF
-					if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
-					else t = ssl::read(receive, 2L);
+					//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
+					//else t = ssl::read(receive, 2L);
 
-					//std::cout << "[" << string(receive,2) << "]\n";
+					//std::cout << "plop[" << string(receive,2) << "]\n";
 				}
 			}
 		}

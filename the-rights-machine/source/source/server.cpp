@@ -70,7 +70,8 @@ void server::listener::background(thread *bt)
 		// ***
 		if((!header)&&(!request))
 		{		
-			if((c->in > 0)&&(c->out > 0))
+			//if((c->in > 0)&&(c->out > 0))
+			if(c->out >= 1)
 			{	
 				if((read_counter >= content_length - 1)&&(c->in == c->out))
 				{
@@ -558,10 +559,13 @@ void server::client::notifyOut(guid::guid identity)
 			{
 				string data = value.extract();
 				if(in != out + 1) data.concat(string(","));
-				data.concat(string("\r\n"));
+				//data.concat(string("\r\n"));
 				string output = string::toHex(data.length());
 				output.concat(string("\r\n"));
 				output.concat(data);
+				output.concat(string("\r\n"));
+
+//std::cout << "notifyOut " << output;
 
 				mutex lock(token);
 
@@ -583,14 +587,16 @@ bool server::client::startResponses()
 	result += "Transfer-Encoding: chunked\r\n";
 	result += "Content-Type: application/json\r\n\r\n";
 	
-	string data("{\"responses\":[\r\n");
+	//string data("{\"responses\":[\r\n");
+	string data("{\"responses\":[");
 
 	string length = string::toHex(data.length());
 	length.concat(string("\r\n"));
 	result.concat(length);
 	result.concat(data);
+	result.concat(string("\r\n"));
 
-std::cout << "startResponse " << result;
+//std::cout << "startResponse " << result;
 	
 	mutex lock(token);
 
@@ -601,13 +607,13 @@ std::cout << "startResponse " << result;
 
 bool server::client::endResponses()
 {
-	string data = "]}\r\n";
+	string data = "]}";
 	string result = string::toHex(data.length());
 	result.concat(string("\r\n"));
-	result.concat(data);
-	result.concat(string("0\r\n"));
+	result.concat(data);	
+	result.concat(string("\r\n0\r\n"));
 
-std::cout << "endResponse " << result;
+//std::cout << "endResponses " << result;
 	
 	mutex lock(token);
 
@@ -620,15 +626,16 @@ bool server::client::sendResponse(data::response::response response)
 {
 	string data = response.extract();
 	if(out > 0) data.concat(string(","));	
-	data.concat(string("\r\n"));
+	//data.concat(string("\r\n"));
 
 	string output = string::toHex(data.length());
 	output.concat(string("\r\n"));
 	output.concat(data);
+	output.concat(string("\r\n"));
 
 	mutex lock(token);
 
-	std::cout << "sendResponse " << output;
+	//std::cout << "sendResponse " << output;
 
 	if(write(output, 0) != output.length()) return false;
 

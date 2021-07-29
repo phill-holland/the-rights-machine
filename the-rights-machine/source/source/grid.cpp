@@ -110,6 +110,7 @@ bool compute::cpu::grid::push(::compute::common::row *source)
 
 	for (unsigned long i = 0UL; i < source->count(); ++i)
 	{
+		//if(source->get(i) > 0) std::cout << "push offset + i " << (offset + i) << " get(i) " << source->get(i) << "\n";
 		data[offset + i] = source->get(i);
 	}
 

@@ -71,11 +71,12 @@ void compute::cpu::processor::push(::compute::task &task)
 	clear();
 
 	data::message::mapping mappings;
-	data::message::message msg = task.message.split(mappings);
+	data::message::message msg = task.message.split(task.inquiry, mappings);
 
+//std::cout << "push\n";
 	//std::cout << task.message.output();
-	//std::cout << msg.output();
-
+	//std::cout << "message " << msg.output() << "\n";
+	//std::cout << "query " << task.inquiry.queries[0]->output()<< "\n";
 	//if(in_ptr > 0)
 	if(mappings.hasIn())
 	{
@@ -83,6 +84,7 @@ void compute::cpu::processor::push(::compute::task &task)
 		msg.filter(rows, height, mappings.in);
 		for (unsigned long i = 0UL; i < (mappings.in.size() * msg.components.maximum()); ++i)
 		{
+			//std::cout << "in i " << i << "\n";
 			in->push(rows[i]);
 		}
 
@@ -127,12 +129,14 @@ void compute::cpu::processor::push(::compute::task &task)
 				offset += msg.components.maximum();
 			}
 		}
-
+//std::cout << "THING\n";
 		unsigned long offset = 0UL;
-		for (unsigned long i = 0UL; i < (unsigned long)msg.queries.count(); ++i)
+		for (unsigned long i = 0UL; i < (unsigned long)task.inquiry.queries.count(); ++i)
 		{
-			data::query::query *q = msg.queries[i];
+			//std::cout << "query " << i << "\n";
+			data::query::query *q = task.inquiry.queries[i];
 
+			//std::cout << "moo " << q->output() << "\n";
 			q->filter(rows, height, (unsigned long)mappings.in.size());
 
 			query->clear();
@@ -140,15 +144,25 @@ void compute::cpu::processor::push(::compute::task &task)
 			{
 				for (unsigned long k = 0UL; k < (unsigned long)msg.components.maximum(); ++k)
 				{
+					//std::cout << "i " << i << " j " << j << " k " << k << "\n";
+					//std::cout << "offset + k " << (offset + k) << "\n";
+					//std::cout << "count " << rows[offset + k]->count() << "\n";
+					//rows[offset + k].
 					query->push(rows[offset + k]);
 				}
 			}
+
+			//std::cout << "in\n";
+			//std::cout << in->output();
 
 			//std::cout << "query\n";
 			//std::cout << query->output();
 
 			in->AND(*query);
 			bool result = in->compare(*query);
+
+			//std::cout << "in AND\n";
+			//std::cout << in->output();
 
 			if(task.response != NULL)
 			{

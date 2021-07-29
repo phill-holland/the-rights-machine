@@ -4,8 +4,8 @@
 		"queries" :
 		[
 			{
-				"start" : "2016-01-02",
-				"end" : "2016-05-01",
+				"start" : "2018-01-02",
+				"end" : "2018-05-01",
 				"components" :
 				[
 					{
@@ -35,8 +35,41 @@
 				"lines" :
 				[
 					{
-						"start" : "2018-01-01",
+						"start" : "2018-07-01",
 						"end" : "2019-01-01",
+						"exclusivity" : 0,
+						"type" : 0,
+						"components" :
+						[
+							{
+								"name" : "country",
+								"elements" :
+								[
+									{ "value" : "england" },
+                                    { "value" : "france" }
+								]
+							}
+							,
+							{
+								"name" : "language",
+								"elements" :
+								[
+									{ "value" : "english" },
+									{ "value" : "french" }
+								]
+							}
+						]
+					}					
+				]
+			}
+            ,
+            {
+                "name" : "another item",
+				"lines" :
+				[
+					{
+						"start" : "2015-01-01",
+						"end" : "2020-12-01",
 						"exclusivity" : 0,
 						"type" : 0,
 						"components" :
@@ -60,35 +93,8 @@
 							}
 						]
 					}
-					,
-					{
-						"start" : "2018-06-01",
-						"end" : "2019-08-01",
-						"exclusivity" : 0,
-						"type" : 1,
-						"components" :
-						[
-							{
-								"name" : "country",
-								"elements" :
-								[
-									{ "value" : "england" },
-									{ "value" : "france" }
-								]
-							}
-							,
-							{
-								"name" : "language",
-								"elements" :
-								[
-									{ "value" : "english" },
-									{ "value" : "french" }
-								]
-							}
-						]
-					}
-				]
-			}
+                ]
+            }
 		]
 	}
 }
