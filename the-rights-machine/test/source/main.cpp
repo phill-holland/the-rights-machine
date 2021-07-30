@@ -8,8 +8,11 @@
 // add api key check
 // main loop!!
 // NUGET .net core package
+// configuration loader
 // SSL
 
+
+//curl --header "Content-Type: application/json"  --request POST --data-binary @body.json http://127.0.0.1:5555
 
 // test three, merged first two files into third new file
 // test concurrent access
@@ -40,6 +43,12 @@
 // UNAVAILABLE and UNAVAILABLE
 // NO ACQUIRED RIGHTS TEST
 // 15 COMPONENTS TEST
+
+/* include name in response! */
+/* test database mode */
+/* create api thread key thing, loads keys from database
+periodically */
+
 
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
@@ -188,11 +197,6 @@ TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
-
-/* include name in response! */
-/* test database mode */
-/* create api thread key thing, loads keys from database
-periodically */
 
 int main(int argc, char **argv)
 {

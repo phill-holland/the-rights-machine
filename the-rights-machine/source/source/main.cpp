@@ -1,69 +1,51 @@
-#include "parser.h"
 #include "configuration.h"
 #include "manager.h"
 #include "memory.h"
-#include "cpu.h"
 #include "server.h"
-#include "errors.h"
-#include "log.h"
-
-#include "element.h"
-#include "elements.h"
-#include "guid.h"
 #include "starter.h"
-
-#include "grid.h"
 #include "error.h"
-#include "crumbs.h"
-#include "parameters.h"
 
-#include "users.h"
-#include "odbc.h"
-
-//#include "bsttst.h"
-
-void test()
+void startup()
 {
-	queues::memory::incoming::factory messages;
-	queues::memory::outgoing::factory responses;
+	const long port = 5454;
 
-	compute::cpu::cpu cpu(&messages);
-	if (!cpu.start()) return;
+	messaging::memory::memory *messaging = NULL;
+	server::settings *setup = NULL;
+	server::starter *starter = NULL;
 
-	manager::manager manager(&responses);
-	manager.add(&cpu);
-
-	error::console::errors console;
-	error::errors errors(&console);
-	if (!errors.start()) return;
-
-
-	configuration::server::configuration configuration(&manager, nullptr, &errors);
-	server::server *server = new server::server(&configuration);
-
-	if (server == NULL) return;
-	if (server->initalised())
+	messaging = new messaging::memory::memory();
+	if(messaging != NULL) 
 	{
-		if (server->open())
+		setup = new server::settings(messaging, port);
+		if(setup != NULL)
 		{
-			if (server->start())
+			starter = new server::starter(*setup);
+			if(starter != NULL)
 			{
-				while (1)
+				if(starter->initalised())
 				{
-					std::this_thread::sleep_for(std::chrono::milliseconds(500));
-				};
-			}
-		}
-	}
+					if (starter->start())
+					{
+						while (1)
+						{
+							std::this_thread::sleep_for(std::chrono::milliseconds(500));
+						};
+					}
+				}
 
-	delete server;
+				delete starter;
+			}
+
+			delete setup;
+		}
+
+		delete messaging;
+	}
 }
 
 int main(int argc, char **argv)
 {
-	test();
-
-	//curl --header "Content-Type: application/json"  --request POST --data-binary @body.json http://127.0.0.1:5555
+	startup();
 
 	return 0;
 }

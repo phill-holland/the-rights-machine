@@ -26,7 +26,6 @@ namespace server
 
 		manager::manager *manager;
 
-		//error::console::errors *console;
 		debug::debugger *debugging;
 		error::errors *errors;
 

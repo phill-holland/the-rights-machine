@@ -1,8 +1,8 @@
 #include "error.h"
 #include "thread.h"
 #include "queue.h"
-#include "console.h"
-#include <vector>
+//#include "console.h"
+//#include <vector>
 
 #if !defined(__ERRORS)
 #define __ERRORS
@@ -52,6 +52,7 @@ namespace error
 		void cleanup();
 	};
 
+/*
 	namespace console
 	{
 		class errors : public queue::in<::error::type::type>, public ::console::console
@@ -64,7 +65,7 @@ namespace error
 				return console::set(temp);
 			}
 		};
-	};
+	};*/
 };
 
 #endif

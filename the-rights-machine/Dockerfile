@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.2.1-devel-ubuntu20.04
+FROM nvidia/cuda:11.2.1-devel-ubuntu20.04 as build
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install build-essential wget -y
 RUN apt-get update && apt-get install unixodbc-dev -y
@@ -16,3 +16,17 @@ WORKDIR /init
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.18.4/cmake-3.18.4-Linux-x86_64.sh
 RUN sh cmake-3.18.4-Linux-x86_64.sh --skip-license
 RUN ln -s /init/bin/cmake /usr/local/bin/cmake
+WORKDIR /code
+COPY . .
+WORKDIR /code/build
+RUN rm -rfv
+WORKDIR /code
+RUN cmake .
+RUN make
+WORKDIR /code/build/test
+RUN the-rights-machine_test
+
+FROM nvidia/cuda:11.1-runtime-ubuntu20.04 AS deploy
+EXPOSE 5454
+COPY --from=build /code/build/source/the-rights-machine .
+CMD [ "the-rights-machine" ]
