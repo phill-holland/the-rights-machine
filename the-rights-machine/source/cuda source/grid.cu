@@ -141,8 +141,6 @@ string compute::gpu::grid::output()
 				}
 
 				result.concat(string("}\r\n"));
-
-				//Log << result << string("\r\n");
 			}
 		}
 	}

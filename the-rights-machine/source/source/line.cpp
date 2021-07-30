@@ -41,8 +41,6 @@ string data::line::line::output()
 	result.concat(string("}\r\n"));
 
 	return result;
-	//std::cout << result;
-	//Log << result;
 }
 
 data::line::line data::line::line::spawn(datetime &start, datetime &end)

@@ -37,7 +37,6 @@ string data::request::request::output()
 	result.concat(string("'\"}\r\n"));
 
 	return result;
-	//Log << result;
 }
 
 bool data::request::request::add(custom::pair source)

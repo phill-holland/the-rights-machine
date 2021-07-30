@@ -64,5 +64,4 @@ string data::user::output()
 	result.concat(string("\"}\r\n"));
 
 	return result;
-	//Log << result;
 }

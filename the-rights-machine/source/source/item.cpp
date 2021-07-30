@@ -26,7 +26,6 @@ string data::item::item::output()
 	result.concat(string("\"}\r\n"));
 
 	return result;
-	//Log << result;
 }
 
 bool data::item::item::add(custom::pair source)

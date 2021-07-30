@@ -37,5 +37,4 @@ string data::element::element::output()
 	result.concat(string("\"}\r\n"));
 
 	return result;
-	//Log << result;
 }

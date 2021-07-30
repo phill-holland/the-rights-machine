@@ -37,7 +37,6 @@ string data::component::line::component::output()
 	result.concat(string("\"}\r\n"));
 
 	return result;
-	//Log << result;
 }
 
 void data::component::query::component::clear()
@@ -76,5 +75,4 @@ string data::component::query::component::output()
 	result.concat(string("\"}\r\n"));
 
 	return result;
-	//Log << result;
 }

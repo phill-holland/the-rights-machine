@@ -431,7 +431,6 @@ string server::client::states::output()
 	result.concat(string("\r\n"));
 
 	return result;
-	//Log << result;
 }
 
 void server::client::reset(configuration::server::client::configuration &configuration)
@@ -440,10 +439,10 @@ void server::client::reset(configuration::server::client::configuration &configu
 
 	this->configuration = configuration;
 
-	//isInExit = false;
+	isInExit = false;
 
-	//isInError = false;
-	//lastErrorCode = ::error::error(string("NONE"));//ERRORS::None;
+	isInError = false;
+	lastErrorCode = ::error::error(string("NONE"));
 
 	listen = new listener(this);
 	if (listen == NULL) return;
@@ -886,10 +885,10 @@ server::client *server::server::findCompletedClient(long &index)
 
 void server::server::output(string source)
 {
-	//if (!config.headless) terminal->set(source);
-	//else Log << source << "\r\n";
-
-	Log << source << string("\r\n");
+	string temp = source;
+	source.concat(string("\r\n"));
+	error::type::type err(temp);
+	configuration.errors->push(err);
 }
 
 void server::server::makeNull()

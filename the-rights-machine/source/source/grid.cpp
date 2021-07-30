@@ -142,12 +142,7 @@ string compute::cpu::grid::output()
 				}
 			}
 
-			//result += "}";
 			result.concat(string("}\r\n"));
-
-			//std::cout << result;
-
-			//Log << result << "\r\n";
 		}
 	}
 
