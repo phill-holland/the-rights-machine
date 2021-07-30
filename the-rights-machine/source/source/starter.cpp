@@ -22,7 +22,7 @@ void server::starter::reset(settings &setup)
 	if (!manager->initalised()) return;
 	manager->add(cpu);
 
-	debugging = new debug::debugger();
+	debugging = new debug::console();
 	if(debugging == NULL) return;
 	if(!debugging->initalised()) return;
 
