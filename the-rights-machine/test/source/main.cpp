@@ -3,6 +3,14 @@
 #include "test/responses.h"
 #include "test/environment.h"
 
+// add NAME to response
+// add debug messages
+// add api key check
+// main loop!!
+// NUGET .net core package
+// SSL
+
+
 // test three, merged first two files into third new file
 // test concurrent access
 

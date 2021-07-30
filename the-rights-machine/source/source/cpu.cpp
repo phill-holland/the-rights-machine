@@ -236,8 +236,6 @@ void compute::cpu::processor::cleanup()
 
 void compute::cpu::cpu::background(thread *bt)
 {
-	sleep(100);
-
 	::compute::task task;
 	if (get(task))
 	{
@@ -245,8 +243,10 @@ void compute::cpu::cpu::background(thread *bt)
 	}
 	else
 	{
-		sleep(500);
+		sleep(250);
 	}
+
+	sleep(100);
 }
 
 void compute::cpu::cpu::reset(::queue::factory<::compute::task> *factory)

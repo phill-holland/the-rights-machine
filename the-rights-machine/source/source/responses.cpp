@@ -5,7 +5,7 @@
 void data::response::responses::background(thread *bt)
 {
 	// check created date 
-	sleep(1000);
+	//sleep(1000);
 	
 	mutex lock(token);
 
@@ -18,7 +18,6 @@ void data::response::responses::background(thread *bt)
 		{
 			erase.push_back(temp.guid);
 		}
-
 	}
 
 	for (unsigned long i = 0UL; i < (unsigned long)erase.size(); ++i)
@@ -26,6 +25,7 @@ void data::response::responses::background(thread *bt)
 		remove(erase[i]);
 	}
 
+	sleep(250);
 	//return (DWORD)0;
 }
 

@@ -234,8 +234,7 @@ void console::console::reset(int x, int y)
 
 void console::console::clear()
 {
-	#warning got lazy
-	//memset(buffer, 0, columns * rows);
+	memset(buffer, 0, columns * rows);
 }
 
 bool console::console::move(int x, int y)
@@ -300,7 +299,7 @@ void console::console::write(const char *source, int length)
 
 bool console::console::refresh()
 {
-	#warning got lazy
+//	#warning got lazy
 	// it's the pstring thing, the file named string.h 
 	/*
 	XWindowAttributes window_attributes;

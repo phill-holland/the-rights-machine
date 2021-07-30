@@ -654,8 +654,6 @@ void server::client::cleanup()
 
 void server::wait::background(thread *bt)
 {
-	sleep(250);
-
 	client *c = s->findUnconnectedClient();
 	if (c != NULL)
 	{
@@ -665,6 +663,7 @@ void server::wait::background(thread *bt)
 		}
 	}
 
+	sleep(250);
 	//return (DWORD)0;
 }
 
