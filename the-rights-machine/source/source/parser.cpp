@@ -5,7 +5,6 @@
 
 bool parser::parser::handler::on_document_begin(boost::json::error_code&) 
 { 
-    //std::cout << "document beGIN\n";
     params->task.inquiry.clear();
     params->task.message.clear();
     
@@ -14,7 +13,6 @@ bool parser::parser::handler::on_document_begin(boost::json::error_code&)
 
 bool parser::parser::handler::on_document_end(boost::json::error_code&) 
 { 
-    //std::cout << "on_document_end\n";
     return true; 
 }
 
@@ -29,22 +27,19 @@ bool parser::parser::handler::on_object_begin(boost::json::error_code&)
 
 bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code&)
 { 
-    //std::cout << params->parents.FQDN() << "\n";
-
     params->key.clear();
     queue::base *b = params->task.findQ(params->parents.FQDN());
     if (b != NULL) 
     {
-        //std::cout << "found\n";
         b->flush();
     }
 
     if(params->parents.FQDN().icompare(params->task.message.items.FQDN()))
     {
-        params->task.message.output();
         guid::guid g;
         
         params->task.message.guid = g.get();
+        params->task.message.name = params->task.message.items[0]->name;
         params->task.message.created = global::datetime::now();
         params->task.response = params->responses;
         params->task.notify = params->notify;
@@ -52,8 +47,6 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
         if (params->notify != NULL) params->notify->notifyIn(g);
         if (!params->manager->set(params->task)) return false;
 
-        //params->clear();
-        //params->task.inquiry.clear();
         params->task.message.clear();
     }
                                     
@@ -114,9 +107,8 @@ std::size_t parser::parser::write(char const* data, std::size_t size, boost::jso
         
         return n;
     }
-    catch(boost::exception const& ex)//b_ex, std::exception const& ex)
+    catch(boost::exception const& ex)
     {   
-        //std::cout << "are you sure???\n";
         return -1;
     }
 }

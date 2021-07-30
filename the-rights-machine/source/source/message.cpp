@@ -56,14 +56,13 @@ void data::message::message::reset()
 void data::message::message::clear()
 {
 	messageID = 0;
-	//user = string("");
-	//apikey = string("");
-	guid = string("");
+	
+	guid.clear();
+	name.clear();
 
 	created.clear();
 	finished.clear();
 
-	//queries.clear();
 	items.clear();
 	lines.clear();
 	components.clear();
@@ -88,7 +87,6 @@ data::json::request::json *data::message::message::find(string FQDN)
 
 data::message::message data::message::message::split(inquiry &inquiry, mapping &destination)
 {
-	//std::cout << "SPLIT " << lines.count() << "\n";
 	int in_ptr = 0, out_ptr = 0;
 
 	message result(*this);
@@ -101,15 +99,9 @@ data::message::message data::message::message::split(inquiry &inquiry, mapping &
 		for (long j = 0L; j < inquiry.queries.count(); ++j)
 		{
 			data::query::query *query = inquiry.queries[j];
-//BUGGER QUERY NOT COPIED INTO SECOND MESSAGE!
-// leave queries in message
-// but move out json parse, into new query class
-			//std::cout << "query " << query->start.to() << " " << query->end.to() << "\n";
-			//std::cout << "source " << source->start.to() << " " << source->end.to() << "\n";
-			
+
 			if (source->overlapped(*query))
 			{
-				//std::cout << "overlap query\n";
 				if (source->typeID == (int)data::line::line::TYPE::in)
 				{
 					long out_count = 0L;
@@ -206,7 +198,6 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 				string component = components.name(element->componentID);
 				int componentID = components.map(component);
 
-				//std::cout << "comp " << component << " id " << componentID << "\n";
 				if(componentID >= 0)
 				{
 					int itemID = lines.mapper::parent(line.lineID);
@@ -226,57 +217,7 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 		}
 	}
 }
-/*
-void data::message::message::filter(compute::common::row **rows, unsigned long total, std::unordered_map<int, int> &map)
-{
-	int max_components = components.maximum();
-	for (unsigned long i = 0UL; i < total; ++i)
-	{
-		rows[i]->clear();
-	}
 
-	for (long h = 0L; h < elements.count(); ++h)
-	{
-		data::element::element *element = elements[h];
-		int lineID = components.mapper::parent(element->componentID);
-
-		//bool carry_on = true;
-		//if((line >= 0) && (lineID != line)) carry_on = false;
-
-		//if(lineID == line)
-		//std::cout << "Line id " << lineID << "\n";
-		//if(carry_on)
-		if((line < 0) || (lineID == line))
-		{
-			std::unordered_map<int, int>::iterator it = map.find(lineID);
-			if (it != map.end())
-			{
-				string component = components.name(element->componentID); // this mapping does
-				// not do this
-				int componentID = components.map(component);
-				//std::cout << "component " << component << " " << componentID << "\n";
-				if(componentID >= 0)
-				{
-					// componentID is -1!!
-					// components.map, cannot find componentID !!!!
-					int itemID = lines.mapper::parent(lineID);
-
-					//std::cout << "out_ptr should be ? " << it->second << "\n";
-					//unsigned long offset = (map[lineID] * max_components) + componentID;
-					unsigned long offset = (it->second * max_components) + componentID;
-					if (offset < total)
-					{
-						//#warning argh
-						rows[offset]->set(elements.map(element->value));
-						compute::header temp(messageID, itemID, lineID, componentID);
-						rows[offset]->set(temp);//compute::header(messageID, itemID, lineID, componentID));
-					}
-				}
-			}
-		}
-	}
-}
-*/
 bool data::message::message::load(file::file<data::item::item> *source)
 {
 	bool valid = false;
@@ -453,13 +394,11 @@ bool data::message::message::save(file::file<data::element::element> *destinatio
 void data::message::message::copy(message const &source)
 {
 	messageID = source.messageID;
-	//user = source.user;
-	//apikey = source.apikey;
+	name = source. name;
 	guid = source.guid;
 	created = source.created;
 	finished = source.finished;
 
-	//queries = source.queries;
 	items = source.items;
 	lines = source.lines;
 	components = source.components;
@@ -468,9 +407,7 @@ void data::message::message::copy(message const &source)
 
 string data::message::message::output()
 {
-	// array[i] indices are coping each time they're called!!!
 	string result("\"message\" : {\r\n");
-	//for (long i = 0L; i < queries.count(); ++i) result.concat(queries[i]->output());
 	for (long i = 0L; i < items.count(); ++i) result.concat(items[i]->output());
 	for (long i = 0L; i < lines.count(); ++i) result.concat(lines[i]->output());
 	for (long i = 0L; i < components.count(); ++i) result.concat(components[i]->output());
@@ -482,19 +419,6 @@ string data::message::message::output()
 
 bool data::message::message::add(custom::pair source)
 {
-	/*
-	if (string("user").icompare(source.name))
-	{
-		user = source.value;
-		return true;
-	}
-	else if (string("apikey").icompare(source.name))
-	{
-		apikey = source.value;
-		return true;
-	}
-	*/
-
 	return false;
 }
 

@@ -3,8 +3,9 @@
 #include "test/responses.h"
 #include "test/environment.h"
 
-// add NAME to response
-// add debug messages -- output to std::cout and log file
+// ** add NAME to response OK
+// ** add debug messages -- output to std::cout and log file
+// ** server, add chunked read
 // add api key check
 // main loop!!
 // NUGET .net core package

@@ -16,6 +16,7 @@ namespace tests
 		{
 		public:
 			string GUID;
+			string name;
 			string status;
 			string available;
 			datetime created;

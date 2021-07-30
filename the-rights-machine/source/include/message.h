@@ -58,8 +58,7 @@ namespace data
 
 		public:
 			int messageID;
-			//string user; // call different name?
-			//string apikey;
+			string name;
 			string guid;
 			datetime created;
 			datetime finished;
@@ -68,7 +67,6 @@ namespace data
 			bool init;
 
 		public:
-			//data::queries::queries<10L> queries;
 			data::items::items<10L> items;
 			data::lines::lines<10L> lines;
 			data::components::line::components<10L> components;

@@ -107,6 +107,3 @@ void debug::debugger::cleanup()
 {
     if(data != NULL) delete data;
 }
-
-//debug::debugger Debugger;
-

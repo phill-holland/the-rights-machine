@@ -23,6 +23,7 @@ namespace data
 
 		public:
 			string guid;
+			string name;
 			string user;
 			STATUS status;
 			datetime created;

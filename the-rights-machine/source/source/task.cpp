@@ -27,7 +27,6 @@ void compute::task::reset()
 	for (long i = 0L; i < 15L; ++i)
 	{
 		hash[identifiers[i]->FQDN()] = identifiers[i];
-		//std::cout << identifiers[i]->FQDN() << "\n";
 	}
 	
 	queue::base *queues[] = { &inquiry.queries, &inquiry.queries.temp.elements, &inquiry.queries.temp.components, &message.elements, &message.components, &message.lines, &message.items };
@@ -36,53 +35,13 @@ void compute::task::reset()
 	for (long i = 0L; i < 7L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
-		//std::cout << "moo " << id[i]->FQDN() << "\n";
-	}
-
-	//string moo = "MESSAGE\\ITEMS\\LINES\\COMPONENTS";
-	//queue_hash[moo] = &components;
-
-	clear();
-
-	init = true;
-}
-/*
-void compute::task::reset()
-{
-	init = false; cleanup();
-
-	inquiry.queries.json::parent(this);
-
-	inquiry.queries.temp.components.json::parent(&inquiry.queries);
-	inquiry.queries.temp.elements.json::parent(&inquiry.queries.temp.components);
-
-    message.json::parent(this);
-
-	json *identifiers[] = { &inquiry.queries.temp.elements.temp, &inquiry.queries.temp.elements,
-							&inquiry.queries.temp.components.temp, &inquiry.queries.temp.components,
-							&inquiry.queries.temp, &inquiry.queries, 
-                            &message, this };
-
-	for (long i = 0L; i < 8L; ++i)
-	{
-		hash[identifiers[i]->FQDN()] = identifiers[i];
-		std::cout << identifiers[i]->FQDN() << "\n";
-	}
-	
-	queue::base *queues[] = { &inquiry.queries, &inquiry.queries.temp.elements, &inquiry.queries.temp.components };
-	json *id[] = { &inquiry.queries, &inquiry.queries.temp.elements, &inquiry.queries.temp.components };
-
-	for (long i = 0L; i < 3L; ++i)
-	{
-		queue_hash[id[i]->FQDN()] = queues[i];
-		//std::cout << "moo " << id[i]->FQDN() << "\n";
 	}
 
 	clear();
 
 	init = true;
 }
-*/
+
 void compute::task::clear()
 {
     inquiry.clear();

@@ -33,15 +33,13 @@ void tests::data::responses::parse(const boost::json::value &value)
     {
         case boost::json::kind::object:
         {
-            //os << "{\n";
-            //indent->append(4, ' ');
             auto const& obj = value.get_object();
             if(! obj.empty())
             {
                 auto it = obj.begin();
                 for(;;)
                 {
-                    key = boost::json::serialize(it->key());// << " : ";   
+                    key = boost::json::serialize(it->key());
                     key = key.trim('"');                 
                     parse(it->value());
                     
@@ -55,35 +53,26 @@ void tests::data::responses::parse(const boost::json::value &value)
                         
                         break;
                     }
-                    //os << ",\n";
                 }
             }
-            //os << "\n";
-            //indent->resize(indent->size() - 4);
-            //os << *indent << "}";
+
             break;
         }
 
         case boost::json::kind::array:
         {
-            //os << "[\n";
-            //indent->append(4, ' ');
             auto const& arr = value.get_array();
             if(! arr.empty())
             {
                 auto it = arr.begin();
                 for(;;)
                 {
-                    //os << *indent;
                     parse(*it);
                     if(++it == arr.end())
                         break;
-                   // os << ",\n";
                 }
             }
-            //os << "\n";
-            //indent->resize(indent->size() - 4);
-            //os << *indent << "]";
+
             break;
         }
 
@@ -96,29 +85,9 @@ void tests::data::responses::parse(const boost::json::value &value)
             else if(key.compare(string("status")) == 0) temp.status = v;
             else if(key.compare(string("available")) == 0) temp.available = v;
             else if(key.compare(string("created")) == 0) temp.created.from(v);
+            else if(key.compare(string("name")) == 0) temp.name = v;
 
-            //os << 
             break;
         }
-/*
-        case boost::json::kind::uint64:
-            os << jv.get_uint64();
-            break;
-
-        case boost::json::kind::int64:
-            os << jv.get_int64();
-            break;
-
-        case boost::json::kind::double_:
-            os << jv.get_double();
-            break;
-
-        case boost::json::kind::bool_:
-            if(jv.get_bool())
-                os << "true";
-            else
-                os << "false";
-            break;
-        */
     }
 }

@@ -1,8 +1,6 @@
 #include "error.h"
 #include "thread.h"
 #include "queue.h"
-//#include "console.h"
-//#include <vector>
 
 #if !defined(__ERRORS)
 #define __ERRORS
@@ -51,21 +49,6 @@ namespace error
 		void makeNull();
 		void cleanup();
 	};
-
-/*
-	namespace console
-	{
-		class errors : public queue::in<::error::type::type>, public ::console::console
-		{
-		public:
-			bool set(::error::type::type &source)
-			{
-				string temp(source);
-				//#warning dumb
-				return console::set(temp);
-			}
-		};
-	};*/
 };
 
 #endif

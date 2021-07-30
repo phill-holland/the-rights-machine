@@ -71,6 +71,4 @@ namespace debug
     };
 }
 
-//extern debug::debugger Debugger;
-
 #endif
