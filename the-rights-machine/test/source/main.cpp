@@ -4,7 +4,7 @@
 #include "test/environment.h"
 
 // add NAME to response
-// add debug messages
+// add debug messages -- output to std::cout and log file
 // add api key check
 // main loop!!
 // NUGET .net core package

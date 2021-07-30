@@ -21,10 +21,9 @@ COPY . .
 WORKDIR /code/build
 RUN rm -rfv
 WORKDIR /code
+RUN sed -i -r "s/Debug/Release/i" CMakeLists.txt
 RUN cmake .
 RUN make
-WORKDIR /code/build/test
-RUN the-rights-machine_test
 
 FROM nvidia/cuda:11.1-runtime-ubuntu20.04 AS deploy
 EXPOSE 5454
