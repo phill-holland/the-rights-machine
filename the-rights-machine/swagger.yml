@@ -1,0 +1,154 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Swagger The Rights Machine"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.therightsmachine.com"
+basePath: "/"
+
+schemes:
+- "http"
+paths:
+  /:
+    post:
+      tags:
+      - "Availability"
+      summary: "Availability Task"
+      description: ""
+      operationId: "postTask"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/task"
+          
+      responses:
+        "200":
+          description: "successful responses"
+          schema:
+            $ref: '#/definitions/responses'
+        "400":
+          description: "Invalid status value"
+   
+definitions:
+  
+  element:
+    type: "object"
+    required:
+      - "value"
+    properties:
+      value:
+        type: "string"
+        
+  component:
+    type: "object"
+    required:
+      - "name"
+      - "elements"
+    properties:
+      name:
+        type: "string"
+      elements:
+          type: "array"
+          items:
+            $ref: "#/definitions/element"
+        
+  query:
+    type: "object"
+    required:
+      - "start"
+      - "end"
+      - "components"
+    properties:
+      start:
+        type: "string"
+        format: "date-time"
+      end:
+        type: "string"
+        format: "date-time"
+      components:
+          type: "array"
+          items:
+            $ref: "#/definitions/component"
+  
+  line:
+    type: "object"
+    required:
+      - "start"
+      - "end"
+      - "exclusivity"
+      - "type"
+      - "components"
+    properties:
+      start:
+        type: "string"
+        format: "date-time"
+      end:
+        type: "string"
+        format: "date-time"
+      exclusivity:
+        type : "integer"
+      type:
+        type: "integer"
+      components:
+          type: "array"
+          items:
+            $ref: "#/definitions/component"
+  
+  item:
+    type: "object"
+    required:
+      - "name"
+      - "lines"
+    properties:
+      name:
+        type: "string"
+      lines:
+        type: "array"
+        items:
+          $ref: "#/definitions/line"
+          
+  task:
+    type: "object"
+    required:
+      - "queries"
+    properties:
+      queries:
+        type: "array"
+        items:
+          $ref: "#/definitions/query"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/item"
+          
+  response:
+    type: "object"
+    properties:
+      guid:
+        type: "string"
+      name:
+        type: "string"
+      status:
+        type: "string"
+      created:
+        type: "string"
+        format: "date-time"
+      available:
+        type: "boolean"
+        
+  responses:
+    type: "array"
+    items:
+      $ref: "#/definitions/response"
+      
