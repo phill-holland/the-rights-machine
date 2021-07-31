@@ -6,6 +6,7 @@
 // ** add NAME to response OK
 // ** add debug messages -- output to std::cout and log file
 // ** server, add chunked read
+// ** swagger doc
 // add api key check
 // main loop!!
 // NUGET .net core package
