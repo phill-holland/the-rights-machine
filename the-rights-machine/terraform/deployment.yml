@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: the-rights-machine
+spec:
+  selector:
+    matchLabels:
+      name: the-rights-machine
+  template:
+    metadata:
+      labels:
+        name: the-rights-machine
+    spec:
+      containers:
+        - name: app
+          image: gcr.io/annular-net-321608/the-rights-machine
+          ports:
+            - containerPort: 5454

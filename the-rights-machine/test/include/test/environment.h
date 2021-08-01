@@ -24,6 +24,7 @@ namespace test
 
         virtual void SetUp() 
         {
+            /*
             messaging = new messaging::memory::memory();
             if(messaging == NULL) return;
 
@@ -35,6 +36,7 @@ namespace test
 
             if(starter->initalised())
                 starter->start();
+            */
         }
 
         virtual void TearDown()

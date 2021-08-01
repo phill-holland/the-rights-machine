@@ -1,5 +1,25 @@
 <b>The Rights Machine</b>
 
+docker login -u _json_key -p "$(cat ~/Downloads/annular-net-321608-20e4b74265ec.json)" https://gcr.io
+
+docker push gcr.io/annular-net-321608/the-rights-machine
+
+docker pull busybox
+docker tag busybox gcr.io/my-project/busybox
+docker push gcr.io/my-project/busybox
+
+gcloud container clusters get-credentials the-rights-machine-k8s-cluster-dev --zone europe-west2
+
+kubectl apply -f deployment.yml
+
+kubectl get pods
+
+https://learnk8s.io/terraform-gke
+
+https://blog.container-solutions.com/using-google-container-registry-with-kubernetes
+
+https://cloud.google.com/container-registry/docs/pushing-and-pulling?_ga=2.91084057.-261845117.1627807888
+
 Get CPU code working with simple query
 write test
 stream out result during request connection

@@ -27,5 +27,9 @@ RUN make
 
 FROM nvidia/cuda:11.1-runtime-ubuntu20.04 AS deploy
 EXPOSE 5454
+COPY --from=build /usr/lib/x86_64-linux-gnu/libodbc.so.2 /usr/lib/x86_64-linux-gnu/libodbc.so.2
+COPY --from=build /usr/lib/x86_64-linux-gnu/libltdl.so.7 /usr/lib/x86_64-linux-gnu/libltdl.so.7
+COPY --from=build /usr/local/lib/libboost_json.so.1.76.0  /usr/local/lib/libboost_json.so.1.76.0  
+WORKDIR /machine
 COPY --from=build /code/build/source/the-rights-machine .
-CMD [ "the-rights-machine" ]
+CMD [ "/machine/./the-rights-machine" ]

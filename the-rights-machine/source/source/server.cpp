@@ -16,20 +16,22 @@ void server::listener::background(thread *bt)
 		{
 			if(request)
 			{
-				//std::cout << "request bytes, index " << bytes << "," << index << "\n";
+				std::cout << "request bytes, index " << bytes << "," << index << "\n";
 				request = intent(receiving, bytes, index);
 				if(!request) header = true;
 			}
 
 			if(header) 
 			{
-				//std::cout << "header bytes, index " << bytes << "," << index << "\n";
+				std::cout << "header bytes, index " << bytes << "," << index << "\n";
+				string moo(&receiving[index], bytes - index - 1);
+				std::cout << moo;
 				header = heading(&receiving[index], bytes - index - 1, temp);
 				if(!header) 
 				{
 					read_counter = 0;
 					parser->clear();
-					//std::cout << "pp clear\n";
+					std::cout << "pp clear\n";
 					//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
 					// PASS THIS INTO compute::Task
 					if(!validate()) error(string("HEADER"));
@@ -46,9 +48,9 @@ void server::listener::background(thread *bt)
 				//std::cout << "reading bytes, index " << bytes << "," << index << "\n";
 				
 				int read = bytes - index - 1;	
-				//std::cout << "reading " << read << "\n";
-				//string moo(&receiving[index],read);
-				//std::cout << moo << "\n";		
+				std::cout << "reading " << read << "\n";
+				string moo(&receiving[index],read);
+				std::cout << moo << "\n";		
 				int n = parser->write(&receiving[index], read, ec);
 				if((n < 0) || ( n != read))
 				{
@@ -117,7 +119,6 @@ void server::listener::reset(client *source)
 
 void server::listener::clear()
 {
-	//std::cout << "listen clear\n";
 	parameters.clear();
 	parser->clear();
 
@@ -135,8 +136,6 @@ void server::listener::clear()
 	command.clear();
 
 	memset(receiving, 0, RECEIVING);
-
-	// clear data classes - lines/items/components/elements/queries etc..
 }
 
 server::listener::MODE server::listener::get()
@@ -149,29 +148,14 @@ server::listener::MODE server::listener::get()
 
 bool server::listener::validate()
 {
-	//get first line of HTTP GET function - to determine which function was called
-	//determine if get or post!!!
-
-	//get host - ip address, log
-	//get content - type check application / json
-	//get content - length
-	//check http1.1
-
 	string length = parameters.get(string("Content-Length"));
 	content_length = length.toLong();
-	//read_counter = 0L;
-
-	// check content_length isn't zero, isn't too big, isn't mismatch with the data
-	// check command is either POST or GET
 
 	left = true;
-//	outputter.clear();
 
 	if(get()==MODE::NONE) return false;
 
 	return content_length > 0;
-
-	//validate = false;
 }
 
 bool server::listener::intent(char *source, int length, int &index)
@@ -179,8 +163,6 @@ bool server::listener::intent(char *source, int length, int &index)
 	errors = 0L;
 	for (int i = 0; i < length; ++i)
 	{
-		//errors = 0L;
-
 		if (request)
 		{
 			if(!command.push(receiving[i]))
@@ -194,8 +176,6 @@ bool server::listener::intent(char *source, int length, int &index)
 				h_index = 0;
 				index = i + 1;
 				return false;
-				//request = false;
-				//header = true;
 			}
 		}
 	}
@@ -208,7 +188,6 @@ bool server::listener::heading(char *source, int length, int &index)
 	errors = 0L;
 	for (int i = 0; i < length; ++i)
 	{
-		//errors = 0L;
 		char in = source[i];
 
 		if (in== ':')
@@ -251,7 +230,6 @@ bool server::listener::heading(char *source, int length, int &index)
 		else if ((in == 13) && (h_index == 2)) ++h_index;
 		else if ((in == 10) && (h_index == 3))
 		{
-			//validate();
 			index = i + 1;		
 			return false;
 		}
@@ -263,7 +241,7 @@ bool server::listener::heading(char *source, int length, int &index)
 
 void server::listener::goodbye()
 {
-	//std::cout << "goodbye\n";
+	std::cout << "goodbye\n";
 	parser->done();
 	c->goodbye();
 	clear();
@@ -271,6 +249,7 @@ void server::listener::goodbye()
 
 void server::listener::error(string error)
 {
+	std::cout << "error\n";
 	::error::error err(error);
 	c->makeError(err);
 
@@ -528,26 +507,17 @@ void server::client::resetError()
 
 void server::client::shutdown()
 {
-	//std::cout << "shutdown\n";
 	stopAndWait();
 	close();
-	//listen->clear();
 }
 
 void server::client::notifyIn(guid::guid identity)
 {
 	++in;
-// mutex lock
-// ++in;
 }
 
 void server::client::notifyOut(guid::guid identity)
 {
-	//++out;
-	// need to return JSON array, srround with [ ]
-
-	// count number of items sent to CPU;  add another "outNotificationEvent"
-	// only finish when output number matches input
 	if ((isopen()) && (!isError()))
 	{
 		if(configuration.responses != NULL)
@@ -558,13 +528,11 @@ void server::client::notifyOut(guid::guid identity)
 			{
 				string data = value.extract();
 				if(in != out + 1) data.concat(string(","));
-				//data.concat(string("\r\n"));
+
 				string output = string::toHex(data.length());
 				output.concat(string("\r\n"));
 				output.concat(data);
 				output.concat(string("\r\n"));
-
-//std::cout << "notifyOut " << output;
 
 				mutex lock(token);
 
@@ -586,7 +554,6 @@ bool server::client::startResponses()
 	result += "Transfer-Encoding: chunked\r\n";
 	result += "Content-Type: application/json\r\n\r\n";
 	
-	//string data("{\"responses\":[\r\n");
 	string data("{\"responses\":[");
 
 	string length = string::toHex(data.length());
@@ -594,8 +561,6 @@ bool server::client::startResponses()
 	result.concat(length);
 	result.concat(data);
 	result.concat(string("\r\n"));
-
-//std::cout << "startResponse " << result;
 	
 	mutex lock(token);
 
@@ -612,8 +577,6 @@ bool server::client::endResponses()
 	result.concat(data);	
 	result.concat(string("\r\n0\r\n"));
 
-//std::cout << "endResponses " << result;
-	
 	mutex lock(token);
 
 	if(write(result, 0) != result.length()) return false;
@@ -625,7 +588,6 @@ bool server::client::sendResponse(data::response::response response)
 {
 	string data = response.extract();
 	if(out > 0) data.concat(string(","));	
-	//data.concat(string("\r\n"));
 
 	string output = string::toHex(data.length());
 	output.concat(string("\r\n"));
@@ -633,8 +595,6 @@ bool server::client::sendResponse(data::response::response response)
 	output.concat(string("\r\n"));
 
 	mutex lock(token);
-
-	//std::cout << "sendResponse " << output;
 
 	if(write(output, 0) != output.length()) return false;
 
@@ -658,12 +618,12 @@ void server::wait::background(thread *bt)
 	{
 		if (s->wait(*c))
 		{
+			std::cout << "found\n";
 			c->start();
 		}
 	}
 
 	sleep(250);
-	//return (DWORD)0;
 }
 
 void server::watchdog::background(thread *bt)
@@ -685,7 +645,6 @@ void server::watchdog::background(thread *bt)
 			result.concat(string("), shutting down"));
 
 			s->output(result);
-			//s->output(string("Server detected client [") << i << "] in error(" << (lastError.name) << "), shutting down");
 
 			s->clients[i]->shutdown();
 			s->clients[i]->clear();
@@ -698,14 +657,10 @@ void server::watchdog::background(thread *bt)
 			
 			s->output(result);
 
-			//s->output(string("Server detected client [") << i << "] in graceful shutdown");
-
 			s->clients[i]->shutdown();
 			s->clients[i]->clear();
 		}
 	}
-
-	//return (DWORD)0;
 }
 
 void server::server::reset(configuration::server::configuration *settings)
