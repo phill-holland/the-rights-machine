@@ -11,10 +11,10 @@ void test::client::reset(string filename)
     length = 0;
 
     std::ifstream in(filename, std::ios::binary);
+    if(in.fail()) return;
     if(!in.is_open()) return;
 
     in.seekg(0, std::ios::end);
-    //std::streampos end = in.tellg();
     length = in.tellg();
 
     in.seekg(0, std::ios::beg);

@@ -51,17 +51,18 @@
 /* create api thread key thing, loads keys from database
 periodically */
 
+const long port = 5454;
+//const string url("http://127.0.0.1");
+const string url("http://82.69.103.114");
 
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/basicUnavailable.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -74,14 +75,12 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 
 TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/basicAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 	
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -94,14 +93,12 @@ TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
 
 TEST(BasicOutOfRangeQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/outOfRange.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -114,14 +111,12 @@ TEST(BasicOutOfRangeQueryWithInMemoryQueue, BasicAssertions)
 
 TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/invalidJson.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -134,14 +129,12 @@ TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
 
 TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/twoItemsBothAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -158,14 +151,12 @@ TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 
 TEST(TwoItemsOneAvailableQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/twoItemsOneAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());
@@ -182,14 +173,12 @@ TEST(TwoItemsOneAvailableQueryWithInMemoryQueue, BasicAssertions)
 
 TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
 {
-	long port = 5454;
-
 	test::client client(string("test/data/basicUnavailableMinusComponent.json"));
 	EXPECT_TRUE(client.initalised());
 
 	web::page destination;
 
-	EXPECT_TRUE(client.post("http://127.0.0.1", port, &destination));
+	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
 	EXPECT_TRUE(responses.initalised());

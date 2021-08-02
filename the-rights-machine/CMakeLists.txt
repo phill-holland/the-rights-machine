@@ -12,9 +12,6 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 enable_language(CUDA)
 
-#set(Boost_USE_STATIC_LIBS OFF)
-#set(Boost_USE_STATIC_RUNTIME OFF)
-
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 find_package(Threads REQUIRED)
