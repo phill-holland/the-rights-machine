@@ -490,6 +490,8 @@ void server::client::notifyOut(guid::guid identity)
 				output.concat(data);
 				output.concat(string("\r\n"));
 
+				this->output(data.flatten());
+
 				mutex lock(token);
 
 				if(write(output, 0) != output.length()) 
@@ -685,7 +687,11 @@ bool server::server::start()
 	watcher->start();
 	if (!watcher->initalised()) return false;
 
-	output(string("Server Starting"));
+	string message("Server Started [");
+	message.concat(string::fromLong(configuration.port));
+	message.concat(string("]"));
+
+	output(message);
 
 	return true;
 }
