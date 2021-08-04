@@ -11,7 +11,6 @@ void tests::data::responses::reset(web::page &source)
     try
     {
         string data = source.data();
-        //std::cout << "response " << data;
         p.write(data.c_str(), data.length(), ec);
         if(ec) return;
 

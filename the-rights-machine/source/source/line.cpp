@@ -57,14 +57,12 @@ bool data::line::line::add(custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{
-		start.from(source.value);
-		return true;
+		return start.from(source.value);
 	}
 
 	if (string("end").icompare(source.name))
 	{
-		end.from(source.value);
-		return true;
+		return end.from(source.value);
 	}
 
 	if (string("exclusivity").icompare(source.name))

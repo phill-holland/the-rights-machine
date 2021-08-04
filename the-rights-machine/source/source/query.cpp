@@ -25,14 +25,12 @@ bool data::query::query::add(custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{
-		start.from(source.value);
-		return true;
+		return start.from(source.value);
 	}
 
 	if (string("end").icompare(source.name))
 	{
-		end.from(source.value);
-		return true;
+		return end.from(source.value);
 	}
 
 	return false;
@@ -41,7 +39,7 @@ bool data::query::query::add(custom::pair source)
 void data::query::query::filter(compute::common::row **rows, unsigned long total, unsigned long lines)
 {
 	int max_components = components.maximum();
-//std::cout << "quey max_comp " << max_components << "\n";
+
 	for (unsigned long i = 0UL; i < total; ++i)
 	{
 		rows[i]->clear();
@@ -50,29 +48,25 @@ void data::query::query::filter(compute::common::row **rows, unsigned long total
 	for (long h = 0L; h < elements.count(); ++h)
 	{
 		data::element::element *element = elements[h];
-		//std::cout << "element " << element->output() << "\n";
 		int queryID = components.mapper::parent(element->componentID);
 
 		if(queryID == this->queryID)
 		{
 			string component = components.name(element->componentID);
-//std::cout << "query filter " << component << "\n";
 
 			for (unsigned long i = 0UL; i < lines; ++i)
 			{				
 				int componentID = components.map(component);
 				if(componentID >= 0)
 				{
-					//std::cout << "componentID " << componentID << "\n";
 					unsigned long offset = (i * max_components) + ((unsigned long)componentID);//components.map(component);
 
 					if (offset < total)
 					{
-						//std::cout << "query filter " << offset << "\n";
 						string value = elements.name(element->elementID);
-						int e = elements.map(value);//element.value);
+						int e = elements.map(value);
 						rows[offset]->set(e);
-						//compute::header temp(messageID, itemID, lineID, componentID);
+
 						compute::header temp(messageID, 0, 0, componentID);
 						rows[offset]->set(temp);
 					}

@@ -80,7 +80,7 @@ bool parser::parser::handler::on_string(boost::json::string_view sv, std::size_t
     if(current != NULL)
     {
         custom::pair pair(params->key, string(sv.data(), sz));
-        current->add(pair);
+        return current->add(pair);
     }
 
     return true; 
@@ -92,7 +92,7 @@ bool parser::parser::handler::on_int64(std::int64_t value, boost::json::string_v
     if(current != NULL)
     {
         custom::pair pair(params->key, string::fromInt(value));
-        current->add(pair);
+        return current->add(pair);
     }
 
     return true;

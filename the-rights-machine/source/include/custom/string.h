@@ -72,6 +72,8 @@ public:
 	bool isInteger();
 	bool isHex();
 
+	string flatten();
+
 public:
 	static string fromFloat(float source);
 	static string fromLong(long source);

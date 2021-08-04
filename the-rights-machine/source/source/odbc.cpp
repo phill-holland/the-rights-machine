@@ -447,7 +447,7 @@ TIMESTAMP_STRUCT database::odbc::recordset::GetTimeStamp(long index)
 guid::guid database::odbc::recordset::GetGUID(long index)
 {
 	guid::guid result;
-#warning this is totaly going to break
+
 	SQLGetData(lpStatement, (SQLUSMALLINT)index, SQL_C_GUID, &result, 0, NULL);
 
 	return result;
@@ -497,7 +497,6 @@ bool database::odbc::recordset::BindTimeStamp(long index, TIMESTAMP_STRUCT &data
 
 bool database::odbc::recordset::BindGUID(long index, guid::guid &data)
 {
-#warning breaky breaky
 	if (SQLBindParameter(lpStatement, (SQLUSMALLINT)index, SQL_PARAM_INPUT, SQL_C_GUID, SQL_GUID, 0, 0, &data, 0, NULL) == SQL_SUCCESS)
 		return true;
 	return false;

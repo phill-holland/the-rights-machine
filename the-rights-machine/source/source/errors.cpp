@@ -13,8 +13,6 @@ void error::errors::background(thread *bt)
 		flush();
 	}
 	else sleep(1000);
-
-	//return (DWORD)0;
 }
 
 void error::errors::reset(::queue::in<::error::type::type> *destination)

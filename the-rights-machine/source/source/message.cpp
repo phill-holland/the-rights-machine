@@ -9,10 +9,6 @@ void data::message::message::reset()
 	init = false; cleanup();
 
 	items.json::parent(this);
-	//queries.json::parent(this);
-
-	//queries.temp.components.json::parent(&queries);
-	//queries.temp.elements.json::parent(&queries.temp.components);
 
 	lines.json::parent(&items);
 	components.json::parent(&lines);
@@ -22,31 +18,20 @@ void data::message::message::reset()
 							&components.temp, &components,
 							&lines.temp, &lines,
 							&items.temp, &items,
-							//&queries.temp.elements.temp, &queries.temp.elements,
-							//&queries.temp.components.temp, &queries.temp.components,
-							//&queries.temp, &queries, 
 							this };
 
 	for (long i = 0L; i < 9L; ++i)
 	{
 		hash[identifiers[i]->FQDN()] = identifiers[i];
-		//std::cout << identifiers[i]->FQDN() << "\n";
 	}
 	
-	//queue::base *queues[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
-	//json *id[] = { &queries, &queries.temp.elements, &queries.temp.components, &elements, &components, &lines, &items };
-
 	queue::base *queues[] = { &elements, &components, &lines, &items };
 	json *id[] = { &elements, &components, &lines, &items };
 
 	for (long i = 0L; i < 4L; ++i)
 	{
 		queue_hash[id[i]->FQDN()] = queues[i];
-		//std::cout << "moo " << id[i]->FQDN() << "\n";
 	}
-
-	//string moo = "MESSAGE\\ITEMS\\LINES\\COMPONENTS";
-	//queue_hash[moo] = &components;
 
 	clear();
 

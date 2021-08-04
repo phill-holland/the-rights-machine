@@ -16,19 +16,17 @@ namespace debug
 {
     class console : public thread, public ::queue::in<::error::type::type> 
     {
-        const static long MINUTES = 2L;
+        const static long SECONDS = 10L;
         const static long QUEUE = 4096L;
         const static long BUFFER = 500L;
 
         fifo<string, QUEUE> *data;
 
-        string filename;
-
         std::chrono::high_resolution_clock::time_point clock;
 
         semaphore::token token;
 
-        int minutes;
+        int seconds;
 
         bool init;
 
@@ -36,11 +34,10 @@ namespace debug
         void background(thread *bt);
 
     public:
-        console() { makeNull(); reset(string("debug.txt")); }
-        console(string filename) { makeNull(); reset(filename); }
+        console() { makeNull(); reset(); }
         ~console() { cleanup(); }
 
-        void reset(string filename);
+        void reset();
         bool initalised() { return init; }
 
         bool push(string source, bool timestamp = true);

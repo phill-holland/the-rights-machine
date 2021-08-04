@@ -40,7 +40,7 @@ namespace data
 		{
 			class json
 			{
-				json *_child; // this may have many children, needs to be modified
+				json *_child;
 
 			public:
 				json() { _child = NULL; }

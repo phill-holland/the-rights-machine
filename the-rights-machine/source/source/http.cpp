@@ -212,10 +212,7 @@ bool http::client::client::issue(string command,
 					bool data = false, finished = false;
 					char previous = 0;
 					long bytestoread = 0L;
-					//bool no_more_data = false;
 
-					//do
-					//{
 					do
 					{
 						string chunk;
@@ -246,71 +243,41 @@ bool http::client::client::issue(string command,
 								std::this_thread::sleep_for(std::chrono::milliseconds(50));
 								++error;
 							}
-						//} while ((t > 0) && (error < 10) && (!finished));
 						} while ((error < 10) && (!finished));
 
-						if(t > 0) //&& (character != 10) && (character != 13))
+						if(t > 0)
 						{
-							// need state machine for proper chunking
-							// cr lf reading
+							bytestoread = chunk.toLongFromHex();
 
-							//if(((character != 10) && character != 13))
-							//{
-								//std::cout << "chunk\n" << chunk << "\n";
-								bytestoread = chunk.toLongFromHex();
-								//std::cout << "bytses " << bytestoread << "\n";
-								//now read cr lf here, before reading the data
-								if (bytestoread > 0L)
+							if (bytestoread > 0L)
+							{
+								running_total += bytestoread;
+								long remaining = bytestoread;
+								error = 0; t = 0;
+								do
 								{
-									// ***
-									//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
-									//else t = ssl::read(receive, 2);
+									long bufsize = receive_length;
+									if (remaining < receive_length) bufsize = remaining;
 
-									//std::cout << "[" << string(receive,2) << "]\n";
-									// ***
-									running_total += bytestoread;
-									long remaining = bytestoread;
-									error = 0; t = 0;
-									do
+									if (!addr.secure) t = ::wsock::client::read(receive, bufsize, 0);
+									else t = ssl::read(receive, bufsize);
+
+									if (t > 0)
 									{
-										long bufsize = receive_length;
-										if (remaining < receive_length) bufsize = remaining;
-
-										if (!addr.secure) t = ::wsock::client::read(receive, bufsize, 0);
-										else t = ssl::read(receive, bufsize);
-
-										if (t > 0)
-										{
-											actual_total += (long)t;
-											remaining -= (long)t;
-											destination->body->concat(receive, t);
-										}
-										else ++error;
-									} while ((t > 0) && (remaining > 0) && (error < 10));
-
-									//std::cout << "t " << t << " remaining " << remaining << " eror " << error << "\n";
-									//std::cout << "receiv-leng " << receive_length << "\n";
-									//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
-									//else t = ssl::read(receive, 2L);
-
-									//std::cout << "plop[" << string(receive,2) << "]\n";
-								}
-							//}
+										actual_total += (long)t;
+										remaining -= (long)t;
+										destination->body->concat(receive, t);
+									}
+									else ++error;
+								} while ((t > 0) && (remaining > 0) && (error < 10));
+							}
 						} 
 						else 
 						{
-							//std::cout << "t<0\n";
 							bytestoread = 0L;
 						}
 						
 					} while (bytestoread > 0L);
-
-					//std::cout << "done!\n";
-					// trailer CRLF
-					//if (!addr.secure) t = ::wsock::client::read(receive, 2, 0);
-					//else t = ssl::read(receive, 2L);
-
-					//std::cout << "plop[" << string(receive,2) << "]\n";
 				}
 			}
 		}

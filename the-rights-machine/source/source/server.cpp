@@ -16,63 +16,40 @@ void server::listener::background(thread *bt)
 		{
 			if(request)
 			{
-				std::cout << "request bytes, index " << bytes << "," << index << "\n";
 				request = intent(receiving, bytes, index);
 				if(!request) header = true;
 			}
 
 			if(header) 
 			{
-				std::cout << "header bytes, index " << bytes << "," << index << "\n";
-				string moo(&receiving[index], bytes - index - 1);
-				std::cout << moo;
 				header = heading(&receiving[index], bytes - index - 1, temp);
 				if(!header) 
 				{
 					read_counter = 0;
 					parser->clear();
-					std::cout << "pp clear\n";
-					//outputter.clear(); // THIS IS THE FUNCTION TO RETURN DATA TO CALLING CLIENT
-					// PASS THIS INTO compute::Task
+
 					if(!validate()) error(string("HEADER"));
 					if(!c->startResponses()) error(string("RESPONSE"));
-
-					// TASK.RESPONSE, overload with different type of output!!
-					// i.e. as a wrapper for outputter
 				}
 				index += temp;
 			}
 
 			if((!header)&&(!request))
 			{
-				//std::cout << "reading bytes, index " << bytes << "," << index << "\n";
-				
 				int read = bytes - index - 1;	
-				std::cout << "reading " << read << "\n";
-				string moo(&receiving[index],read);
-				std::cout << moo << "\n";		
 				int n = parser->write(&receiving[index], read, ec);
 				if((n < 0) || ( n != read))
 				{
 					c->sendResponse(data::response::response(data::response::response::ERR));
 					c->endResponses();
 					goodbye();
-					//std::cout << "JSON err\n";
 				}
 				else read_counter += n;
-/*
-				if(n != read) 
-				{
-					++errors;
-				}
-				*/
 			}
 		}
 
-		// ***
 		if((!header)&&(!request))
 		{		
-			//if((c->in > 0)&&(c->out > 0))
 			if(c->out >= 1)
 			{	
 				if((read_counter >= content_length - 1)&&(c->in == c->out))
@@ -82,21 +59,6 @@ void server::listener::background(thread *bt)
 				}
 			}
 		}
-		//if ((bytes <= 0) && (++errors >= ERRORS))
-		//{
-			//if (read_counter >= content_length - 2)
-			//{
-				// ***
-				// if(in==out)
-				// ***
-				//if (get() != MODE::NONE)
-				//{
-					// GOODBYE STATE IS NOW WHEN FULL RESULTS RETURNED
-					//goodbye();
-				//}
-			//}
-			//else error(string("READ"));
-		//}
 	}
 }
 
@@ -241,23 +203,17 @@ bool server::listener::heading(char *source, int length, int &index)
 
 void server::listener::goodbye()
 {
-	std::cout << "goodbye\n";
 	parser->done();
 	c->goodbye();
 	clear();
+
+	c->output(string("Goodbye"));
 }
 
 void server::listener::error(string error)
 {
-	std::cout << "error\n";
 	::error::error err(error);
 	c->makeError(err);
-
-	//outputter.clear();
-	//::error::type::type type = c->configuration.errors->lookup(err);
-	//outputter.set(&type);
-	//string temp = outputter.get();
-	//c->write(temp, 0);
 
 	clear();
 }
@@ -587,18 +543,39 @@ bool server::client::endResponses()
 bool server::client::sendResponse(data::response::response response)
 {
 	string data = response.extract();
-	if(out > 0) data.concat(string(","));	
 
-	string output = string::toHex(data.length());
-	output.concat(string("\r\n"));
-	output.concat(data);
-	output.concat(string("\r\n"));
+	if(data.length() > 0)
+	{
+		if(out > 0) data.concat(string(","));	
 
-	mutex lock(token);
+		string output = string::toHex(data.length());
+		output.concat(string("\r\n"));
+		output.concat(data);
+		output.concat(string("\r\n"));
 
-	if(write(output, 0) != output.length()) return false;
+		{
+			mutex lock(token);
+
+			if(write(output, 0) != output.length()) return false;
+		}
+
+		this->output(data.flatten());
+	}
 
 	return true;
+}
+
+void server::client::output(error::error source)
+{
+	configuration.errors->set(source);
+}
+
+void server::client::output(string source)
+{
+	string temp = source;
+	source.concat(string("\r\n"));
+	error::error err(temp);
+	output(err);
 }
 
 void server::client::makeNull()
@@ -618,8 +595,10 @@ void server::wait::background(thread *bt)
 	{
 		if (s->wait(*c))
 		{
-			std::cout << "found\n";
 			c->start();
+
+			string message("Client Connecting");
+			s->output(message);
 		}
 	}
 
@@ -705,6 +684,8 @@ bool server::server::start()
 
 	watcher->start();
 	if (!watcher->initalised()) return false;
+
+	output(string("Server Starting"));
 
 	return true;
 }
@@ -842,8 +823,8 @@ void server::server::output(string source)
 {
 	string temp = source;
 	source.concat(string("\r\n"));
-	error::type::type err(temp);
-	configuration.errors->push(err);
+	error::error err(temp);
+	configuration.errors->set(err);
 }
 
 void server::server::makeNull()

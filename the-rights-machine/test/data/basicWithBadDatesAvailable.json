@@ -1,0 +1,94 @@
+{
+	"task" :
+	{
+		"queries" :
+		[
+			{
+				"start" : "2018-14-14T00:00:00.000Z",
+				"end" : "monk-ey",
+				"components" :
+				[
+					{
+						"name" : "country",
+						"elements" :
+						[
+							{ "value" : "england" },
+							{ "value" : "france" }
+						]
+					}
+					,
+					{
+						"name" : "language",
+						"elements" :
+						[
+							{ "value" : "english" },
+							{ "value" : "french" }
+						]
+					}
+				]
+			}
+		],
+		"items":
+		[
+			{
+				"name" : "myitem",
+				"lines" :
+				[
+					{
+						"start" : "2018-01-01T00:00:00.000Z",
+						"end" : "2019-01-01T00:00:00.000Z",
+						"exclusivity" : 0,
+						"type" : 0,
+						"components" :
+						[
+							{
+								"name" : "country",
+								"elements" :
+								[
+									{ "value" : "england" },
+									{ "value" : "france" }
+								]
+							}
+							,
+							{
+								"name" : "language",
+								"elements" :
+								[
+									{ "value" : "english" },
+									{ "value" : "french" }
+								]
+							}
+						]
+					}
+					,
+					{
+						"start" : "b:adgzer",
+						"end" : "2019-08-01T00:00:00.000Z",
+						"exclusivity" : 0,
+						"type" : 1,
+						"components" :
+						[
+							{
+								"name" : "country",
+								"elements" :
+								[
+									{ "value" : "england" },
+									{ "value" : "france" }
+								]
+							}
+							,
+							{
+								"name" : "language",
+								"elements" :
+								[
+									{ "value" : "english" },
+									{ "value" : "french" }
+								]
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+}

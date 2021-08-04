@@ -3,10 +3,16 @@
 #include "test/responses.h"
 #include "test/environment.h"
 
+// 1) date is full ISO format causes problems in JSON
+// 2) output logging messages
+// 3) increase concurrent server clients (put in config
+// 4) allow port to be changed via config
+// 5) content-length in HTTP request; what happens if missing?
+
 // ** add NAME to response OK
 // ** add debug messages -- output to std::cout and log file
 // ** server, add chunked read
-// ** swagger doc
+// ** swagger doc OK
 // add api key check
 // main loop!!
 // NUGET .net core package
@@ -52,8 +58,7 @@
 periodically */
 
 const long port = 5454;
-//const string url("http://127.0.0.1");
-const string url("http://82.69.103.114");
+const string url("http://127.0.0.1");
 
 TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 {
@@ -186,6 +191,42 @@ TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
 
 	tests::data::response response = responses.data.front();
 	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("false")) == 0);
+}
+
+TEST(basicAvailableWithFullISODateWithInMemoryQueue, BasicAssertions)
+{
+	test::client client(string("test/data/basicWithFullISODateAvailable.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post(url, port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("OK")) == 0);
+	EXPECT_TRUE(response.available.compare(string("true")) == 0);
+}
+
+TEST(basicAvailableWithBadDatesWithInMemoryQueue, BasicAssertions)
+{
+	test::client client(string("test/data/basicWithBadDatesAvailable.json"));
+	EXPECT_TRUE(client.initalised());
+
+	web::page destination;
+
+	EXPECT_TRUE(client.post(url, port, &destination));
+
+	tests::data::responses responses(destination);
+	EXPECT_TRUE(responses.initalised());
+	EXPECT_TRUE(responses.data.size() == 1);
+
+	tests::data::response response = responses.data.front();
+	EXPECT_TRUE(response.status.compare(string("ERR")) == 0);
 	EXPECT_TRUE(response.available.compare(string("false")) == 0);
 }
 

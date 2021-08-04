@@ -47,7 +47,12 @@ namespace error
 
 			string get()
 			{
-				return name + " : " + description;
+				string result = name;
+
+				if(!(result.empty())&&(!description.empty())) result.concat(string(" : "));
+				if(!description.empty()) result.concat(description);
+
+				return result;
 			}
 
 		public:

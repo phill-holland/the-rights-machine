@@ -633,6 +633,21 @@ bool string::isHex()
 	return true;
 }
 
+string string::flatten()
+{
+	string result;
+	for (long index = 0L; index < count(); ++index)
+	{
+		char temp = (*this)[index];
+		if((temp != 10) && (temp != 13))
+		{
+			result += temp;
+		}
+	}
+
+	return result;
+}
+
 string string::fromFloat(float source)
 {
 	char temp[15]; memset(temp, 0, 15);

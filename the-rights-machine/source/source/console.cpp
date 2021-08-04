@@ -10,34 +10,29 @@ void debug::console::background(thread *bt)
     if((now >= clock)||(data->entries() > (QUEUE - BUFFER)))
     {
         flush();
-        clock = std::chrono::high_resolution_clock::now() + std::chrono::minutes(minutes);
+        clock = std::chrono::high_resolution_clock::now() + std::chrono::seconds(seconds);
     }
 
-    sleep(5000);
+    sleep(500);
 }
 
-void debug::console::reset(string filename)
+void debug::console::reset()
 {
     init = false; cleanup();
 
-    this->filename = filename;
-    this->minutes = MINUTES;
+    this->seconds = seconds;
 
     data = new fifo<string, QUEUE>();
     if (data == NULL) return;
     if (!data->initalised()) return;
 
-    std::ofstream handle;
-    handle.open(filename, std::ios::out | std::ios::trunc | std::ios::binary);
-    handle.close();
-
-    clock = std::chrono::high_resolution_clock::now() + std::chrono::minutes(minutes);
+    clock = std::chrono::high_resolution_clock::now() + std::chrono::seconds(seconds);
 
     init = this->start();
 }
 
 bool debug::console::push(string source, bool timestamp)
-{
+{    
     if (timestamp)
 	{
 		time_t now = time(NULL);

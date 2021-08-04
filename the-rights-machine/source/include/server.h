@@ -35,25 +35,18 @@ namespace server
 		long errors;
 
 		web::parameters parameters;
-		//crumbs::crumbs parents;
 
-		//bool quotes;
 		bool left;
 
-		//long brackets, squares;
-
-		bool header, request;// , validate; // turn into state int
+		bool header, request;
 		int h_index;
 
 		charbuf command, label, value;
 
-		//compute::task task;
 		::data::request::request requested;
 
 		long content_length;
 		long read_counter;
-
-		//output::output outputter;
 
 		parser::parser *parser;
 
@@ -93,22 +86,6 @@ namespace server
 
 	class client : public ::wsock::client, notification::notification
 	{
-		/*
-	public:
-		enum ERRORS { None = 0,
-					  Read = 1,
-					  Write = 2,
-					  Start = 3,
-					  Receiving = 4,
-					  End = 5,
-					  Unexpected = 6,
-					  Peek = 7,
-					  Ping = 8,
-					  Mismatch = 9,
-					  Changed = 10,
-					  Fail = 11
-					};
-					*/
 	protected:
 		class states;
 
@@ -165,7 +142,6 @@ namespace server
 
 		mutex::token token;
 
-		//ERRORS lastErrorCode;
 		::error::error lastErrorCode;
 		bool isInExit, isInError;
 
@@ -196,9 +172,7 @@ namespace server
 
 		bool isError();
 		void makeError(::error::error &error);
-		//void makeError(ERRORS code);
 		void resetError();
-		//ERRORS lastError() { return lastErrorCode; }
 		::error::error lastError() { return lastErrorCode; }
 
 		void shutdown();
@@ -212,11 +186,11 @@ namespace server
 	protected:
 		bool startResponses();
 		bool endResponses();
-
 		bool sendResponse(data::response::response response);
 
-	//protected:
-	//	bool removeFromPending(long id);
+	protected:
+		void output(error::error source);
+		void output(string source);
 
 	protected:
 		void makeNull();

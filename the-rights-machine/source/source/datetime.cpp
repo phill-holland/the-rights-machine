@@ -14,42 +14,52 @@ void global::datetime::clear()
 
 bool global::datetime::from(string const &source)
 {
-	char yy[] = { '0', '0', '0', '0', 0 };
+	char yy[] = { '0', '0', 0, 0, 0 };
 	char mm[] = { '0', '0', 0 };
 	char dd[] = { '0', '0', 0 };
 
-	char *dest[] = { yy, mm, dd };
-	long length[] = { 3, 1, 1 };
+	char hh[] = { '0', '0' };
+	char mn[] = { '0', '0' };
+	char ss[] = { '0', '0' };
+	char ms[] = { '0', '0', '0' };
 
-	long ptr = 2L;
-	long idx = 1L;
+	char *dest[] = { yy, mm, dd, hh, mn, ss, ms };
+	long length[] = { 3, 1, 1, 1, 1, 1, 2 };
 
-	for (long i = (long)source.length() - 1L; i >=0L; i--)
+	long ptr = 0L;
+	long idx = 0L;
+
+	for (long i = 0; i < source.length(); ++i)
 	{
-		if (ptr < 0L) return false;
+		if(ptr > 6L) 
+			return false;
 
-		if (source[i] == '-')
+		if ((source[i] == '-') || (source[i] == ':') || (source[i] == 'T') || (source[i] == '.'))
 		{
-			--ptr;
-			if (ptr >= 0L) idx = length[ptr];
+			++ptr;
+			if (ptr <= 6L) idx = 0;
 		}
 		
-		if (idx < 0L)
+		if (idx > length[ptr])
 		{
-			--ptr;
-			if (ptr >= 0L) idx = length[ptr];
+			++ptr;
+			if (ptr <= 6L) idx = 0;
 		}
 
-		if (source[i] != '-')
+		if ((source[i] != '-') && (source[i] != ':') && (source[i] != 'T') && (source[i] != '.') && (source[i] != 'Z'))
 		{
-			if (!((source[i] >= '0') && (source[i] <= '9'))) return false;
-			dest[ptr][idx--] = source[i];
+			if (!((source[i] >= '0') && (source[i] <= '9'))) 
+				return false;
+			dest[ptr][idx++] = source[i];
 		}
 	}
 
 	year = string(yy).toInteger();
 	month = string(mm).toInteger();
 	day = string(dd).toInteger();
+	hour = string(hh).toInteger();
+	minute = string(mn).toInteger();
+	second = string(ss).toInteger();
 
 	return true;
 }

@@ -177,7 +177,6 @@ string data::json::response::json::extract()
 
 	if (result.size() == 0L) return string("");
 
-	//string data = "\"" + identifier() + "\" : \r\n{\r\n";
 	string data = "{\r\n";
 
 	for (unsigned long i = 0UL; i < result.size() - 1UL; ++i)
