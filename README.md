@@ -1,5 +1,15 @@
 <b>The Rights Machine</b>
 
+
+kubectl create secret docker-registry gcr-json-key --docker-server=eu.gcr.io --docker-username=_json_key --docker-password="$(cat /home/phill/.gcloud/annular-net-321608-20e4b74265ec.json)" --docker-email=fotofill.holland@gmail.com
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gcr-json-key"}]}'
+
+https://blog.container-solutions.com/using-google-container-registry-with-kubernetes
+
+kubectl patch serviceaccount default \
+(out) -p '{"imagePullSecrets": [{"name": "gcr-json-key"}]}'
+
 docker login -u _json_key -p "$(cat ~/Downloads/annular-net-321608-20e4b74265ec.json)" https://gcr.io
 
 docker push gcr.io/annular-net-321608/the-rights-machine

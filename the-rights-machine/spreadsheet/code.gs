@@ -87,7 +87,7 @@ function availability(e) {
   'contentType': 'application/json',
   'payload' : json
   };
-  var httpResponse = UrlFetchApp.fetch('http://82.69.103.114:5454', options);
+  var httpResponse = UrlFetchApp.fetch('http://34.105.169.101:5454', options);
 
   var jsonResponse = JSON.parse(httpResponse.getContentText());
   outputResult(jsonResponse);
