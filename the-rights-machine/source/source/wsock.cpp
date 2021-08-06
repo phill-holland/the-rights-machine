@@ -161,8 +161,11 @@ void wsock::server::close()
 
 #elif defined(__linux__)
 
-const int wsock::client::timeout = 5;
-const int wsock::server::timeout = 5;
+const int wsock::client::timeout_in_seconds = 5;
+const int wsock::client::timeout_in_useconds = 0;
+
+const int wsock::server::timeout_in_seconds = 0;
+const int wsock::server::timeout_in_useconds = 100;
 
 struct addrinfo *wsock::wsock::getHostByName(string &server)
 {
@@ -197,7 +200,10 @@ bool wsock::client::open(string &server, long port)
 	int result = connect(_socket, (struct sockaddr*)&details, sizeof(struct sockaddr));
 	if (result < 0) return false;
 
-	struct timeval tv = { client::timeout, 0 };
+	struct timeval tv;
+	
+	tv.tv_sec = client::timeout_in_seconds;
+	tv.tv_usec = client::timeout_in_useconds;
 
 	result = setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
 	if (result < 0) return false;
@@ -258,7 +264,10 @@ bool wsock::server::open(long port)
 
 	if (listen(_socket, 1) < 0) return false;
 
-	struct timeval tv = { server::timeout, 0 };
+	struct timeval tv;
+
+	tv.tv_sec = server::timeout_in_seconds;
+	tv.tv_usec = server::timeout_in_useconds;
 
 	int result = setsockopt(_socket, SOL_SOCKET, SO_RCVTIMEO, (struct timeval *)&tv, sizeof(struct timeval));
 	if (result < 0) return false;

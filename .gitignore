@@ -29,5 +29,6 @@ log.txt
 */*.tlog
 *.cache
 *.deps
+*/*.terraform
 
 build

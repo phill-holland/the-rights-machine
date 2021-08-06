@@ -78,6 +78,8 @@ public:
 	void add_hex(long number);
 	void add(string &line);
 
+	void now();
+
 private:
     void reset(const char *filename);
 	void write(const char *line);

@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cstring>
+#include <chrono>
 
 #ifdef _LDEBUG
 
@@ -71,6 +72,24 @@ void logger::add_hex(long number)
 void logger::add(string &line)
 {
 	write(line.c_str());
+}
+
+void logger::now()
+{
+	auto now = std::chrono::high_resolution_clock::now();
+	auto duration = now.time_since_epoch();
+
+    auto us = std::chrono::duration_cast<std::chrono::microseconds>(duration);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
+    const float ms_fractional = static_cast<float>(us.count()) / 1000;
+
+	string result("duration = ");
+	result.concat(string::fromInt(us.count()));
+	result.concat(string("µs ("));
+	result.concat(string::fromFloat(ms_fractional));
+	result.concat(string("ms)\n"));
+
+	write(result.c_str());
 }
 
 void logger::reset(const char *filename)

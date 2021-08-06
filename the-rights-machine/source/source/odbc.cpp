@@ -728,20 +728,30 @@ void database::odbc::connection::cleanup()
 	if (isopen) close();
 }
 
-/*
-void database::odbc::factory::connection::reset()
-{
-	init = false; cleanup();
-
-	init = true;
-}
-*/
-/*
-void database::odbc::factory::connection::makeNull()
-{
-}
-
 void database::odbc::factory::connection::cleanup()
 {
-	#warning this function needs something?
-}*/
+	try
+	{
+		if(connections.size() > 0)
+		{
+			for(int i = connections.size(); i >= 0; --i)
+			{
+				delete connections[i];
+			}
+		}
+	} catch(...) { }
+}
+
+void database::odbc::factory::recordset::cleanup()
+{
+	try
+	{
+		if(recordsets.size() > 0)
+		{
+			for(int i = recordsets.size(); i >= 0; --i)
+			{
+				delete recordsets[i];
+			}
+		}
+	} catch(...) { }
+}

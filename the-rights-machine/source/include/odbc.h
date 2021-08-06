@@ -311,16 +311,7 @@ namespace database
 
 			protected:
 				void makeNull() { }
-				void cleanup()
-				{
-					if(connections.size() > 0)
-					{
-						for(int i = connections.size(); i >= 0; --i)
-						{
-							delete connections[i];
-						}
-					}
-				}
+				void cleanup();
 			};
 
 			class recordset : public database::factory::recordset
@@ -354,16 +345,7 @@ namespace database
 
 			protected:
 				void makeNull() { }
-				void cleanup()
-				{
-					if(recordsets.size() > 0)
-					{
-						for(int i = recordsets.size(); i >= 0; --i)
-						{
-							delete recordsets[i];
-						}
-					}
-				}
+				void cleanup();
 			};
 		};
 	};

@@ -11,7 +11,7 @@ void server::listener::background(thread *bt)
 	{
 		int bytes = c->read(receiving, RECEIVING, 0);
 		int index = 0, temp = 0;
-
+		
 		if(bytes > 0)
 		{
 			if(request)
@@ -49,11 +49,11 @@ void server::listener::background(thread *bt)
 		}
 
 		if((!header)&&(!request))
-		{		
+		{	
 			if(c->out >= 1)
 			{	
 				if((read_counter >= content_length - 1)&&(c->in == c->out))
-				{
+				{			
 					c->endResponses();
 					goodbye();
 				}

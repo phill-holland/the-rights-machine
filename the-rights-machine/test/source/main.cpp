@@ -70,6 +70,7 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 	EXPECT_TRUE(client.post(url, port, &destination));
 
 	tests::data::responses responses(destination);
+
 	EXPECT_TRUE(responses.initalised());
 	EXPECT_TRUE(responses.data.size() == 1);
 

@@ -4,9 +4,6 @@
 
 void data::response::responses::background(thread *bt)
 {
-	// check created date 
-	//sleep(1000);
-	
 	mutex lock(token);
 
 	std::vector<string> erase;
@@ -26,7 +23,6 @@ void data::response::responses::background(thread *bt)
 	}
 
 	sleep(250);
-	//return (DWORD)0;
 }
 
 void data::response::responses::reset(unsigned long total)
@@ -105,10 +101,8 @@ data::response::response data::response::responses::find(string &identity)
 bool data::response::responses::remove(string &identity)
 {
 	mutex lock(token);
-//string moo;
-//map.find(moo);
-//std::unordered_map<string, unsigned long, hasher, equality>::iterator iit = map.find(identity);
-	auto it = map.find(identity);//(identity);
+
+	auto it = map.find(identity);
 	if (it != map.end())
 	{
 		data[map[identity]]->clear();

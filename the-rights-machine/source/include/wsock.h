@@ -128,7 +128,8 @@ namespace wsock
 
 	class client : public wsock, public interface::client
 	{
-		const static int timeout;
+		const static int timeout_in_seconds;
+		const static int timeout_in_useconds;
 
 	private:
 		friend class server;
@@ -154,7 +155,9 @@ namespace wsock
 	{
 	protected:
 		int _socket;
-		const static int timeout;
+
+		const static int timeout_in_seconds;
+		const static int timeout_in_useconds;
 
 	public:
 		server() : wsock() { _socket = -1; }
