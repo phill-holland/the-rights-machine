@@ -30,5 +30,6 @@ log.txt
 *.cache
 *.deps
 */.terraform
-
+terraform.tfstate
+terraform.tfstate.backup
 build
