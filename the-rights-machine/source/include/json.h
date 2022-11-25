@@ -1,6 +1,6 @@
-#include "pair.h"
-#include "custom/string.h"
-#include "queue.h"
+#include "core/custom/pair.h"
+#include "core/string/string.h"
+#include "queues/interfaces/queue.h"
 
 #if !defined(__JSON)
 #define __JSON
@@ -21,7 +21,7 @@ namespace data
 				virtual int identity() = 0;
 				virtual void clear() = 0;
 				virtual string identifier() = 0;
-				virtual bool add(custom::pair source) = 0;
+				virtual bool add(core::custom::pair source) = 0;
 
 				virtual queue::base *findQ(string FQDN) { return NULL; }
 				virtual json *find(string FQDN) { return NULL; }				
@@ -51,7 +51,7 @@ namespace data
 
 				virtual string identifier() = 0;
 				virtual unsigned long pairs() = 0;
-				virtual custom::pair pull(unsigned long index) = 0;
+				virtual core::custom::pair pull(unsigned long index) = 0;
 			};
 		};
 	};

@@ -5,11 +5,13 @@ RUN apt-get update && apt-get install unixodbc-dev -y
 RUN apt-get update && apt-get install libssl-dev -y
 RUN apt-get update && apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev -y
 RUN apt-get update && apt-get install gdb -y
-RUN apt-get install uuid-dev -y
+RUN apt-get update && apt-get install uuid-dev -y
+RUN apt-get update && apt-get install git-all -y
+RUN apt-get update && apt-get install libfmt-dev -y
 WORKDIR /init
-RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz
-RUN tar xvzf boost_1_76_0.tar.gz
-WORKDIR /init/boost_1_76_0
+RUN wget https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.gz
+RUN tar xvzf boost_1_79_0.tar.gz
+WORKDIR /init/boost_1_79_0
 RUN ./bootstrap.sh
 RUN ./b2 install
 WORKDIR /init

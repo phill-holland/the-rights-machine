@@ -1,6 +1,6 @@
 #include "json.h"
-#include "custom/string.h"
-#include "comparison.h"
+#include "core/string/string.h"
+#include "core/string/comparison.h"
 #include <unordered_map>
 
 #if !defined(__ERROR)

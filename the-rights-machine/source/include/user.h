@@ -1,5 +1,5 @@
 #include "message.h"
-#include "custom/string.h"
+#include "core/string/string.h"
 #include "datetime.h"
 
 #if !defined(__USER)
