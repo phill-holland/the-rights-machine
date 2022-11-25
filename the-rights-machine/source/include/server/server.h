@@ -1,20 +1,20 @@
 #include "parser/json/parser.h"
-#include "wsock.h"
-#include "thread.h"
-#include "message.h"
-#include "fifo.h"
-#include "manager.h"
-#include "configuration.h"
-#include "parameters.h"
-#include "charbuf.h"
-#include "pair.h"
-#include "crumbs.h"
-#include "responses.h"
-#include "request.h"
-#include "pending.h"
-#include "error.h"
-#include "output.h"
-#include "notification.h"
+//#include "wsock.h"
+#include "core/threading/thread.h"
+#include "message/message.h"
+#include "core/queue/fifo.h"
+#include "compute/manager.h"
+#include "server/configuration.h"
+//#include "parameters.h"
+//#include "charbuf.h"
+#include "core/custom/pair.h"
+//#include "crumbs.h"
+#include "models/responses.h"
+#include "models/request.h"
+#include "server/pending.h"
+#include "server/error.h"
+#include "server/output.h"
+#include "interfaces/notification.h"
 
 #if !defined(__SERVER)
 #define __SERVER
@@ -41,7 +41,7 @@ namespace server
 		bool header, request;
 		int h_index;
 
-		charbuf command, label, value;
+		//charbuf command, label, value;
 
 		::data::request::request requested;
 

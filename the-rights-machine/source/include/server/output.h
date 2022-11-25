@@ -1,7 +1,5 @@
-#include "response.h"
-#include "error.h"
-#include "parameters.h"
-#include "log.h"
+#include "models/response.h"
+#include "server/error.h"
 
 #if !defined(__OUTPUT)
 #define __OUTPUT

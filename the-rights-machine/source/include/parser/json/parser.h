@@ -4,12 +4,12 @@
 #include <string>
 #include <vector>
 #include "core/string/string.h"
-#include "message.h"
-#include "pair.h"
+#include "message/message.h"
+#include "core/custom/pair.h"
 #include "crumbs.h"
-#include "task.h"
-#include "notification.h"
-#include "manager.h"
+#include "compute/task.h"
+#include "interfaces/notification.h"
+#include "compute/manager.h"
 
 #if !defined(__PARSER)
 #define __PARSER
