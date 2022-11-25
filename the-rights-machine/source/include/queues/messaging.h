@@ -13,7 +13,7 @@ namespace messaging
 		{
 		public:
 			virtual ::queue::factory<compute::task> *getMessageQueue() = 0;
-			virtual ::queue::chain_factory<data::response::response> *getResponsesQueue() = 0;
+			virtual ::queue::chain_factory<models::response::response> *getResponsesQueue() = 0;
 		};
 	};
 
@@ -34,7 +34,7 @@ namespace messaging
 			void reset();
 
 			::queue::factory<compute::task> *getMessageQueue();
-			::queue::chain_factory<data::response::response> *getResponsesQueue();
+			::queue::chain_factory<models::response::response> *getResponsesQueue();
 
 		protected:
 			void makeNull();
@@ -59,7 +59,7 @@ namespace messaging
 			void reset(::database::settings &settings);
 
 			::queue::factory<compute::task> *getMessageQueue();
-			::queue::chain_factory<data::response::response> *getResponsesQueue();
+			::queue::chain_factory<models::response::response> *getResponsesQueue();
 
 		protected:
 			void makeNull();

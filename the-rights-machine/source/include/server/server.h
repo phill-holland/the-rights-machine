@@ -1,11 +1,9 @@
 #include "parser/json/parser.h"
-//#include "wsock.h"
 #include "core/threading/thread.h"
 #include "message/message.h"
 #include "core/queue/fifo.h"
 #include "compute/manager.h"
 #include "server/configuration.h"
-//#include "parameters.h"
 //#include "charbuf.h"
 #include "core/custom/pair.h"
 //#include "crumbs.h"
@@ -15,6 +13,9 @@
 #include "server/error.h"
 #include "server/output.h"
 #include "interfaces/notification.h"
+#include "net/socket/interface/client.h"
+#include "net/socket/interface/server.h"
+#include "net/http/parameter.h"
 
 #if !defined(__SERVER)
 #define __SERVER
@@ -23,7 +24,7 @@ namespace server
 {
 	class client;
 
-	class listener : public thread
+	class listener : public core::threading::thread
 	{
 		enum MODE { NONE = 0, POST = 1, GET = 2 };
 
@@ -34,7 +35,7 @@ namespace server
 
 		long errors;
 
-		web::parameters parameters;
+		net::http::parameter parameters;
 
 		bool left;
 
@@ -43,7 +44,7 @@ namespace server
 
 		//charbuf command, label, value;
 
-		::data::request::request requested;
+		::models::request::request requested;
 
 		long content_length;
 		long read_counter;
@@ -84,7 +85,7 @@ namespace server
 		void cleanup() { if (parser != NULL) delete parser; }
 	};
 
-	class client : public ::wsock::client, notification::notification
+	class client : public net::socket::interface::client, notification::notification
 	{
 	protected:
 		class states;
@@ -140,7 +141,7 @@ namespace server
 
 		configuration::server::client::configuration configuration;
 
-		mutex::token token;
+		core::threading::mutex::token token;
 
 		::error::error lastErrorCode;
 		bool isInExit, isInError;
@@ -186,7 +187,7 @@ namespace server
 	protected:
 		bool startResponses();
 		bool endResponses();
-		bool sendResponse(data::response::response response);
+		bool sendResponse(models::response::response response);
 
 	protected:
 		void output(error::error source);
@@ -199,7 +200,7 @@ namespace server
 
 	class server;
 
-	class wait : public thread
+	class wait : public core::threading::thread
 	{
 		server *s;
 
@@ -210,7 +211,7 @@ namespace server
 		wait(server *source) { s = source; }
 	};
 
-	class watchdog : public thread
+	class watchdog : public core::threading::thread
 	{
 		server *s;
 
@@ -221,7 +222,7 @@ namespace server
 		watchdog(server *source) { s = source; }
 	};
 
-	class server : public ::wsock::server
+	class server : public net::socket::interface::server
 	{
 		friend class wait;
 		friend class watchdog;
@@ -237,7 +238,7 @@ namespace server
 
 		long counter, iterations;
 
-		mutex::token token;
+		core::threading::mutex::token token;
 
 		bool init;
 
@@ -248,7 +249,7 @@ namespace server
 		void reset(configuration::server::configuration *settings);
 		bool initalised() { return init; }
 
-		bool open() { return ::wsock::server::open(configuration.port); }
+		bool open() { return net::socket::interface::server::open(configuration.port); }
 
 		bool start();
 		void stop();

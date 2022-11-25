@@ -1,21 +1,20 @@
-#include "item.h"
-#include "log.h"
+#include "models/item.h"
 
-void data::item::item::clear()
+void models::item::item::clear()
 {
 	itemID = 0;
 	messageID = 0;
 	name = string("");
 }
 
-void data::item::item::copy(item const &source)
+void models::item::item::copy(item const &source)
 {
 	itemID = source.itemID;
 	messageID = source.messageID;
 	name = source.name;
 }
 
-string data::item::item::output()
+string models::item::item::output()
 {
 	string result("\"item\" : {\"itemID\" : ");
 	result.concat(string::fromInt(itemID));
@@ -28,7 +27,7 @@ string data::item::item::output()
 	return result;
 }
 
-bool data::item::item::add(custom::pair source)
+bool models::item::item::add(core::custom::pair source)
 {
 	if (string("name").icompare(source.name))
 	{

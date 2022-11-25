@@ -109,7 +109,7 @@ void compute::cpu::processor::push(::compute::task &task)
 		unsigned long offset = 0UL;
 		for (unsigned long i = 0UL; i < (unsigned long)task.inquiry.queries.count(); ++i)
 		{
-			data::query::query *q = task.inquiry.queries[i];
+			models::query::query *q = task.inquiry.queries[i];
 			q->filter(rows, height, (unsigned long)mappings.in.size());
 
 			query->clear();
@@ -126,7 +126,7 @@ void compute::cpu::processor::push(::compute::task &task)
 
 			if(task.response != NULL)
 			{
-				data::response::response response;
+				models::response::response response;
 
 				response.guid = msg.guid;
 				response.name = msg.name;
@@ -144,11 +144,11 @@ void compute::cpu::processor::push(::compute::task &task)
 	{
 		if(task.response != NULL)
 		{
-			data::response::response response;
+			models::response::response response;
 
 			response.guid = msg.guid;
 			response.name = msg.name;
-			response.status = data::response::response::STATUS::RANGE;
+			response.status = models::response::response::STATUS::RANGE;
 			response.available = false;
 			response.created = datetime::now();
 

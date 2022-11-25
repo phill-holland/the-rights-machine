@@ -18,14 +18,21 @@ namespace compute
 		int componentID;
 
 	public:
-		header(datetime start = datetime(), datetime end = datetime(),
-			   int messageID = -1, int itemID = -1, 
-			   int lineID = -1, int componentID = -1) : zone(start, end)
+		header(datetime start, datetime end,
+			   int messageID, int itemID, 
+			   int lineID, int componentID) : zone(start, end)
 		{ 
 			this->messageID = messageID;
 			this->itemID = itemID;
 			this->lineID = lineID;
 			this->componentID = componentID;
+		}
+		header() : zone(datetime(), datetime())
+		{ 
+			this->messageID = -1;
+			this->itemID = -1;
+			this->lineID = -1;
+			this->componentID = -1;
 		}
 
 		header(header const &source) : zone(source) { clear(); copy(source); }

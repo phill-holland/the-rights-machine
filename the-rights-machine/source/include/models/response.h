@@ -7,7 +7,7 @@
 #if !defined(__RESPONSE)
 #define __RESPONSE
 
-namespace data
+namespace models
 {
 	namespace response
 	{		
@@ -25,7 +25,7 @@ namespace data
 			string name;
 			string user;
 			STATUS status;
-			datetime created;
+			types::datetime created;
 			bool available;
 
 		public:
@@ -39,7 +39,7 @@ namespace data
 			unsigned long pairs();
 			core::custom::pair pull(unsigned long index);
 
-			bool validate(data::request::request &request);
+			bool validate(models::request::request &request);
 
 		protected:
 			string map(STATUS source);			

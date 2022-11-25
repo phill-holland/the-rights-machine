@@ -2,6 +2,8 @@
 #include "models/response.h"
 #include "core/string/comparison.h"
 #include "core/custom/pair.h"
+#include "core/threading/thread.h"
+#include "core/threading/mutex.h"
 #include "parser/json/json.h"
 #include <vector>
 #include <unordered_map>
@@ -9,13 +11,13 @@
 #if !defined(__RESPONSES)
 #define __RESPONSES
 
-namespace data
+namespace models
 {
 	namespace response
 	{
 		using namespace comparison;
 
-		class responses : public thread, public custom::chain<::data::response::response>
+		class responses : public core::threading::thread, public custom::chain<::models::response::response>
 		{
 			static const unsigned long MAX = 255L;
 
@@ -23,10 +25,10 @@ namespace data
 			void background(thread *bt);
 
 		private:
-			data::response::response **data;
+			models::response::response **data;
 			std::unordered_map<string, unsigned long, hasher, equality> map;
 
-			mutex::token token;
+			core::threading::mutex::token token;
 
 			unsigned long total;
 			unsigned long length;
@@ -42,17 +44,17 @@ namespace data
 
 			void clear();
 
-			bool set(data::response::response &source);
-			data::response::response get(unsigned long index);
+			bool set(models::response::response &source);
+			models::response::response get(unsigned long index);
 
 			unsigned long count();
 
-			data::response::response find(string &identity);
+			models::response::response find(string &identity);
 
 			bool remove(string &identity);
 
 		public:
-			data::response::response operator[](int index)
+			models::response::response operator[](int index)
 			{
 				return get((unsigned long)index);
 			}

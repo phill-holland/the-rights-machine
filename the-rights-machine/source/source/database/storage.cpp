@@ -25,7 +25,7 @@ bool database::storage::request::close()
 	return true;
 }
 
-bool database::storage::request::read(data::request::request &destination)
+bool database::storage::request::read(models::request::request &destination)
 {
 	if (data.size() == 0)
 	{
@@ -47,7 +47,7 @@ bool database::storage::request::read(data::request::request &destination)
 	return false;
 }
 
-bool database::storage::request::write(data::request::request &source)
+bool database::storage::request::write(models::request::request &source)
 {
 	bool prepared = true;
 
@@ -179,7 +179,7 @@ bool database::storage::response::close()
 	return true;
 }
 
-bool database::storage::response::read(data::response::response &destination)
+bool database::storage::response::read(models::response::response &destination)
 {
 	if (data.size() == 0)
 	{
@@ -193,7 +193,7 @@ bool database::storage::response::read(data::response::response &destination)
 
 		destination.guid = (string)guid::guid(temp.guid);
 		destination.user = (string)guid::guid(temp.user);
-		destination.status = (data::response::response::STATUS)temp.status;
+		destination.status = (models::response::response::STATUS)temp.status;
 		destination.created = (datetime)temp.created;
 		destination.available = temp.available;
 
@@ -203,7 +203,7 @@ bool database::storage::response::read(data::response::response &destination)
 	return false;
 }
 
-bool database::storage::response::write(data::response::response &source)
+bool database::storage::response::write(models::response::response &source)
 {
 	bool prepared = true;
 
@@ -1051,7 +1051,7 @@ bool database::storage::query::close()
 	return index == 0;
 }
 
-bool database::storage::query::read(data::query::query &destination)
+bool database::storage::query::read(models::query::query &destination)
 {
 	string key = (string)guid::guid(messageID);
 
@@ -1085,7 +1085,7 @@ bool database::storage::query::read(data::query::query &destination)
 	return false;
 }
 
-bool database::storage::query::write(data::query::query &source)
+bool database::storage::query::write(models::query::query &source)
 {
 	bool prepared = true;
 

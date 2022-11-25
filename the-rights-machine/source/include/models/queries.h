@@ -4,7 +4,7 @@
 #if !defined(__QUERIES)
 #define __QUERIES
 
-namespace data
+namespace models
 {
 	namespace queries
 	{

@@ -1,8 +1,5 @@
-#include "message.h"
-#include "header.h"
-#include "log.h"
-
-//#include <iostream>
+#include "message/message.h"
+#include "compute/header.h"
 
 void data::message::message::reset()
 {
@@ -62,10 +59,10 @@ queue::base *data::message::message::findQ(string FQDN)
 	return NULL;
 }
 
-data::json::request::json *data::message::message::find(string FQDN)
+json::request::json *data::message::message::find(string FQDN)
 {
-	std::unordered_map<string, data::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
-	if(i != hash.end()) return (data::json::request::json*)i->second;
+	std::unordered_map<string, ::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
+	if(i != hash.end()) return (::json::request::json*)i->second;
 
 	return NULL;
 }
@@ -79,30 +76,30 @@ data::message::message data::message::message::split(inquiry &inquiry, mapping &
 
 	for (long i = 0L; i < lines.count(); ++i)
 	{
-		data::line::line *source = lines[i];
+		models::line::line *source = lines[i];
 
 		for (long j = 0L; j < inquiry.queries.count(); ++j)
 		{
-			data::query::query *query = inquiry.queries[j];
+			models::query::query *query = inquiry.queries[j];
 
 			if (source->overlapped(*query))
 			{
-				if (source->typeID == (int)data::line::line::TYPE::in)
+				if (source->typeID == (int)models::line::line::TYPE::in)
 				{
 					long out_count = 0L;
 					for (long k = 0L; k < lines.count(); ++k)
 					{
-						data::line::line *output = lines[k];
-						if (output->typeID == (int)data::line::line::TYPE::out)
+						models::line::line *output = lines[k];
+						if (output->typeID == (int)models::line::line::TYPE::out)
 						{
 							bool splitted = false;
 							if(source->overlapped(*output))
 							{
 								++out_count;
-								std::vector<zone::zone> splits = source->split(*output);
+								std::vector<types::zone> splits = source->split(*output);
 								for (long l = 0L; l < (long)splits.size(); ++l)
 								{
-									data::line::line temp = source->spawn(splits[l].start, splits[l].end);
+									models::line::line temp = source->spawn(splits[l].start, splits[l].end);
 									temp.lineID = source->lineID;
 
 									data::message::mapping::map map;
@@ -144,7 +141,7 @@ data::message::message data::message::message::split(inquiry &inquiry, mapping &
 						++in_ptr;
 					}
 				}
-				else if (source->typeID == (int)data::line::line::TYPE::out)
+				else if (source->typeID == (int)models::line::line::TYPE::out)
 				{
 					data::message::mapping::map map;
 					map.index = result.lines.count();
@@ -161,7 +158,7 @@ data::message::message data::message::message::split(inquiry &inquiry, mapping &
 	return result;
 }
 			
-void data::message::message::filter(compute::common::row **rows, unsigned long total, 
+void data::message::message::filter(compute::interfaces::row **rows, unsigned long total, 
 								    std::unordered_map<int, data::message::mapping::map> &map)
 {
 	int max_components = components.maximum();
@@ -177,7 +174,7 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 
 		for (long h = 0L; h < elements.count(); ++h)
 		{
-			data::element::element *element = elements[h];
+			models::element::element *element = elements[h];
 			if(components.mapper::parent(element->componentID) == line.lineID)
 			{
 				string component = components.name(element->componentID);
@@ -187,7 +184,7 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 				{
 					int itemID = lines.mapper::parent(line.lineID);
 
-					data::line::line *current = lines[line.index];
+					models::line::line *current = lines[line.index];
 
 					unsigned long offset = (index * max_components) + componentID;
 					if (offset < total)
@@ -195,7 +192,7 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 						rows[offset]->set(elements.map(element->value));
 						
 						compute::header temp(current->start, current->end, messageID, itemID, line.lineID, componentID);
-						rows[offset]->set(temp);
+						rows[offset]->set(&temp);
 					}
 				}
 			}
@@ -203,11 +200,11 @@ void data::message::message::filter(compute::common::row **rows, unsigned long t
 	}
 }
 
-bool data::message::message::load(file::file<data::item::item> *source)
+bool data::message::message::load(file::file<models::item::item> *source)
 {
 	bool valid = false;
 
-	data::item::item temp;
+	models::item::item temp;
 
 	while (source->read(temp))
 	{
@@ -236,11 +233,11 @@ bool data::message::message::load(file::file<data::query::query> *source)
 	return valid;
 }
 */
-bool data::message::message::load(file::file<data::line::line> *source)
+bool data::message::message::load(file::file<models::line::line> *source)
 {
 	bool valid = false;
 
-	data::line::line temp;
+	models::line::line temp;
 
 	while (source->read(temp))
 	{
@@ -252,11 +249,11 @@ bool data::message::message::load(file::file<data::line::line> *source)
 	return valid;
 }
 
-bool data::message::message::load(file::file<data::component::line::component> *source)
+bool data::message::message::load(file::file<models::component::line::component> *source)
 {
 	bool valid = false;
 
-	data::component::line::component temp;
+	models::component::line::component temp;
 
 	while (source->read(temp))
 	{
@@ -268,11 +265,11 @@ bool data::message::message::load(file::file<data::component::line::component> *
 	return valid;
 }
 
-bool data::message::message::load(file::file<data::element::element> *source)
+bool data::message::message::load(file::file<models::element::element> *source)
 {
 	bool valid = false;
 
-	data::element::element temp;
+	models::element::element temp;
 
 	while (source->read(temp))
 	{
@@ -284,11 +281,11 @@ bool data::message::message::load(file::file<data::element::element> *source)
 	return valid;
 }
 
-bool data::message::message::save(file::file<data::item::item> *destination)
+bool data::message::message::save(file::file<models::item::item> *destination)
 {
 	bool valid = false;
 
-	data::item::item temp;
+	models::item::item temp;
 
 	for (long i = 0L; i < items.count(); ++i)
 	{
@@ -322,11 +319,11 @@ bool data::message::message::save(file::file<data::query::query> *destination)
 }
 */
 
-bool data::message::message::save(file::file<data::line::line> *destination)
+bool data::message::message::save(file::file<models::line::line> *destination)
 {
 	bool valid = false;
 
-	data::line::line temp;
+	models::line::line temp;
 
 	for (long i = 0L; i < lines.count(); ++i)
 	{
@@ -340,11 +337,11 @@ bool data::message::message::save(file::file<data::line::line> *destination)
 	return valid;
 }
 
-bool data::message::message::save(file::file<data::component::line::component> *destination)
+bool data::message::message::save(file::file<models::component::line::component> *destination)
 {
 	bool valid = false;
 
-	data::component::line::component temp;
+	models::component::line::component temp;
 
 	for (long i = 0L; i < components.count(); ++i)
 	{
@@ -358,11 +355,11 @@ bool data::message::message::save(file::file<data::component::line::component> *
 	return valid;
 }
 
-bool data::message::message::save(file::file<data::element::element> *destination)
+bool data::message::message::save(file::file<models::element::element> *destination)
 {
 	bool valid = false;
 
-	data::element::element temp;
+	models::element::element temp;
 
 	for (long i = 0L; i < elements.count(); ++i)
 	{
@@ -402,7 +399,7 @@ string data::message::message::output()
 	return result;
 }
 
-bool data::message::message::add(custom::pair source)
+bool data::message::message::add(core::custom::pair source)
 {
 	return false;
 }

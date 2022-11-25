@@ -1,5 +1,6 @@
 #include "server/error.h"
 #include "core/threading/thread.h"
+#include "core/threading/mutex.h"
 #include "queues/interfaces/queue.h"
 
 #if !defined(__ERRORS)
@@ -7,7 +8,7 @@
 
 namespace error
 {
-	class errors : public thread, public ::error::type::types, public queue::in<::error::error>
+	class errors : public core::threading::thread, public ::error::type::types, public queue::in<::error::error>
 	{
 		static const long EXPIRATION = 20L;
 		static const long THRESHOLD = 10L;
@@ -19,7 +20,7 @@ namespace error
 		::error::error **data;
 		long length;
 
-		mutex::token token;
+		core::threading::mutex::token token;
 
 		long counter;
 

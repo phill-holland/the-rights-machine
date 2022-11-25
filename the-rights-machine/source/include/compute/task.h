@@ -27,7 +27,7 @@ namespace compute
 	public:
 		data::message::inquiry inquiry;
 		data::message::message message;
-		custom::chain<data::response::response> *response;
+		custom::chain<models::response::response> *response;
 		notification::notification *notify;
 
 	public:

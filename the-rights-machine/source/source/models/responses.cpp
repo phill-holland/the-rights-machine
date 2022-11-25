@@ -1,17 +1,16 @@
-#include "responses.h"
-#include "datetime.h"
-#include "log.h"
+#include "models/responses.h"
+#include "types/datetime.h"
 
-void data::response::responses::background(thread *bt)
+void models::response::responses::background(thread *bt)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	std::vector<string> erase;
 
 	for (unsigned long i = 0UL; i < length; ++i)
 	{
-		data::response::response temp = *data[i];
-		if ((temp.created + global::datetime(0,0,0,0,30,0)) < global::datetime::now())
+		models::response::response temp = *data[i];
+		if ((temp.created + types::datetime(0,0,0,0,30,0)) < types::datetime::now())
 		{
 			erase.push_back(temp.guid);
 		}
@@ -25,22 +24,22 @@ void data::response::responses::background(thread *bt)
 	sleep(250);
 }
 
-void data::response::responses::reset(unsigned long total)
+void models::response::responses::reset(unsigned long total)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	init = false; cleanup();
 
 	this->total = total;
 	length = 0UL;
 
-	data = new data::response::response*[total];
+	data = new models::response::response*[total];
 	if (data == NULL) return;
 	for (unsigned long i = 0UL; i < total; ++i) data[i] = NULL;
 
 	for (unsigned long i = 0UL; i < total; ++i)
 	{
-		data[i] = new data::response::response();
+		data[i] = new models::response::response();
 		if (data[i] == NULL) return;
 	}
 
@@ -49,17 +48,17 @@ void data::response::responses::reset(unsigned long total)
 	init = true;
 }
 
-void data::response::responses::clear() 
+void models::response::responses::clear() 
 { 
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	length = 0UL;
 	map.clear();
 }
 
-bool data::response::responses::set(data::response::response &source)
+bool models::response::responses::set(models::response::response &source)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	if (length >= total) return false;
 	if (map.find(source.guid) != map.end()) return false;
@@ -71,25 +70,25 @@ bool data::response::responses::set(data::response::response &source)
 	return true;
 }
 
-data::response::response data::response::responses::get(unsigned long index)
+models::response::response models::response::responses::get(unsigned long index)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	return *data[index];
 }
 
-unsigned long data::response::responses::count() 
+unsigned long models::response::responses::count() 
 { 
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	return length;
 }
 
-data::response::response data::response::responses::find(string &identity)
+models::response::response models::response::responses::find(string &identity)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
-	data::response::response result;
+	models::response::response result;
 	if (map.find(identity) != map.end())
 	{
 		result = *data[map[identity]];
@@ -98,9 +97,9 @@ data::response::response data::response::responses::find(string &identity)
 	return result;
 }
 
-bool data::response::responses::remove(string &identity)
+bool models::response::responses::remove(string &identity)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	auto it = map.find(identity);
 	if (it != map.end())
@@ -114,12 +113,12 @@ bool data::response::responses::remove(string &identity)
 	return false;
 }
 
-void data::response::responses::makeNull()
+void models::response::responses::makeNull()
 {
 	data = NULL;
 }
 
-void data::response::responses::cleanup()
+void models::response::responses::cleanup()
 {
 	if (data != NULL)
 	{

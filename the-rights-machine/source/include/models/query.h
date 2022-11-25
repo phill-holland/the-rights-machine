@@ -11,7 +11,7 @@
 #if !defined(__QUERY)
 #define __QUERY
 
-namespace data
+namespace models
 {
 	namespace query
 	{

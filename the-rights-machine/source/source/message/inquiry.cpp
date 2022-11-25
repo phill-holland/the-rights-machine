@@ -1,5 +1,4 @@
-#include "inquiry.h"
-#include "log.h"
+#include "message/inquiry.h"
 
 void data::message::inquiry::reset()
 {
@@ -45,10 +44,10 @@ queue::base *data::message::inquiry::findQ(string FQDN)
 	return NULL;
 }
 
-data::json::request::json *data::message::inquiry::find(string FQDN)
+json::request::json *data::message::inquiry::find(string FQDN)
 {
-	std::unordered_map<string, data::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
-	if(i != hash.end()) return (data::json::request::json*)i->second;
+	std::unordered_map<string, ::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
+	if(i != hash.end()) return (::json::request::json*)i->second;
 
 	return NULL;
 }
@@ -67,7 +66,7 @@ string data::message::inquiry::output()
 	return result;
 }
 
-bool data::message::inquiry::add(custom::pair source)
+bool data::message::inquiry::add(core::custom::pair source)
 {
 	/*
 	if (string("user").icompare(source.name))

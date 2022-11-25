@@ -22,7 +22,7 @@ namespace parser
         {
         public:
             manager::manager *manager;
-            custom::chain<data::response::response> *responses;
+            custom::chain<models::response::response> *responses;
             notification::notification *notify;
             compute::task task;            
             crumbs::crumbs parents;
@@ -31,7 +31,7 @@ namespace parser
 
         public:
             parameters(manager::manager *manager, 
-                       custom::chain<data::response::response> *responses,
+                       custom::chain<models::response::response> *responses,
                        notification::notification *notify)
             {
                 this->manager = manager;
@@ -89,7 +89,7 @@ namespace parser
 
     public:
         parser(manager::manager *manager, 
-               custom::chain<data::response::response> *responses,
+               custom::chain<models::response::response> *responses,
                notification::notification *notify) : params(manager, responses, notify), p(boost::json::parse_options(), &params) { }
         ~parser() { }
 

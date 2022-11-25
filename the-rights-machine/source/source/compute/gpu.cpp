@@ -83,7 +83,7 @@ void compute::gpu::processor::push(::compute::task &task)
 
 		for (long j = 0L; j < task.inquiry.queries.count(); ++j)
 		{
-			data::query::query query = task.inquiry.queries[j];
+			models::query::query query = task.inquiry.queries[j];
 
 			if (source.overlapped(query))
 			{
@@ -156,7 +156,7 @@ void compute::gpu::processor::push(::compute::task &task)
 		unsigned long offset = 0UL;
 		for (unsigned long i = 0UL; i < (unsigned long)task.inquiry.queries.count(); ++i)
 		{
-			data::query::query q = task.inquiry.queries[i];
+			models::query::query q = task.inquiry.queries[i];
 
 			q.filter(rows, height, (unsigned long)in_map.size());
 
@@ -172,7 +172,7 @@ void compute::gpu::processor::push(::compute::task &task)
 			in->AND(*query);
 			bool result = in->compare(*query);
 
-			data::response::response response;
+			models::response::response response;
 			//response.queryID = q.queryID;
 			response.guid = task.message.guid;
 			//response.user = task.message.user;

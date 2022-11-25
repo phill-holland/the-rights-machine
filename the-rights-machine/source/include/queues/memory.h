@@ -17,7 +17,7 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public fifo<compute::task, 10L> { };
+			class queue : public core::queue::fifo<compute::task, 10L> { };
 
 			class factory : public ::queue::factory<compute::task>
 			{
@@ -48,12 +48,12 @@ namespace queues
 
 		namespace outgoing
 		{
-			class factory : public ::queue::chain_factory<data::response::response>
+			class factory : public ::queue::chain_factory<models::response::response>
 			{
 				const static unsigned long MAX = 10UL;
 
 			private:
-				data::response::responses **queues;
+				models::response::responses **queues;
 
 				unsigned long total;
 				unsigned long length;
@@ -67,7 +67,7 @@ namespace queues
 				bool initalised() { return init; }
 				void reset(unsigned long total);
 
-				::custom::chain<data::response::response> *get();
+				::custom::chain<models::response::response> *get();
 
 			protected:
 				void makeNull();

@@ -6,7 +6,7 @@
 #if !defined(__REQUEST)
 #define __REQUEST
 
-namespace data
+namespace models
 {
 	namespace request
 	{
@@ -17,7 +17,7 @@ namespace data
 			string apikey;
 			string guid;
 			string user;
-			datetime created;
+			types::datetime created;
 
 		public:
 			request() { clear(); }

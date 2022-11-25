@@ -58,7 +58,7 @@ namespace database
 			void set(models::item::item &source);
 		};
 
-		class query : public record::record<data::query::query>
+		class query : public record::record<models::query::query>
 		{
 		public:
 			guid::guid queryID;
@@ -71,7 +71,7 @@ namespace database
 			void clear();
 
 			bool bind(database::recordset * recordset);
-			void set(data::query::query &source);
+			void set(models::query::query &source);
 		};
 
 		class line : public record::record<models::line::line>
@@ -167,7 +167,7 @@ namespace database
 			void set(models::element::element &source);
 		};
 
-		class request : public record::record <data::request::request>
+		class request : public record::record <models::request::request>
 		{
 		public:
 			guid::guid requestID;
@@ -183,10 +183,10 @@ namespace database
 			void clear();
 
 			bool bind(database::recordset *recordset);
-			void set(data::request::request &source);
+			void set(models::request::request &source);
 		};
 
-		class response : public record::record <data::response::response>
+		class response : public record::record <models::response::response>
 		{
 		public:
 			guid::guid responseID;
@@ -203,7 +203,7 @@ namespace database
 			void clear();
 
 			bool bind(database::recordset *recordset);
-			void set(data::response::response &source);
+			void set(models::response::response &source);
 		};
 	};
 };

@@ -1,7 +1,6 @@
-#include "request.h"
-#include "log.h"
+#include "models/request.h"
 
-void data::request::request::clear()
+void models::request::request::clear()
 {
 	requestID = 0;
 	user = string("");
@@ -9,14 +8,14 @@ void data::request::request::clear()
 	guid = string("");
 }
 
-data::json::request::json *data::request::request::find(string FQDN)
+json::request::json *models::request::request::find(string FQDN)
 {
 	if (FQDN.icompare(this->FQDN())) return this;
 	
 	return NULL;
 }
 
-void data::request::request::copy(request const &source)
+void models::request::request::copy(request const &source)
 {
 	requestID = source.requestID;
 	user = source.user;
@@ -24,7 +23,7 @@ void data::request::request::copy(request const &source)
 	guid = source.guid;
 }
 
-string data::request::request::output()
+string models::request::request::output()
 {
 	string result("\"request\" : {\"requestID\" : ");
 	result.concat(string::fromInt(requestID));
@@ -39,7 +38,7 @@ string data::request::request::output()
 	return result;
 }
 
-bool data::request::request::add(custom::pair source)
+bool models::request::request::add(core::custom::pair source)
 {
 	if (string("user").icompare(source.name))
 	{
@@ -58,8 +57,6 @@ bool data::request::request::add(custom::pair source)
 		guid = source.value;
 		return true;
 	}
-
-
 
 	return false;
 }

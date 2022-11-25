@@ -8,7 +8,6 @@
 
 namespace pending
 {
-	using namespace global;
 	using namespace comparison;
 
 	class pending;

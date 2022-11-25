@@ -27,7 +27,7 @@ namespace data
 			bool init;
 
 		public:
-			data::queries::queries<10L> queries;
+			models::queries::queries<10L> queries;
 		
 		public:
 			inquiry() { makeNull(); reset(); }

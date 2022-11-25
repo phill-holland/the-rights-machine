@@ -71,7 +71,7 @@ bool database::records::query::bind(database::recordset * recordset)
 	return true;
 }
 
-void database::records::query::set(data::query::query &source)
+void database::records::query::set(models::query::query &source)
 {
 	clear();
 }
@@ -208,7 +208,7 @@ bool database::records::request::bind(database::recordset *recordset)
 	return true;
 }
 
-void database::records::request::set(data::request::request &source)
+void database::records::request::set(models::request::request &source)
 {
 	clear();
 
@@ -240,7 +240,7 @@ bool database::records::response::bind(database::recordset *recordset)
 	return true;
 }
 
-void database::records::response::set(data::response::response &source)
+void database::records::response::set(models::response::response &source)
 {
 	clear();
 

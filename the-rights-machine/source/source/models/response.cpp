@@ -1,35 +1,35 @@
-#include "response.h"
-#include "log.h"
+#include "models/response.h"
+#include "core/string/string.h"
 
-void data::response::response::clear()
+void models::response::response::clear()
 {
 	guid.clear();
 	name.clear();
 	user.clear();
 	status = STATUS::OK;
 	available = false;
-	created = datetime::now();
+	created = types::datetime::now();
 }
 
-unsigned long data::response::response::pairs()
+unsigned long models::response::response::pairs()
 {
 	return 5UL;
 }
 
-custom::pair data::response::response::pull(unsigned long index)
+core::custom::pair models::response::response::pull(unsigned long index)
 {
-	custom::pair result;
+	core::custom::pair result;
 
-	if (index == 0UL) result = custom::pair(string("GUID"), guid);
-	else if (index == 1UL) result = custom::pair(string("status"), map(status));
-	else if (index == 2UL) result = custom::pair(string("available"), available == true ? string("true") : string("false"));
-	else if (index == 3UL) result = custom::pair(string("created"), (string)created);
-	else if (index == 4UL) result = custom::pair(string("name"), name);
+	if (index == 0UL) result = core::custom::pair(string("GUID"), guid);
+	else if (index == 1UL) result = core::custom::pair(string("status"), map(status));
+	else if (index == 2UL) result = core::custom::pair(string("available"), available == true ? string("true") : string("false"));
+	else if (index == 3UL) result = core::custom::pair(string("created"), created.to());
+	else if (index == 4UL) result = core::custom::pair(string("name"), name);
 
 	return result;
 }
 
-bool data::response::response::validate(data::request::request &request)
+bool models::response::response::validate(models::request::request &request)
 {
 	if ((guid.icompare(request.guid)) && (user.icompare(request.user)))
 	{
@@ -39,7 +39,7 @@ bool data::response::response::validate(data::request::request &request)
 	return false;
 }
 
-string data::response::response::map(STATUS source)
+string models::response::response::map(STATUS source)
 {
 	if (source == STATUS::OK) return string("OK");
 	else if (source == STATUS::PENDING) return string("PENDING");

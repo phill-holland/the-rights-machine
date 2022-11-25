@@ -67,7 +67,7 @@ namespace configuration
 				friend class ::server::listener;
 
 				manager::manager *manager;
-				custom::chain<data::response::response> *responses;
+				custom::chain<models::response::response> *responses;
 				pending::pending *requested;
 				data::users *users;
 
@@ -78,7 +78,7 @@ namespace configuration
 
 			public:
 				configuration(manager::manager *manager,
-							  custom::chain<data::response::response> *responses,
+							  custom::chain<models::response::response> *responses,
 							  pending::pending *requested,
 							  data::users *users,
 							  error::errors *errors)
@@ -89,7 +89,7 @@ namespace configuration
 				configuration(::configuration::server::configuration const &source, pending::pending *requested = NULL) { copy(source, requested); }
 
 				void reset(manager::manager *manager,
-						   custom::chain<data::response::response> *responses,
+						   custom::chain<models::response::response> *responses,
 						   pending::pending *requested,
 						   data::users *users,
 						   error::errors *errors);

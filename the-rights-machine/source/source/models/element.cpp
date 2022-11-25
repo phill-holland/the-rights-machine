@@ -1,14 +1,13 @@
-#include "element.h"
-#include "log.h"
+#include "models/element.h"
 
-void data::element::element::clear()
+void models::element::element::clear()
 {
 	elementID = 0;
 	componentID = 0;
 	value = string("");
 }
 
-bool data::element::element::add(custom::pair source)
+bool models::element::element::add(core::custom::pair source)
 {
 	if (string("value").icompare(source.name))
 	{
@@ -19,14 +18,14 @@ bool data::element::element::add(custom::pair source)
 	return false;
 }
 
-void data::element::element::copy(element const &source)
+void models::element::element::copy(element const &source)
 {
 	elementID = source.elementID;
 	componentID = source.componentID;
 	value = source.value;
 }
 
-string data::element::element::output()
+string models::element::element::output()
 {
 	string result("\"element\" : {\"elementID\" : ");
 	result.concat(string::fromInt(elementID));

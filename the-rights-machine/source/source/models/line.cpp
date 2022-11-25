@@ -1,9 +1,8 @@
-#include "line.h"
-#include "log.h"
+#include "models/line.h"
 #include <tuple>
 #include <iostream>
 
-void data::line::line::clear()
+void models::line::line::clear()
 {
 	lineID = 0;
 	itemID = 0;
@@ -13,7 +12,7 @@ void data::line::line::clear()
 	typeID = 0;
 }
 
-void data::line::line::copy(line const &source)
+void models::line::line::copy(line const &source)
 {
 	lineID = source.lineID;
 	itemID = source.itemID;
@@ -23,7 +22,7 @@ void data::line::line::copy(line const &source)
 	typeID = source.typeID;
 }
 
-string data::line::line::output()
+string models::line::line::output()
 {
 	string result("\"line\" : {");
 	result.concat(string("\"start\" : \""));
@@ -43,9 +42,9 @@ string data::line::line::output()
 	return result;
 }
 
-data::line::line data::line::line::spawn(datetime &start, datetime &end)
+models::line::line models::line::line::spawn(datetime &start, datetime &end)
 {
-	data::line::line result(*this);
+	models::line::line result(*this);
 
 	result.start = start;
 	result.end = end;
@@ -53,7 +52,7 @@ data::line::line data::line::line::spawn(datetime &start, datetime &end)
 	return result;
 }
 
-bool data::line::line::add(custom::pair source)
+bool models::line::line::add(core::custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{

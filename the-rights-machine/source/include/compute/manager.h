@@ -6,7 +6,7 @@
 #include "compute/task.h"
 #include "compute/interfaces/compute.h"
 #include "interfaces/factory.h"
-//#include "chain.h"
+#include "interfaces/chain.h"
 
 #if !defined(__MANAGER)
 #define __MANAGER
@@ -18,18 +18,18 @@ namespace manager
 		long read;
 
 		std::vector<compute::compute*> nodes;
-		queue::chain_factory<data::response::response> *factory;
+		queue::chain_factory<models::response::response> *factory;
 
 		bool init;
 
 		core::threading::mutex::token token;
 
 	public:
-		manager(queue::chain_factory<data::response::response> *factory) { makeNull(); reset(factory); }
+		manager(queue::chain_factory<models::response::response> *factory) { makeNull(); reset(factory); }
 		~manager() { cleanup(); }
 
 		bool initalised() { return init; }
-		void reset(queue::chain_factory <data::response::response> *factory);
+		void reset(queue::chain_factory <models::response::response> *factory);
 
 		void add(compute::compute *source);
 
@@ -37,7 +37,7 @@ namespace manager
 		//bool get(custom::chain<data::response::response> &destination);//::queue::queue<data::response::response> &destination);
 
 		// ***
-		custom::chain<data::response::response> *get();
+		custom::chain<models::response::response> *get();
 		// ***
 
 	protected:

@@ -8,7 +8,7 @@
 #include "database/records.h"
 #include "database/users.h"
 #include "server/settings.h"
-#include "console.h"
+//#include "console.h"
 
 #if !defined(__STARTER)
 #define __STARTER
@@ -24,7 +24,7 @@ namespace server
 
 		manager::manager *manager;
 
-		debug::console *debugging;
+		//debug::console *debugging;
 		error::errors *errors;
 
 		::configuration::server::configuration *configuration;

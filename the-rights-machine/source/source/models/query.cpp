@@ -1,6 +1,8 @@
-#include "query.h"
+#include "models/query.h"
+#include "types/datetime.h"
+#include "compute/header.h"
 
-void data::query::query::reset()
+void models::query::query::reset()
 {
 	init = false; cleanup();
 
@@ -9,7 +11,7 @@ void data::query::query::reset()
 	init = true;
 }
 
-void data::query::query::clear()
+void models::query::query::clear()
 {
 	queryID = 0;
 	messageID = 0;
@@ -21,7 +23,7 @@ void data::query::query::clear()
 	elements.clear();
 }
 
-bool data::query::query::add(custom::pair source)
+bool models::query::query::add(core::custom::pair source)
 {
 	if (string("start").icompare(source.name))
 	{
@@ -36,7 +38,7 @@ bool data::query::query::add(custom::pair source)
 	return false;
 }
 
-void data::query::query::filter(compute::common::row **rows, unsigned long total, unsigned long lines)
+void models::query::query::filter(compute::interfaces::row **rows, unsigned long total, unsigned long lines)
 {
 	int max_components = components.maximum();
 
@@ -47,7 +49,7 @@ void data::query::query::filter(compute::common::row **rows, unsigned long total
 
 	for (long h = 0L; h < elements.count(); ++h)
 	{
-		data::element::element *element = elements[h];
+		models::element::element *element = elements[h];
 		int queryID = components.mapper::parent(element->componentID);
 
 		if(queryID == this->queryID)
@@ -67,8 +69,8 @@ void data::query::query::filter(compute::common::row **rows, unsigned long total
 						int e = elements.map(value);
 						rows[offset]->set(e);
 
-						compute::header temp(messageID, 0, 0, componentID);
-						rows[offset]->set(temp);
+						::compute::header temp(types::datetime(), types::datetime(), messageID, 0, 0, componentID);
+						rows[offset]->set(&temp);
 					}
 				}
 			}
@@ -76,11 +78,11 @@ void data::query::query::filter(compute::common::row **rows, unsigned long total
 	}
 }
 
-bool data::query::query::load(file::file<data::component::query::component> *source)
+bool models::query::query::load(file::file<models::component::query::component> *source)
 {
 	bool valid = false;
 
-	data::component::query::component temp;
+	models::component::query::component temp;
 
 	while (source->read(temp))
 	{
@@ -92,11 +94,11 @@ bool data::query::query::load(file::file<data::component::query::component> *sou
 	return valid;
 }
 
-bool data::query::query::load(file::file<data::element::element> *source)
+bool models::query::query::load(file::file<models::element::element> *source)
 {
 	bool valid = false;
 
-	data::element::element temp;
+	models::element::element temp;
 
 	while (source->read(temp))
 	{
@@ -108,11 +110,11 @@ bool data::query::query::load(file::file<data::element::element> *source)
 	return valid;
 }
 
-bool data::query::query::save(file::file<data::component::query::component> *destination)
+bool models::query::query::save(file::file<models::component::query::component> *destination)
 {
 	bool valid = false;
 
-	data::component::query::component temp;
+	models::component::query::component temp;
 
 	for (long i = 0L; i < components.count(); ++i)
 	{
@@ -124,11 +126,11 @@ bool data::query::query::save(file::file<data::component::query::component> *des
 	return valid;
 }
 
-bool data::query::query::save(file::file<data::element::element> *destination)
+bool models::query::query::save(file::file<models::element::element> *destination)
 {
 	bool valid = false;
 
-	data::element::element temp;
+	models::element::element temp;
 
 	for (long i = 0L; i < elements.count(); ++i)
 	{
@@ -142,7 +144,7 @@ bool data::query::query::save(file::file<data::element::element> *destination)
 	return valid;
 }
 
-void data::query::query::copy(query const &source)
+void models::query::query::copy(query const &source)
 {
 	queryID = source.queryID;
 	messageID = source.messageID;
@@ -153,7 +155,7 @@ void data::query::query::copy(query const &source)
 	elements = source.elements;
 }
 
-string data::query::query::output()
+string models::query::query::output()
 {
 	string result("\"query\" : {\r\n");
 	result.concat(string("\"start\" : \""));
@@ -168,10 +170,10 @@ string data::query::query::output()
 	return result;
 }
 
-void data::query::query::makeNull()
+void models::query::query::makeNull()
 {
 }
 
-void data::query::query::cleanup()
+void models::query::query::cleanup()
 {
 }

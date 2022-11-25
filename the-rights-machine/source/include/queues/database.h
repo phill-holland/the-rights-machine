@@ -33,10 +33,10 @@ namespace queues
 				const static unsigned long OUTPUT = 15L;
 
 			private:
-				fifo<compute::task, LENGTH> *incoming;
-				fifo<compute::task, LENGTH> *outgoing;
+				core::queue::fifo<compute::task, LENGTH> *incoming;
+				core::queue::fifo<compute::task, LENGTH> *outgoing;
 
-				mutex::token polling, flushing;
+				core::threading::mutex::token polling, flushing;
 
 				unsigned long counter, interval;
 
@@ -97,7 +97,7 @@ namespace queues
 
 		namespace outgoing
 		{
-			class queue : public ::queue::queue<data::response::response>, public thread
+			class queue : public ::queue::queue<models::response::response>, public core::threading::thread
 			{
 			protected:
 				static const unsigned long INTERVAL = 100UL;
@@ -108,10 +108,10 @@ namespace queues
 				const static unsigned long OUTPUT = 15L;
 
 			private:
-				fifo<data::response::response, LENGTH> *incoming;
-				fifo<data::response::response, LENGTH> *outgoing;
+				core::queue::fifo<models::response::response, LENGTH> *incoming;
+				core::queue::fifo<models::response::response, LENGTH> *outgoing;
 
-				mutex::token polling, flushing;
+				core::threading::mutex::token polling, flushing;
 
 				unsigned long counter, interval;
 
@@ -130,8 +130,8 @@ namespace queues
 				bool initalised() { return init; }
 				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
 
-				bool get(data::response::response &destination);
-				bool set(data::response::response &source);
+				bool get(models::response::response &destination);
+				bool set(models::response::response &source);
 
 			protected:
 				bool flush();
@@ -142,12 +142,12 @@ namespace queues
 				void cleanup();
 			};
 
-			class factory : public ::queue::chain_factory<data::response::response>
+			class factory : public ::queue::chain_factory<models::response::response>
 			{
 				const static unsigned long MAX = 10UL;
 
 			private:
-				data::response::responses **queues;
+				models::response::responses **queues;
 
 				unsigned long total;
 				unsigned long length;
@@ -161,7 +161,7 @@ namespace queues
 				bool initalised() { return init; }
 				void reset(::database::settings &settings, unsigned long total);
 
-				::custom::chain<data::response::response> *get();
+				::custom::chain<models::response::response> *get();
 
 			protected:
 				void makeNull();

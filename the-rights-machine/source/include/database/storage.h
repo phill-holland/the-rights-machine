@@ -21,7 +21,7 @@ namespace database
 	{
 		using namespace comparison;
 
-		class request : public file::file<data::request::request>
+		class request : public file::file<models::request::request>
 		{
 		public:
 			static const long TOP = 200L;
@@ -52,8 +52,8 @@ namespace database
 			bool open(database::settings &settings);
 			bool close();
 
-			bool read(data::request::request &destination);
-			bool write(data::request::request &source);
+			bool read(models::request::request &destination);
+			bool write(models::request::request &source);
 
 			void clear() { data.clear(); identities.clear(); }
 
@@ -65,7 +65,7 @@ namespace database
 			bool erase(guid::guid &tagged);
 		};
 
-		class response : public file::file<data::response::response>
+		class response : public file::file<models::response::response>
 		{
 		public:
 			static const long TOP = 200L;
@@ -96,8 +96,8 @@ namespace database
 			bool open(database::settings &settings);
 			bool close();
 
-			bool read(data::response::response &destination);
-			bool write(data::response::response &source);
+			bool read(models::response::response &destination);
+			bool write(models::response::response &source);
 
 			void clear() { data.clear(); identities.clear(); }
 
@@ -192,7 +192,7 @@ namespace database
 					std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
 				public:
-					data::query::query *parent;
+					models::query::query *parent;
 					std::vector<string> identities;
 					guid::guid componentID;
 
@@ -228,7 +228,7 @@ namespace database
 					std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality> data;
 
 				public:
-					data::query::query *parent;
+					models::query::query *parent;
 					std::vector<string> identities;
 					guid::guid queryID;
 
@@ -290,7 +290,7 @@ namespace database
 			bool load();
 		};
 
-		class query : public file::file<data::query::query>
+		class query : public file::file<models::query::query>
 		{
 			database::records::query bound;
 
@@ -317,8 +317,8 @@ namespace database
 			bool open(database::settings &settings);
 			bool close();
 
-			bool read(data::query::query &destination);
-			bool write(data::query::query &source);
+			bool read(models::query::query &destination);
+			bool write(models::query::query &source);
 
 			void clear() { data.clear(); component.clear(); identities.clear(); }
 
