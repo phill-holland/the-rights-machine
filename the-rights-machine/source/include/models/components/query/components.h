@@ -1,6 +1,8 @@
 #include "models/component/query/component.h"
 #include "types/allocator.h"
 #include "message/map.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
 #if !defined(_MODELS_COMPONENTS_QUERY_COMPONENT)
 #define _MODELS_COMPONENTS_QUERY_COMPONENT
@@ -11,7 +13,7 @@ namespace models
 	{		
 		namespace query
 		{
-			template <long Y> class components : public allocator::allocator<component::query::component, Y>, /*public json::request::json, */public mapping::mapper
+			template <long Y> class components : public allocator::allocator<component::query::component, Y>, public json::request::json, public mapping::mapper
 			{
 				int index;
 
@@ -50,7 +52,7 @@ namespace models
 
 				string identifier() { return string("COMPONENTS"); }
 
-				bool add(custom::pair source)
+				bool add(core::custom::pair source)
 				{
 					return temp.add(source);
 				}

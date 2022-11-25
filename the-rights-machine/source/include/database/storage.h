@@ -1,13 +1,14 @@
-#include "record.h"
-#include "records.h"
-#include "databases.h"
-#include "odbc.h"
-#include "message.h"
-#include "request.h"
-#include "response.h"
-#include "comparison.h"
-#include "file.h"
-#include "guid.h"
+#include "database/interfaces/record.h"
+#include "database/records.h"
+#include "database/databases.h"
+#include "core/database/connection.h"
+#include "core/database/recordset.h"
+#include "message/message.h"
+#include "models/request.h"
+#include "models/response.h"
+#include "core/string/comparison.h"
+#include "database/interfaces/file.h"
+#include "types/guid.h"
 #include <vector>
 #include <unordered_map>
 
@@ -108,7 +109,7 @@ namespace database
 		{
 			namespace line
 			{
-				class element : public file::file<data::element::element>
+				class element : public file::file<models::element::element>
 				{
 					database::records::element bound;
 
@@ -133,8 +134,8 @@ namespace database
 					bool open(database::settings &settings);
 					bool close();
 
-					bool read(data::element::element &destination);
-					bool write(data::element::element &source);
+					bool read(models::element::element &destination);
+					bool write(models::element::element &source);
 
 					void clear() { data.clear(); identities.clear(); }
 
@@ -142,7 +143,7 @@ namespace database
 					bool load();
 				};
 
-				class component : public file::file<data::component::line::component>
+				class component : public file::file<models::component::line::component>
 				{
 					database::records::component::line::component bound;
 
@@ -169,8 +170,8 @@ namespace database
 					bool open(database::settings &settings);
 					bool close();
 
-					bool read(data::component::line::component &destination);
-					bool write(data::component::line::component &source);
+					bool read(models::component::line::component &destination);
+					bool write(models::component::line::component &source);
 
 					void clear() { data.clear(); t_element.clear(); identities.clear(); }
 
@@ -181,7 +182,7 @@ namespace database
 
 			namespace query
 			{
-				class element : public file::file<data::element::element>
+				class element : public file::file<models::element::element>
 				{
 					database::records::element bound;
 
@@ -206,8 +207,8 @@ namespace database
 					bool open(database::settings &settings);
 					bool close();
 
-					bool read(data::element::element &destination);
-					bool write(data::element::element &source);
+					bool read(models::element::element &destination);
+					bool write(models::element::element &source);
 
 					void clear() { data.clear(); identities.clear(); }
 
@@ -215,7 +216,7 @@ namespace database
 					bool load();
 				};
 
-				class component : public file::file<data::component::query::component>
+				class component : public file::file<models::component::query::component>
 				{
 					database::records::component::query::component bound;
 
@@ -242,8 +243,8 @@ namespace database
 					bool open(database::settings &settings);
 					bool close();
 
-					bool read(data::component::query::component &destination);
-					bool write(data::component::query::component &source);
+					bool read(models::component::query::component &destination);
+					bool write(models::component::query::component &source);
 
 					void clear() { data.clear(); t_element.clear(); identities.clear(); }
 
@@ -253,7 +254,7 @@ namespace database
 			};
 		};
 
-		class line : public file::file<data::line::line>
+		class line : public file::file<models::line::line>
 		{
 			database::records::line bound;
 
@@ -280,8 +281,8 @@ namespace database
 			bool open(database::settings &settings);
 			bool close();
 
-			bool read(data::line::line &destination);
-			bool write(data::line::line &source);
+			bool read(models::line::line &destination);
+			bool write(models::line::line &source);
 
 			void clear() { data.clear(); component.clear(); identities.clear(); }
 
@@ -326,7 +327,7 @@ namespace database
 		};
 		
 
-		class item : public file::file<data::item::item>
+		class item : public file::file<models::item::item>
 		{
 			database::records::item bound;
 
@@ -353,8 +354,8 @@ namespace database
 			bool open(database::settings &settings);
 			bool close();
 
-			bool read(data::item::item &destination);
-			bool write(data::item::item &source);
+			bool read(models::item::item &destination);
+			bool write(models::item::item &source);
 
 			void clear() { data.clear(); t_line.clear(); identities.clear(); }
 

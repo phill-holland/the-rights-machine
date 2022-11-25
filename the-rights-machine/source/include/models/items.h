@@ -1,17 +1,18 @@
-#include "item.h"
-//#include "json.h"
+#include "models/item.h"
 #include "types/allocator.h"
 #include "message/map.h"
 #include "database/interfaces/file.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
-#if !defined(_MODELS_ITEMS_ITEMS)
-#define _MODEL_ITEMS_ITEMS
+#if !defined(_MODELS_ITEMS)
+#define _MODELS_ITEMS
 
 namespace models
 {
 	namespace items
 	{
-		template <long Y> class items : public allocator::allocator<item::item, Y>/*, public json::request::json*/, public mapping::mapper
+		template <long Y> class items : public allocator::allocator<item::item, Y>, public json::request::json, public mapping::mapper
 		{
 			int index;
 
@@ -48,14 +49,13 @@ namespace models
 				::allocator::allocator<item::item, Y>::reset();
 			}
 
-/*
 			string identifier() { return string("ITEMS"); }
 
-			bool add(custom::pair source)
+			bool add(core::custom::pair source)
 			{
 				return temp.add(source);
 			}
-*/
+
 			void copy(items<Y> const &source)
 			{
 				::allocator::allocator<item::item, Y>::copy(source);

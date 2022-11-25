@@ -1,6 +1,8 @@
-#include "component.h"
-#include "allocator.h"
-#include "map.h"
+#include "models/component/line/component.h"
+#include "types/allocator.h"
+#include "message/map.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
 #if !defined(_MODELS_COMPONENTS_LINE_COMPONENT)
 #define _MODELS_COMPONENTS_LINE_COMPONENT
@@ -49,7 +51,7 @@ namespace models
 
 				string identifier() { return string("COMPONENTS"); }
 
-				bool add(custom::pair source)
+				bool add(core::custom::pair source)
 				{
 					return temp.add(source);
 				}

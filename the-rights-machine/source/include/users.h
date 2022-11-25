@@ -1,9 +1,9 @@
 #include "core/string/string.h"
 #include "user.h"
-#include "thread.h"
-#include "mutex.h"
-#include "databases.h"
-#include "comparison.h"
+#include "core/threading/thread.h"
+#include "core/threading/mutex.h"
+#include "database/databases.h"
+#include "core/string/comparison.h"
 #include <unordered_map>
 
 #if !defined(__USERS)

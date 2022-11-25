@@ -8,7 +8,7 @@ namespace compute
 {
 	namespace cpu
 	{
-		class row : public compute::interfaces::row
+		class row : public ::compute::interfaces::row
 		{
 		protected:
 			static const unsigned long LENGTH = 255L;
@@ -32,7 +32,7 @@ namespace compute
 
 			int get(unsigned long idx);
 
-			void set(header &source);
+			void set(header *source);
 			bool set(unsigned long idx);
 
 			int *raw() { return data; }
@@ -41,7 +41,7 @@ namespace compute
 
 		public:
 			unsigned long count() { return length; }
-			header first() { return top; }
+			bool first(header *destination) { *destination = top; return true; }
 
 		public:
 			row& operator=(const row& source)

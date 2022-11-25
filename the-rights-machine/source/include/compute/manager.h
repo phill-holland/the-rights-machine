@@ -1,13 +1,12 @@
 #include <vector>
-#include "queue.h"
-#include "message.h"
-#include "response.h"
-#include "thread.h"
-#include "task.h"
-#include "compute.h"
-#include "factory.h"
-
-#include "chain.h"
+#include "queues/interfaces/queue.h"
+#include "message/message.h"
+#include "models/response.h"
+#include "core/threading/mutex.h"
+#include "compute/task.h"
+#include "compute/interfaces/compute.h"
+#include "interfaces/factory.h"
+//#include "chain.h"
 
 #if !defined(__MANAGER)
 #define __MANAGER
@@ -23,7 +22,7 @@ namespace manager
 
 		bool init;
 
-		mutex::token token;
+		core::threading::mutex::token token;
 
 	public:
 		manager(queue::chain_factory<data::response::response> *factory) { makeNull(); reset(factory); }

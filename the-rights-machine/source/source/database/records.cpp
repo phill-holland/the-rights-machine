@@ -1,15 +1,10 @@
-#include "records.h"
+#include "database/records.h"
+#include "types/guid.h"
 #include "sqltypes.h"
-#include "guid.h"
 #include <cstring>
 
 void database::records::message::clear()
 {
-	//memset(&messageID, 0, sizeof(GUID));
-	//memset(&user, 0, sizeof(GUID));
-	//memset(&apikey, 0, sizeof(GUID));
-	//memset(&guid, 0, sizeof(GUID));
-	//memset(&tag, 0, sizeof(GUID));
 	messageID.clear();
 	user.clear();
 	apikey.clear();
@@ -34,8 +29,6 @@ void database::records::message::set(data::message::message &source)
 {
 	clear();
 
-	//user = guid::guid(source.user);
-	//apikey = guid::guid(source.apikey);
 	guid = guid::guid(source.guid);
 	created = (TIMESTAMP_STRUCT)source.created;
 }
@@ -44,8 +37,7 @@ void database::records::item::clear()
 {	
 	itemID.clear();
 	messageID.clear();
-	//memset(&itemID, 0, sizeof(GUID));
-	//memset(&messageID, 0, sizeof(GUID));
+
 	memset(name, 0, MAX);
 }
 
@@ -58,7 +50,7 @@ bool database::records::item::bind(database::recordset *recordset)
 	return true;
 }
 
-void database::records::item::set(data::item::item &source)
+void database::records::item::set(models::item::item &source)
 {
 	clear();
 
@@ -67,8 +59,6 @@ void database::records::item::set(data::item::item &source)
 
 void database::records::query::clear()
 {
-	//memset(&queryID, 0, sizeof(GUID));
-	//memset(&messageID, 0, sizeof(GUID));
 	queryID.clear();
 	messageID.clear();
 }
@@ -90,8 +80,7 @@ void database::records::line::clear()
 {
 	lineID.clear();
 	itemID.clear();
-	//memset(&lineID, 0, sizeof(GUID));
-	//memset(&itemID, 0, sizeof(GUID));
+
 	memset(&start, 0, sizeof(TIMESTAMP_STRUCT));
 	memset(&end, 0, sizeof(TIMESTAMP_STRUCT));
 
@@ -111,7 +100,7 @@ bool database::records::line::bind(database::recordset *recordset)
 	return true;
 }
 
-void database::records::line::set(data::line::line &source)
+void database::records::line::set(models::line::line &source)
 {
 	clear();
 
@@ -125,14 +114,13 @@ void database::records::component::line::component::clear()
 {
 	componentID.clear();
 	lineID.clear();
-	//memset(&componentID, 0, sizeof(GUID));
-	//memset(&lineID, 0, sizeof(GUID));
+
 	memset(name, 0, MAX);
 
 	type = TYPE;
 }
 
-void database::records::component::line::component::set(data::component::line::component &source)
+void database::records::component::line::component::set(models::component::line::component &source)
 {
 	clear();
 
@@ -153,14 +141,13 @@ void database::records::component::query::component::clear()
 {
 	componentID.clear();
 	queryID.clear();
-	//memset(&componentID, 0, sizeof(GUID));
-	//memset(&queryID, 0, sizeof(GUID));
+
 	memset(name, 0, MAX);
 
 	type = TYPE;
 }
 
-void database::records::component::query::component::set(data::component::query::component &source)
+void database::records::component::query::component::set(models::component::query::component &source)
 {
 	clear();
 
@@ -181,8 +168,7 @@ void database::records::element::clear()
 {
 	elementID.clear();
 	componentID.clear();
-	//memset(&elementID, 0, sizeof(GUID));
-	//memset(&componentID, 0, sizeof(GUID));	
+
 	memset(value, 0, MAX);
 }
 
@@ -195,7 +181,7 @@ bool database::records::element::bind(database::recordset *recordset)
 	return true;
 }
 
-void database::records::element::set(data::element::element &source)
+void database::records::element::set(models::element::element &source)
 {
 	clear();
 
@@ -204,11 +190,6 @@ void database::records::element::set(data::element::element &source)
 
 void database::records::request::clear()
 {
-//	memset(&requestID, 0, sizeof(GUID));
-	//memset(&guid, 0, sizeof(GUID));
-//	memset(&user, 0, sizeof(GUID));
-	//memset(&tag, 0, sizeof(GUID));
-
 	requestID.clear();
 	guid.clear();
 	user.clear();
@@ -238,9 +219,6 @@ void database::records::request::set(data::request::request &source)
 
 void database::records::response::clear()
 {
-	//memset(&responseID, 0, sizeof(GUID));
-	//memset(&guid, 0, sizeof(GUID));
-	//memset(&user, 0, sizeof(GUID));
 	responseID.clear();
 	guid.clear();
 	user.clear();

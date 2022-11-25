@@ -1,8 +1,8 @@
-#include "response.h"
-#include "json.h"
-#include "thread.h"
-#include "chain.h"
-#include "comparison.h"
+#include "interfaces/chain.h"
+#include "models/response.h"
+#include "core/string/comparison.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include <vector>
 #include <unordered_map>
 

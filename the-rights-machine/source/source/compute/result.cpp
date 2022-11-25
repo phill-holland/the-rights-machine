@@ -1,4 +1,4 @@
-#include "result.h"
+#include "compute/result.h"
 
 void compute::result::reset()
 {

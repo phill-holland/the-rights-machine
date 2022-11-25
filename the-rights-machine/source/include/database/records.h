@@ -1,12 +1,13 @@
-#include "record.h"
-#include "datetime.h"
-#include "message.h"
-#include "item.h"
-#include "line.h"
-#include "component.h"
-#include "request.h"
-#include "response.h"
-#include "guid.h"
+#include "database/interfaces/record.h"
+#include "types/datetime.h"
+#include "types/guid.h"
+#include "message/message.h"
+#include "models/item.h"
+#include "models/line.h"
+#include "models/component/line/component.h"
+#include "models/component/query/component.h"
+#include "models/request.h"
+#include "models/response.h"
 
 #if !defined(__RECORDS)
 #define __RECORDS
@@ -17,8 +18,6 @@ namespace database
 {
 	namespace records
 	{
-		using namespace global;
-
 		class message : public record::record<data::message::message>
 		{
 		public:
@@ -39,7 +38,7 @@ namespace database
 			void set(data::message::message &source);
 		};
 
-		class item : public record::record<data::item::item>
+		class item : public record::record<models::item::item>
 		{
 		public:
 			static const long MAX = 128L;
@@ -56,7 +55,7 @@ namespace database
 			void clear();
 
 			bool bind(database::recordset *recordset);
-			void set(data::item::item &source);
+			void set(models::item::item &source);
 		};
 
 		class query : public record::record<data::query::query>
@@ -75,7 +74,7 @@ namespace database
 			void set(data::query::query &source);
 		};
 
-		class line : public record::record<data::line::line>
+		class line : public record::record<models::line::line>
 		{
 		public:
 			guid::guid lineID;
@@ -92,14 +91,14 @@ namespace database
 			void clear();
 
 			bool bind(database::recordset *recordset);
-			void set(data::line::line &source);
+			void set(models::line::line &source);
 		};
 
 		namespace component
 		{
 			namespace line
 			{
-				class component : public record::record<data::component::line::component>
+				class component : public record::record<models::component::line::component>
 				{
 				public:
 					static const long MAX = 128L;
@@ -118,13 +117,13 @@ namespace database
 					void clear();
 
 					bool bind(database::recordset *recordset);
-					void set(data::component::line::component &source);
+					void set(models::component::line::component &source);
 				};
 			};
 
 			namespace query
 			{
-				class component : public record::record<data::component::query::component>
+				class component : public record::record<models::component::query::component>
 				{
 				public:
 					static const long MAX = 128L;
@@ -143,12 +142,12 @@ namespace database
 					void clear();
 
 					bool bind(database::recordset *recordset);
-					void set(data::component::query::component &source);
+					void set(models::component::query::component &source);
 				};
 			};
 		};
 
-		class element : public record::record<data::element::element>
+		class element : public record::record<models::element::element>
 		{
 		public:
 			static const long MAX = 128L;
@@ -165,7 +164,7 @@ namespace database
 			void clear();
 			
 			bool bind(database::recordset *recordset);
-			void set(data::element::element &source);
+			void set(models::element::element &source);
 		};
 
 		class request : public record::record <data::request::request>

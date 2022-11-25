@@ -48,7 +48,7 @@ namespace data
 
 			string identifier() { return string("QUERIES"); }
 
-			bool add(custom::pair source)
+			bool add(core::custom::pair source)
 			{
 				return temp.add(source);
 			}

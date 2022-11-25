@@ -1,4 +1,4 @@
-#include "gpu.h"
+#include "compute/gpu.h"
 #include "core/string/string.h"
 #include <unordered_map>
 #include <unordered_set>
@@ -22,7 +22,7 @@ void compute::gpu::processor::reset(unsigned long width, unsigned long height)
 	if (query == NULL) return;
 	if (!query->initalised()) return;
 
-	rows = new ::compute::common::row*[height];
+	rows = new ::compute::interfaces::row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
 
@@ -35,10 +35,10 @@ void compute::gpu::processor::reset(unsigned long width, unsigned long height)
 		rows[i] = temp;
 	}
 
-	inputs = new data::line::line[width];
+	inputs = new models::line::line[width];
 	if (inputs == NULL) return;
 
-	outputs = new data::line::line[width];
+	outputs = new models::line::line[width];
 	if (outputs == NULL) return;
 
 	input_ptr = output_ptr = 0UL;
@@ -75,7 +75,7 @@ void compute::gpu::processor::push(::compute::task &task)
 
 	for (long i = 0L; i < task.message.lines.count(); ++i)
 	{
-		data::line::line source = task.message.lines[i];
+		models::line::line source = task.message.lines[i];
 
 		// ***
 		// if no query generate ERROR, somewhere
@@ -87,15 +87,15 @@ void compute::gpu::processor::push(::compute::task &task)
 
 			if (source.overlapped(query))
 			{
-				if (source.typeID == (int)data::line::line::TYPE::in)
+				if (source.typeID == (int)models::line::line::TYPE::in)
 				{
 					in_map[source.lineID] = in_ptr++;
 					for (long k = 0L; k < task.message.lines.count(); ++k)
 					{
-						data::line::line output = task.message.lines[k];
-						if (output.typeID == (int)data::line::line::TYPE::out)
+						models::line::line output = task.message.lines[k];
+						if (output.typeID == (int)models::line::line::TYPE::out)
 						{
-							std::vector<zone::zone> result = source.split(output);
+							std::vector<types::zone> result = source.split(output);
 							for (long l = 0L; l < (long)result.size(); ++l)
 							{
 								inputs[input_ptr++] = source.spawn(result[l].start, result[l].end);
@@ -103,7 +103,7 @@ void compute::gpu::processor::push(::compute::task &task)
 						}
 					}
 				}
-				else if (source.typeID == (int)data::line::line::TYPE::out)
+				else if (source.typeID == (int)models::line::line::TYPE::out)
 				{
 					out_map[source.lineID] = out_ptr++;
 					outputs[output_ptr++].copy(source);

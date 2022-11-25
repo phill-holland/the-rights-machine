@@ -1,15 +1,15 @@
+#include "database/interfaces/file.h"
 #include "core/string/string.h"
 #include "core/string/comparison.h"
 #include "types/datetime.h"
 #include "models/queries.h"
 #include "models/items.h"
 #include "models/lines.h"
-#include "models/component/line/component.h"
+#include "models/components/line/components.h"
 #include "models/elements.h"
-
-//#include "common.h"
-#include "database/interfaces/file.h"
 #include "message/inquiry.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include <unordered_map>
 
 #if !defined(__MESSAGE)
@@ -19,7 +19,6 @@ namespace data
 {
 	namespace message
 	{
-		//using namespace global;
 		using namespace comparison;
 
 		class mapping
@@ -54,7 +53,7 @@ namespace data
 
 		class message : public json::request::json
 		{
-			std::unordered_map<string, data::json::request::json *, hasher, equality> hash;
+			std::unordered_map<string, ::json::request::json *, hasher, equality> hash;
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 		public:
@@ -86,24 +85,24 @@ namespace data
 			void clear();
 
 			queue::base *findQ(string FQDN);
-			data::json::request::json *find(string FQDN);
+			::json::request::json *find(string FQDN);
 
 			message split(inquiry &inquiry, mapping &destination);
 
-			void filter(compute::common::row **rows, unsigned long total, 
+			void filter(compute::interfaces::row **rows, unsigned long total, 
 						std::unordered_map<int, mapping::map> &map);
 
-			bool load(file::file<data::item::item> *source);
+			bool load(file::file<models::item::item> *source);
 			//bool load(file::file<data::query::query> *source);
-			bool load(file::file<data::line::line> *source);
-			bool load(file::file<data::component::line::component> *source);
-			bool load(file::file<data::element::element> *source);
+			bool load(file::file<models::line::line> *source);
+			bool load(file::file<models::component::line::component> *source);
+			bool load(file::file<models::element::element> *source);
 
-			bool save(file::file<data::item::item> *destination);
+			bool save(file::file<models::item::item> *destination);
 			//bool save(file::file<data::query::query> *destination);
-			bool save(file::file<data::line::line> *destination);
-			bool save(file::file<data::component::line::component> *destination);
-			bool save(file::file<data::element::element> *destination);
+			bool save(file::file<models::line::line> *destination);
+			bool save(file::file<models::component::line::component> *destination);
+			bool save(file::file<models::element::element> *destination);
 
 			void copy(message const &source);
 
@@ -112,7 +111,7 @@ namespace data
 
 		public:
 			string identifier() { return string("MESSAGE"); }
-			bool add(custom::pair source);
+			bool add(core::custom::pair source);
 
 		public:
 			message& operator=(const message& source)

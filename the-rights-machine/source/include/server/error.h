@@ -1,4 +1,4 @@
-#include "json.h"
+#include "parser/json/json.h"
 #include "core/string/string.h"
 #include "core/string/comparison.h"
 #include <unordered_map>
@@ -26,7 +26,7 @@ namespace error
 	{
 		class types;
 
-		class type : public data::json::response::json
+		class type : public json::response::json
 		{
 			friend class types;
 
@@ -59,7 +59,7 @@ namespace error
 			string identifier() { return string("error"); }
 
 			unsigned long pairs();
-			custom::pair pull(unsigned long index);
+			core::custom::pair pull(unsigned long index);
 
 		public:
 			operator string() { return get(); }

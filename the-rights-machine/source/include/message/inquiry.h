@@ -3,26 +3,25 @@
 #include "models/queries.h"
 #include "models/items.h"
 #include "models/lines.h"
-//#include "models/components.h"
 #include "models/elements.h"
 #include "core/string/comparison.h"
-//#include "common.h"
 #include "database/interfaces/file.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include <unordered_map>
 
-#if !defined(__INQUIRY)
-#define __INQUIRY
+#if !defined(_INQUIRY)
+#define _INQUIRY
 
 namespace data
 {
 	namespace message
-	{
-		//using namespace global;
+	{	
 		using namespace comparison;
 
-		class inquiry : public json::request::json
+		class inquiry : public ::json::request::json
 		{
-    		std::unordered_map<string, data::json::request::json *, hasher, equality> hash;
+    		std::unordered_map<string, ::json::request::json *, hasher, equality> hash;
 			std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 			bool init;
@@ -43,7 +42,7 @@ namespace data
 			void clear();
 
 			queue::base *findQ(string FQDN);
-			data::json::request::json *find(string FQDN);
+			::json::request::json *find(string FQDN);
 
 			void copy(inquiry const &source);
 
@@ -52,7 +51,7 @@ namespace data
 
 		public:
 			string identifier() { return string("INQUIRY"); }
-			bool add(custom::pair source);
+			bool add(core::custom::pair source);
 
 		public:
 			inquiry& operator=(const inquiry& source)

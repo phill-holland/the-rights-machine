@@ -4,7 +4,8 @@
 #include "interfaces/chain.h"
 #include "interfaces/notification.h"
 #include "message/inquiry.h"
-#include "json.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include "core/string/comparison.h"
 #include <unordered_map>
 
@@ -18,7 +19,7 @@ namespace compute
 
 	class task : public json::request::json
 	{
-		std::unordered_map<string, data::json::request::json *, hasher, equality> hash;
+		std::unordered_map<string, ::json::request::json *, hasher, equality> hash;
 		std::unordered_map<string, queue::base *, hasher, equality> queue_hash;
 
 		bool init;
@@ -41,10 +42,10 @@ namespace compute
 		void clear();
 
 		string identifier() { return string("TASK"); }
-		bool add(custom::pair source);
+		bool add(core::custom::pair source);
 
 		queue::base *findQ(string FQDN);
-		data::json::request::json *find(string FQDN);
+		::json::request::json *find(string FQDN);
 
 	protected:
 		void makeNull()

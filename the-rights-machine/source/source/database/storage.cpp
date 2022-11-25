@@ -1,4 +1,4 @@
-#include "storage.h"
+#include "database/storage.h"
 
 bool database::storage::request::open(database::settings &settings)
 {
@@ -305,7 +305,7 @@ bool database::storage::common::line::element::close()
 	return true;
 }
 
-bool database::storage::common::line::element::read(data::element::element &destination)
+bool database::storage::common::line::element::read(models::element::element &destination)
 {
 	string key = (string)guid::guid(componentID);
 
@@ -330,7 +330,7 @@ bool database::storage::common::line::element::read(data::element::element &dest
 	return false;
 }
 
-bool database::storage::common::line::element::write(data::element::element &source)
+bool database::storage::common::line::element::write(models::element::element &source)
 {
 	bool prepared = true;
 
@@ -446,7 +446,7 @@ bool database::storage::common::line::component::close()
 	return index == 0;
 }
 
-bool database::storage::common::line::component::read(data::component::line::component &destination)
+bool database::storage::common::line::component::read(models::component::line::component &destination)
 {
 	string key = (string)guid::guid(lineID);
 
@@ -483,7 +483,7 @@ bool database::storage::common::line::component::read(data::component::line::com
 	return false;
 }
 
-bool database::storage::common::line::component::write(data::component::line::component &source)
+bool database::storage::common::line::component::write(models::component::line::component &source)
 {
 	bool prepared = true;
 
@@ -593,7 +593,7 @@ bool database::storage::common::query::element::close()
 	return true;
 }
 
-bool database::storage::common::query::element::read(data::element::element &destination)
+bool database::storage::common::query::element::read(models::element::element &destination)
 {
 	string key = (string)guid::guid(componentID);
 
@@ -618,7 +618,7 @@ bool database::storage::common::query::element::read(data::element::element &des
 	return false;
 }
 
-bool database::storage::common::query::element::write(data::element::element &source)
+bool database::storage::common::query::element::write(models::element::element &source)
 {
 	bool prepared = true;
 
@@ -734,7 +734,7 @@ bool database::storage::common::query::component::close()
 	return index == 0;
 }
 
-bool database::storage::common::query::component::read(data::component::query::component &destination)
+bool database::storage::common::query::component::read(models::component::query::component &destination)
 {
 	string key = (string)guid::guid(queryID);
 
@@ -771,7 +771,7 @@ bool database::storage::common::query::component::read(data::component::query::c
 	return false;
 }
 
-bool database::storage::common::query::component::write(data::component::query::component &source)
+bool database::storage::common::query::component::write(models::component::query::component &source)
 {
 	bool prepared = true;
 
@@ -888,7 +888,7 @@ bool database::storage::line::close()
 	return true;
 }
 
-bool database::storage::line::read(data::line::line &destination)
+bool database::storage::line::read(models::line::line &destination)
 {
 	string key = (string)guid::guid(itemID);
 
@@ -928,7 +928,7 @@ bool database::storage::line::read(data::line::line &destination)
 	return false;
 }
 
-bool database::storage::line::write(data::line::line &source)
+bool database::storage::line::write(models::line::line &source)
 {
 	bool prepared = true;
 
@@ -1203,7 +1203,7 @@ bool database::storage::item::close()
 	return index == 0;
 }
 
-bool database::storage::item::read(data::item::item &destination)
+bool database::storage::item::read(models::item::item &destination)
 {
 	string key = (string)guid::guid(messageID);
 
@@ -1239,7 +1239,7 @@ bool database::storage::item::read(data::item::item &destination)
 	return false;
 }
 
-bool database::storage::item::write(data::item::item &source)
+bool database::storage::item::write(models::item::item &source)
 {
 	bool prepared = true;
 

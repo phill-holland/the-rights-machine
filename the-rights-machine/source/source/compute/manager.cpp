@@ -1,4 +1,4 @@
-#include "manager.h"
+#include "compute/manager.h"
 
 void manager::manager::reset(queue::chain_factory <data::response::response> *factory)
 {
@@ -13,7 +13,7 @@ void manager::manager::reset(queue::chain_factory <data::response::response> *fa
 
 void manager::manager::add(compute::compute *source)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	nodes.push_back(source);
 }
@@ -22,7 +22,7 @@ bool manager::manager::set(compute::task &source)
 {
 	long count = 0L;
 
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	bool result = false;
 	do

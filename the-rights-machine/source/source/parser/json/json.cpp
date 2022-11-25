@@ -1,10 +1,9 @@
-#include "json.h"
-#include "log.h"
+#include "parser/json/json.h"
 #include "crumbs.h"
 #include "charbuf.h"
 #include <vector>
 
-bool data::json::request::json::parse(string json)
+bool json::request::json::parse(string json)
 {
 	bool left = true, quotes = false;
 	long brackets = 0L, squares = 0L;
@@ -148,7 +147,7 @@ bool data::json::request::json::parse(string json)
 	return true;
 }
 
-string data::json::request::json::FQDN()
+string json::request::json::FQDN()
 {
 	string result = identifier();
 
@@ -162,7 +161,7 @@ string data::json::request::json::FQDN()
 	return result;
 }
 
-string data::json::response::json::extract()
+string json::response::json::extract()
 {
 	std::vector<custom::pair> result;
 

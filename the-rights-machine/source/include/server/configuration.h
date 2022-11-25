@@ -1,8 +1,8 @@
-#include "queue.h"
-#include "manager.h"
-#include "errors.h"
+#include "queues/interfaces/queue.h"
+#include "compute/manager.h"
+#include "server/errors.h"
 #include "users.h"
-#include "pending.h"
+#include "server/pending.h"
 
 #if !defined(__CONFIGURATION)
 #define __CONFIGURATION

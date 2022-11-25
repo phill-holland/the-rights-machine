@@ -1,6 +1,7 @@
 #include "compute/interfaces/compute.h"
 #include "compute/interfaces/grid.h"
 #include "compute/task.h"
+#include "compute/grid.h"
 #include "queues/interfaces/queue.h"
 #include "message/message.h"
 #include "models/response.h"
@@ -25,7 +26,7 @@ namespace compute
 			unsigned long width, height;
 			unsigned long input_ptr, output_ptr;
 
-			::compute::interfaces::grid *in, *out, *query;
+			::compute::cpu::grid *in, *out, *query;
 			::compute::interfaces::row **rows;
 
 			models::line::line *inputs;

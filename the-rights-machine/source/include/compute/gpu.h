@@ -28,7 +28,7 @@ namespace compute
 			unsigned long width, height;
 			unsigned long input_ptr, output_ptr;
 
-			::compute::interfaces::grid *in, *out, *query;
+			::compute::gpu::grid *in, *out, *query;
 			::compute::interfaces::row **rows;
 
 			models::line::line *inputs;

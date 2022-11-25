@@ -1,6 +1,4 @@
-#include "row.h"
-
-#include "log.h"
+#include "compute/row.h"
 
 void compute::cpu::row::reset(unsigned long length)
 {
@@ -30,9 +28,9 @@ int compute::cpu::row::get(unsigned long idx)
 	return data[idx];
 }
 
-void compute::cpu::row::set(header &source)
+void compute::cpu::row::set(header *source)
 {
-	top = source;
+	top = *source;
 }
 
 bool compute::cpu::row::set(unsigned long idx)

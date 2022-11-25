@@ -1,12 +1,12 @@
-#include "fifo.h"
-#include "queue.h"
-#include "message.h"
-#include "databases.h"
-#include "response.h"
-#include "task.h"
-#include "factory.h"
-#include "chain.h"
-#include "responses.h"
+#include "core/queue/fifo.h"
+#include "queues/interfaces/queue.h"
+#include "message/message.h"
+#include "database/databases.h"
+#include "models/response.h"
+#include "models/responses.h"
+#include "compute/task.h"
+#include "interfaces/factory.h"
+#include "interfaces/chain.h"
 
 #if !defined(__MEMORY)
 #define __MEMORY

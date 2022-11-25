@@ -1,10 +1,11 @@
-//#include "core/queue/fifo.h"
 #include "core/string/string.h"
 #include "types/datetime.h"
 #include "types/zone.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
-#if !defined(_MODLS_LINE_LINE)
-#define __MODELS_LINE_LINE
+#if !defined(_MODELS_LINE)
+#define _MODELS_LINE
 
 using namespace types;
 
@@ -12,7 +13,7 @@ namespace models
 {
 	namespace line
 	{
-		class line : /*public json::request::json,*/ public zone
+		class line : public json::request::json, public zone
 		{
 		public:
 			enum TYPE { in = 0, out = 1 };
@@ -25,7 +26,7 @@ namespace models
 
 		public:
 			line() { clear(); }
-			//line(json *parent) { clear(); json::parent(parent); }
+			line(json *parent) { clear(); json::parent(parent); }
 			line(line const &source) { clear(); copy(source); }
 
 			int identity() { return lineID; }
@@ -40,9 +41,9 @@ namespace models
 		public:
 			string output();
 
-		//public:
-		//	string identifier() { return string("LINE"); }
-		//	bool add(custom::pair source);
+		public:
+			string identifier() { return string("LINE"); }
+			bool add(core::custom::pair source);
 
 		public:
 			line& operator=(const line& source)

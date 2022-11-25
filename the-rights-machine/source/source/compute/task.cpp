@@ -1,5 +1,4 @@
-#include "task.h"
-
+#include "compute/task.h"
 
 void compute::task::reset()
 {
@@ -48,7 +47,7 @@ void compute::task::clear()
     message.clear();
 }
 
-bool compute::task::add(custom::pair source)
+bool compute::task::add(core::custom::pair source)
 {
     return false;
 }
@@ -61,10 +60,10 @@ queue::base *compute::task::findQ(string FQDN)
 	return NULL;
 }
 
-data::json::request::json *compute::task::find(string FQDN)
+::json::request::json *compute::task::find(string FQDN)
 {
-    std::unordered_map<string, data::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
-	if(i != hash.end()) return (data::json::request::json*)i->second;
+    std::unordered_map<string, ::json::request::json*, hasher, equality>::iterator i = hash.find(FQDN);
+	if(i != hash.end()) return (::json::request::json*)i->second;
 
     return NULL;
 }

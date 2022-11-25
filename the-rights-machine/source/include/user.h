@@ -1,6 +1,6 @@
-#include "message.h"
+#include "message/message.h"
 #include "core/string/string.h"
-#include "datetime.h"
+#include "types/datetime.h"
 
 #if !defined(__USER)
 #define __USER

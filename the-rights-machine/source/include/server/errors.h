@@ -1,6 +1,6 @@
-#include "error.h"
-#include "thread.h"
-#include "queue.h"
+#include "server/error.h"
+#include "core/threading/thread.h"
+#include "queues/interfaces/queue.h"
 
 #if !defined(__ERRORS)
 #define __ERRORS

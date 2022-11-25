@@ -1,5 +1,4 @@
-#include "grid.h"
-#include "log.h"
+#include "compute/grid.h"
 #include <cstring>
 #include <iostream>
 
@@ -99,14 +98,14 @@ bool compute::cpu::grid::compare(grid &right)
 	return true;
 }
 
-bool compute::cpu::grid::push(::compute::common::row *source)
+bool compute::cpu::grid::push(::compute::interfaces::row *source)
 {
 	if (source->count() > width) return false;
 	if (write_ptr >= height) return false;
 
 	unsigned long offset = (write_ptr * width);
 
-	*headers[write_ptr] = source->first();
+	if(!source->first(headers[write_ptr])) return false;
 
 	for (unsigned long i = 0UL; i < source->count(); ++i)
 	{

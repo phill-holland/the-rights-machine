@@ -1,5 +1,6 @@
 #include "core/string/string.h"
-#include "json.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include "types/datetime.h"
 #include "models/request.h"
 
@@ -9,10 +10,8 @@
 namespace data
 {
 	namespace response
-	{
-		using namespace global;
-
-		class response : public data::json::response::json
+	{		
+		class response : public json::response::json
 		{
 		public:
 			enum STATUS { ERR = 0, 
@@ -38,7 +37,7 @@ namespace data
 			void clear();
 
 			unsigned long pairs();
-			custom::pair pull(unsigned long index);
+			core::custom::pair pull(unsigned long index);
 
 			bool validate(data::request::request &request);
 

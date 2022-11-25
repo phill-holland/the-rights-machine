@@ -1,7 +1,7 @@
 #include "core/string/string.h"
-#include "datetime.h"
+#include "core/string/comparison.h"
+#include "types/datetime.h"
 #include <unordered_map>
-#include "comparison.h"
 
 #if !defined(__PENDING)
 #define __PENDING

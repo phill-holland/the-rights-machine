@@ -2,15 +2,17 @@
 #include "types/allocator.h"
 #include "core/string/string.h"
 #include "message/map.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
-#if !defined(_MODELS_ELEMENTS_ELEMENTS)
-#define __MODELS_ELEMENTS_ELEMENTS
+#if !defined(_MODELS_ELEMENTS)
+#define _MODELS_ELEMENTS
 
 namespace models
 {
 	namespace elements
 	{
-		template <long Y> class elements : public allocator::allocator<element::element, Y>, /*public json::request::json,*/ public mapping::mapper
+		template <long Y> class elements : public allocator::allocator<element::element, Y>, public json::request::json, public mapping::mapper
 		{
 			int index;
 
@@ -18,8 +20,8 @@ namespace models
 			element::element temp;
 
 		public:
-			elements() { index = 0; }//temp.parent(this); }
-			//elements(json *parent) { index = 0; json::parent(parent); }
+			elements() { index = 0; temp.parent(this); }
+			elements(json *parent) { index = 0; json::parent(parent); }
 			elements(elements<Y> const &source) { clear(); copy(source); }
 
 		public:
@@ -28,7 +30,7 @@ namespace models
 			bool flush() override
 			{	
 				temp.elementID = index++;
-//				temp.componentID = progenitor();
+				temp.componentID = progenitor();
 
 				push(temp.value, temp.elementID, temp.componentID);
 
@@ -47,14 +49,13 @@ namespace models
 				::allocator::allocator<element::element, Y>::reset();
 			}
 
-/*
 			string identifier() { return string("ELEMENTS"); }
 
-			bool add(custom::pair source)
+			bool add(core::custom::pair source)
 			{
 				return temp.add(source);
 			}
-*/
+
 			void copy(elements<Y> const &source)
 			{
 				::allocator::allocator<element::element, Y>::copy(source);

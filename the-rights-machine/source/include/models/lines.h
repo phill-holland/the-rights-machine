@@ -1,16 +1,17 @@
 #include "models/line.h"
-//#include "json.h"
 #include "types/allocator.h"
 #include "message/map.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 
-#if !defined(_MODELS_LINES_LINES)
-#define _MODELS_LINES_LINES
+#if !defined(_MODELS_LINES)
+#define _MODELS_LINES
 
 namespace models
 {
 	namespace lines
 	{
-		template <long Y> class lines : public allocator::allocator<line::line, Y>, /*public json::request::json,*/ public mapping::mapper
+		template <long Y> class lines : public allocator::allocator<line::line, Y>, public json::request::json, public mapping::mapper
 		{
 			int index;
 
@@ -18,8 +19,8 @@ namespace models
 			line::line temp;
 
 		public:
-			lines() { index = 0; }//temp.parent(this); }
-			//lines(json *parent) { index = 0; json::parent(parent); }
+			lines() { index = 0; temp.parent(this); }
+			lines(json *parent) { index = 0; json::parent(parent); }
 			lines(lines<Y> const &source) { clear(); copy(source); }
 
 		public:
@@ -28,7 +29,7 @@ namespace models
 			bool flush() override
 			{
 				temp.lineID = index++;
-				//temp.itemID = progenitor();
+				temp.itemID = progenitor();
 
 				push(temp.lineID, temp.itemID);
 
@@ -57,14 +58,13 @@ namespace models
 				::allocator::allocator<line::line, Y>::reset();
 			}
 
-/*
 			string identifier() { return string("LINES"); }
 
-			bool add(custom::pair source)
+			bool add(core::custom::pair source)
 			{
 				return temp.add(source);
 			}
-*/
+
 			void copy(lines<Y> const &source)
 			{
 				::allocator::allocator<line::line, Y>::copy(source);

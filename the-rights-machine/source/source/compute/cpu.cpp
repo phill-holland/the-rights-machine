@@ -1,4 +1,6 @@
 #include "compute/cpu.h"
+#include "compute/grid.h"
+#include "compute/row.h"
 #include "core/string/string.h"
 #include <unordered_map>
 #include <unordered_set>
@@ -22,23 +24,23 @@ void compute::cpu::processor::reset(unsigned long width, unsigned long height)
 	if (query == NULL) return;
 	if (!query->initalised()) return;
 
-	rows = new ::compute::common::row*[height];
+	rows = new ::compute::interfaces::row*[height];
 	if (rows == NULL) return;
 	for (unsigned long i = 0UL; i < height; ++i) rows[i] = NULL;
 
 	for (unsigned long i = 0UL; i < height; ++i)
 	{
-		::compute::cpu::row *temp = new ::compute::cpu::row(width);
+		::compute::cpu::row *temp = new ::compute::cpu::row(width);// compute::cpu::row(width);
 		if (temp == NULL) return;
 		if (!temp->initalised()) return;
 
 		rows[i] = temp;
 	}
 
-	inputs = new data::line::line[width];
+	inputs = new models::line::line[width];
 	if (inputs == NULL) return;
 
-	outputs = new data::line::line[width];
+	outputs = new models::line::line[width];
 	if (outputs == NULL) return;
 
 	input_ptr = output_ptr = 0UL;

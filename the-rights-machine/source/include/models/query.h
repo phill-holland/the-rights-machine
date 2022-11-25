@@ -1,17 +1,15 @@
 #include "core/string/string.h"
 #include "types/datetime.h"
 #include "types/zone.h"
-#include "json.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include "models/components/query/components.h"
 #include "models/elements.h"
 #include "database/interfaces/file.h"
 #include "compute/interfaces/row.h"
-//#include "common.h"
 
 #if !defined(__QUERY)
 #define __QUERY
-
-//using namespace global;
 
 namespace data
 {
@@ -55,9 +53,9 @@ namespace data
 		public:
 			string output();
 
-		//public:
-			//string identifier() { return string("QUERY"); }
-			//bool add(custom::pair source);
+		public:
+			string identifier() { return string("QUERY"); }
+			bool add(core::custom::pair source);
 
 		public:
 			query& operator=(const query& source)

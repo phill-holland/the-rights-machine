@@ -1,5 +1,6 @@
 #include "core/string/string.h"
-#include "json.h"
+#include "core/custom/pair.h"
+#include "parser/json/json.h"
 #include "types/datetime.h"
 
 #if !defined(__REQUEST)
@@ -9,9 +10,7 @@ namespace data
 {
 	namespace request
 	{
-		//using namespace global;
-
-		class request : public json::request::json
+		class request : public ::json::request::json
 		{
 		public:
 			int requestID;
@@ -29,7 +28,7 @@ namespace data
 
 			void clear();
 
-			data::json::request::json *find(string FQDN);
+			::json::request::json *find(string FQDN);
 
 			void copy(request const &source);
 
@@ -38,7 +37,7 @@ namespace data
 
 		public:
 			string identifier() { return string("REQUEST"); }
-			bool add(custom::pair source);
+			bool add(core::custom::pair source);
 
 		public:
 			request& operator=(const request& source)
