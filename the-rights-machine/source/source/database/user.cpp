@@ -1,6 +1,5 @@
-#include "user.h"
-#include "guid.h"
-#include "log.h"
+#include "database/user.h"
+#include "types/guid.h"
 
 void data::user::reset()
 {
@@ -9,8 +8,7 @@ void data::user::reset()
 	email = "";
 	apikey.clear();
 	guid.clear();
-	//memset(&apikey, 0, sizeof(GUID));
-	//memset(&guid, 0, sizeof(GUID));
+	
 	active = false;
 	banned = true;
 	verified = false;
@@ -36,8 +34,6 @@ void data::user::copy(user const &source)
 	email = source.email;
 	apikey = source.apikey;
 	guid = source.guid;
-	//memcpy(&apikey, &source.apikey, sizeof(GUID));
-	//memcpy(&guid, &source.guid, sizeof(GUID));
 	active = source.active;
 	banned = source.banned;
 	verified = source.verified;

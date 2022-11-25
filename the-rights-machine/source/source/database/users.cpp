@@ -1,5 +1,5 @@
-#include "users.h"
-#include "guid.h"
+#include "database/users.h"
+#include "types/guid.h"
 
 using namespace comparison;
 
@@ -41,7 +41,7 @@ void data::users::reset(database::settings &settings, unsigned long interval)
 
 data::user data::users::get(string user)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	std::unordered_map<string, data::user, hasher, equality>::iterator i = map.find(user);
 	if (i != map.end())
@@ -55,7 +55,7 @@ data::user data::users::get(string user)
 
 void data::users::refresh()
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	if (connection->open(location))
 	{

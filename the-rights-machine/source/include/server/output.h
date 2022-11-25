@@ -30,7 +30,7 @@ namespace output
 			return ((long)data.size()) == 0L;
 		}
 
-		void set(data::json::response::json *source)
+		void set(json::response::json *source)
 		{
 			data = source->extract();
 		}

@@ -1,5 +1,5 @@
 #include "core/string/string.h"
-#include "messaging.h"
+#include "queues/messaging.h"
 
 #if !defined(__SETTINGS)
 #define __SETTINGS

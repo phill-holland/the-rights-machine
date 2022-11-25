@@ -1,6 +1,6 @@
-#include "memory.h"
-#include "database.h"
-#include "response.h"
+#include "queues/memory.h"
+#include "queues/database.h"
+#include "models/response.h"
 
 #if !defined(__MESSAGING)
 #define __MESSAGING

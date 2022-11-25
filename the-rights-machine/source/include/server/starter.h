@@ -1,15 +1,13 @@
 #include "parser/json/parser.h"
-#include "wsock.h"
-#include "configuration.h"
-#include "manager.h"
-#include "memory.h"
-#include "cpu.h"
-#include "server.h"
-#include "errors.h"
-#include "odbc.h"
-#include "users.h"
-#include "messaging.h"
-#include "settings.h"
+#include "server/configuration.h"
+#include "compute/manager.h"
+#include "queues/memory.h"
+#include "compute/cpu.h"
+#include "server/server.h"
+#include "server/errors.h"
+#include "database/records.h"
+#include "database/users.h"
+#include "server/settings.h"
 #include "console.h"
 
 #if !defined(__STARTER)
@@ -19,8 +17,8 @@ namespace server
 {
 	class starter
 	{
-		database::odbc::factory::connection *connections;
-		database::odbc::factory::recordset *recordsets;
+		database::factory::connection *connections;
+		database::factory::recordset *recordsets;
 
 		compute::cpu::cpu *cpu;
 

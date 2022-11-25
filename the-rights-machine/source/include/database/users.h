@@ -1,5 +1,5 @@
 #include "core/string/string.h"
-#include "user.h"
+#include "database/user.h"
 #include "core/threading/thread.h"
 #include "core/threading/mutex.h"
 #include "database/databases.h"
@@ -13,7 +13,7 @@ namespace data
 {
 	using namespace comparison;
 
-	class users : public thread
+	class users : public core::threading::thread
 	{
 	protected:
 		static const unsigned long INTERVAL = 100UL;
@@ -21,7 +21,7 @@ namespace data
 	private:
 		std::unordered_map<string, data::user, hasher, equality> map;
 
-		mutex::token token;
+		core::threading::mutex::token token;
 
 		string location;
 		unsigned long counter, interval;

@@ -1,15 +1,15 @@
-#include "fifo.h"
-#include "queue.h"
-#include "databases.h"
-#include "message.h"
-#include "databases.h"
-#include "response.h"
-#include "task.h"
-#include "factory.h"
-#include "chain.h"
-#include "responses.h"
-#include "thread.h"
-#include "storage.h"
+#include "core/queue/fifo.h"
+#include "queues/interfaces/queue.h"
+#include "database/databases.h"
+#include "message/message.h"
+#include "database/databases.h"
+#include "models/response.h"
+#include "compute/task.h"
+#include "interfaces/factory.h"
+#include "interfaces/chain.h"
+#include "models/responses.h"
+#include "core/threading/thread.h"
+#include "database/storage.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,7 +22,7 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public ::queue::queue<compute::task>, public thread
+			class queue : public ::queue::queue<compute::task>, public core::threading::thread
 			{
 			protected:
 				static const unsigned long INTERVAL = 100UL;
