@@ -1,7 +1,6 @@
-#include "server.h"
-#include "task.h"
-#include "guid.h"
-#include "log.h"
+#include "server/server.h"
+#include "compute/task.h"
+#include "types/guid.h"
 
 void server::listener::background(thread *bt)
 {
@@ -40,7 +39,7 @@ void server::listener::background(thread *bt)
 				int n = parser->write(&receiving[index], read, ec);
 				if((n < 0) || ( n != read))
 				{
-					c->sendResponse(data::response::response(data::response::response::ERR));
+					c->sendResponse(models::response::response(models::response::response::ERR));
 					c->endResponses();
 					goodbye();
 				}
@@ -479,7 +478,7 @@ void server::client::notifyOut(guid::guid identity)
 		if(configuration.responses != NULL)
 		{
 			string temp = identity.get();
-			data::response::response value = configuration.responses->find(temp);
+			models::response::response value = configuration.responses->find(temp);
 			if(value.guid == identity)
 			{
 				string data = value.extract();
@@ -492,7 +491,7 @@ void server::client::notifyOut(guid::guid identity)
 
 				this->output(data.flatten());
 
-				mutex lock(token);
+				core::threading::mutex lock(token);
 
 				if(write(output, 0) != output.length()) 
 				{ 
@@ -520,7 +519,7 @@ bool server::client::startResponses()
 	result.concat(data);
 	result.concat(string("\r\n"));
 	
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	if(write(result, 0) != result.length()) return false;
 
@@ -535,14 +534,14 @@ bool server::client::endResponses()
 	result.concat(data);	
 	result.concat(string("\r\n0\r\n"));
 
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	if(write(result, 0) != result.length()) return false;
 
 	return true;
 }
 
-bool server::client::sendResponse(data::response::response response)
+bool server::client::sendResponse(models::response::response response)
 {
 	string data = response.extract();
 
@@ -556,7 +555,7 @@ bool server::client::sendResponse(data::response::response response)
 		output.concat(string("\r\n"));
 
 		{
-			mutex lock(token);
+			core::threading::mutex lock(token);
 
 			if(write(output, 0) != output.length()) return false;
 		}
@@ -611,7 +610,7 @@ void server::watchdog::background(thread *bt)
 {
 	sleep(250);
 
-	mutex lock(s->token);
+	core::threading::mutex lock(s->token);
 
 	for (long i = 0; i < s->configuration.clients; ++i)
 	{

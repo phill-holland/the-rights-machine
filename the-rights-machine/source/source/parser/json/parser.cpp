@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "parser/json/parser.h"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -40,7 +40,7 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
         
         params->task.message.guid = g.get();
         params->task.message.name = params->task.message.items[0]->name;
-        params->task.message.created = global::datetime::now();
+        params->task.message.created = types::datetime::now();
         params->task.response = params->responses;
         params->task.notify = params->notify;
 
@@ -76,10 +76,10 @@ bool parser::parser::handler::on_key(boost::json::string_view sv, std::size_t sz
 
 bool parser::parser::handler::on_string(boost::json::string_view sv, std::size_t sz, boost::json::error_code&) 
 { 
-    data::json::request::json *current = params->task.find(params->parents.FQDN());
+    ::json::request::json *current = params->task.find(params->parents.FQDN());
     if(current != NULL)
     {
-        custom::pair pair(params->key, string(sv.data(), sz));
+        core::custom::pair pair(params->key, string(sv.data(), sz));
         return current->add(pair);
     }
 
@@ -88,10 +88,10 @@ bool parser::parser::handler::on_string(boost::json::string_view sv, std::size_t
 
 bool parser::parser::handler::on_int64(std::int64_t value, boost::json::string_view, boost::json::error_code&) 
 {
-    data::json::request::json *current = params->task.find(params->parents.FQDN());
+    ::json::request::json *current = params->task.find(params->parents.FQDN());
     if(current != NULL)
     {
-        custom::pair pair(params->key, string::fromInt(value));
+        core::custom::pair pair(params->key, string::fromInt(value));
         return current->add(pair);
     }
 

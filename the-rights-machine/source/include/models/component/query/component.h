@@ -1,6 +1,6 @@
 #include "core/string/string.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 //#include "elements.h"
 
 #if !defined(_MODELS_COMPONENT_QUERY_COMPONENT)

@@ -1,4 +1,4 @@
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 #include "core/string/string.h"
 #include "core/string/comparison.h"
 #include <unordered_map>

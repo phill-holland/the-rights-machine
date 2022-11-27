@@ -1,4 +1,4 @@
-#include "database.h"
+#include "queues/database.h"
 
 void queues::database::incoming::queue::background(thread *bt)
 {
@@ -13,8 +13,6 @@ void queues::database::incoming::queue::background(thread *bt)
 	++counter;
 
 	sleep(1000);
-
-	//return (DWORD)0;
 }
 
 void queues::database::incoming::queue::reset(::database::settings &settings, unsigned long interval)
@@ -26,11 +24,11 @@ void queues::database::incoming::queue::reset(::database::settings &settings, un
 	this->settings = &settings;
 	this->interval = interval;
 
-	incoming = new fifo<compute::task, LENGTH>();
+	incoming = new core::queue::fifo<compute::task, LENGTH>();
 	if (incoming == nullptr) return;
 	if (!incoming->initalised()) return;
 
-	outgoing = new fifo<compute::task, LENGTH>();
+	outgoing = new core::queue::fifo<compute::task, LENGTH>();
 	if (outgoing == nullptr) return;
 	if (!outgoing->initalised()) return;
 
@@ -61,7 +59,7 @@ bool queues::database::incoming::queue::get(compute::task &destination)
 
 bool queues::database::incoming::queue::flush()
 {
-	mutex lock(flushing);
+	core::threading::mutex lock(flushing);
 
 	unsigned long successful = 0UL, count = incoming->entries();
 
@@ -88,7 +86,7 @@ bool queues::database::incoming::queue::flush()
 
 bool queues::database::incoming::queue::poll()
 {
-	mutex lock(polling);
+	core::threading::mutex lock(polling);
 
 	if (outgoing->entries() == 0UL)
 	{
@@ -191,11 +189,11 @@ void queues::database::outgoing::queue::reset(::database::settings &settings, un
 	this->settings = &settings;
 	this->interval = interval;
 
-	incoming = new fifo<data::response::response, LENGTH>();
+	incoming = new core::queue::fifo<models::response::response, LENGTH>();
 	if (incoming == nullptr) return;
 	if (!incoming->initalised()) return;
 
-	outgoing = new fifo<data::response::response, LENGTH>();
+	outgoing = new core::queue::fifo<models::response::response, LENGTH>();
 	if (outgoing == nullptr) return;
 	if (!outgoing->initalised()) return;
 
@@ -205,14 +203,14 @@ void queues::database::outgoing::queue::reset(::database::settings &settings, un
 	init = true;
 }
 
-bool queues::database::outgoing::queue::set(data::response::response &source)
+bool queues::database::outgoing::queue::set(models::response::response &source)
 {
 	if (incoming->entries() >= INPUT) flush();
 
 	return incoming->set(source);
 }
 
-bool queues::database::outgoing::queue::get(data::response::response &destination)
+bool queues::database::outgoing::queue::get(models::response::response &destination)
 {
 	poll();
 
@@ -226,7 +224,7 @@ bool queues::database::outgoing::queue::get(data::response::response &destinatio
 
 bool queues::database::outgoing::queue::flush()
 {
-	mutex lock(flushing);
+	core::threading::mutex lock(flushing);
 
 	unsigned long successful = 0UL, count = incoming->entries();
 
@@ -234,7 +232,7 @@ bool queues::database::outgoing::queue::flush()
 	{
 		if (response->open(*settings))
 		{
-			data::response::response temp;
+			models::response::response temp;
 
 			for (unsigned long i = 0UL; i < incoming->entries(); ++i)
 			{
@@ -253,13 +251,13 @@ bool queues::database::outgoing::queue::flush()
 
 bool queues::database::outgoing::queue::poll()
 {
-	mutex lock(polling);
+	core::threading::mutex lock(polling);
 
 	if (outgoing->entries() == 0UL)
 	{
 		if (response->open(*settings))
 		{
-			data::response::response temp;
+			models::response::response temp;
 			while ((response->read(temp)) && (!outgoing->isfull()))
 			{
 				if (!outgoing->set(temp)) return false;
@@ -291,18 +289,18 @@ void queues::database::outgoing::factory::reset(::database::settings &settings, 
 	this->total = total;
 	length = 0UL;
 
-	queues = new data::response::responses*[total];
+	queues = new models::response::responses*[total];
 	if (queues == nullptr) return;
 	for (unsigned long i = 0UL; i < total; ++i) queues[i] = nullptr;
 
 	init = true;
 }
 
-::custom::chain<data::response::response> *queues::database::outgoing::factory::get()
+::custom::chain<models::response::response> *queues::database::outgoing::factory::get()
 {
 	if (length >= MAX) return nullptr;
 
-	data::response::responses *result = new data::response::responses();
+	models::response::responses *result = new models::response::responses();
 	if (result != nullptr)
 	{
 		queues[length++] = result;

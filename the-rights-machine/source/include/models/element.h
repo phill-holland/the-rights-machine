@@ -1,6 +1,6 @@
 #include "core/string/string.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 
 #if !defined(_MODELS_ELEMENT)
 #define _MODELS_ELEMENT

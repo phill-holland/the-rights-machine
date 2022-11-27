@@ -2,7 +2,7 @@
 #include "types/allocator.h"
 #include "message/map.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 
 #if !defined(_MODELS_LINES)
 #define _MODELS_LINES

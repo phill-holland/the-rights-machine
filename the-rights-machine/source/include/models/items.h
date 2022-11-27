@@ -3,7 +3,7 @@
 #include "message/map.h"
 #include "database/interfaces/file.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 
 #if !defined(_MODELS_ITEMS)
 #define _MODELS_ITEMS

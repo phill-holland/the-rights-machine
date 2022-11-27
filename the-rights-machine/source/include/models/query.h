@@ -2,7 +2,7 @@
 #include "types/datetime.h"
 #include "types/zone.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 #include "models/components/query/components.h"
 #include "models/elements.h"
 #include "database/interfaces/file.h"

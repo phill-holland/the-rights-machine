@@ -7,7 +7,7 @@
 #include "core/string/comparison.h"
 #include "database/interfaces/file.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 #include <unordered_map>
 
 #if !defined(_INQUIRY)

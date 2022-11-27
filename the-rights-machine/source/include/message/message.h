@@ -9,7 +9,7 @@
 #include "models/elements.h"
 #include "message/inquiry.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 #include <unordered_map>
 
 #if !defined(__MESSAGE)

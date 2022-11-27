@@ -4,7 +4,7 @@
 #include "core/custom/pair.h"
 #include "core/threading/thread.h"
 #include "core/threading/mutex.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 #include <vector>
 #include <unordered_map>
 

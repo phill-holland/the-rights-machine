@@ -1,5 +1,4 @@
-#include "errors.h"
-#include "log.h"
+#include "server/errors.h"
 
 void error::errors::background(thread *bt)
 {
@@ -8,7 +7,7 @@ void error::errors::background(thread *bt)
 	
 	if ((counter >= EXPIRATION) || (length >= THRESHOLD))
 	{
-		mutex lock(token);
+		core::threading::mutex lock(token);
 
 		flush();
 	}
@@ -39,14 +38,14 @@ void error::errors::reset(::queue::in<::error::type::type> *destination)
 
 void error::errors::clear()
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	reset();
 }
 
 bool error::errors::set(::error::error &source)
 {
-	mutex lock(token);
+	core::threading::mutex lock(token);
 
 	if (length >= MAX) return false;
 

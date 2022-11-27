@@ -1,4 +1,4 @@
-#include "memory.h"
+#include "queues/memory.h"
 
 void queues::memory::incoming::factory::reset(unsigned long total)
 {
@@ -52,18 +52,18 @@ void queues::memory::outgoing::factory::reset(unsigned long total)
 	this->total = total;
 	length = 0UL;
 
-	queues = new data::response::responses*[total];
+	queues = new models::response::responses*[total];
 	if (queues == NULL) return;
 	for (unsigned long i = 0UL; i < total; ++i) queues[i] = NULL;
 
 	init = true;
 }
 
-::custom::chain<data::response::response> *queues::memory::outgoing::factory::get()
+::custom::chain<models::response::response> *queues::memory::outgoing::factory::get()
 {
 	if (length >= MAX) return NULL;
 
-	data::response::responses *result = new data::response::responses();
+	models::response::responses *result = new models::response::responses();
 	if (result != NULL)
 	{
 		queues[length++] = result;

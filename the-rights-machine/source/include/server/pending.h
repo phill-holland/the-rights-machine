@@ -21,7 +21,7 @@ namespace pending
 		string user;
 
 	protected:
-		datetime created;
+		types::datetime created;
 
 	public:
 		waiting(string guid = "", string user = "")
@@ -29,7 +29,7 @@ namespace pending
 			this->guid = guid;
 			this->user = user;
 
-			created = datetime::now();
+			created = types::datetime::now();
 		}
 
 		bool validate()

@@ -1,4 +1,4 @@
-#include "messaging.h"
+#include "queues/messaging.h"
 
 void messaging::memory::memory::reset()
 {
@@ -20,7 +20,7 @@ void messaging::memory::memory::reset()
 	return messages;
 }
 
-::queue::chain_factory<data::response::response> *messaging::memory::memory::getResponsesQueue()
+::queue::chain_factory<models::response::response> *messaging::memory::memory::getResponsesQueue()
 {
 	return responses;
 }
@@ -57,7 +57,7 @@ void messaging::database::database::reset(::database::settings &settings)
 	return messages;
 }
 
-::queue::chain_factory<data::response::response> *messaging::database::database::getResponsesQueue()
+::queue::chain_factory<models::response::response> *messaging::database::database::getResponsesQueue()
 {
 	return responses;
 }

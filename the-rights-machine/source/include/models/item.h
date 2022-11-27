@@ -1,7 +1,7 @@
 #include "core/string/string.h"
 #include "models/lines.h"
 #include "core/custom/pair.h"
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
 
 #if !defined(_MODELS_ITEM)
 #define _MODELS_ITEM

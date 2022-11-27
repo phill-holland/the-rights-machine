@@ -12,8 +12,6 @@
 #if !defined(__RECORDS)
 #define __RECORDS
 
-#warning split into seperate files
-
 namespace database
 {
 	namespace records

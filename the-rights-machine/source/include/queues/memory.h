@@ -1,3 +1,4 @@
+#include "queues/interfaces/queue.h"
 #include "core/queue/fifo.h"
 #include "queues/interfaces/queue.h"
 #include "message/message.h"
@@ -17,7 +18,24 @@ namespace queues
 	{
 		namespace incoming
 		{
-			class queue : public core::queue::fifo<compute::task, 10L> { };
+			class queue : public ::queue::queue<compute::task>, public core::queue::fifo<compute::task, 10L>
+			{ 
+				public:
+					bool flush()
+					{
+						return true;
+					}
+
+					bool set(compute::task &source) 
+					{
+						return core::queue::fifo<compute::task, 10L>::set(source);
+					}
+
+					bool get(compute::task &destination)
+					{
+						return core::queue::fifo<compute::task, 10L>::get(destination);
+					}
+			};
 
 			class factory : public ::queue::factory<compute::task>
 			{

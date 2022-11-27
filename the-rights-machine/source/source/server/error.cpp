@@ -1,4 +1,4 @@
-#include "error.h"
+#include "server/error.h"
 #include <stdlib.h>
 
 unsigned long error::type::type::pairs()
@@ -6,13 +6,13 @@ unsigned long error::type::type::pairs()
 	return 3UL;
 }
 
-custom::pair error::type::type::pull(unsigned long index)
+core::custom::pair error::type::type::pull(unsigned long index)
 {
-	custom::pair result;
+	core::custom::pair result;
 
-	if (index == 0UL) result = custom::pair(string("code"), string::fromLong(code));
-	else if (index == 1UL) result = custom::pair(string("name"), name);
-	else if (index == 2UL) result = custom::pair(string("description"), description);
+	if (index == 0UL) result = core::custom::pair(string("code"), string::fromLong(code));
+	else if (index == 1UL) result = core::custom::pair(string("name"), name);
+	else if (index == 2UL) result = core::custom::pair(string("description"), description);
 
 	return result;
 }

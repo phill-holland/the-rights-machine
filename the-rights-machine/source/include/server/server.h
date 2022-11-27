@@ -4,7 +4,7 @@
 #include "core/queue/fifo.h"
 #include "compute/manager.h"
 #include "server/configuration.h"
-//#include "charbuf.h"
+#include "parser/json/legacy/charbuf.h"
 #include "core/custom/pair.h"
 //#include "crumbs.h"
 #include "models/responses.h"
@@ -42,7 +42,7 @@ namespace server
 		bool header, request;
 		int h_index;
 
-		//charbuf command, label, value;
+		parser::json::legacy::charbuf command, label, value;
 
 		::models::request::request requested;
 

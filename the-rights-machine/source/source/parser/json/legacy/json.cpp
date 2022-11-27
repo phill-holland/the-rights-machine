@@ -1,14 +1,16 @@
-#include "parser/json/json.h"
+#include "parser/json/legacy/json.h"
+#include "parser/json/legacy/charbuf.h"
 #include "parser/json/crumbs.h"
-#include "charbuf.h"
 #include <vector>
+
+using namespace parser::json::legacy;
 
 bool json::request::json::parse(string json)
 {
 	bool left = true, quotes = false;
 	long brackets = 0L, squares = 0L;
 
-	global::charbuf label, value;
+	charbuf label, value;
 	crumbs::crumbs parents;
 
 	for (long i = 0L; i < json.count(); ++i)
@@ -39,8 +41,8 @@ bool json::request::json::parse(string json)
 				{
 					if (!parents.isempty())
 					{
-						::data::json::request::json *current = find(parents.FQDN());
-						if (current != NULL) current->add(custom::pair(label, value));
+						::json::request::json *current = find(parents.FQDN());
+						if (current != NULL) current->add(core::custom::pair(label, value));
 
 						queue::base *b = findQ(parents.FQDN());
 						if (b != NULL) b->flush();
@@ -101,8 +103,8 @@ bool json::request::json::parse(string json)
 				{
 					if (!parents.isempty())
 					{
-						data::json::request::json *current = find(parents.FQDN());
-						if (current != NULL) current->add(custom::pair(label, value));
+						::json::request::json *current = find(parents.FQDN());
+						if (current != NULL) current->add(core::custom::pair(label, value));
 					}
 
 					left = true;
@@ -163,11 +165,11 @@ string json::request::json::FQDN()
 
 string json::response::json::extract()
 {
-	std::vector<custom::pair> result;
+	std::vector<core::custom::pair> result;
 
 	for (unsigned long i = 0UL; i < pairs(); ++i)
 	{
-		custom::pair pair = pull(i);
+		core::custom::pair pair = pull(i);
 		if (!pair.value.empty())
 		{
 			result.push_back(pair);
@@ -180,11 +182,11 @@ string json::response::json::extract()
 
 	for (unsigned long i = 0UL; i < result.size() - 1UL; ++i)
 	{		
-		custom::pair pair = result[i];
+		core::custom::pair pair = result[i];
 		data += "\"" + pair.name + "\" : \"" + pair.value + "\",\r\n";
 	}
 
-	custom::pair pair = result[result.size() - 1L];
+	core::custom::pair pair = result[result.size() - 1L];
 	data += "\"" + pair.name + "\" : \"" + pair.value + "\"\r\n";
 
 	if (_child != NULL)

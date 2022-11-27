@@ -1,4 +1,4 @@
-#include "configuration.h"
+#include "server/configuration.h"
 
 void configuration::server::configuration::reset(manager::manager *manager, data::users *users, error::errors *errors)
 {
@@ -20,7 +20,7 @@ void configuration::server::configuration::copy(configuration const &source)
 }
 
 void configuration::server::client::configuration::reset(manager::manager *manager,
-														 custom::chain<data::response::response> *responses,
+														 custom::chain<models::response::response> *responses,
 														 pending::pending *requested,
 														 data::users *users,
 														 error::errors *errors)
