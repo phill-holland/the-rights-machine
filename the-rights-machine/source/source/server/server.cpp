@@ -1,6 +1,7 @@
 #include "server/server.h"
 #include "compute/task.h"
 #include "types/guid.h"
+#include "net/web/parameter.h"
 
 void server::listener::background(thread *bt)
 {
@@ -177,7 +178,7 @@ bool server::listener::heading(char *source, int length, int &index)
 		{
 			if(!label.isempty() || !value.isempty())
 			{
-				parameters.add(web::parameter((string)label, (string)value));
+				parameters.add(net::web::parameter((string)label, (string)value));
 			}
 
 			left = true;

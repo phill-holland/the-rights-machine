@@ -68,7 +68,7 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset * recordset);
+			bool bind(database::recordset *recordset);
 			void set(models::query::query &source);
 		};
 

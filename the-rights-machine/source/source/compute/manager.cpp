@@ -1,6 +1,6 @@
 #include "compute/manager.h"
 
-void manager::manager::reset(queue::chain_factory <data::response::response> *factory)
+void manager::manager::reset(queue::chain_factory <models::response::response> *factory)
 {
 	init = false; cleanup();
 
@@ -47,7 +47,7 @@ bool manager::manager::get(custom::chain<data::response::response> &destination)
 }
 */
 
-custom::chain<data::response::response> *manager::manager::get()
+custom::chain<models::response::response> *manager::manager::get()
 {
 	return factory->get();
 }

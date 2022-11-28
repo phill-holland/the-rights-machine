@@ -8,7 +8,7 @@ void server::starter::reset(settings &setup)
 	if (connections == NULL) return;
 	if (!connections->initalised()) return;
 
-	recordsets = new database::factory::recordset();
+	recordsets = new ::database::factory::recordset();
 	if (recordsets == NULL) return;
 	if (!recordsets->initalised()) return;
 

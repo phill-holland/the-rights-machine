@@ -1,21 +1,21 @@
 #include "parser/json/parser.h"
 #include "core/threading/thread.h"
-#include "message/message.h"
-#include "core/queue/fifo.h"
-#include "compute/manager.h"
-#include "server/configuration.h"
-#include "parser/json/legacy/charbuf.h"
 #include "core/custom/pair.h"
-//#include "crumbs.h"
+#include "core/queue/fifo.h"
+#include "message/message.h"
+#include "compute/manager.h"
+#include "parser/json/legacy/charbuf.h"
 #include "models/responses.h"
 #include "models/request.h"
+#include "server/configuration.h"
 #include "server/pending.h"
 #include "server/error.h"
 #include "server/output.h"
 #include "interfaces/notification.h"
-#include "net/socket/interface/client.h"
-#include "net/socket/interface/server.h"
+#include "net/socket/client.h"
+#include "net/socket/server.h"
 #include "net/http/parameter.h"
+#include "net/web/parameters.h"
 
 #if !defined(__SERVER)
 #define __SERVER
@@ -35,7 +35,7 @@ namespace server
 
 		long errors;
 
-		net::http::parameter parameters;
+		net::web::parameters parameters;
 
 		bool left;
 
@@ -85,7 +85,7 @@ namespace server
 		void cleanup() { if (parser != NULL) delete parser; }
 	};
 
-	class client : public net::socket::interface::client, notification::notification
+	class client : public net::socket::client, notification::notification
 	{
 	protected:
 		class states;
@@ -222,7 +222,7 @@ namespace server
 		watchdog(server *source) { s = source; }
 	};
 
-	class server : public net::socket::interface::server
+	class server : public net::socket::server
 	{
 		friend class wait;
 		friend class watchdog;
