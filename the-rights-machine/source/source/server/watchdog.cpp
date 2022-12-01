@@ -1,6 +1,4 @@
-#include "watchdog.h"
-#include "guid.h"
-#include "datetime.h"
+#include "server/watchdog.h"
 
 void watchdog::watchdog::background(thread *bt)
 {

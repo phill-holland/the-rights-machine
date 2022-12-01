@@ -2,29 +2,29 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
-#include "string.h"
-#include "thread.h"
-#include "semaphore.h"
-#include "fifo.h"
-#include "queue.h"
-#include "error.h"
+#include "core/string/string.h"
+#include "core/threading/thread.h"
+#include "core/threading/semaphore.h"
+#include "core/queue/fifo.h"
+#include "queues/interfaces/queue.h"
+#include "server/error.h"
 
 #ifndef _CONSOLE
 #define _CONSOLE
 
 namespace debug
 {
-    class console : public thread, public ::queue::in<::error::type::type> 
+    class console : public core::threading::thread, public ::queue::in<::error::type::type> 
     {
         const static long SECONDS = 10L;
         const static long QUEUE = 4096L;
         const static long BUFFER = 500L;
 
-        fifo<string, QUEUE> *data;
+        core::queue::fifo<string, QUEUE> *data;
 
         std::chrono::high_resolution_clock::time_point clock;
 
-        semaphore::token token;
+        core::threading::semaphore::token token;
 
         int seconds;
 

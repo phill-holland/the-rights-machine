@@ -8,6 +8,7 @@
 #include "database/records.h"
 #include "database/users.h"
 #include "server/settings.h"
+#include "server/console.h"
 #include "core/database/factory/connection.h"
 #include "core/database/factory/recordset.h"
 
@@ -25,6 +26,7 @@ namespace server
 
 		manager::manager *manager;
 
+		debug::console *debugging;
 		error::errors *errors;
 
 		::configuration::server::configuration *configuration;
