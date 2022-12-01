@@ -36,7 +36,7 @@ bool parser::parser::handler::on_object_end(std::size_t, boost::json::error_code
 
     if(params->parents.FQDN().icompare(params->task.message.items.FQDN()))
     {
-        guid::guid g;
+        core::custom::guid g;
         
         params->task.message.guid = g.get();
         params->task.message.name = params->task.message.items[0]->name;

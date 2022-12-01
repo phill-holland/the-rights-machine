@@ -1,6 +1,6 @@
 #include "core/string/string.h"
 #include "core/string/comparison.h"
-#include "types/datetime.h"
+#include "core/custom/datetime.h"
 #include <unordered_map>
 
 #if !defined(__PENDING)
@@ -21,7 +21,7 @@ namespace pending
 		string user;
 
 	protected:
-		types::datetime created;
+		core::custom::datetime created;
 
 	public:
 		waiting(string guid = "", string user = "")
@@ -29,7 +29,7 @@ namespace pending
 			this->guid = guid;
 			this->user = user;
 
-			created = types::datetime::now();
+			created = core::custom::datetime::now();
 		}
 
 		bool validate()

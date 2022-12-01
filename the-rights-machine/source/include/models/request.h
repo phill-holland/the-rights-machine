@@ -1,7 +1,7 @@
 #include "core/string/string.h"
 #include "core/custom/pair.h"
 #include "parser/json/legacy/json.h"
-#include "types/datetime.h"
+#include "core/custom/datetime.h"
 
 #if !defined(__REQUEST)
 #define __REQUEST
@@ -17,7 +17,7 @@ namespace models
 			string apikey;
 			string guid;
 			string user;
-			types::datetime created;
+			core::custom::datetime created;
 
 		public:
 			request() { clear(); }

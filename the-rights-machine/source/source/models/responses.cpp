@@ -1,5 +1,5 @@
 #include "models/responses.h"
-#include "types/datetime.h"
+#include "core/custom/datetime.h"
 
 void models::response::responses::background(thread *bt)
 {
@@ -10,7 +10,7 @@ void models::response::responses::background(thread *bt)
 	for (unsigned long i = 0UL; i < length; ++i)
 	{
 		models::response::response temp = *data[i];
-		if ((temp.created + types::datetime(0,0,0,0,30,0)) < types::datetime::now())
+		if ((temp.created + core::custom::datetime(0,0,0,0,30,0)) < core::custom::datetime::now())
 		{
 			erase.push_back(temp.guid);
 		}

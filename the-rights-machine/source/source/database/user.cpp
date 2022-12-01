@@ -1,5 +1,5 @@
 #include "database/user.h"
-#include "types/guid.h"
+#include "core/custom/guid.h"
 
 void data::user::reset()
 {
@@ -21,8 +21,8 @@ bool data::user::validate()
 
 bool data::user::validate(::data::message::message &message)
 {
-	//if (!((string)guid::guid(apikey)).icompare(message.apikey)) return false;
-	//if (!((string)guid::guid(guid)).icompare(message.user)) return false;
+	//if (!((string)core::custom::guid(apikey)).icompare(message.apikey)) return false;
+	//if (!((string)core::custom::guid(guid)).icompare(message.user)) return false;
 
 	return true;
 }
@@ -48,9 +48,9 @@ string data::user::output()
 	result.concat(string(", \"email\" : \""));
 	result.concat(email);
 	result.concat(string(", \"apikey\" : \"'"));
-	result.concat((string)guid::guid(apikey));
+	result.concat((string)core::custom::guid(apikey));
 	result.concat(string("', \"guid\" : \"'"));
-	result.concat((string)guid::guid(guid));
+	result.concat((string)core::custom::guid(guid));
 	result.concat(string("', \"active\" : \""));
 	result.concat(string::fromBool(active));
 	result.concat(string(", \"banned\" : \""));

@@ -8,7 +8,8 @@
 #include "database/records.h"
 #include "database/users.h"
 #include "server/settings.h"
-//#include "console.h"
+#include "core/database/factory/connection.h"
+#include "core/database/factory/recordset.h"
 
 #if !defined(__STARTER)
 #define __STARTER
@@ -17,14 +18,13 @@ namespace server
 {
 	class starter
 	{
-		database::factory::connection *connections;
-		database::factory::recordset *recordsets;
+		core::database::factory::connection *connections;
+		core::database::factory::recordset *recordsets;
 
 		compute::cpu::cpu *cpu;
 
 		manager::manager *manager;
 
-		//debug::console *debugging;
 		error::errors *errors;
 
 		::configuration::server::configuration *configuration;

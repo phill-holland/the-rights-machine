@@ -1,6 +1,6 @@
 #include "message/message.h"
 #include "core/string/string.h"
-#include "types/datetime.h"
+#include "core/custom/datetime.h"
 
 #if !defined(__USER)
 #define __USER
@@ -13,8 +13,8 @@ namespace data
 		int userID;
 		string username;
 		string email;
-		guid::guid apikey;
-		guid::guid guid; // rename, user identity key
+		core::custom::guid apikey;
+		core::custom::guid guid; // rename, user identity key
 		bool active;
 		bool banned;
 		bool verified;

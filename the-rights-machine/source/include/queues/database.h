@@ -1,14 +1,13 @@
 #include "core/queue/fifo.h"
+#include "core/threading/thread.h"
+#include "core/database/settings.h"
 #include "queues/interfaces/queue.h"
-#include "database/databases.h"
 #include "message/message.h"
-#include "database/databases.h"
-#include "models/response.h"
 #include "compute/task.h"
 #include "interfaces/factory.h"
 #include "interfaces/chain.h"
+#include "models/response.h"
 #include "models/responses.h"
-#include "core/threading/thread.h"
 #include "database/storage.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +39,7 @@ namespace queues
 
 				unsigned long counter, interval;
 
-				::database::settings *settings;
+				core::database::settings *settings;
 				::database::storage::message *message;
 
 				bool init;
@@ -49,11 +48,11 @@ namespace queues
 				void background(thread *bt);
 
 			public:
-				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
+				queue(core::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
 				~queue() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
+				void reset(core::database::settings &settings, unsigned long interval = INTERVAL);
 
 				bool get(compute::task &destination);
 				bool set(compute::task &source);
@@ -73,7 +72,7 @@ namespace queues
 
 			private:
 				::queue::queue<compute::task> **queues;
-				::database::settings *settings;
+				core::database::settings *settings;
 
 				unsigned long total;
 				unsigned long length;
@@ -81,11 +80,11 @@ namespace queues
 				bool init;
 
 			public:
-				factory(::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
+				factory(core::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
 				~factory() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset(::database::settings &settings, unsigned long total);
+				void reset(core::database::settings &settings, unsigned long total);
 
 				::queue::queue<compute::task> *get();
 
@@ -115,7 +114,7 @@ namespace queues
 
 				unsigned long counter, interval;
 
-				::database::settings *settings;
+				core::database::settings *settings;
 				::database::storage::response *response;
 
 				bool init;
@@ -124,11 +123,11 @@ namespace queues
 				void background(thread *bt);
 
 			public:
-				queue(::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
+				queue(core::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
 				~queue() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset(::database::settings &settings, unsigned long interval = INTERVAL);
+				void reset(core::database::settings &settings, unsigned long interval = INTERVAL);
 
 				bool get(models::response::response &destination);
 				bool set(models::response::response &source);
@@ -155,11 +154,11 @@ namespace queues
 				bool init;
 
 			public:
-				factory(::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
+				factory(core::database::settings &settings, unsigned long total = MAX) { makeNull(); reset(settings, total); }
 				~factory() { cleanup(); }
 
 				bool initalised() { return init; }
-				void reset(::database::settings &settings, unsigned long total);
+				void reset(core::database::settings &settings, unsigned long total);
 
 				::custom::chain<models::response::response> *get();
 

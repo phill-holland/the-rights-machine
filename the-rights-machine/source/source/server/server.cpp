@@ -1,6 +1,6 @@
 #include "server/server.h"
 #include "compute/task.h"
-#include "types/guid.h"
+#include "core/custom/guid.h"
 #include "net/web/parameter.h"
 
 void server::listener::background(thread *bt)
@@ -467,12 +467,12 @@ void server::client::shutdown()
 	close();
 }
 
-void server::client::notifyIn(guid::guid identity)
+void server::client::notifyIn(core::custom::guid identity)
 {
 	++in;
 }
 
-void server::client::notifyOut(guid::guid identity)
+void server::client::notifyOut(core::custom::guid identity)
 {
 	if ((isopen()) && (!isError()))
 	{

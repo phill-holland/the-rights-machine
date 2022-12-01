@@ -1,6 +1,5 @@
 #include "database/interfaces/record.h"
 #include "database/records.h"
-#include "database/databases.h"
 #include "core/database/connection.h"
 #include "core/database/recordset.h"
 #include "message/message.h"
@@ -8,7 +7,7 @@
 #include "models/response.h"
 #include "core/string/comparison.h"
 #include "database/interfaces/file.h"
-#include "types/guid.h"
+#include "core/custom/guid.h"
 #include <vector>
 #include <unordered_map>
 
@@ -29,8 +28,8 @@ namespace database
 		protected:
 			database::records::request bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			std::vector<database::records::request> data;
 
@@ -49,7 +48,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(models::request::request &destination);
@@ -61,8 +60,8 @@ namespace database
 			bool load();
 
 		protected:
-			bool tag(guid::guid &tagged);
-			bool erase(guid::guid &tagged);
+			bool tag(core::custom::guid &tagged);
+			bool erase(core::custom::guid &tagged);
 		};
 
 		class response : public file::file<models::response::response>
@@ -73,8 +72,8 @@ namespace database
 		protected:
 			database::records::response bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			std::vector<database::records::response> data;
 
@@ -93,7 +92,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(models::response::response &destination);
@@ -113,15 +112,15 @@ namespace database
 				{
 					database::records::element bound;
 
-					database::connection *connection;
-					database::recordset *recordset;
+					core::database::interface::connection *connection;
+					core::database::interface::recordset *recordset;
 
 					std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
 				public:
 					data::message::message *parent;
 					std::vector<string> identities;
-					guid::guid componentID;
+					core::custom::guid componentID;
 
 				public:
 					element()
@@ -131,7 +130,7 @@ namespace database
 						recordset = NULL;
 					}
 
-					bool open(database::settings &settings);
+					bool open(core::database::settings &settings);
 					bool close();
 
 					bool read(models::element::element &destination);
@@ -147,8 +146,8 @@ namespace database
 				{
 					database::records::component::line::component bound;
 
-					database::connection *connection;
-					database::recordset *recordset;
+					core::database::interface::connection *connection;
+					core::database::interface::recordset *recordset;
 
 					element t_element;
 
@@ -157,7 +156,7 @@ namespace database
 				public:
 					data::message::message *parent;
 					std::vector<string> identities;
-					guid::guid lineID;
+					core::custom::guid lineID;
 
 				public:
 					component()
@@ -167,7 +166,7 @@ namespace database
 						recordset = NULL;
 					}
 
-					bool open(database::settings &settings);
+					bool open(core::database::settings &settings);
 					bool close();
 
 					bool read(models::component::line::component &destination);
@@ -186,15 +185,15 @@ namespace database
 				{
 					database::records::element bound;
 
-					database::connection *connection;
-					database::recordset *recordset;
+					core::database::interface::connection *connection;
+					core::database::interface::recordset *recordset;
 
 					std::unordered_map<string, std::vector<database::records::element>, hasher, equality> data;
 
 				public:
 					models::query::query *parent;
 					std::vector<string> identities;
-					guid::guid componentID;
+					core::custom::guid componentID;
 
 				public:
 					element()
@@ -204,7 +203,7 @@ namespace database
 						recordset = NULL;
 					}
 
-					bool open(database::settings &settings);
+					bool open(core::database::settings &settings);
 					bool close();
 
 					bool read(models::element::element &destination);
@@ -220,8 +219,8 @@ namespace database
 				{
 					database::records::component::query::component bound;
 
-					database::connection *connection;
-					database::recordset *recordset;
+					core::database::interface::connection *connection;
+					core::database::interface::recordset *recordset;
 
 					element t_element;
 
@@ -230,7 +229,7 @@ namespace database
 				public:
 					models::query::query *parent;
 					std::vector<string> identities;
-					guid::guid queryID;
+					core::custom::guid queryID;
 
 				public:
 					component()
@@ -240,7 +239,7 @@ namespace database
 						recordset = NULL;
 					}
 
-					bool open(database::settings &settings);
+					bool open(core::database::settings &settings);
 					bool close();
 
 					bool read(models::component::query::component &destination);
@@ -258,8 +257,8 @@ namespace database
 		{
 			database::records::line bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			common::line::component component;
 
@@ -268,7 +267,7 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			guid::guid itemID;
+			core::custom::guid itemID;
 
 		public:
 			line()
@@ -278,7 +277,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(models::line::line &destination);
@@ -294,8 +293,8 @@ namespace database
 		{
 			database::records::query bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			common::query::component component;
 
@@ -304,7 +303,7 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			guid::guid messageID;
+			core::custom::guid messageID;
 
 		public:
 			query()
@@ -314,7 +313,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(models::query::query &destination);
@@ -331,8 +330,8 @@ namespace database
 		{
 			database::records::item bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			line t_line;
 
@@ -341,7 +340,7 @@ namespace database
 		public:
 			data::message::message *parent;
 			std::vector<string> identities;
-			guid::guid messageID;
+			core::custom::guid messageID;
 			
 		public:
 			item()
@@ -351,7 +350,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(models::item::item &destination);
@@ -371,8 +370,8 @@ namespace database
 		private:
 			database::records::message bound;
 
-			database::connection *connection;
-			database::recordset *recordset;
+			core::database::interface::connection *connection;
+			core::database::interface::recordset *recordset;
 
 			item t_item;
 			query t_query;
@@ -392,7 +391,7 @@ namespace database
 				recordset = NULL;
 			}
 
-			bool open(database::settings &settings);
+			bool open(core::database::settings &settings);
 			bool close();
 
 			bool read(data::message::message &destination);
@@ -404,8 +403,8 @@ namespace database
 			bool load();
 
 		protected:
-			bool tag(guid::guid &tagged);
-			bool erase(guid::guid &tagged);
+			bool tag(core::custom::guid &tagged);
+			bool erase(core::custom::guid &tagged);
 		};
 	};
 };

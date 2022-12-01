@@ -1,6 +1,6 @@
 #include "database/interfaces/record.h"
-#include "types/datetime.h"
-#include "types/guid.h"
+#include "core/custom/datetime.h"
+#include "core/custom/guid.h"
 #include "message/message.h"
 #include "models/item.h"
 #include "models/line.h"
@@ -19,11 +19,11 @@ namespace database
 		class message : public record::record<data::message::message>
 		{
 		public:
-			guid::guid messageID;
-			guid::guid user;
-			guid::guid apikey;
-			guid::guid guid;
-			guid::guid tag;
+			core::custom::guid messageID;
+			core::custom::guid user;
+			core::custom::guid apikey;
+			core::custom::guid guid;
+			core::custom::guid tag;
 			TIMESTAMP_STRUCT created;
 			
 		public:
@@ -32,7 +32,7 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(data::message::message &source);
 		};
 
@@ -42,8 +42,8 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			guid::guid itemID;
-			guid::guid messageID;
+			core::custom::guid itemID;
+			core::custom::guid messageID;
 			char name[MAX];
 
 		public:
@@ -52,15 +52,15 @@ namespace database
 			
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::item::item &source);
 		};
 
 		class query : public record::record<models::query::query>
 		{
 		public:
-			guid::guid queryID;
-			guid::guid messageID;
+			core::custom::guid queryID;
+			core::custom::guid messageID;
 
 		public:
 			query() { clear(); }
@@ -68,15 +68,15 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::query::query &source);
 		};
 
 		class line : public record::record<models::line::line>
 		{
 		public:
-			guid::guid lineID;
-			guid::guid itemID;
+			core::custom::guid lineID;
+			core::custom::guid itemID;
 			TIMESTAMP_STRUCT start;
 			TIMESTAMP_STRUCT end;
 			long exclusivityID;
@@ -88,7 +88,7 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::line::line &source);
 		};
 
@@ -103,8 +103,8 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					guid::guid componentID;
-					guid::guid lineID;
+					core::custom::guid componentID;
+					core::custom::guid lineID;
 					long type;
 					char name[MAX];
 
@@ -114,7 +114,7 @@ namespace database
 
 					void clear();
 
-					bool bind(database::recordset *recordset);
+					bool bind(core::database::interface::recordset *recordset);
 					void set(models::component::line::component &source);
 				};
 			};
@@ -128,8 +128,8 @@ namespace database
 					static const long TYPE = 2L;
 
 				public:
-					guid::guid componentID;
-					guid::guid queryID;
+					core::custom::guid componentID;
+					core::custom::guid queryID;
 					long type;
 					char name[MAX];
 
@@ -139,7 +139,7 @@ namespace database
 
 					void clear();
 
-					bool bind(database::recordset *recordset);
+					bool bind(core::database::interface::recordset *recordset);
 					void set(models::component::query::component &source);
 				};
 			};
@@ -151,8 +151,8 @@ namespace database
 			static const long MAX = 128L;
 
 		public:
-			guid::guid elementID;
-			guid::guid componentID;
+			core::custom::guid elementID;
+			core::custom::guid componentID;
 			char value[MAX];
 
 		public:
@@ -161,17 +161,17 @@ namespace database
 			
 			void clear();
 			
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::element::element &source);
 		};
 
 		class request : public record::record <models::request::request>
 		{
 		public:
-			guid::guid requestID;
-			guid::guid guid;
-			guid::guid user;
-			guid::guid tag;
+			core::custom::guid requestID;
+			core::custom::guid guid;
+			core::custom::guid user;
+			core::custom::guid tag;
 			TIMESTAMP_STRUCT created;
 
 		public:
@@ -180,16 +180,16 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::request::request &source);
 		};
 
 		class response : public record::record <models::response::response>
 		{
 		public:
-			guid::guid responseID;
-			guid::guid guid;
-			guid::guid user;
+			core::custom::guid responseID;
+			core::custom::guid guid;
+			core::custom::guid user;
 			long status;
 			TIMESTAMP_STRUCT created;
 			bool available;
@@ -200,7 +200,7 @@ namespace database
 
 			void clear();
 
-			bool bind(database::recordset *recordset);
+			bool bind(core::database::interface::recordset *recordset);
 			void set(models::response::response &source);
 		};
 	};

@@ -37,7 +37,7 @@ void messaging::memory::memory::cleanup()
 	if (messages != NULL) delete messages;
 }
 
-void messaging::database::database::reset(::database::settings &settings)
+void messaging::database::database::reset(core::database::settings &settings)
 {
 	init = false; cleanup();
 

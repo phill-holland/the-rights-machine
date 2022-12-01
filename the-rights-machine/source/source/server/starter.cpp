@@ -4,11 +4,11 @@ void server::starter::reset(settings &setup)
 {
 	init = false; cleanup();
 
-	connections = new database::factory::connection();
+	connections = new core::database::factory::connection();
 	if (connections == NULL) return;
 	if (!connections->initalised()) return;
 
-	recordsets = new ::database::factory::recordset();
+	recordsets = new core::database::factory::recordset();
 	if (recordsets == NULL) return;
 	if (!recordsets->initalised()) return;
 
@@ -29,7 +29,7 @@ void server::starter::reset(settings &setup)
 	if (errors == NULL) return;
 	if (!errors->initalised()) return;
 
-	database::settings settings(setup.connection, connections, recordsets);
+	core::database::settings settings(setup.connection, connections, recordsets);
 	if (!settings.initalised()) return;
 
 	users = new data::users(settings);

@@ -52,11 +52,11 @@ namespace messaging
 			bool init;
 
 		public:
-			database(::database::settings &settings) { makeNull(); reset(settings); }
+			database(core::database::settings &settings) { makeNull(); reset(settings); }
 			~database() { cleanup(); }
 
 			bool initalised() { return init; }
-			void reset(::database::settings &settings);
+			void reset(core::database::settings &settings);
 
 			::queue::factory<compute::task> *getMessageQueue();
 			::queue::chain_factory<models::response::response> *getResponsesQueue();

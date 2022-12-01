@@ -1,7 +1,7 @@
 #include "core/string/string.h"
 #include "core/custom/pair.h"
 #include "parser/json/legacy/json.h"
-#include "types/datetime.h"
+#include "core/custom/datetime.h"
 #include "models/request.h"
 
 #if !defined(__RESPONSE)
@@ -25,7 +25,7 @@ namespace models
 			string name;
 			string user;
 			STATUS status;
-			types::datetime created;
+			core::custom::datetime created;
 			bool available;
 
 		public:

@@ -1,5 +1,5 @@
 #include "database/records.h"
-#include "types/guid.h"
+#include "core/custom/guid.h"
 #include "sqltypes.h"
 #include <cstring>
 
@@ -13,7 +13,7 @@ void database::records::message::clear()
 	memset(&created, 0, sizeof(TIMESTAMP_STRUCT));
 }
 
-bool database::records::message::bind(database::recordset *recordset)
+bool database::records::message::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, messageID)) return false;
 	if (!recordset->BindGUID(2L, user)) return false;
@@ -29,7 +29,7 @@ void database::records::message::set(data::message::message &source)
 {
 	clear();
 
-	guid = guid::guid(source.guid);
+	guid = core::custom::guid(source.guid);
 	created = (TIMESTAMP_STRUCT)source.created;
 }
 
@@ -41,7 +41,7 @@ void database::records::item::clear()
 	memset(name, 0, MAX);
 }
 
-bool database::records::item::bind(database::recordset *recordset)
+bool database::records::item::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, itemID)) return false;
 	if (!recordset->BindGUID(2L, messageID)) return false;
@@ -63,7 +63,7 @@ void database::records::query::clear()
 	messageID.clear();
 }
 
-bool database::records::query::bind(database::recordset * recordset)
+bool database::records::query::bind(core::database::interface::recordset * recordset)
 {
 	if (!recordset->BindGUID(1L, queryID)) return false;
 	if (!recordset->BindGUID(2L, messageID)) return false;
@@ -88,7 +88,7 @@ void database::records::line::clear()
 	typeID = 0;
 }
 
-bool database::records::line::bind(database::recordset *recordset)
+bool database::records::line::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, lineID)) return false;
 	if (!recordset->BindGUID(2L, itemID)) return false;
@@ -127,7 +127,7 @@ void database::records::component::line::component::set(models::component::line:
 	source.name.toChar(name, MAX);
 }
 
-bool database::records::component::line::component::bind(database::recordset *recordset)
+bool database::records::component::line::component::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, componentID)) return false;
 	if (!recordset->BindGUID(2L, lineID)) return false;
@@ -154,7 +154,7 @@ void database::records::component::query::component::set(models::component::quer
 	source.name.toChar(name, MAX);
 }
 
-bool database::records::component::query::component::bind(database::recordset *recordset)
+bool database::records::component::query::component::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, componentID)) return false;
 	if (!recordset->BindGUID(2L, queryID)) return false;
@@ -172,7 +172,7 @@ void database::records::element::clear()
 	memset(value, 0, MAX);
 }
 
-bool database::records::element::bind(database::recordset *recordset)
+bool database::records::element::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, elementID)) return false;
 	if (!recordset->BindGUID(2L, componentID)) return false;
@@ -197,7 +197,7 @@ void database::records::request::clear()
 	memset(&created, 0, sizeof(TIMESTAMP_STRUCT));
 }
 
-bool database::records::request::bind(database::recordset *recordset)
+bool database::records::request::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, requestID)) return false;
 	if (!recordset->BindGUID(2L, guid)) return false;
@@ -212,8 +212,8 @@ void database::records::request::set(models::request::request &source)
 {
 	clear();
 
-	user = guid::guid(source.user);
-	guid = guid::guid(source.guid);
+	user = core::custom::guid(source.user);
+	guid = core::custom::guid(source.guid);
 	created = (TIMESTAMP_STRUCT)source.created;
 }
 
@@ -228,7 +228,7 @@ void database::records::response::clear()
 	available = false;	
 }
 
-bool database::records::response::bind(database::recordset *recordset)
+bool database::records::response::bind(core::database::interface::recordset *recordset)
 {
 	if (!recordset->BindGUID(1L, responseID)) return false;
 	if (!recordset->BindGUID(2L, guid)) return false;
@@ -244,8 +244,8 @@ void database::records::response::set(models::response::response &source)
 {
 	clear();
 
-	guid = guid::guid(source.guid);
-	user = guid::guid(source.user);	
+	guid = core::custom::guid(source.guid);
+	user = core::custom::guid(source.user);	
 	status = source.status;
 	created = (TIMESTAMP_STRUCT)source.created;
 	available = source.available;

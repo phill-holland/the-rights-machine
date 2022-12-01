@@ -8,7 +8,7 @@ void models::response::response::clear()
 	user.clear();
 	status = STATUS::OK;
 	available = false;
-	created = types::datetime::now();
+	created = core::custom::datetime::now();
 }
 
 unsigned long models::response::response::pairs()

@@ -177,7 +177,7 @@ void compute::gpu::processor::push(::compute::task &task)
 			response.guid = task.message.guid;
 			//response.user = task.message.user;
 			response.available = result;
-			response.created = datetime::now();
+			response.created = core::custom::datetime::now();
 
 			task.response->set(response);
 

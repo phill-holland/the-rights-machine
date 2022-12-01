@@ -2,8 +2,9 @@
 #include "database/user.h"
 #include "core/threading/thread.h"
 #include "core/threading/mutex.h"
-#include "database/databases.h"
 #include "core/string/comparison.h"
+#include "core/database/interface/connection.h"
+#include "core/database/interface/recordset.h"
 #include <unordered_map>
 
 #if !defined(__USERS)
@@ -26,8 +27,8 @@ namespace data
 		string location;
 		unsigned long counter, interval;
 
-		database::connection *connection;
-		database::recordset *recordset;
+		core::database::interface::connection *connection;
+		core::database::interface::recordset *recordset;
 
 		bool first;
 		bool init;
@@ -36,12 +37,12 @@ namespace data
 		void background(thread *bt);
 
 	public:
-		users(database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
+		users(core::database::settings &settings, unsigned long interval = INTERVAL) { makeNull(); reset(settings, interval); }
 		~users() { cleanup(); }
 
 		bool initalised() { return init; }
 
-		void reset(database::settings &settings, unsigned long interval);
+		void reset(core::database::settings &settings, unsigned long interval);
 
 		data::user get(string user);
 

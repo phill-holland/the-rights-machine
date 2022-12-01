@@ -41,7 +41,7 @@ void watchdog::watchdog::refresh()
 	/*
 	if (connection->open(location))
 	{
-		GUID unique = (GUID)guid::guid();
+		GUID unique = (GUID)core::custom::guid();
 
 		string sql("INSERT INTO tWatchdog (watchdogID, updated) VALUES(?,?)");
 

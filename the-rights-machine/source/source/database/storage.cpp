@@ -1,6 +1,6 @@
 #include "database/storage.h"
 
-bool database::storage::request::open(database::settings &settings)
+bool database::storage::request::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -37,9 +37,9 @@ bool database::storage::request::read(models::request::request &destination)
 		records::request temp = data.back();
 		data.pop_back();
 
-		destination.user = (string)guid::guid(temp.user);
-		destination.guid = (string)guid::guid(temp.guid);
-		destination.created = (datetime)temp.created;
+		destination.user = (string)core::custom::guid(temp.user);
+		destination.guid = (string)core::custom::guid(temp.guid);
+		destination.created = (core::custom::datetime)temp.created;
 
 		return true;
 	}
@@ -64,7 +64,7 @@ bool database::storage::request::write(models::request::request &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.requestID = unique;
 
@@ -84,7 +84,7 @@ bool database::storage::request::load()
 
 	if (!recordset->IsInitalised())
 	{
-		guid::guid tagged;// = this->generate();
+		core::custom::guid tagged;// = this->generate();
 		tagged.generate();
 		if (!tag(tagged)) return false;
 
@@ -118,7 +118,7 @@ bool database::storage::request::load()
 				temp.created = recordset->GetTimeStamp(5L);
 
 				//data.push_back(temp);
-				identities.push_back((string)guid::guid(temp.requestID));
+				identities.push_back((string)core::custom::guid(temp.requestID));
 			};
 		}
 		else return false;
@@ -128,7 +128,7 @@ bool database::storage::request::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::request::tag(guid::guid &tagged)
+bool database::storage::request::tag(core::custom::guid &tagged)
 {
 	string sql("UPDATE tRequest SET Tag=? WHERE tRequest.RequestID IN (SELECT TOP ");
 	sql.concat(string::fromLong(TOP));
@@ -141,7 +141,7 @@ bool database::storage::request::tag(guid::guid &tagged)
 	return connection->executeNoResults(sql);
 }
 
-bool database::storage::request::erase(guid::guid &tagged)
+bool database::storage::request::erase(core::custom::guid &tagged)
 {
 	string sql("DELETE FROM tRequest WHERE Tag=?;");
 
@@ -154,7 +154,7 @@ bool database::storage::request::erase(guid::guid &tagged)
 
 // ***
 
-bool database::storage::response::open(database::settings &settings)
+bool database::storage::response::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -191,8 +191,8 @@ bool database::storage::response::read(models::response::response &destination)
 		records::response temp = data.back();
 		data.pop_back();
 
-		destination.guid = (string)guid::guid(temp.guid);
-		destination.user = (string)guid::guid(temp.user);
+		destination.guid = (string)core::custom::guid(temp.guid);
+		destination.user = (string)core::custom::guid(temp.user);
 		destination.status = (models::response::response::STATUS)temp.status;
 		destination.created = (datetime)temp.created;
 		destination.available = temp.available;
@@ -220,7 +220,7 @@ bool database::storage::response::write(models::response::response &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;
+		core::custom::guid unique;
 		unique.generate();
 		bound.responseID = unique;
 
@@ -269,7 +269,7 @@ bool database::storage::response::load()
 				temp.available = recordset->GetBool(6L);
 
 				//data.push_back(temp);
-				identities.push_back((string)guid::guid(temp.responseID));
+				identities.push_back((string)core::custom::guid(temp.responseID));
 			};
 		}
 		else return false;
@@ -280,7 +280,7 @@ bool database::storage::response::load()
 }
 // ****
 
-bool database::storage::common::line::element::open(database::settings &settings)
+bool database::storage::common::line::element::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -307,7 +307,7 @@ bool database::storage::common::line::element::close()
 
 bool database::storage::common::line::element::read(models::element::element &destination)
 {
-	string key = (string)guid::guid(componentID);
+	string key = (string)core::custom::guid(componentID);
 
 	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end()) if (!load()) return false;
@@ -346,7 +346,7 @@ bool database::storage::common::line::element::write(models::element::element &s
 	{
 		bound.set(source);
 
-		guid::guid unique;
+		core::custom::guid unique;
 		unique.generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
@@ -399,7 +399,7 @@ bool database::storage::common::line::element::load()
 				temp.componentID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.value, database::records::element::MAX);
 
-				data[(string)guid::guid(componentID)].push_back(temp);
+				data[(string)core::custom::guid(componentID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -409,7 +409,7 @@ bool database::storage::common::line::element::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::common::line::component::open(database::settings &settings)
+bool database::storage::common::line::component::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -448,7 +448,7 @@ bool database::storage::common::line::component::close()
 
 bool database::storage::common::line::component::read(models::component::line::component &destination)
 {
-	string key = (string)guid::guid(lineID);
+	string key = (string)core::custom::guid(lineID);
 
 	std::unordered_map<string, std::vector<database::records::component::line::component>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
@@ -499,7 +499,7 @@ bool database::storage::common::line::component::write(models::component::line::
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.lineID = lineID;
 		bound.componentID = unique;
@@ -558,7 +558,7 @@ bool database::storage::common::line::component::load()
 				temp.lineID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, database::records::component::line::component::MAX);
 
-				data[(string)guid::guid(lineID)].push_back(temp);
+				data[(string)core::custom::guid(lineID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -568,7 +568,7 @@ bool database::storage::common::line::component::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::common::query::element::open(database::settings &settings)
+bool database::storage::common::query::element::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -595,7 +595,7 @@ bool database::storage::common::query::element::close()
 
 bool database::storage::common::query::element::read(models::element::element &destination)
 {
-	string key = (string)guid::guid(componentID);
+	string key = (string)core::custom::guid(componentID);
 
 	std::unordered_map<string, std::vector<database::records::element>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end()) if (!load()) return false;
@@ -634,7 +634,7 @@ bool database::storage::common::query::element::write(models::element::element &
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.componentID = componentID;
 		bound.elementID = unique;
@@ -687,7 +687,7 @@ bool database::storage::common::query::element::load()
 				temp.componentID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.value, database::records::element::MAX);
 
-				data[(string)guid::guid(componentID)].push_back(temp);
+				data[(string)core::custom::guid(componentID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -697,7 +697,7 @@ bool database::storage::common::query::element::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::common::query::component::open(database::settings &settings)
+bool database::storage::common::query::component::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -736,7 +736,7 @@ bool database::storage::common::query::component::close()
 
 bool database::storage::common::query::component::read(models::component::query::component &destination)
 {
-	string key = (string)guid::guid(queryID);
+	string key = (string)core::custom::guid(queryID);
 
 	std::unordered_map<string, std::vector<database::records::component::query::component>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
@@ -785,7 +785,7 @@ bool database::storage::common::query::component::write(models::component::query
 
 	if ((recordset->IsInitalised()) && (prepared))
 	{
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.queryID = queryID;
 		bound.componentID = unique;
@@ -843,7 +843,7 @@ bool database::storage::common::query::component::load()
 				temp.queryID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, database::records::component::query::component::MAX);
 
-				data[(string)guid::guid(queryID)].push_back(temp);
+				data[(string)core::custom::guid(queryID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -853,7 +853,7 @@ bool database::storage::common::query::component::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::line::open(database::settings &settings)
+bool database::storage::line::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -890,7 +890,7 @@ bool database::storage::line::close()
 
 bool database::storage::line::read(models::line::line &destination)
 {
-	string key = (string)guid::guid(itemID);
+	string key = (string)core::custom::guid(itemID);
 
 	std::unordered_map<string, std::vector<records::line>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
@@ -944,7 +944,7 @@ bool database::storage::line::write(models::line::line &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.itemID = itemID;
 		bound.lineID = unique;
@@ -1004,7 +1004,7 @@ bool database::storage::line::load()
 				temp.exclusivityID = recordset->GetLong(5L);
 				temp.typeID = recordset->GetLong(6L);
 
-				data[(string)guid::guid(itemID)].push_back(temp);
+				data[(string)core::custom::guid(itemID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -1014,7 +1014,7 @@ bool database::storage::line::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::query::open(database::settings &settings)
+bool database::storage::query::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -1053,7 +1053,7 @@ bool database::storage::query::close()
 
 bool database::storage::query::read(models::query::query &destination)
 {
-	string key = (string)guid::guid(messageID);
+	string key = (string)core::custom::guid(messageID);
 
 	std::unordered_map<string, std::vector<records::query>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
@@ -1101,7 +1101,7 @@ bool database::storage::query::write(models::query::query &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.messageID = messageID;
 		bound.queryID = unique;
@@ -1156,7 +1156,7 @@ bool database::storage::query::load()
 				temp.queryID = recordset->GetGUID(1L);
 				temp.messageID = recordset->GetGUID(2L);
 
-				data[(string)guid::guid(temp.messageID)].push_back(temp);
+				data[(string)core::custom::guid(temp.messageID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -1166,7 +1166,7 @@ bool database::storage::query::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::item::open(database::settings &settings)
+bool database::storage::item::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -1205,7 +1205,7 @@ bool database::storage::item::close()
 
 bool database::storage::item::read(models::item::item &destination)
 {
-	string key = (string)guid::guid(messageID);
+	string key = (string)core::custom::guid(messageID);
 
 	std::unordered_map<string, std::vector<records::item>, hasher, equality>::iterator i = data.find(key);
 	if (i == data.end())
@@ -1255,7 +1255,7 @@ bool database::storage::item::write(models::item::item &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.messageID = messageID;
 		bound.itemID = unique;
@@ -1311,7 +1311,7 @@ bool database::storage::item::load()
 				temp.messageID = recordset->GetGUID(2L);
 				recordset->GetString(3L).toChar(temp.name, records::item::MAX);
 
-				data[(string)guid::guid(temp.messageID)].push_back(temp);
+				data[(string)core::custom::guid(temp.messageID)].push_back(temp);
 			};
 		}
 		else return false;
@@ -1321,7 +1321,7 @@ bool database::storage::item::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::message::open(database::settings &settings)
+bool database::storage::message::open(core::database::settings &settings)
 {
 	connection = settings.getConnections()->get();
 	if (connection == NULL) return false;
@@ -1382,9 +1382,9 @@ bool database::storage::message::read(data::message::message &destination)
 		records::message temp = data.back();
 		data.pop_back();
 
-		//destination.user = (string)guid::guid(temp.user);
-		destination.guid = (string)guid::guid(temp.guid);
-		//destination.apikey = (string)guid::guid(temp.apikey);
+		//destination.user = (string)core::custom::guid(temp.user);
+		destination.guid = (string)core::custom::guid(temp.guid);
+		//destination.apikey = (string)core::custom::guid(temp.apikey);
 		destination.created = (datetime)temp.created;
 
 		t_item.messageID = temp.messageID;
@@ -1418,7 +1418,7 @@ bool database::storage::message::write(data::message::message &source)
 	{
 		bound.set(source);
 
-		guid::guid unique;// = this->generate();
+		core::custom::guid unique;// = this->generate();
 		unique.generate();
 		bound.messageID = unique;
 
@@ -1446,7 +1446,7 @@ bool database::storage::message::load()
 
 	if (!recordset->IsInitalised())
 	{
-		guid::guid tagged;// = this->generate();
+		core::custom::guid tagged;// = this->generate();
 		tagged.generate();
 		if (!tag(tagged)) return false;
 
@@ -1481,7 +1481,7 @@ bool database::storage::message::load()
 				temp.created = recordset->GetTimeStamp(6L);
 
 				//data.push_back(temp);
-				identities.push_back((string)guid::guid(temp.messageID));
+				identities.push_back((string)core::custom::guid(temp.messageID));
 			};
 		}
 		else return false;
@@ -1491,7 +1491,7 @@ bool database::storage::message::load()
 	return (data.size() > 0);
 }
 
-bool database::storage::message::tag(guid::guid &tagged)
+bool database::storage::message::tag(core::custom::guid &tagged)
 {
 	string sql("UPDATE tMessage SET Tag=? WHERE tMessage.MessageID IN (SELECT TOP ");
 	sql.concat(string::fromLong(TOP));
@@ -1504,7 +1504,7 @@ bool database::storage::message::tag(guid::guid &tagged)
 	return connection->executeNoResults(sql);
 }
 
-bool database::storage::message::erase(guid::guid &tagged)
+bool database::storage::message::erase(core::custom::guid &tagged)
 {
 	string sql("EXEC dbo.pEraseMessagesWithTag ?;");
 

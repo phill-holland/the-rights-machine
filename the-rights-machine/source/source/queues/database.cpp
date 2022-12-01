@@ -15,7 +15,7 @@ void queues::database::incoming::queue::background(thread *bt)
 	sleep(1000);
 }
 
-void queues::database::incoming::queue::reset(::database::settings &settings, unsigned long interval)
+void queues::database::incoming::queue::reset(core::database::settings &settings, unsigned long interval)
 {
 	init = false; cleanup();
 
@@ -117,7 +117,7 @@ void queues::database::incoming::queue::cleanup()
 	if (incoming != nullptr) delete incoming;
 }
 
-void queues::database::incoming::factory::reset(::database::settings &settings, unsigned long total)
+void queues::database::incoming::factory::reset(core::database::settings &settings, unsigned long total)
 {
 	init = false; cleanup();
 
@@ -180,7 +180,7 @@ void queues::database::outgoing::queue::background(thread *bt)
 	//return (DWORD)0;
 }
 
-void queues::database::outgoing::queue::reset(::database::settings &settings, unsigned long interval)
+void queues::database::outgoing::queue::reset(core::database::settings &settings, unsigned long interval)
 {
 	init = false; cleanup();
 
@@ -282,7 +282,7 @@ void queues::database::outgoing::queue::cleanup()
 	if (incoming != nullptr) delete incoming;
 }
 
-void queues::database::outgoing::factory::reset(::database::settings &settings, unsigned long total)
+void queues::database::outgoing::factory::reset(core::database::settings &settings, unsigned long total)
 {
 	init = false; cleanup();
 

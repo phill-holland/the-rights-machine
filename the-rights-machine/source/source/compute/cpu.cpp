@@ -131,7 +131,7 @@ void compute::cpu::processor::push(::compute::task &task)
 				response.guid = msg.guid;
 				response.name = msg.name;
 				response.available = result;
-				response.created = datetime::now();
+				response.created = core::custom::datetime::now();
 
 				task.response->set(response);
 			}
@@ -150,7 +150,7 @@ void compute::cpu::processor::push(::compute::task &task)
 			response.name = msg.name;
 			response.status = models::response::response::STATUS::RANGE;
 			response.available = false;
-			response.created = datetime::now();
+			response.created = core::custom::datetime::now();
 
 			task.response->set(response);
 		}

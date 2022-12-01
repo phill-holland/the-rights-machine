@@ -181,8 +181,8 @@ namespace server
 		string identifier() { return string("server::client"); }
 
 	public:
-		void notifyIn(guid::guid identity);
-		void notifyOut(guid::guid identity);
+		void notifyIn(core::custom::guid identity);
+		void notifyOut(core::custom::guid identity);
 
 	protected:
 		bool startResponses();

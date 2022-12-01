@@ -1,5 +1,4 @@
-#include "database/databases.h"
-#include "core/string/string.h"
+#include "core/database/interface/recordset.h"
 
 #if !defined(__RECORD)
 #define __RECORD
@@ -11,7 +10,7 @@ namespace database
 		template <class X> class record
 		{
 		public:
-			virtual bool bind(database::recordset *recordset) = 0;
+			virtual bool bind(core::database::interface::recordset *recordset) = 0;
 			virtual void set(X &source) = 0;
 		};
 	};

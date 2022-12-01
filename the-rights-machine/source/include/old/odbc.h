@@ -42,7 +42,7 @@ namespace odbc
 		double GetDouble(long index);
 		bool GetBool(long index);
 		TIMESTAMP_STRUCT GetTimeStamp(long index) { return TIMESTAMP_STRUCT{}; }
-		guid::guid GetGUID(long index) { return guid::guid(); }
+		core::custom::guid GetGUID(long index) { return core::custom::guid(); }
 
 		bool BindLong(long index, long &data);
 		bool BindString(long index, SQLCHAR *data);
@@ -50,7 +50,7 @@ namespace odbc
 		bool BindDouble(long index, double &data);
 		bool BindBool(long index, bool &data);
 		bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data) { return false; }
-		bool BindGUID(long index, guid::guid &data) { return false; }
+		bool BindGUID(long index, core::custom::guid &data) { return false; }
 
 		bool BindLongColumn(long index, int *source, long length);
 		bool BindFloatColumn(long index, float *source, long length);
@@ -205,7 +205,7 @@ namespace database
 			double GetDouble(long index);
 			bool GetBool(long index);
 			TIMESTAMP_STRUCT GetTimeStamp(long index);
-			guid::guid GetGUID(long index);
+			core::custom::guid GetGUID(long index);
 
 			bool BindLong(long index, long &data);
 			bool BindString(long index, SQLCHAR *data);
@@ -213,7 +213,7 @@ namespace database
 			bool BindDouble(long index, double &data);
 			bool BindBool(long index, bool &data);
 			bool BindTimeStamp(long index, TIMESTAMP_STRUCT &data);
-			bool BindGUID(long index, guid::guid &data);
+			bool BindGUID(long index, core::custom::guid &data);
 
 			bool Execute();
 

@@ -1,5 +1,5 @@
 #include "database/users.h"
-#include "types/guid.h"
+#include "core/custom/guid.h"
 
 using namespace comparison;
 
@@ -17,7 +17,7 @@ void data::users::background(thread *bt)
 	//return (DWORD)0;
 }
 
-void data::users::reset(database::settings &settings, unsigned long interval)
+void data::users::reset(core::database::settings &settings, unsigned long interval)
 {
 	init = false; cleanup();
 
@@ -81,7 +81,7 @@ void data::users::refresh()
 				temp.verified = recordset->GetBool(7L);
 				temp.active = recordset->GetBool(8L);
 
-				map[(string)guid::guid(temp.guid)] = temp;
+				map[(string)core::custom::guid(temp.guid)] = temp;
 
 				recordset->MoveNext();
 			}
