@@ -2,9 +2,9 @@ swagger: "2.0"
 info:
   description: ""
   version: "1.0.0"
-  title: "Swagger The Rights Machine"
+  title: "The Rights Machine"
   contact:
-    email: "apiteam@swagger.io"
+    email: ""
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
