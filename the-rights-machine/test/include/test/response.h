@@ -1,7 +1,5 @@
 #include "core/string/string.h"
-#include "datetime.h"
-#include "comparison.h"
-#include <unordered_map>
+#include "core/custom/datetime.h"
 
 #if !defined(__TEST_RESPONSE)
 #define __TEST_RESPONSE
@@ -10,8 +8,6 @@ namespace tests
 {
 	namespace data
 	{
-		using namespace global;
-
 		class response
 		{
 		public:
@@ -19,7 +15,7 @@ namespace tests
 			string name;
 			string status;
 			string available;
-			datetime created;
+			core::custom::datetime created;
 			
 		public:
 			response() { }

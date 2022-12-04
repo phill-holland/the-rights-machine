@@ -1,7 +1,7 @@
 #include "test/responses.h"
 #include <iostream>
 
-void tests::data::responses::reset(web::page &source)
+void tests::data::responses::reset(net::web::page &source)
 {
     init = false;
 

@@ -249,7 +249,7 @@ namespace server
 		void reset(configuration::server::configuration *settings);
 		bool initalised() { return init; }
 
-		bool open() { return net::socket::interface::server::open(configuration.port); }
+		bool open() { return net::socket::server::open(configuration.port); }
 
 		bool start();
 		void stop();
