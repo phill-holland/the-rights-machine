@@ -1,4 +1,4 @@
-#include "compute/gpu.h"
+#include "compute/gpu/processor.h"
 #include "core/string/string.h"
 #include <unordered_map>
 #include <unordered_set>
@@ -217,45 +217,4 @@ void compute::gpu::processor::cleanup()
 	if (query != NULL) delete query;
 	if (out != NULL) delete out;
 	if (in != NULL) delete in;
-}
-
-void compute::gpu::gpu::background(thread *bt)
-{
-	sleep(100);
-
-	::compute::task task;
-	if (get(task))
-	{
-		process->push(task);
-	}
-	else
-	{
-		sleep(5000);
-	}
-
-	//return (DWORD)0;
-}
-
-void compute::gpu::gpu::reset(::queue::factory<::compute::task> *factory)
-{
-	init = false; cleanup();
-
-	queue = factory->get();
-	if (queue == NULL) return;
-
-	process = new processor(255, 255);
-	if (process == NULL) return;
-	if (!process->initalised()) return;
-
-	init = true;
-}
-
-void compute::gpu::gpu::makeNull()
-{
-	process = NULL;
-}
-
-void compute::gpu::gpu::cleanup()
-{
-	if (process != NULL) delete process;
 }

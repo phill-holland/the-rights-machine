@@ -10,8 +10,8 @@
 #include "interfaces/factory.h"
 #include "models/line.h"
 
-#if !defined(_COMPUTE_CPU)
-#define _COMPUTE_CPU
+#if !defined(_COMPUTE_CPU_PROCESSOR)
+#define _COMPUTE_CPU_PROCESSOR
 
 namespace compute
 {
@@ -44,40 +44,6 @@ namespace compute
 			void clear();
 
 			void push(::compute::task &task);
-
-		protected:
-			void makeNull();
-			void cleanup();
-		};
-
-		class cpu : public compute, public core::threading::thread
-		{
-			::queue::queue<::compute::task> *queue;
-			processor *process;
-
-			bool init;
-
-		public:
-			void background(thread *bt);
-
-		public:
-			cpu(::queue::factory<::compute::task> *factory) { makeNull(); reset(factory); }
-			~cpu() { cleanup(); }
-
-			bool initalised() { return init; }
-			void reset(::queue::factory<::compute::task> *factory);
-
-			bool set(::compute::task &source)
-			{
-				return queue->set(source);
-			}
-
-			bool flush() { return queue->flush(); }
-
-			bool shutdown() { return stopAndWait(); }
-
-		protected:
-			bool get(::compute::task &destination) { return queue->get(destination); }
 
 		protected:
 			void makeNull();

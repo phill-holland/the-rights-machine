@@ -1,13 +1,13 @@
 #include "database/interfaces/record.h"
+#include "database/interfaces/file.h"
 #include "database/records.h"
 #include "core/database/connection.h"
 #include "core/database/recordset.h"
+#include "core/string/comparison.h"
+#include "core/custom/guid.h"
 #include "message/message.h"
 #include "models/request.h"
 #include "models/response.h"
-#include "core/string/comparison.h"
-#include "database/interfaces/file.h"
-#include "core/custom/guid.h"
 #include <vector>
 #include <unordered_map>
 
