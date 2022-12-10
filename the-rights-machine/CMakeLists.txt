@@ -27,18 +27,10 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-FetchContent_Declare(cplusplus-core 
-GIT_REPOSITORY git@github.com:phill-holland/cplusplus-core.git
-GIT_TAG main
-)
-
-FetchContent_MakeAvailable(cplusplus-core)
-
 include_directories("source/include")
 include_directories("/usr/local/cuda/include")
 include_directories("source/cuda include")
 include_directories("test/include")
-include_directories("${cplusplus-core_SOURCE_DIR}/include")
 
 add_subdirectory(source)
 add_subdirectory(test)

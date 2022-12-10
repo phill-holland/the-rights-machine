@@ -1,6 +1,7 @@
 #include "core/string/string.h"
 #include "core/string/comparison.h"
 #include <unordered_map>
+#include <stdexcept>
 
 #if !defined(__MAP)
 #define __MAP

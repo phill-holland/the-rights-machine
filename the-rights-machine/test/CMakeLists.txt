@@ -13,7 +13,7 @@ add_test(NAME ${BINARY} COMMAND ${BINARY})
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(${CMAKE_PROJECT_NAME}_test)
+gtest_add_tests(TARGET ${CMAKE_PROJECT_NAME}_test)
 
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib "${CMAKE_THREAD_LIBS_INIT}")
 target_link_libraries(${BINARY} PUBLIC ${CMAKE_PROJECT_NAME}_lib OpenSSL::SSL)

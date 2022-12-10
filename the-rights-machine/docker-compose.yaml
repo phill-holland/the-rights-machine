@@ -1,11 +1,8 @@
 version: '3'
 services:
   the-rights-machine:
-    build: .
+    build:
+      context: .
     restart: always
     ports:
-      - "5454:5454"
-    environment:
-      SSH_AUTH_SOCK: $SSH_AUTH_SOCK
-    volumes:
-      - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
+      - "5454:5454"    
