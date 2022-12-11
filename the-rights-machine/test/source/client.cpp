@@ -3,8 +3,6 @@
 #include <fstream>
 #include <cstring>
 
-//#include <iostream>
-
 void test::client::reset(string filename)
 {
     init = false; cleanup();
@@ -29,7 +27,7 @@ void test::client::reset(string filename)
     init = true;
 }
 
-bool test::client::post(string url, long port, web::page *destination)
+bool test::client::post(string url, long port, net::web::page *destination)
 {
     string temp(buffer, length);
 

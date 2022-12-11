@@ -2,8 +2,7 @@
 #include <thrust/reduce.h>
 #include <thrust/device_ptr.h>
 #include <thrust/execution_policy.h>
-#include "custom/string.h"
-#include "log.h"
+#include "core/string/string.h"
 
 unsigned long compute::gpu::grid::GRIDS = 255;
 unsigned long compute::gpu::grid::THREADS = 255;
@@ -96,14 +95,15 @@ bool compute::gpu::grid::compare(grid &right)
 	return result == 0;	
 }
 
-bool compute::gpu::grid::push(compute::common::row *source)
+bool compute::gpu::grid::push(compute::interfaces::row *source)
 {
 	if (source->count() > width) return false;
 	if (write_ptr >= height) return false;
 
 	unsigned long offset = (write_ptr * width);
 
-	*headers[write_ptr] = source->first();
+	//*headers[write_ptr] = source->first();
+	source->first(headers[write_ptr]);
 
 	if (cudaMemcpy(&data[offset], source->raw(), source->count() * sizeof(int), cudaMemcpyKind::cudaMemcpyHostToDevice) != cudaSuccess) return false;
 

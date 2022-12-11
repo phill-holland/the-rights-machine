@@ -65,7 +65,7 @@ TEST(BasicUnavailableQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/basicUnavailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -84,7 +84,7 @@ TEST(BasicAvailableQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/basicAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 	
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -102,7 +102,7 @@ TEST(BasicOutOfRangeQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/outOfRange.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -120,7 +120,7 @@ TEST(InvalidJsonWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/invalidJson.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -138,7 +138,7 @@ TEST(TwoItemsBothAvailableQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/twoItemsBothAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -160,7 +160,7 @@ TEST(TwoItemsOneAvailableQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/twoItemsOneAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -182,7 +182,7 @@ TEST(basicUnavailableMinusComponentQueryWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/basicUnavailableMinusComponent.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -200,7 +200,7 @@ TEST(basicAvailableWithFullISODateWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/basicWithFullISODateAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 
@@ -218,7 +218,7 @@ TEST(basicAvailableWithBadDatesWithInMemoryQueue, BasicAssertions)
 	test::client client(string("test/data/basicWithBadDatesAvailable.json"));
 	EXPECT_TRUE(client.initalised());
 
-	web::page destination;
+	net::web::page destination;
 
 	EXPECT_TRUE(client.post(url, port, &destination));
 

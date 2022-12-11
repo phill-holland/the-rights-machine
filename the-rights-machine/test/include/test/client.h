@@ -1,13 +1,13 @@
-#include "page.h"
-#include "http.h"
-#include "custom/string.h"
+#include "net/web/page.h"
+#include "net/web/client.h"
+#include "core/string/string.h"
 
 namespace test
 {
     class client
     {
-        web::page source;
-        http::client::client cli;
+        net::web::page source;
+        net::web::client cli;
 
         long length;
         
@@ -21,7 +21,7 @@ namespace test
         bool initalised() { return init; }
         void reset(string filename);
 
-        bool post(string url, long port, web::page *destination);
+        bool post(string url, long port, net::web::page *destination);
 
     protected:
         void makeNull();

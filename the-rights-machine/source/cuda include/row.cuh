@@ -1,8 +1,8 @@
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 #include "cuda.cuh"
-#include "common.h"
-#include "header.h"
+#include "compute/interfaces/row.h"
+#include "compute/header.h"
 
 #if !defined(__CUDA_ROW)
 #define __CUDA_ROW
@@ -11,7 +11,7 @@ namespace compute
 {
 	namespace gpu
 	{
-		class row : public common::row, public cuda::cuda
+		class row : public interfaces::row, public cuda::cuda
 		{
 		protected:
 			static const unsigned long LENGTH = 255L;
@@ -35,7 +35,7 @@ namespace compute
 
 			int get(unsigned long idx);
 
-			void set(header &source);
+			void set(header *source);
 			bool set(unsigned long idx);
 
 			int *raw() { return data; }
@@ -44,7 +44,11 @@ namespace compute
 
 		public:
 			unsigned long count() { return length; }
-			header first() { return top; }
+			bool first(header *destination) 
+			{ 
+				(*destination) = top; 
+				return true; 
+			}
 
 		public:
 			row& operator=(const row& source)

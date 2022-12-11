@@ -10,7 +10,7 @@ tests::data::error::error()
 	}
 }
 
-bool tests::data::error::add(custom::pair source)
+bool tests::data::error::add(core::custom::pair source)
 {
 	if (string("code").icompare(source.name))
 	{
@@ -32,7 +32,7 @@ bool tests::data::error::add(custom::pair source)
 	return false;
 }
 
-::data::json::request::json *tests::data::error::find(string FQDN)
+json::request::json *tests::data::error::find(string FQDN)
 {
 	std::unordered_map<string, json*, comparison::hasher, comparison::equality>::iterator i = hash.find(FQDN);
 	if (i != hash.end()) return (json*)i->second;

@@ -1,7 +1,5 @@
 #include "row.cuh"
 
-#include "log.h"
-
 void compute::gpu::row::reset(unsigned long length)
 {
 	init = false; cleanup();
@@ -30,9 +28,9 @@ int compute::gpu::row::get(unsigned long idx)
 	return data[idx];
 }
 
-void compute::gpu::row::set(header &source)
+void compute::gpu::row::set(header *source)
 {
-	top = source;
+	top = *source;
 }
 
 bool compute::gpu::row::set(unsigned long idx)

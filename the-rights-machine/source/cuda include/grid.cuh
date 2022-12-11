@@ -2,9 +2,9 @@
 #include "device_launch_parameters.h"
 #include "cuda.cuh"
 #include "row.cuh"
-#include "item.h"
-#include "header.h"
-#include "result.h"
+#include "models/item.h"
+#include "compute/header.h"
+#include "compute/result.h"
 
 #if !defined(__CUDA_GRID)
 #define __CUDA_GRID
@@ -16,11 +16,11 @@ namespace compute
 		class grid : public cuda::cuda
 		{
 		protected:
-			static unsigned long GRIDS;// = 255;
-			static unsigned long THREADS;// = 255;
+			static unsigned long GRIDS;
+			static unsigned long THREADS;
 
-			static unsigned long WIDTH;// = 255;
-			static unsigned long HEIGHT;// = 255;
+			static unsigned long WIDTH;
+			static unsigned long HEIGHT;
 
 		private:
 			unsigned long width, height;
@@ -46,7 +46,7 @@ namespace compute
 			void AND(grid &right);
 			bool compare(grid &right);
 
-			bool push(::compute::common::row *source);
+			bool push(::compute::interfaces::row *source);
 
 			string output();
 

@@ -1,7 +1,7 @@
 #include <boost/json.hpp>
-#include "custom/string.h"
+#include "core/string/string.h"
 #include "response.h"
-#include "page.h"
+#include "net/web/page.h"
 #include <vector>
 
 #if !defined(__TEST_RESPONSES)
@@ -21,10 +21,10 @@ namespace tests
 			std::vector<response> data;
 			
 		public:
-			responses(web::page &source) { reset(source); }
+			responses(net::web::page &source) { reset(source); }
 
             bool initalised() { return init; }
-            void reset(web::page &source);            
+            void reset(net::web::page &source);            
 
 		protected:
 			void parse(const boost::json::value &value);

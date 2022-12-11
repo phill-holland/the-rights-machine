@@ -1,9 +1,9 @@
-#include "configuration.h"
-#include "manager.h"
-#include "memory.h"
-#include "server.h"
-#include "starter.h"
-#include "error.h"
+#include "server/configuration.h"
+#include "compute/manager.h"
+#include "queues/memory.h"
+#include "server/server.h"
+#include "server/starter.h"
+#include "server/error.h"
 
 void startup()
 {

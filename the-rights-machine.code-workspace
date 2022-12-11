@@ -82,7 +82,9 @@
 			"ranges": "cpp",
 			"shared_mutex": "cpp",
 			"stop_token": "cpp",
-			"__node_handle": "cpp"
+			"__node_handle": "cpp",
+			"__mutex_base": "cpp",
+			"source_location": "cpp"
 		}
 	}
 }

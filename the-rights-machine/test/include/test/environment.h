@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include "messaging.h"
-#include "settings.h"
-#include "starter.h"
-#include "page.h"
+#include "queues/messaging.h"
+#include "server/settings.h"
+#include "server/starter.h"
+#include "net/web/page.h"
 
 namespace test
 {

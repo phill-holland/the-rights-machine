@@ -1,0 +1,8 @@
+version: '3'
+services:
+  the-rights-machine:
+    build:
+      context: .
+    restart: always
+    ports:
+      - "5454:5454"    

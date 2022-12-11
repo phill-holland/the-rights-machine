@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.18)
 
 project(the-rights-machine)
 
@@ -16,8 +16,7 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(X11 REQUIRED)
-find_package(Boost 1.76.0 COMPONENTS json REQUIRED)
+find_package(Boost 1.79.0 COMPONENTS json REQUIRED)
 
 include(FetchContent)
 FetchContent_Declare(
