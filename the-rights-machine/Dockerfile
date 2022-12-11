@@ -36,5 +36,5 @@ COPY --from=build /usr/local/lib/libboost_json.so.1.79.0  /usr/local/lib/libboos
 COPY --from=build /usr/lib/libcplusplus-core.so /usr/lib/libcplusplus-core.so
 ENV LD_LIBRARY_PATH=/usr/lib:$LD_LIBRARY_PATH
 WORKDIR /machine
-COPY --from=build /code/build/source/the-rights-machine .
+COPY --from=build /code/source/the-rights-machine .
 CMD [ "/machine/./the-rights-machine" ]
