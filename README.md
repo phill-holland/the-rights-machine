@@ -21,6 +21,8 @@ Whilst the system can be integrated into other systems via a Web Rest API, we wa
 <<<google sheets link>>>
 <<<excel link>>>
 
+If you find a problem, or a bug, feel free to contact me.
+
 // ***
 
 A demo has been setup
