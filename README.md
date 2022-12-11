@@ -32,6 +32,8 @@ Whilst the system can be integrated into other systems via a Web Rest API, we wa
 <<<google sheets link>>>
 <<<excel link>>>
 
+The google sheet version needs some backend code to work (showing in the spreadsheet folder of this repo), which makes a remote call and posts all the data into the spreadsheet into the service hosted in the cloud.
+
 <b>Technical</b>
 
 <b>Requirements</b>
