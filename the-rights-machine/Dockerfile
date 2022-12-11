@@ -33,6 +33,8 @@ EXPOSE 5454
 COPY --from=build /usr/lib/x86_64-linux-gnu/libodbc.so.2 /usr/lib/x86_64-linux-gnu/libodbc.so.2
 COPY --from=build /usr/lib/x86_64-linux-gnu/libltdl.so.7 /usr/lib/x86_64-linux-gnu/libltdl.so.7
 COPY --from=build /usr/local/lib/libboost_json.so.1.79.0  /usr/local/lib/libboost_json.so.1.79.0  
+COPY --from=build /usr/lib/libcplusplus-core.so /usr/lib/libcplusplus-core.so
+ENV LD_LIBRARY_PATH=/usr/lib:$LD_LIBRARY_PATH
 WORKDIR /machine
 COPY --from=build /code/build/source/the-rights-machine .
 CMD [ "/machine/./the-rights-machine" ]
