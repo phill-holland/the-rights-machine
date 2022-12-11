@@ -1,6 +1,6 @@
 <b>The Rights Machine (pre-release BETA)</b>
 
-Rights Availability Computation System.
+Rights Availability Reporting System.
 
 When selling a particular asset, such as a TV programme and/or series a number of rights are attached to it detailing it's broadcast rights, for a fix period of time, within a given territory, language and transmission mediums (such as Live Broadcast TV, or Over the Internet, with services such as Netflix).
 
@@ -39,6 +39,8 @@ Whilst the system can be integrated into other systems via a Web Rest API, we wa
 The system has been written entirely in C++ for maximum performance, it was originally designed to be compiled on a Linux based system (such as Ubuntu).  In it's current form, it is very lightweight and does not require much resources.  Although it has database support, this is not currently enabled within the current build of the code.
 
 The installation example below also requires that docker and docker-compose is already pre-installed.
+
+Rights are processed in an asyncronise manor, whilst loading a JSON data file stream into the service, it will not wait for the whole data file to be loaded, before it starts processing and returning results.
 
 <b>Installation</b>
 
