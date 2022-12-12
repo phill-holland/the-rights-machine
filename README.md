@@ -27,10 +27,9 @@ This software is in the early stages of development (pre-release BETA), and requ
 
 <b>Usage;</b>
 
-Whilst the system can be integrated into other systems via a Web Rest API, we wanted it to be acccessible to all, no matter how big the company using it is, to this end, a spreadsheet has been provided with some sample data included, demonstrating it's use and configuration, you simply edit the data, and then click the compute button (???)
+Whilst the system can be integrated into other systems via a Web Rest API, we wanted it to be acccessible to all, no matter how big the company using it is, to this end, a spreadsheet has been provided with some sample data included, demonstrating it's use and configuration, you simply edit the data, and then in the menu bar, click Availability->Check, which should then refresh the "Results" worksheet.  You can create rights queries using the "Queries" spreadsheet, using the rights data in the "Rights" worksheet.
 
-<<<google sheets link>>>
-<<<excel link>>>
+<a href="https://docs.google.com/spreadsheets/d/1zKARAqXbqmmjUwMpwM1_96DSc3mLhY5EBSy4m0f6euA/template/preview">Google Sheets Template</a>
 
 The google sheet version needs some backend code to work (showing in the spreadsheet folder of this repo), which makes a remote call and posts all the data into the spreadsheet into the service hosted in the cloud.
 
