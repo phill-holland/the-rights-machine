@@ -533,7 +533,7 @@ bool server::client::endResponses()
 	string result = string::toHex(data.length());
 	result.concat(string("\r\n"));
 	result.concat(data);	
-	result.concat(string("\r\n0\r\n"));
+	result.concat(string("\r\n0\r\n\r\n"));
 
 	core::threading::mutex lock(token);
 

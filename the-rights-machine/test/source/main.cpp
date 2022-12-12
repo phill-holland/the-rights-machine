@@ -3,60 +3,6 @@
 #include "test/responses.h"
 #include "test/environment.h"
 
-// 1) date is full ISO format causes problems in JSON
-// 2) output logging messages
-// 3) increase concurrent server clients (put in config
-// 4) allow port to be changed via config
-// 5) content-length in HTTP request; what happens if missing?
-
-// ** add NAME to response OK
-// ** add debug messages -- output to std::cout and log file
-// ** server, add chunked read
-// ** swagger doc OK
-// add api key check
-// main loop!!
-// NUGET .net core package
-// configuration loader
-// SSL
-
-
-//curl --header "Content-Type: application/json"  --request POST --data-binary @body.json http://127.0.0.1:5555
-
-// test three, merged first two files into third new file
-// test concurrent access
-
-// test with two queries
-// two different times
-
-// more than 10 components
-
-	// BODY.JSON should return not available.
-	
-	// add to launch.json for debugging breakpoints OK
-	// set CWD so that data is loaded correctly OK
-	// create configuration.json
-	// copy debugger.cpp into project
-	// add database SQL to project
-	// guid create on ubuntu SORT OF OK
-	// add error responses to log file (during reset() stages)
-	// need a thread safe std::vector
-	// return errors to web client
-
-// NEED TO TEST FOR BAD JSON
-// TEST WITH TWO CNOCURRENT REQUESTS,
-// TEST WITH TWO ITEMS, SINGLE QUERY
-// AVAILABLE and AVAILABLE, 
-// AVAILABLE and UNAVAILABLE, 
-// UNAVAILABLE and AVAILABLE, 
-// UNAVAILABLE and UNAVAILABLE
-// NO ACQUIRED RIGHTS TEST
-// 15 COMPONENTS TEST
-
-/* include name in response! */
-/* test database mode */
-/* create api thread key thing, loads keys from database
-periodically */
-
 const long port = 5454;
 const string url("http://127.0.0.1");
 
