@@ -4,22 +4,22 @@ Rights Availability Reporting System.
 
 When selling a particular asset, such as a TV programme and/or series a number of rights are attached to it detailing it's broadcast rights, for a fix period of time, within a given territory, language and transmission mediums (such as Live Broadcast TV, or Over the Internet, with services such as Netflix).
 
-This system simplies the concept of acquired rights, excluded rights and granted rights, reducing the problem to positive rights and negatives, all rights can be viewed as a function of either adding or removing rights, although the traditional notion can still be kept.
+This system simplifies the concept of acquired rights, excluded rights and granted rights, reducing the problem to positive rights and negatives, all rights can be viewed as a function of either adding or removing rights, although the traditional notion can still be kept.
 
-Presented here is a rights management system for the computation of those rights, allowing a person to quickly determine unexploited sales opportunities related to those assets, the sytem is designed to be fast at computing this information for a large number of assets, in bulk.
+Presented here is a rights management system for the computation of those rights, allowing a person to quickly determine unexploited sales opportunities related to those assets, the system is designed to be fast at computing this information for a large number of assets, in bulk.
 
-It is designed to be provided "as-a-service" inside the cloud and to be as simple to use as possible.  Typical Rights Management systems come at great expense and unavailable at smaller scales to small/medium sized businesses, whilst also being largely restricted to the Media industry.  The system presented here has also been designed to be flexible, allowing aribtary rights assignments, with up to 10 components (typically these might include language, country, TX Methods, but are not limited to these, extra components can be added easily)
+It is designed to be provided "as-a-service" inside the cloud and to be as simple to use as possible.  Typical Rights Management systems come at great expense and unavailable at smaller scales to small/medium sized businesses, whilst also being largely restricted to the Media industry.  The system presented here has also been designed to be flexible, allowing arbitrary rights assignments, with up to 10 components (typically these might include language, country, TX Methods, but are not limited to these, extra components can be added easily)
 
-There is also poentially for the development of a "real-time" broadcast TV channel, whilst can calculate a broadcast schedule for a channel in seconds, determined by it's rights availability and other statistics, such as popularity of a particular show, at the particular time of day.
+There is also potential for the this system to enable the development of a "real-time" broadcast TV channel, which can automatic calculate a broadcast schedule for a channel in seconds, without human intervention determined by it's rights availability and other statistics, such as popularity of a particular show, at the particular time of day.
 
-Other applications are many beyond the Media industry, in-fact if you have a large number of digital assets that you sell globally (such as music and/or computer games) that may have a fixed term of sales (i.e. expires on a certain date, or in perputuity) then this system would be useful to you.
+Other applications are many beyond the Media industry, in-fact if you have a large number of digital assets that you sell globally (such as music and/or computer games) that may have a fixed term of sales (i.e. expires on a certain date, or in perpetuity) then this system would be useful to you.
 
 This software is in the early stages of development (pre-release BETA), and requires more support and backing if it proves to be useful to a large group of people, whilst it functions correctly, it still lacks polish and scalability.  This software has been written from scratch after 10+ years extensive experience working in the rights management software industry.
 
 <b>Summary of Features;</b>
 
-- 10 Rights Components per Rights Lines - Configuratable to More
-- Interchangable Computation Engines (from CPU to GPU when you're dealing with millions of lines of rights information)
+- 10 Rights Components per Rights Lines - Configurable to More
+- Interchangeable Computation Engines (from CPU to GPU when you're dealing with millions of lines of rights information)
 - Real-Time Computations (no need to wait for whole rights data to be transmitted, will be processed with a partial JSON file)
 - Switchable Rights Data Queue from In-Memory to In-Database.
 - Designed for High Performance
@@ -27,11 +27,11 @@ This software is in the early stages of development (pre-release BETA), and requ
 
 <b>Usage;</b>
 
-Whilst the system can be integrated into other systems via a Web Rest API, we wanted it to be acccessible to all, no matter how big the company using it is, to this end, a spreadsheet has been provided with some sample data included, demonstrating it's use and configuration, you simply edit the data, and then in the menu bar, click Availability->Check, which should then refresh the "Results" worksheet.  You can create rights queries using the "Queries" spreadsheet, using the rights data in the "Rights" worksheet.
+Whilst the system can be integrated into other systems via a Web Rest API, we wanted it to be accessible to all, no matter how big the company using it is, to this end, a spreadsheet has been provided with some sample data included, demonstrating it's use and configuration, you simply edit the data, and then in the menu bar, click Availability->Check, which should then refresh the "Results" worksheet.  You can create rights queries using the "Queries" spreadsheet, using the rights data in the "Rights" worksheet.
 
 <a href="https://docs.google.com/spreadsheets/d/1zKARAqXbqmmjUwMpwM1_96DSc3mLhY5EBSy4m0f6euA/template/preview">Google Sheets Template</a>
 
-The google sheet version needs some backend code to work (showing in the spreadsheet folder of this repo), which makes a remote call and posts all the data into the spreadsheet into the service hosted in the cloud.
+The google sheet version needs some back-end code to work (showing in the spreadsheet folder of this repo), which makes a remote call and posts all the data into the spreadsheet into the service hosted in the cloud.
 
 <b>Technical</b>
 
@@ -41,7 +41,7 @@ The system has been written entirely in C++ for maximum performance, it was orig
 
 The installation example below also requires that docker and docker-compose is already pre-installed.
 
-Rights are processed in an asyncronise manor, whilst loading a JSON data file stream into the service, it will not wait for the whole data file to be loaded, before it starts processing and returning results.
+Rights are processed in an asynchronise manor, whilst loading a JSON data file stream into the service, it will not wait for the whole data file to be loaded, before it starts processing and returning results.
 
 <b>Installation</b>
 
