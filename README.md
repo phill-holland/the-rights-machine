@@ -1,6 +1,6 @@
-<b>The Rights Machine (pre-release BETA)</b>
+# The Rights Machine (pre-release BETA)
 
-Rights Availability Reporting System.
+## Rights Availability Reporting System.
 
 When selling a particular asset, such as a TV programme and/or series a number of rights are attached to it detailing it's broadcast rights, for a fix period of time, within a given territory, language and transmission mediums (such as Live Broadcast TV, or Over the Internet, with services such as Netflix).
 
@@ -16,7 +16,7 @@ Other applications are many beyond the Media industry, in-fact if you have a lar
 
 This software is in the early stages of development (pre-release BETA), and requires more support and backing if it proves to be useful to a large group of people, whilst it functions correctly, it still lacks polish and scalability.  This software has been written from scratch after 10+ years extensive experience working in the rights management software industry.
 
-<b>Summary of Features;</b>
+# Summary of Features
 
 - 10 Rights Components per Rights Lines - Configurable to More
 - Interchangeable Computation Engines (from CPU to GPU when you're dealing with millions of lines of rights information)
@@ -25,7 +25,7 @@ This software is in the early stages of development (pre-release BETA), and requ
 - Designed for High Performance
 - Capable of identifying rights opportunities not yet exploited
 
-<b>Usage;</b>
+# Usage
 
 Whilst the system can be integrated into other systems via a Web Rest API, we wanted it to be accessible to all, no matter how big the company using it is, to this end, a spreadsheet has been provided with some sample data included, demonstrating it's use and configuration, you simply edit the data, and then in the menu bar, click Availability->Check, which should then refresh the "Results" worksheet.  You can create rights queries using the "Queries" spreadsheet, using the rights data in the "Rights" worksheet.
 
@@ -33,9 +33,9 @@ Whilst the system can be integrated into other systems via a Web Rest API, we wa
 
 The google sheet version needs some back-end code to work (showing in the spreadsheet folder of this repo), which makes a remote call and posts all the data into the spreadsheet into the service hosted in the cloud.
 
-<b>Technical</b>
+# Technical
 
-<b>Requirements</b>
+## Requirements
 
 The system has been written entirely in C++ for maximum performance, it was originally designed to be compiled on a Linux based system (such as Ubuntu).  In it's current form, it is very lightweight and does not require much resources.  Although it has database support, this is not currently enabled within the current build of the code.
 
@@ -43,7 +43,7 @@ The installation example below also requires that docker and docker-compose is a
 
 Rights are processed in an asynchronise manor, whilst loading a JSON data file stream into the service, it will not wait for the whole data file to be loaded, before it starts processing and returning results.
 
-<b>Installation</b>
+## Installation
 
 Inside this code repo is provided a Dockerfile and docker-compose.yaml for simplicity. Currently the spreadsheet examples are hosted on a remote server, but also be self-hosted for greater performance on your local network.
 
@@ -60,11 +60,11 @@ The code during build also installs a debian package, obtain from the PPA repo w
 
 There are also a number of VSCode support files provided (and a workspace file) including a devcontainer, which is recommended for editing the code.
 
-<b>Automated Testing</b>
+## Automated Testing
 
 A set of tests are included in the code, supported by the google testing suite (they require a little work at the moment, with an async call needed to wait for the response from the server)
 
-<b>Manual Testing</b>
+## Manual Testing
 
 Curl can be used to issue a simple test query to the service (or indeed Postman), as shown below;
 
@@ -171,7 +171,7 @@ For example queries, the json structure below (for a basic availability check) c
 }
 ```
 
-<b>Todo;</b>
+# Todo
 
 - Enabling SSL/Https Support 
 - OAuth2 Username+Password Authentication
@@ -182,6 +182,6 @@ For example queries, the json structure below (for a basic availability check) c
 - Add Configuration File
 - Benchmarking for performance logging
 
-<b>Support</b>
+# Support
 
 If you find a problem, or a bug, feel free to contact me, but support is currently limited due to time constraints.
